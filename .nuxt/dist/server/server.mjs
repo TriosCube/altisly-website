@@ -21,6 +21,7 @@ if (!("global" in globalThis)) {
 }
 const nuxtLinkDefaults = { "componentName": "NuxtLink" };
 const asyncDataDefaults = { "value": null, "errorValue": null, "deep": true };
+const fetchDefaults = {};
 const appId = "nuxt-app";
 function getNuxtAppCtx(id = appId) {
   return getContext(id, {
@@ -399,150 +400,155 @@ function getRouteRules(arg) {
     return {};
   }
 }
+const __nuxt_page_meta = { layout: false };
 const _routes = [
-  {
-    name: "blog",
-    path: "/blog",
-    component: () => import("./_nuxt/blog-Ba5_Rbc5.js"),
-    children: [
-      {
-        name: "blog-slug",
-        path: ":slug()",
-        component: () => import("./_nuxt/_slug_-DnRi1xJp.js")
-      }
-    ]
-  },
   {
     name: "index",
     path: "/",
-    component: () => import("./_nuxt/index-FPAExnZz.js")
+    component: () => import("./_nuxt/index-CF3WSme_.js")
+  },
+  {
+    name: "write",
+    path: "/write",
+    meta: __nuxt_page_meta || {},
+    component: () => import("./_nuxt/write-clIOI2QT.js")
   },
   {
     name: "status",
     path: "/status",
-    component: () => import("./_nuxt/status-DaUwPsdI.js")
+    component: () => import("./_nuxt/status-CXMpsEpp.js")
   },
   {
     name: "contact",
     path: "/contact",
-    component: () => import("./_nuxt/contact-BiWdgS3v.js")
+    component: () => import("./_nuxt/contact-BU4e-nDG.js")
+  },
+  {
+    name: "blog",
+    path: "/blog",
+    component: () => import("./_nuxt/index-1haQHbXz.js")
+  },
+  {
+    name: "blog-slug",
+    path: "/blog/:slug()",
+    component: () => import("./_nuxt/_slug_-BSusWoKo.js")
   },
   {
     name: "get-started",
     path: "/get-started",
-    component: () => import("./_nuxt/get-started-Bdg4Ubvw.js")
+    component: () => import("./_nuxt/get-started-y9PGfXD_.js")
   },
   {
     name: "products-aml",
     path: "/products/aml",
-    component: () => import("./_nuxt/aml-C7CWXX0Q.js")
+    component: () => import("./_nuxt/aml-D8Pcx07P.js")
   },
   {
     name: "company-about",
     path: "/company/about",
-    component: () => import("./_nuxt/about-B4DMjfIf.js")
+    component: () => import("./_nuxt/about-BZ_V9I-R.js")
   },
   {
     name: "developers-api",
     path: "/developers/api",
-    component: () => import("./_nuxt/api-BfevS4uF.js")
+    component: () => import("./_nuxt/api-DR6WU4NM.js")
   },
   {
     name: "company-careers",
     path: "/company/careers",
-    component: () => import("./_nuxt/careers-BRnVYk8W.js")
+    component: () => import("./_nuxt/careers-DNh0rYUh.js")
   },
   {
     name: "developers-docs",
     path: "/developers/docs",
-    component: () => import("./_nuxt/docs-DpyewM1d.js")
+    component: () => import("./_nuxt/docs-DeGTi2Eg.js")
   },
   {
     name: "company-security",
     path: "/company/security",
-    component: () => import("./_nuxt/security-CaZqbKd8.js")
+    component: () => import("./_nuxt/security-tU-M98n7.js")
   },
   {
     name: "developers",
     path: "/developers",
-    component: () => import("./_nuxt/index-D3ur_Rab.js")
+    component: () => import("./_nuxt/index-DXMkqDg2.js")
   },
   {
     name: "use-cases-banking",
     path: "/use-cases/banking",
-    component: () => import("./_nuxt/banking-C1qoRlnK.js")
+    component: () => import("./_nuxt/banking-BqeI1JhJ.js")
   },
   {
     name: "use-cases-lending",
     path: "/use-cases/lending",
-    component: () => import("./_nuxt/lending-CRLTMrlF.js")
+    component: () => import("./_nuxt/lending-DLYpUHYS.js")
   },
   {
     name: "developers-sandbox",
     path: "/developers/sandbox",
-    component: () => import("./_nuxt/sandbox-zI_uE9Do.js")
+    component: () => import("./_nuxt/sandbox-BkqKZ921.js")
   },
   {
     name: "use-cases-treasury",
     path: "/use-cases/treasury",
-    component: () => import("./_nuxt/treasury-C-zZyGI9.js")
+    component: () => import("./_nuxt/treasury-DEibQbZV.js")
   },
   {
     name: "products-compliance",
     path: "/products/compliance",
-    component: () => import("./_nuxt/compliance-B2fNQQyX.js")
+    component: () => import("./_nuxt/compliance-B9FKJQQb.js")
   },
   {
     name: "products-mobile-sca",
     path: "/products/mobile-sca",
-    component: () => import("./_nuxt/mobile-sca-BJhZIuJ1.js")
+    component: () => import("./_nuxt/mobile-sca-DLh63eOI.js")
   },
   {
     name: "use-cases-ecommerce",
     path: "/use-cases/ecommerce",
-    component: () => import("./_nuxt/ecommerce-DWqpyE_l.js")
+    component: () => import("./_nuxt/ecommerce-BQKvmvrI.js")
   },
   {
     name: "company-partnerships",
     path: "/company/partnerships",
-    component: () => import("./_nuxt/partnerships-Bf8PUL7C.js")
+    component: () => import("./_nuxt/partnerships-DL6myTm5.js")
   },
   {
     name: "products-pay-by-bank",
     path: "/products/pay-by-bank",
-    component: () => import("./_nuxt/pay-by-bank-Hq54VF7b.js")
+    component: () => import("./_nuxt/pay-by-bank-CDqfPBMQ.js")
   },
   {
     name: "use-cases-automotive",
     path: "/use-cases/automotive",
-    component: () => import("./_nuxt/automotive-CtM9UDBX.js")
+    component: () => import("./_nuxt/automotive-CT2B2XTo.js")
   },
   {
     name: "products-bulk-payments",
     path: "/products/bulk-payments",
-    component: () => import("./_nuxt/bulk-payments-Dp05PfEZ.js")
+    component: () => import("./_nuxt/bulk-payments-BMJYmG2f.js")
   },
   {
     name: "company-success-stories",
     path: "/company/success-stories",
-    component: () => import("./_nuxt/success-stories-CBQsc-ST.js"),
+    component: () => import("./_nuxt/success-stories-DM0p_sa0.js"),
     children: [
       {
         name: "company-success-stories-slug",
         path: ":slug()",
-        component: () => import("./_nuxt/_slug_-Dm1qo8Bs.js")
+        component: () => import("./_nuxt/_slug_-C21LOqcG.js")
       }
     ]
   },
   {
     name: "products-data-enrichment",
     path: "/products/data-enrichment",
-    component: () => import("./_nuxt/data-enrichment-DVldr1hy.js")
+    component: () => import("./_nuxt/data-enrichment-tBI51t3U.js")
   },
   {
     name: "products-data-aggregation",
     path: "/products/data-aggregation",
-    component: () => import("./_nuxt/data-aggregation-CsrExiwj.js")
+    component: () => import("./_nuxt/data-aggregation-CoSmpXlk.js")
   }
 ];
 const ROUTE_KEY_PARENTHESES_RE = /(:\w+)\([^)]+\)/g;
@@ -913,7 +919,7 @@ const revive_payload_server_MVtmlZaQpj6ApFmshWfUWl5PehCebzaBf2NuRMiIbms = /* @__
     }
   }
 });
-const LazyIcon = defineAsyncComponent(() => import("./_nuxt/index-CafbjuIA.js").then((r) => r["default"] || r.default || r));
+const LazyIcon = defineAsyncComponent(() => import("./_nuxt/index-CzLoebGo.js").then((r) => r["default"] || r.default || r));
 const lazyGlobalComponents = [
   ["Icon", LazyIcon]
 ];
@@ -1615,8 +1621,11 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
     const desktopMenuOpen = computed(() => openMenu.value !== null);
     const route = useRoute();
     const isHomePage = computed(() => route.path === "/");
-    const headerOnWhite = computed(() => desktopMenuOpen.value);
-    const darkHeader = computed(() => !desktopMenuOpen.value && (!isHomePage.value || scrolled.value));
+    const forceLightHeader = computed(() => route.path === "/blog" || route.path.startsWith("/blog/"));
+    const headerOnWhite = computed(() => desktopMenuOpen.value || forceLightHeader.value);
+    const darkHeader = computed(
+      () => !desktopMenuOpen.value && !forceLightHeader.value && (!isHomePage.value || scrolled.value)
+    );
     const navItems = [
       {
         label: "Products",
@@ -2225,18 +2234,20 @@ let entry;
 }
 const entry_default = ((ssrContext) => entry(ssrContext));
 export {
-  _sfc_main$3 as _,
-  __nuxt_component_2 as a,
-  _sfc_main$2 as b,
-  useRoute as c,
-  _export_sfc as d,
+  __nuxt_component_2 as _,
+  _export_sfc as a,
+  _sfc_main$3 as b,
+  _sfc_main$2 as c,
+  _imports_0 as d,
   entry_default as default,
-  useNuxtApp as e,
-  asyncDataDefaults as f,
-  createError as g,
-  useAppConfig as h,
-  useRuntimeConfig as i,
-  useHead as j,
+  useRoute as e,
+  useNuxtApp as f,
+  fetchDefaults as g,
+  asyncDataDefaults as h,
+  createError as i,
+  useAppConfig as j,
+  useRuntimeConfig as k,
+  useHead as l,
   useSeoMeta as u
 };
 //# sourceMappingURL=server.mjs.map

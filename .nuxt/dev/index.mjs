@@ -1,12 +1,13 @@
 import process from 'node:process';globalThis._importMeta_={url:import.meta.url,env:process.env};import { tmpdir } from 'node:os';
-import { defineEventHandler, handleCacheHeaders, splitCookiesString, createEvent, fetchWithEvent, isEvent, eventHandler, setHeaders, createError, sendRedirect, proxyRequest, getRequestHeader, setResponseHeaders, setResponseStatus, send, getRequestHeaders, setResponseHeader, appendResponseHeader, getRequestURL, getResponseHeader, removeResponseHeader, getQuery as getQuery$1, readBody, getResponseStatus, createApp, createRouter as createRouter$1, toNodeListener, lazyEventHandler, getRouterParam, getResponseStatusText } from 'file:///Users/felixchima/Desktop/Backoffice-app/altisry-website/node_modules/h3/dist/index.mjs';
+import { defineEventHandler, handleCacheHeaders, splitCookiesString, createEvent, fetchWithEvent, isEvent, eventHandler, setHeaders, createError, sendRedirect, proxyRequest, getRequestHeader, setResponseHeaders, setResponseStatus, send, getRequestHeaders, setResponseHeader, appendResponseHeader, getRequestURL, getResponseHeader, removeResponseHeader, getQuery as getQuery$1, readBody, getResponseStatus, createApp, createRouter as createRouter$1, toNodeListener, lazyEventHandler, getRouterParam, setCookie, getCookie, getResponseStatusText } from 'file:///Users/felixchima/Desktop/Backoffice-app/altisry-website/node_modules/h3/dist/index.mjs';
 import { Server } from 'node:http';
 import { resolve, dirname, join } from 'node:path';
-import crypto$1 from 'node:crypto';
+import crypto$1, { createHash, timingSafeEqual } from 'node:crypto';
 import { parentPort, threadId } from 'node:worker_threads';
 import { escapeHtml } from 'file:///Users/felixchima/Desktop/Backoffice-app/altisry-website/node_modules/@vue/shared/dist/shared.cjs.js';
 import viteNodeEntry_mjs from 'file:///Users/felixchima/Desktop/Backoffice-app/altisry-website/node_modules/@nuxt/vite-builder/dist/vite-node-entry.mjs';
 import { viteNodeFetch } from 'file:///Users/felixchima/Desktop/Backoffice-app/altisry-website/node_modules/@nuxt/vite-builder/dist/vite-node.mjs';
+import { promises, readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { createRenderer, getRequestDependencies, getPreloadLinks, getPrefetchLinks } from 'file:///Users/felixchima/Desktop/Backoffice-app/altisry-website/node_modules/vue-bundle-renderer/dist/runtime.mjs';
 import { parseURL, withoutBase, joinURL, getQuery, withQuery, withTrailingSlash, decodePath, withLeadingSlash, withoutTrailingSlash, encodePath, joinRelativeURL } from 'file:///Users/felixchima/Desktop/Backoffice-app/altisry-website/node_modules/ufo/dist/index.mjs';
 import { renderToString } from 'file:///Users/felixchima/Desktop/Backoffice-app/altisry-website/node_modules/vue/server-renderer/index.mjs';
@@ -34,7 +35,6 @@ import { stringify, uneval } from 'file:///Users/felixchima/Desktop/Backoffice-a
 import { captureRawStackTrace, parseRawStackTrace } from 'file:///Users/felixchima/Desktop/Backoffice-app/altisry-website/node_modules/errx/dist/index.js';
 import { isVNode, isRef, toValue } from 'file:///Users/felixchima/Desktop/Backoffice-app/altisry-website/node_modules/vue/index.mjs';
 import _wH6JrtIxmaSoA8lCPWFnE9z4lQeXW6H5z3l5aymEQw from 'file:///Users/felixchima/Desktop/Backoffice-app/altisry-website/node_modules/@nuxt/vite-builder/dist/fix-stacktrace.mjs';
-import { promises } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname as dirname$1, resolve as resolve$1, basename } from 'file:///Users/felixchima/Desktop/Backoffice-app/altisry-website/node_modules/pathe/dist/index.mjs';
 import { createHead as createHead$1, propsToString, renderSSRHead } from 'file:///Users/felixchima/Desktop/Backoffice-app/altisry-website/node_modules/unhead/dist/server.mjs';
@@ -2949,6 +2949,67 @@ async function runTask(name, {
   }
 }
 
+const DATA_DIR = join(process.cwd(), "data");
+const POSTS_FILE = join(DATA_DIR, "posts.json");
+const ensureFile = () => {
+  if (!existsSync(DATA_DIR)) mkdirSync(DATA_DIR, { recursive: true });
+  if (!existsSync(POSTS_FILE)) writeFileSync(POSTS_FILE, JSON.stringify([], null, 2), "utf-8");
+};
+const getAllPosts = () => {
+  ensureFile();
+  return JSON.parse(readFileSync(POSTS_FILE, "utf-8"));
+};
+const getPublishedPosts = () => getAllPosts().filter((p) => p.status === "published").sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+const normalizeSlug = (value) => decodeURIComponent(String(value || "")).trim().toLowerCase().replace(/\/+$/, "");
+const getPostBySlug = (slug) => {
+  var _a;
+  const target = normalizeSlug(slug);
+  return (_a = getAllPosts().find((p) => p.status === "published" && normalizeSlug(p.slug) === target)) != null ? _a : null;
+};
+const upsertPost = (post) => {
+  ensureFile();
+  const posts = getAllPosts();
+  const idx = posts.findIndex((p) => p.id === post.id);
+  if (idx === -1) posts.unshift(post);
+  else posts[idx] = post;
+  writeFileSync(POSTS_FILE, JSON.stringify(posts, null, 2), "utf-8");
+  return post;
+};
+const deletePost = (id) => {
+  ensureFile();
+  writeFileSync(POSTS_FILE, JSON.stringify(getAllPosts().filter((p) => p.id !== id), null, 2), "utf-8");
+};
+
+const WRITE_SESSION_COOKIE = "altisry_write_session";
+const DEFAULT_USERNAME = "editor";
+const DEFAULT_PASSWORD = "altisry-write";
+const DEFAULT_SECRET = "altisry-write-session-secret";
+const safeCompare = (a, b) => {
+  const ba = Buffer.from(a);
+  const bb = Buffer.from(b);
+  if (ba.length !== bb.length) return false;
+  return timingSafeEqual(ba, bb);
+};
+const getUsername = () => {
+  var _a;
+  return (_a = process.env.BLOG_ADMIN_USERNAME) != null ? _a : DEFAULT_USERNAME;
+};
+const getPassword = () => {
+  var _a;
+  return (_a = process.env.BLOG_ADMIN_PASSWORD) != null ? _a : DEFAULT_PASSWORD;
+};
+const getSecret = () => {
+  var _a;
+  return (_a = process.env.BLOG_ADMIN_SESSION_SECRET) != null ? _a : DEFAULT_SECRET;
+};
+const isWriteAuthConfigured = () => Boolean(getUsername() && getPassword() && getSecret());
+const isValidWriteCredentials = (username, password) => isWriteAuthConfigured() && safeCompare(username, getUsername()) && safeCompare(password, getPassword());
+const createWriteSessionValue = () => {
+  if (!isWriteAuthConfigured()) return "";
+  return createHash("sha256").update(`${getUsername()}:${getPassword()}:${getSecret()}`).digest("hex");
+};
+const isValidWriteSession = (sessionValue) => Boolean(sessionValue && safeCompare(sessionValue, createWriteSessionValue()));
+
 const warnOnceSet = /* @__PURE__ */ new Set();
 const DEFAULT_ENDPOINT = "https://api.iconify.design";
 const _aRAK51 = defineCachedEventHandler(async (event) => {
@@ -3009,10 +3070,26 @@ const _aRAK51 = defineCachedEventHandler(async (event) => {
   // 1 week
 });
 
+const _lazy_JTJHTy = () => Promise.resolve().then(function () { return _slug__get$1; });
+const _lazy_ZusELL = () => Promise.resolve().then(function () { return index_get$1; });
+const _lazy_3u7mkR = () => Promise.resolve().then(function () { return login_post$1; });
+const _lazy_r7IuNp = () => Promise.resolve().then(function () { return logout_post$1; });
+const _lazy_KXNUTl = () => Promise.resolve().then(function () { return posts_get$1; });
+const _lazy_TE11HD = () => Promise.resolve().then(function () { return posts_post$1; });
+const _lazy_MNeLKO = () => Promise.resolve().then(function () { return _id__delete$1; });
+const _lazy_Fp1VWl = () => Promise.resolve().then(function () { return session_get$1; });
 const _lazy_MVdzAi = () => Promise.resolve().then(function () { return renderer; });
 
 const handlers = [
   { route: '', handler: _04mzU_, lazy: false, middleware: true, method: undefined },
+  { route: '/api/blog/:slug', handler: _lazy_JTJHTy, lazy: true, middleware: false, method: "get" },
+  { route: '/api/blog', handler: _lazy_ZusELL, lazy: true, middleware: false, method: "get" },
+  { route: '/api/write/login', handler: _lazy_3u7mkR, lazy: true, middleware: false, method: "post" },
+  { route: '/api/write/logout', handler: _lazy_r7IuNp, lazy: true, middleware: false, method: "post" },
+  { route: '/api/write/posts', handler: _lazy_KXNUTl, lazy: true, middleware: false, method: "get" },
+  { route: '/api/write/posts', handler: _lazy_TE11HD, lazy: true, middleware: false, method: "post" },
+  { route: '/api/write/posts/:id', handler: _lazy_MNeLKO, lazy: true, middleware: false, method: "delete" },
+  { route: '/api/write/session', handler: _lazy_Fp1VWl, lazy: true, middleware: false, method: "get" },
   { route: '/__nuxt_error', handler: _lazy_MVdzAi, lazy: true, middleware: false, method: undefined },
   { route: '/__nuxt_island/**', handler: handler$1, lazy: false, middleware: false, method: undefined },
   { route: '/api/_nuxt_icon/:collection', handler: _aRAK51, lazy: false, middleware: false, method: undefined },
@@ -3290,6 +3367,123 @@ const styles = {};
 const styles$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
   __proto__: null,
   default: styles
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const _slug__get = defineEventHandler((event) => {
+  var _a;
+  const rawSlug = (_a = event.context.params) == null ? void 0 : _a.slug;
+  const slug = Array.isArray(rawSlug) ? rawSlug[0] : rawSlug;
+  if (!slug) throw createError({ statusCode: 400, statusMessage: "Missing slug" });
+  const post = getPostBySlug(slug);
+  if (!post) throw createError({ statusCode: 404, statusMessage: "Not found" });
+  return post;
+});
+
+const _slug__get$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: _slug__get
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const index_get = defineEventHandler(() => getPublishedPosts());
+
+const index_get$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: index_get
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const login_post = defineEventHandler(async (event) => {
+  const body = await readBody(event).catch(() => null);
+  const username = typeof (body == null ? void 0 : body.username) === "string" ? body.username.trim() : "";
+  const password = typeof (body == null ? void 0 : body.password) === "string" ? body.password : "";
+  if (!username || !password || !isValidWriteCredentials(username, password)) {
+    throw createError({ statusCode: 401, statusMessage: "Invalid credentials" });
+  }
+  setCookie(event, WRITE_SESSION_COOKIE, createWriteSessionValue(), {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: false,
+    path: "/",
+    maxAge: 60 * 60 * 8
+  });
+  return { success: true };
+});
+
+const login_post$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: login_post
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const logout_post = defineEventHandler((event) => {
+  setCookie(event, WRITE_SESSION_COOKIE, "", {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: false,
+    path: "/",
+    maxAge: 0
+  });
+  return { success: true };
+});
+
+const logout_post$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: logout_post
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const posts_get = defineEventHandler((event) => {
+  const session = getCookie(event, WRITE_SESSION_COOKIE);
+  if (!isValidWriteSession(session)) {
+    throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
+  }
+  return getAllPosts();
+});
+
+const posts_get$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: posts_get
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const posts_post = defineEventHandler(async (event) => {
+  const session = getCookie(event, WRITE_SESSION_COOKIE);
+  if (!isValidWriteSession(session)) {
+    throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
+  }
+  const body = await readBody(event).catch(() => null);
+  if (!body || typeof body.id !== "string" || typeof body.title !== "string") {
+    throw createError({ statusCode: 400, statusMessage: "Invalid post data" });
+  }
+  return upsertPost(body);
+});
+
+const posts_post$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: posts_post
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const _id__delete = defineEventHandler((event) => {
+  var _a;
+  const session = getCookie(event, WRITE_SESSION_COOKIE);
+  if (!isValidWriteSession(session)) {
+    throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
+  }
+  const id = (_a = event.context.params) == null ? void 0 : _a.id;
+  if (!id) throw createError({ statusCode: 400, statusMessage: "Missing id" });
+  deletePost(id);
+  return { success: true };
+});
+
+const _id__delete$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: _id__delete
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const session_get = defineEventHandler((event) => {
+  const session = getCookie(event, WRITE_SESSION_COOKIE);
+  return { authenticated: isValidWriteSession(session) };
+});
+
+const session_get$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: session_get
 }, Symbol.toStringTag, { value: 'Module' }));
 
 function renderPayloadResponse(ssrContext) {

@@ -1,6 +1,7 @@
 declare global {
   const H3Error: typeof import('../../node_modules/h3').H3Error
   const H3Event: typeof import('../../node_modules/h3').H3Event
+  const WRITE_SESSION_COOKIE: typeof import('../../server/utils/writeAuth').WRITE_SESSION_COOKIE
   const __buildAssetsURL: typeof import('../../node_modules/@nuxt/nitro-server/dist/runtime/utils/paths').buildAssetsURL
   const __publicAssetsURL: typeof import('../../node_modules/@nuxt/nitro-server/dist/runtime/utils/paths').publicAssetsURL
   const appendCorsHeaders: typeof import('../../node_modules/h3').appendCorsHeaders
@@ -21,6 +22,7 @@ declare global {
   const createEvent: typeof import('../../node_modules/h3').createEvent
   const createEventStream: typeof import('../../node_modules/h3').createEventStream
   const createRouter: typeof import('../../node_modules/h3').createRouter
+  const createWriteSessionValue: typeof import('../../server/utils/writeAuth').createWriteSessionValue
   const defaultContentType: typeof import('../../node_modules/h3').defaultContentType
   const defineAppConfig: typeof import('../../node_modules/@nuxt/nitro-server/dist/runtime/utils/config').defineAppConfig
   const defineCachedEventHandler: typeof import('../../node_modules/nitropack/dist/runtime/internal/cache').defineCachedEventHandler
@@ -39,17 +41,21 @@ declare global {
   const defineWebSocket: typeof import('../../node_modules/h3').defineWebSocket
   const defineWebSocketHandler: typeof import('../../node_modules/h3').defineWebSocketHandler
   const deleteCookie: typeof import('../../node_modules/h3').deleteCookie
+  const deletePost: typeof import('../../server/utils/postsDb').deletePost
   const dynamicEventHandler: typeof import('../../node_modules/h3').dynamicEventHandler
   const eventHandler: typeof import('../../node_modules/h3').eventHandler
   const fetchWithEvent: typeof import('../../node_modules/h3').fetchWithEvent
   const fromNodeMiddleware: typeof import('../../node_modules/h3').fromNodeMiddleware
   const fromPlainHandler: typeof import('../../node_modules/h3').fromPlainHandler
   const fromWebHandler: typeof import('../../node_modules/h3').fromWebHandler
+  const getAllPosts: typeof import('../../server/utils/postsDb').getAllPosts
   const getCookie: typeof import('../../node_modules/h3').getCookie
   const getHeader: typeof import('../../node_modules/h3').getHeader
   const getHeaders: typeof import('../../node_modules/h3').getHeaders
   const getMethod: typeof import('../../node_modules/h3').getMethod
+  const getPostBySlug: typeof import('../../server/utils/postsDb').getPostBySlug
   const getProxyRequestHeaders: typeof import('../../node_modules/h3').getProxyRequestHeaders
+  const getPublishedPosts: typeof import('../../server/utils/postsDb').getPublishedPosts
   const getQuery: typeof import('../../node_modules/h3').getQuery
   const getRequestFingerprint: typeof import('../../node_modules/h3').getRequestFingerprint
   const getRequestHeader: typeof import('../../node_modules/h3').getRequestHeader
@@ -79,7 +85,10 @@ declare global {
   const isMethod: typeof import('../../node_modules/h3').isMethod
   const isPreflightRequest: typeof import('../../node_modules/h3').isPreflightRequest
   const isStream: typeof import('../../node_modules/h3').isStream
+  const isValidWriteCredentials: typeof import('../../server/utils/writeAuth').isValidWriteCredentials
+  const isValidWriteSession: typeof import('../../server/utils/writeAuth').isValidWriteSession
   const isWebResponse: typeof import('../../node_modules/h3').isWebResponse
+  const isWriteAuthConfigured: typeof import('../../server/utils/writeAuth').isWriteAuthConfigured
   const lazyEventHandler: typeof import('../../node_modules/h3').lazyEventHandler
   const nitroPlugin: typeof import('../../node_modules/nitropack/dist/runtime/internal/plugin').nitroPlugin
   const parseCookies: typeof import('../../node_modules/h3').parseCookies
@@ -118,6 +127,7 @@ declare global {
   const toWebRequest: typeof import('../../node_modules/h3').toWebRequest
   const unsealSession: typeof import('../../node_modules/h3').unsealSession
   const updateSession: typeof import('../../node_modules/h3').updateSession
+  const upsertPost: typeof import('../../server/utils/postsDb').upsertPost
   const useAppConfig: typeof import('../../node_modules/nitropack/dist/runtime/internal/config').useAppConfig
   const useBase: typeof import('../../node_modules/h3').useBase
   const useEvent: typeof import('../../node_modules/nitropack/dist/runtime/internal/context').useEvent
@@ -132,6 +142,9 @@ declare global {
   // @ts-ignore
   export type { EventHandler, EventHandlerRequest, EventHandlerResponse, EventHandlerObject, H3EventContext } from '../../node_modules/h3'
   import('../../node_modules/h3')
+  // @ts-ignore
+  export type { BlogPost } from '../../server/utils/postsDb'
+  import('../../server/utils/postsDb')
 }
 export { H3Event, H3Error, appendCorsHeaders, appendCorsPreflightHeaders, appendHeader, appendHeaders, appendResponseHeader, appendResponseHeaders, assertMethod, callNodeListener, clearResponseHeaders, clearSession, createApp, createAppEventHandler, createError, createEvent, createEventStream, createRouter, defaultContentType, defineEventHandler, defineLazyEventHandler, defineNodeListener, defineNodeMiddleware, defineRequestMiddleware, defineResponseMiddleware, defineWebSocket, defineWebSocketHandler, deleteCookie, dynamicEventHandler, eventHandler, fetchWithEvent, fromNodeMiddleware, fromPlainHandler, fromWebHandler, getCookie, getHeader, getHeaders, getMethod, getProxyRequestHeaders, getQuery, getRequestFingerprint, getRequestHeader, getRequestHeaders, getRequestHost, getRequestIP, getRequestPath, getRequestProtocol, getRequestURL, getRequestWebStream, getResponseHeader, getResponseHeaders, getResponseStatus, getResponseStatusText, getRouterParam, getRouterParams, getSession, getValidatedQuery, getValidatedRouterParams, handleCacheHeaders, handleCors, isCorsOriginAllowed, isError, isEvent, isEventHandler, isMethod, isPreflightRequest, isStream, isWebResponse, lazyEventHandler, parseCookies, promisifyNodeListener, proxyRequest, readBody, readFormData, readMultipartFormData, readRawBody, readValidatedBody, removeResponseHeader, sanitizeStatusCode, sanitizeStatusMessage, sealSession, send, sendError, sendIterable, sendNoContent, sendProxy, sendRedirect, sendStream, sendWebResponse, serveStatic, setCookie, setHeader, setHeaders, setResponseHeader, setResponseHeaders, setResponseStatus, splitCookiesString, toEventHandler, toNodeListener, toPlainHandler, toWebHandler, toWebRequest, unsealSession, updateSession, useBase, useSession, writeEarlyHints } from 'h3';
 export { useNitroApp } from 'nitropack/runtime/internal/app';
@@ -147,3 +160,5 @@ export { defineTask, runTask } from 'nitropack/runtime/internal/task';
 export { defineNitroErrorHandler } from 'nitropack/runtime/internal/error/utils';
 export { buildAssetsURL as __buildAssetsURL, publicAssetsURL as __publicAssetsURL } from '/Users/felixchima/Desktop/Backoffice-app/altisry-website/node_modules/@nuxt/nitro-server/dist/runtime/utils/paths';
 export { defineAppConfig } from '/Users/felixchima/Desktop/Backoffice-app/altisry-website/node_modules/@nuxt/nitro-server/dist/runtime/utils/config';
+export { getAllPosts, getPublishedPosts, getPostBySlug, upsertPost, deletePost } from '/Users/felixchima/Desktop/Backoffice-app/altisry-website/server/utils/postsDb';
+export { WRITE_SESSION_COOKIE, isWriteAuthConfigured, isValidWriteCredentials, createWriteSessionValue, isValidWriteSession } from '/Users/felixchima/Desktop/Backoffice-app/altisry-website/server/utils/writeAuth';

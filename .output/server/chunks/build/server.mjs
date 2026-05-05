@@ -1,9 +1,12 @@
 import process from 'node:process';globalThis._importMeta_=globalThis._importMeta_||{url:"file:///_entry.js",env:process.env};import { defineComponent, ref, computed, mergeProps, withCtx, createVNode, openBlock, createBlock, toDisplayString, createCommentVNode, createTextVNode, hasInjectionContext, inject, shallowRef, h, resolveComponent, getCurrentInstance, unref, defineAsyncComponent, Suspense, Fragment, createElementBlock, provide, cloneVNode, useSSRContext, createApp, shallowReactive, onErrorCaptured, onServerPrefetch, resolveDynamicComponent, reactive, effectScope, getCurrentScope, toRef, isReadonly, isRef, isShallow, isReactive, toRaw } from 'vue';
-import { f as createError$1, k as klona, l as parseQuery, m as defuFn, n as hasProtocol, j as joinURL, o as parseURL, e as encodePath, q as decodePath, r as getContext, w as withQuery, s as isScriptProtocol, t as withTrailingSlash, v as withoutTrailingSlash, x as sanitizeStatusCode, $ as $fetch$1, y as baseURL, z as createHooks, A as executeAsync, B as defu } from '../nitro/nitro.mjs';
+import { c as createError$1, y as klona, z as parseQuery, A as defuFn, B as hasProtocol, w as joinURL, C as parseURL, o as encodePath, D as decodePath, E as getContext, F as withQuery, G as isScriptProtocol, H as withTrailingSlash, I as withoutTrailingSlash, J as sanitizeStatusCode, $ as $fetch$1, K as baseURL, L as createHooks, M as executeAsync, N as defu } from '../nitro/nitro.mjs';
 import { RouterView, createMemoryHistory, createRouter, START_LOCATION } from 'vue-router';
 import { _api, addAPIProvider, setCustomIconsLoader } from '@iconify/vue';
 import { ssrRenderAttrs, ssrRenderComponent, ssrRenderAttr, ssrRenderList, ssrRenderClass, ssrInterpolate, ssrRenderSuspense, ssrRenderVNode } from 'vue/server-renderer';
 import { u as useHead$1, a as useSeoMeta$1, h as headSymbol } from '../routes/renderer.mjs';
+import 'fs';
+import 'path';
+import 'crypto';
 import 'node:http';
 import 'node:https';
 import 'node:events';
@@ -31,6 +34,7 @@ if (!("global" in globalThis)) {
 }
 const nuxtLinkDefaults = { "componentName": "NuxtLink" };
 const asyncDataDefaults = { "value": null, "errorValue": null, "deep": true };
+const fetchDefaults = {};
 const appId = "nuxt-app";
 function getNuxtAppCtx(id = appId) {
   return getContext(id, {
@@ -409,150 +413,155 @@ function getRouteRules(arg) {
     return {};
   }
 }
+const __nuxt_page_meta = { layout: false };
 const _routes = [
-  {
-    name: "blog",
-    path: "/blog",
-    component: () => import('./blog-Ba5_Rbc5.mjs'),
-    children: [
-      {
-        name: "blog-slug",
-        path: ":slug()",
-        component: () => import('./_slug_-DnRi1xJp.mjs')
-      }
-    ]
-  },
   {
     name: "index",
     path: "/",
-    component: () => import('./index-FPAExnZz.mjs')
+    component: () => import('./index-CF3WSme_.mjs')
+  },
+  {
+    name: "write",
+    path: "/write",
+    meta: __nuxt_page_meta || {},
+    component: () => import('./write-clIOI2QT.mjs')
   },
   {
     name: "status",
     path: "/status",
-    component: () => import('./status-DaUwPsdI.mjs')
+    component: () => import('./status-CXMpsEpp.mjs')
   },
   {
     name: "contact",
     path: "/contact",
-    component: () => import('./contact-BiWdgS3v.mjs')
+    component: () => import('./contact-BU4e-nDG.mjs')
+  },
+  {
+    name: "blog",
+    path: "/blog",
+    component: () => import('./index-1haQHbXz.mjs')
+  },
+  {
+    name: "blog-slug",
+    path: "/blog/:slug()",
+    component: () => import('./_slug_-BSusWoKo.mjs')
   },
   {
     name: "get-started",
     path: "/get-started",
-    component: () => import('./get-started-Bdg4Ubvw.mjs')
+    component: () => import('./get-started-y9PGfXD_.mjs')
   },
   {
     name: "products-aml",
     path: "/products/aml",
-    component: () => import('./aml-C7CWXX0Q.mjs')
+    component: () => import('./aml-D8Pcx07P.mjs')
   },
   {
     name: "company-about",
     path: "/company/about",
-    component: () => import('./about-B4DMjfIf.mjs')
+    component: () => import('./about-BZ_V9I-R.mjs')
   },
   {
     name: "developers-api",
     path: "/developers/api",
-    component: () => import('./api-BfevS4uF.mjs')
+    component: () => import('./api-DR6WU4NM.mjs')
   },
   {
     name: "company-careers",
     path: "/company/careers",
-    component: () => import('./careers-BRnVYk8W.mjs')
+    component: () => import('./careers-DNh0rYUh.mjs')
   },
   {
     name: "developers-docs",
     path: "/developers/docs",
-    component: () => import('./docs-DpyewM1d.mjs')
+    component: () => import('./docs-DeGTi2Eg.mjs')
   },
   {
     name: "company-security",
     path: "/company/security",
-    component: () => import('./security-CaZqbKd8.mjs')
+    component: () => import('./security-tU-M98n7.mjs')
   },
   {
     name: "developers",
     path: "/developers",
-    component: () => import('./index-D3ur_Rab.mjs')
+    component: () => import('./index-DXMkqDg2.mjs')
   },
   {
     name: "use-cases-banking",
     path: "/use-cases/banking",
-    component: () => import('./banking-C1qoRlnK.mjs')
+    component: () => import('./banking-BqeI1JhJ.mjs')
   },
   {
     name: "use-cases-lending",
     path: "/use-cases/lending",
-    component: () => import('./lending-CRLTMrlF.mjs')
+    component: () => import('./lending-DLYpUHYS.mjs')
   },
   {
     name: "developers-sandbox",
     path: "/developers/sandbox",
-    component: () => import('./sandbox-zI_uE9Do.mjs')
+    component: () => import('./sandbox-BkqKZ921.mjs')
   },
   {
     name: "use-cases-treasury",
     path: "/use-cases/treasury",
-    component: () => import('./treasury-C-zZyGI9.mjs')
+    component: () => import('./treasury-DEibQbZV.mjs')
   },
   {
     name: "products-compliance",
     path: "/products/compliance",
-    component: () => import('./compliance-B2fNQQyX.mjs')
+    component: () => import('./compliance-B9FKJQQb.mjs')
   },
   {
     name: "products-mobile-sca",
     path: "/products/mobile-sca",
-    component: () => import('./mobile-sca-BJhZIuJ1.mjs')
+    component: () => import('./mobile-sca-DLh63eOI.mjs')
   },
   {
     name: "use-cases-ecommerce",
     path: "/use-cases/ecommerce",
-    component: () => import('./ecommerce-DWqpyE_l.mjs')
+    component: () => import('./ecommerce-BQKvmvrI.mjs')
   },
   {
     name: "company-partnerships",
     path: "/company/partnerships",
-    component: () => import('./partnerships-Bf8PUL7C.mjs')
+    component: () => import('./partnerships-DL6myTm5.mjs')
   },
   {
     name: "products-pay-by-bank",
     path: "/products/pay-by-bank",
-    component: () => import('./pay-by-bank-Hq54VF7b.mjs')
+    component: () => import('./pay-by-bank-CDqfPBMQ.mjs')
   },
   {
     name: "use-cases-automotive",
     path: "/use-cases/automotive",
-    component: () => import('./automotive-CtM9UDBX.mjs')
+    component: () => import('./automotive-CT2B2XTo.mjs')
   },
   {
     name: "products-bulk-payments",
     path: "/products/bulk-payments",
-    component: () => import('./bulk-payments-Dp05PfEZ.mjs')
+    component: () => import('./bulk-payments-BMJYmG2f.mjs')
   },
   {
     name: "company-success-stories",
     path: "/company/success-stories",
-    component: () => import('./success-stories-CBQsc-ST.mjs'),
+    component: () => import('./success-stories-DM0p_sa0.mjs'),
     children: [
       {
         name: "company-success-stories-slug",
         path: ":slug()",
-        component: () => import('./_slug_-Dm1qo8Bs.mjs')
+        component: () => import('./_slug_-C21LOqcG.mjs')
       }
     ]
   },
   {
     name: "products-data-enrichment",
     path: "/products/data-enrichment",
-    component: () => import('./data-enrichment-DVldr1hy.mjs')
+    component: () => import('./data-enrichment-tBI51t3U.mjs')
   },
   {
     name: "products-data-aggregation",
     path: "/products/data-aggregation",
-    component: () => import('./data-aggregation-CsrExiwj.mjs')
+    component: () => import('./data-aggregation-CoSmpXlk.mjs')
   }
 ];
 const ROUTE_KEY_PARENTHESES_RE = /(:\w+)\([^)]+\)/g;
@@ -923,7 +932,7 @@ const revive_payload_server_MVtmlZaQpj6ApFmshWfUWl5PehCebzaBf2NuRMiIbms = /* @__
     }
   }
 });
-const LazyIcon = defineAsyncComponent(() => import('./index-CafbjuIA.mjs').then((r) => r["default"] || r.default || r));
+const LazyIcon = defineAsyncComponent(() => import('./index-CzLoebGo.mjs').then((r) => r["default"] || r.default || r));
 const lazyGlobalComponents = [
   ["Icon", LazyIcon]
 ];
@@ -1625,8 +1634,11 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
     const desktopMenuOpen = computed(() => openMenu.value !== null);
     const route = useRoute();
     const isHomePage = computed(() => route.path === "/");
-    const headerOnWhite = computed(() => desktopMenuOpen.value);
-    const darkHeader = computed(() => !desktopMenuOpen.value && (!isHomePage.value || scrolled.value));
+    const forceLightHeader = computed(() => route.path === "/blog" || route.path.startsWith("/blog/"));
+    const headerOnWhite = computed(() => desktopMenuOpen.value || forceLightHeader.value);
+    const darkHeader = computed(
+      () => !desktopMenuOpen.value && !forceLightHeader.value && (!isHomePage.value || scrolled.value)
+    );
     const navItems = [
       {
         label: "Products",
@@ -2235,5 +2247,5 @@ let entry;
 }
 const entry_default = ((ssrContext) => entry(ssrContext));
 
-export { _sfc_main$3 as _, __nuxt_component_2 as a, _sfc_main$2 as b, useRoute as c, _export_sfc as d, entry_default as default, useNuxtApp as e, asyncDataDefaults as f, createError as g, useAppConfig as h, useRuntimeConfig as i, useHead as j, useSeoMeta as u };
+export { __nuxt_component_2 as _, _export_sfc as a, _sfc_main$3 as b, _sfc_main$2 as c, _imports_0 as d, entry_default as default, useRoute as e, useNuxtApp as f, fetchDefaults as g, asyncDataDefaults as h, createError as i, useAppConfig as j, useRuntimeConfig as k, useHead as l, useSeoMeta as u };
 //# sourceMappingURL=server.mjs.map

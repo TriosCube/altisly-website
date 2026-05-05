@@ -248,8 +248,11 @@ let lastY = 0
 const desktopMenuOpen = computed(() => openMenu.value !== null)
 const route = useRoute()
 const isHomePage = computed(() => route.path === '/')
-const headerOnWhite = computed(() => desktopMenuOpen.value)
-const darkHeader = computed(() => !desktopMenuOpen.value && (!isHomePage.value || scrolled.value))
+const forceLightHeader = computed(() => route.path === '/blog' || route.path.startsWith('/blog/'))
+const headerOnWhite = computed(() => desktopMenuOpen.value || forceLightHeader.value)
+const darkHeader = computed(
+  () => !desktopMenuOpen.value && !forceLightHeader.value && (!isHomePage.value || scrolled.value)
+)
 
 function clearCloseTimer() {
   if (closeTimer) {
