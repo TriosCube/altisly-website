@@ -12,16 +12,22 @@
               Get expert insights, strategy updates, and industry trends — straight to your inbox.
             </p>
           </div>
-          <form @submit.prevent="subscribeNewsletter" class="flex gap-2 w-full sm:w-auto">
-            <input
-              v-model="email"
-              type="email"
-              placeholder="your@company.com"
-              required
-              class="flex-1 sm:w-64 px-4 py-2.5 rounded-xl bg-white/10 border border-white/25 text-sm text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-brand-400 focus:border-transparent transition"
-            />
-            <button type="submit" class="btn-primary whitespace-nowrap text-sm">Subscribe</button>
-          </form>
+          <div class="w-full sm:w-auto">
+            <form @submit.prevent="subscribeNewsletter" class="flex gap-2 w-full sm:w-auto">
+              <input
+                v-model="email"
+                type="email"
+                placeholder="your@company.com"
+                required
+                class="flex-1 sm:w-64 px-4 py-2.5 rounded-xl bg-white/10 border border-white/25 text-sm text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-brand-400 focus:border-transparent transition"
+              />
+              <button type="submit" class="btn-primary whitespace-nowrap text-sm" :disabled="submitting">
+                {{ submitting ? 'Submitting...' : 'Subscribe' }}
+              </button>
+            </form>
+            <p v-if="subscribeSuccess" class="text-xs text-brand-400 mt-2">Thanks! We have received your enquiry.</p>
+            <p v-if="subscribeError" class="text-xs text-red-300 mt-2">{{ subscribeError }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -99,9 +105,33 @@
 import { ref } from 'vue'
 
 const email = ref('')
+const submitting = ref(false)
+const subscribeSuccess = ref(false)
+const subscribeError = ref('')
 
-function subscribeNewsletter() {
-  email.value = ''
+async function subscribeNewsletter() {
+  subscribeSuccess.value = false
+  subscribeError.value = ''
+  submitting.value = true
+  try {
+    await $fetch('/api/enquiries', {
+      method: 'POST',
+      body: {
+        type: 'newsletter',
+        sourcePage: 'footer-newsletter',
+        email: email.value,
+        newsletter: true,
+      },
+    })
+    subscribeSuccess.value = true
+    email.value = ''
+  }
+  catch {
+    subscribeError.value = 'Could not subscribe now. Please email hello@altisly.com.'
+  }
+  finally {
+    submitting.value = false
+  }
 }
 
 const socials = [

@@ -246,135 +246,224 @@
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div>
               <span class="text-xs font-bold text-brand-600 uppercase tracking-widest bg-brand-50 px-3 py-1 rounded-full border border-brand-100">Private dashboard</span>
-              <h1 class="text-2xl font-black text-navy-900 mt-2">Blog Posts</h1>
-              <p class="text-gray-500 text-sm mt-0.5">Manage, publish, and organise all blog content.</p>
+              <h1 class="text-2xl font-black text-navy-900 mt-2">
+                {{ dashboardTab === 'posts' ? 'Blog Posts' : 'Contact Queries' }}
+              </h1>
+              <p class="text-gray-500 text-sm mt-0.5">
+                {{ dashboardTab === 'posts'
+                  ? 'Manage, publish, and organise all blog content.'
+                  : 'Review all enquiry records routed to hello@altisly.com.' }}
+              </p>
             </div>
-            <button @click="createPost" class="btn-primary whitespace-nowrap self-start sm:self-auto">
+            <button
+              v-if="dashboardTab === 'posts'"
+              @click="createPost"
+              class="btn-primary whitespace-nowrap self-start sm:self-auto"
+            >
               + New post
             </button>
           </div>
 
-          <!-- Stats -->
-          <div class="grid grid-cols-3 gap-4 mb-6">
-            <div class="bg-white rounded-2xl border border-gray-100 p-4 shadow-sm">
-              <p class="text-xs text-gray-400 mb-1">Total</p>
-              <p class="text-2xl font-black text-navy-900">{{ posts.length }}</p>
-            </div>
-            <div class="bg-white rounded-2xl border border-gray-100 p-4 shadow-sm">
-              <p class="text-xs text-gray-400 mb-1">Published</p>
-              <p class="text-2xl font-black text-green-600">{{ publishedCount }}</p>
-            </div>
-            <div class="bg-white rounded-2xl border border-gray-100 p-4 shadow-sm">
-              <p class="text-xs text-gray-400 mb-1">Drafts</p>
-              <p class="text-2xl font-black text-gray-500">{{ draftCount }}</p>
-            </div>
+          <div class="flex gap-2 mb-6">
+            <button
+              @click="dashboardTab = 'posts'"
+              class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all"
+              :class="dashboardTab === 'posts' ? 'bg-navy-900 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'"
+            >
+              Posts
+            </button>
+            <button
+              @click="dashboardTab = 'enquiries'"
+              class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all"
+              :class="dashboardTab === 'enquiries' ? 'bg-navy-900 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'"
+            >
+              Contact Queries
+            </button>
           </div>
 
-          <!-- Filters + search -->
-          <div class="bg-white rounded-2xl border border-gray-100 shadow-sm mb-4">
-            <div class="flex flex-wrap items-center gap-3 p-4 border-b border-gray-100">
-              <div class="flex gap-2">
-                <button
-                  v-for="f in (['all', 'published', 'draft'] as const)"
-                  :key="f"
-                  @click="listFilter = f"
-                  class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all"
-                  :class="listFilter === f ? 'bg-navy-900 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'"
-                >
-                  {{ f.charAt(0).toUpperCase() + f.slice(1) }}
-                  <span class="ml-1 opacity-60">
-                    ({{ f === 'all' ? posts.length : f === 'published' ? publishedCount : draftCount }})
-                  </span>
-                </button>
+          <template v-if="dashboardTab === 'posts'">
+            <!-- Stats -->
+            <div class="grid grid-cols-3 gap-4 mb-6">
+              <div class="bg-white rounded-2xl border border-gray-100 p-4 shadow-sm">
+                <p class="text-xs text-gray-400 mb-1">Total</p>
+                <p class="text-2xl font-black text-navy-900">{{ posts.length }}</p>
               </div>
-              <input
-                v-model="searchQuery"
-                type="search"
-                placeholder="Search posts…"
-                class="ml-auto px-3 py-1.5 rounded-lg border border-gray-200 text-xs focus:outline-none focus:ring-2 focus:ring-brand-400 w-48"
-              />
+              <div class="bg-white rounded-2xl border border-gray-100 p-4 shadow-sm">
+                <p class="text-xs text-gray-400 mb-1">Published</p>
+                <p class="text-2xl font-black text-green-600">{{ publishedCount }}</p>
+              </div>
+              <div class="bg-white rounded-2xl border border-gray-100 p-4 shadow-sm">
+                <p class="text-xs text-gray-400 mb-1">Drafts</p>
+                <p class="text-2xl font-black text-gray-500">{{ draftCount }}</p>
+              </div>
             </div>
 
-            <!-- Loading -->
-            <div v-if="postsLoading" class="p-8 text-center text-gray-400 text-sm">Loading posts…</div>
+            <!-- Filters + search -->
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm mb-4">
+              <div class="flex flex-wrap items-center gap-3 p-4 border-b border-gray-100">
+                <div class="flex gap-2">
+                  <button
+                    v-for="f in (['all', 'published', 'draft'] as const)"
+                    :key="f"
+                    @click="listFilter = f"
+                    class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all"
+                    :class="listFilter === f ? 'bg-navy-900 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'"
+                  >
+                    {{ f.charAt(0).toUpperCase() + f.slice(1) }}
+                    <span class="ml-1 opacity-60">
+                      ({{ f === 'all' ? posts.length : f === 'published' ? publishedCount : draftCount }})
+                    </span>
+                  </button>
+                </div>
+                <input
+                  v-model="searchQuery"
+                  type="search"
+                  placeholder="Search posts…"
+                  class="ml-auto px-3 py-1.5 rounded-lg border border-gray-200 text-xs focus:outline-none focus:ring-2 focus:ring-brand-400 w-48"
+                />
+              </div>
 
-            <!-- Empty -->
-            <div v-else-if="filteredListPosts.length === 0" class="p-8 text-center text-gray-400 text-sm">
-              <template v-if="posts.length === 0">
-                No posts yet.
-                <button @click="createPost" class="text-brand-600 font-semibold hover:underline ml-1">Create your first post →</button>
-              </template>
-              <template v-else>No posts match this filter.</template>
+              <!-- Loading -->
+              <div v-if="postsLoading" class="p-8 text-center text-gray-400 text-sm">Loading posts…</div>
+
+              <!-- Empty -->
+              <div v-else-if="filteredListPosts.length === 0" class="p-8 text-center text-gray-400 text-sm">
+                <template v-if="posts.length === 0">
+                  No posts yet.
+                  <button @click="createPost" class="text-brand-600 font-semibold hover:underline ml-1">Create your first post →</button>
+                </template>
+                <template v-else>No posts match this filter.</template>
+              </div>
+
+              <!-- Table -->
+              <div v-else class="overflow-x-auto">
+                <table class="w-full text-sm">
+                  <thead class="bg-gray-50 border-b border-gray-100">
+                    <tr>
+                      <th class="text-left px-5 py-3 text-xs font-bold text-gray-400 uppercase tracking-wider">Title</th>
+                      <th class="text-left px-4 py-3 text-xs font-bold text-gray-400 uppercase tracking-wider">Status</th>
+                      <th class="text-left px-4 py-3 text-xs font-bold text-gray-400 uppercase tracking-wider hidden md:table-cell">Category</th>
+                      <th class="text-left px-4 py-3 text-xs font-bold text-gray-400 uppercase tracking-wider hidden lg:table-cell">Updated</th>
+                      <th class="text-right px-5 py-3 text-xs font-bold text-gray-400 uppercase tracking-wider">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-50">
+                    <tr v-for="p in filteredListPosts" :key="p.id" class="hover:bg-gray-50 transition-colors">
+                      <td class="px-5 py-4">
+                        <p class="font-semibold text-navy-900 text-sm">{{ p.title }}</p>
+                        <p class="text-gray-400 text-xs mt-0.5">/blog/{{ p.slug }}</p>
+                      </td>
+                      <td class="px-4 py-4">
+                        <span
+                          class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full"
+                          :class="p.status === 'published' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'"
+                        >
+                          {{ p.status }}
+                        </span>
+                      </td>
+                      <td class="px-4 py-4 hidden md:table-cell">
+                        <span class="text-xs text-gray-500">{{ p.category || '—' }}</span>
+                      </td>
+                      <td class="px-4 py-4 hidden lg:table-cell">
+                        <span class="text-xs text-gray-400">{{ formatDate(p.updatedAt || p.createdAt) }}</span>
+                      </td>
+                      <td class="px-5 py-4">
+                        <div class="flex items-center justify-end gap-2 flex-wrap">
+                          <NuxtLink
+                            v-if="p.status === 'published'"
+                            :to="`/blog/${p.slug}`"
+                            target="_blank"
+                            class="px-2.5 py-1 rounded-lg border border-brand-200 text-brand-600 text-xs font-semibold hover:bg-brand-50 transition-colors"
+                          >
+                            View
+                          </NuxtLink>
+                          <button
+                            @click="toggleStatus(p)"
+                            class="px-2.5 py-1 rounded-lg border border-gray-200 text-gray-600 text-xs font-semibold hover:bg-gray-50 transition-colors"
+                          >
+                            {{ p.status === 'published' ? 'Unpublish' : 'Publish' }}
+                          </button>
+                          <button
+                            @click="editExisting(p)"
+                            class="px-2.5 py-1 rounded-lg border border-gray-200 text-gray-600 text-xs font-semibold hover:bg-gray-50 transition-colors"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            @click="deletePost(p.id)"
+                            :disabled="deletingId === p.id"
+                            class="px-2.5 py-1 rounded-lg border border-red-200 text-red-600 text-xs font-semibold hover:bg-red-50 transition-colors disabled:opacity-50"
+                          >
+                            {{ deletingId === p.id ? '…' : 'Delete' }}
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </template>
+
+          <template v-else>
+            <div class="grid grid-cols-3 gap-4 mb-6">
+              <div class="bg-white rounded-2xl border border-gray-100 p-4 shadow-sm">
+                <p class="text-xs text-gray-400 mb-1">Total Queries</p>
+                <p class="text-2xl font-black text-navy-900">{{ enquiries.length }}</p>
+              </div>
+              <div class="bg-white rounded-2xl border border-gray-100 p-4 shadow-sm">
+                <p class="text-xs text-gray-400 mb-1">Contact</p>
+                <p class="text-2xl font-black text-navy-900">{{ enquiries.filter((q) => q.type === 'contact').length }}</p>
+              </div>
+              <div class="bg-white rounded-2xl border border-gray-100 p-4 shadow-sm">
+                <p class="text-xs text-gray-400 mb-1">Recipient</p>
+                <p class="text-sm font-black text-brand-600 mt-2">hello@altisly.com</p>
+              </div>
             </div>
 
-            <!-- Table -->
-            <div v-else class="overflow-x-auto">
-              <table class="w-full text-sm">
-                <thead class="bg-gray-50 border-b border-gray-100">
-                  <tr>
-                    <th class="text-left px-5 py-3 text-xs font-bold text-gray-400 uppercase tracking-wider">Title</th>
-                    <th class="text-left px-4 py-3 text-xs font-bold text-gray-400 uppercase tracking-wider">Status</th>
-                    <th class="text-left px-4 py-3 text-xs font-bold text-gray-400 uppercase tracking-wider hidden md:table-cell">Category</th>
-                    <th class="text-left px-4 py-3 text-xs font-bold text-gray-400 uppercase tracking-wider hidden lg:table-cell">Updated</th>
-                    <th class="text-right px-5 py-3 text-xs font-bold text-gray-400 uppercase tracking-wider">Actions</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-50">
-                  <tr v-for="p in filteredListPosts" :key="p.id" class="hover:bg-gray-50 transition-colors">
-                    <td class="px-5 py-4">
-                      <p class="font-semibold text-navy-900 text-sm">{{ p.title }}</p>
-                      <p class="text-gray-400 text-xs mt-0.5">/blog/{{ p.slug }}</p>
-                    </td>
-                    <td class="px-4 py-4">
-                      <span
-                        class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full"
-                        :class="p.status === 'published' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'"
-                      >
-                        {{ p.status }}
-                      </span>
-                    </td>
-                    <td class="px-4 py-4 hidden md:table-cell">
-                      <span class="text-xs text-gray-500">{{ p.category || '—' }}</span>
-                    </td>
-                    <td class="px-4 py-4 hidden lg:table-cell">
-                      <span class="text-xs text-gray-400">{{ formatDate(p.updatedAt || p.createdAt) }}</span>
-                    </td>
-                    <td class="px-5 py-4">
-                      <div class="flex items-center justify-end gap-2 flex-wrap">
-                        <NuxtLink
-                          v-if="p.status === 'published'"
-                          :to="`/blog/${p.slug}`"
-                          target="_blank"
-                          class="px-2.5 py-1 rounded-lg border border-brand-200 text-brand-600 text-xs font-semibold hover:bg-brand-50 transition-colors"
-                        >
-                          View
-                        </NuxtLink>
-                        <button
-                          @click="toggleStatus(p)"
-                          class="px-2.5 py-1 rounded-lg border border-gray-200 text-gray-600 text-xs font-semibold hover:bg-gray-50 transition-colors"
-                        >
-                          {{ p.status === 'published' ? 'Unpublish' : 'Publish' }}
-                        </button>
-                        <button
-                          @click="editExisting(p)"
-                          class="px-2.5 py-1 rounded-lg border border-gray-200 text-gray-600 text-xs font-semibold hover:bg-gray-50 transition-colors"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          @click="deletePost(p.id)"
-                          :disabled="deletingId === p.id"
-                          class="px-2.5 py-1 rounded-lg border border-red-200 text-red-600 text-xs font-semibold hover:bg-red-50 transition-colors disabled:opacity-50"
-                        >
-                          {{ deletingId === p.id ? '…' : 'Delete' }}
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm mb-4">
+              <div v-if="enquiriesLoading" class="p-8 text-center text-gray-400 text-sm">Loading contact queries…</div>
+              <div v-else-if="enquiries.length === 0" class="p-8 text-center text-gray-400 text-sm">No contact queries yet.</div>
+              <div v-else class="overflow-x-auto">
+                <table class="w-full text-sm">
+                  <thead class="bg-gray-50 border-b border-gray-100">
+                    <tr>
+                      <th class="text-left px-5 py-3 text-xs font-bold text-gray-400 uppercase tracking-wider">Type</th>
+                      <th class="text-left px-4 py-3 text-xs font-bold text-gray-400 uppercase tracking-wider">Name / Email</th>
+                      <th class="text-left px-4 py-3 text-xs font-bold text-gray-400 uppercase tracking-wider hidden md:table-cell">Company</th>
+                      <th class="text-left px-4 py-3 text-xs font-bold text-gray-400 uppercase tracking-wider hidden lg:table-cell">Message</th>
+                      <th class="text-left px-4 py-3 text-xs font-bold text-gray-400 uppercase tracking-wider">Received</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-50">
+                    <tr v-for="q in enquiries" :key="q.id" class="hover:bg-gray-50 transition-colors align-top">
+                      <td class="px-5 py-4">
+                        <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-brand-50 text-brand-600 border border-brand-100">
+                          {{ q.type }}
+                        </span>
+                      </td>
+                      <td class="px-4 py-4">
+                        <p class="font-semibold text-navy-900 text-sm">{{ q.name || '—' }}</p>
+                        <p class="text-gray-500 text-xs mt-0.5">{{ q.email }}</p>
+                        <p class="text-gray-400 text-xs mt-0.5">Source: {{ q.sourcePage }}</p>
+                      </td>
+                      <td class="px-4 py-4 hidden md:table-cell">
+                        <p class="text-xs text-gray-500">{{ q.company || '—' }}</p>
+                        <p class="text-xs text-gray-400 mt-1">{{ q.country || '—' }}</p>
+                      </td>
+                      <td class="px-4 py-4 hidden lg:table-cell">
+                        <p class="text-xs text-gray-500 max-w-xs whitespace-pre-line">{{ q.message || q.useCase || '—' }}</p>
+                      </td>
+                      <td class="px-4 py-4">
+                        <p class="text-xs text-gray-500">{{ formatDate(q.createdAt) }}</p>
+                        <p class="text-[11px] text-gray-400 mt-1">{{ q.recipient }}</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
+          </template>
         </template>
       </div>
     </template>
@@ -401,6 +490,22 @@ type BlogPost = {
   createdAt: string
 }
 
+type EnquiryRecord = {
+  id: string
+  type: 'contact' | 'api-keys' | 'newsletter'
+  name: string
+  email: string
+  company: string
+  country: string
+  phone: string
+  message: string
+  useCase: string
+  newsletter: boolean
+  sourcePage: string
+  recipient: string
+  createdAt: string
+}
+
 const emptyPost = (): BlogPost => ({
   id: '', title: '', slug: '', excerpt: '', coverImage: '', category: 'Product',
   tags: [], content: '', author: '', status: 'draft', updatedAt: '', createdAt: '',
@@ -418,7 +523,9 @@ const loginPending = ref(false)
 onMounted(async () => {
   const res = await $fetch<{ authenticated: boolean }>('/api/write/session').catch(() => ({ authenticated: false }))
   authenticated.value = res.authenticated
-  if (authenticated.value) loadPosts()
+  if (authenticated.value) {
+    await Promise.all([loadPosts(), loadEnquiries()])
+  }
 })
 
 const login = async () => {
@@ -430,7 +537,7 @@ const login = async () => {
       body: { username: loginForm.username, password: loginForm.password },
     })
     authenticated.value = true
-    await loadPosts()
+    await Promise.all([loadPosts(), loadEnquiries()])
   } catch {
     loginError.value = 'Access denied. Check your credentials and try again.'
   } finally {
@@ -447,10 +554,13 @@ const logout = async () => {
 
 // ── Post list ─────────────────────────────────────────────────────────────────
 const posts = ref<BlogPost[]>([])
+const enquiries = ref<EnquiryRecord[]>([])
 const postsLoading = ref(false)
+const enquiriesLoading = ref(false)
 const listFilter = ref<'all' | 'published' | 'draft'>('all')
 const searchQuery = ref('')
 const deletingId = ref<string | null>(null)
+const dashboardTab = ref<'posts' | 'enquiries'>('posts')
 
 const publishedCount = computed(() => posts.value.filter((p) => p.status === 'published').length)
 const draftCount = computed(() => posts.value.length - publishedCount.value)
@@ -473,6 +583,15 @@ const loadPosts = async () => {
     posts.value = await $fetch<BlogPost[]>('/api/write/posts')
   } finally {
     postsLoading.value = false
+  }
+}
+
+const loadEnquiries = async () => {
+  enquiriesLoading.value = true
+  try {
+    enquiries.value = await $fetch<EnquiryRecord[]>('/api/write/enquiries')
+  } finally {
+    enquiriesLoading.value = false
   }
 }
 

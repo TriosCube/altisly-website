@@ -127,6 +127,9 @@
               <div v-if="submitted" class="text-center text-sm text-green-600 font-medium">
                 ✓ Thanks! We'll be in touch within 24 hours.
               </div>
+              <div v-if="submitError" class="text-center text-sm text-red-600 font-medium">
+                {{ submitError }}
+              </div>
             </form>
           </div>
         </div>
@@ -150,12 +153,44 @@ const form = reactive({
 
 const submitting = ref(false)
 const submitted = ref(false)
+const submitError = ref('')
 
 async function handleSubmit() {
+  submitError.value = ''
+  submitted.value = false
   submitting.value = true
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-  submitting.value = false
-  submitted.value = true
+  try {
+    await $fetch('/api/enquiries', {
+      method: 'POST',
+      body: {
+        type: 'contact',
+        sourcePage: '/contact',
+        name: form.name,
+        email: form.email,
+        country: form.country,
+        phone: form.phone,
+        company: form.company,
+        message: form.message,
+        newsletter: form.newsletter,
+      },
+    })
+    submitted.value = true
+    Object.assign(form, {
+      name: '',
+      email: '',
+      country: '',
+      phone: '',
+      company: '',
+      message: '',
+      newsletter: false,
+    })
+  }
+  catch {
+    submitError.value = 'Could not send enquiry right now. Please email hello@altisly.com.'
+  }
+  finally {
+    submitting.value = false
+  }
 }
 
 const countries = [

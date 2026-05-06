@@ -45,6 +45,7 @@
               <span v-else-if="submitted">✓ Check your inbox!</span>
               <span v-else>Create free account →</span>
             </button>
+            <p v-if="submitError" class="text-sm text-red-600 font-medium text-center">{{ submitError }}</p>
           </form>
 
           <div class="mt-6 pt-6 border-t border-gray-100">
@@ -84,12 +85,33 @@ useSeoMeta({
 const form = reactive({ name: '', email: '', company: '', useCase: '', terms: false })
 const submitting = ref(false)
 const submitted = ref(false)
+const submitError = ref('')
 
 async function handleSubmit() {
+  submitError.value = ''
+  submitted.value = false
   submitting.value = true
-  await new Promise((r) => setTimeout(r, 1000))
-  submitting.value = false
-  submitted.value = true
+  try {
+    await $fetch('/api/enquiries', {
+      method: 'POST',
+      body: {
+        type: 'api-keys',
+        sourcePage: '/get-started',
+        name: form.name,
+        email: form.email,
+        company: form.company,
+        useCase: form.useCase,
+      },
+    })
+    submitted.value = true
+    Object.assign(form, { name: '', email: '', company: '', useCase: '', terms: false })
+  }
+  catch {
+    submitError.value = 'Could not submit right now. Please email hello@altisly.com.'
+  }
+  finally {
+    submitting.value = false
+  }
 }
 
 const useCases = [
