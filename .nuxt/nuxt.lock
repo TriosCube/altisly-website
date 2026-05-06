@@ -1,9 +1,0 @@
-{
-  "pid": 85489,
-  "startedAt": 1777942936680,
-  "command": "dev",
-  "cwd": "/Users/felixchima/Desktop/Backoffice-app/altisry-website",
-  "port": 3000,
-  "hostname": "::1",
-  "url": "http://[::1]:3000"
-}
