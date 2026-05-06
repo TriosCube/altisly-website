@@ -3,16 +3,15 @@
     <!-- Section header -->
     <div class="py-16 md:py-20 text-center">
       <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <p class="section-label">Use Cases</p>
-        <h2 class="section-title mb-5">Open Banking in action</h2>
+        <p class="section-label">Our Focus Areas</p>
+        <h2 class="section-title mb-5">Transforming industries through data</h2>
         <p class="section-subtitle mx-auto text-center">
-          Explore how businesses of all sizes are harnessing Altisry's open banking solutions to reshape their
-          industries.
+          See how Altisry's strategic engineering reshapes operations across finance, healthcare, and beyond.
         </p>
       </div>
     </div>
 
-    <!-- Stacking cards — each card is sticky with increasing top offset -->
+    <!-- Stacking cards -->
     <div class="relative pt-4 md:pt-6" :style="{ paddingBottom: `${useCases.length * 18 + 72}px` }">
       <div
         v-for="(useCase, index) in useCases"
@@ -97,7 +96,7 @@
                   class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-sm transition-all"
                   :class="useCase.btnClass"
                 >
-                  Learn more
+                  Explore solutions
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
@@ -119,27 +118,27 @@
 </template>
 
 <script setup lang="ts">
-import EcommerceVisual from './visuals/EcommerceVisual.vue'
+import InformationMgmtVisual from './visuals/InformationMgmtVisual.vue'
 import BankingVisual from './visuals/BankingVisual.vue'
 import LendingVisual from './visuals/LendingVisual.vue'
-import AutomotiveVisual from './visuals/AutomotiveVisual.vue'
+import HealthAgriVisual from './visuals/HealthAgriVisual.vue'
 import TreasuryVisual from './visuals/TreasuryVisual.vue'
 
 const useCases = [
   {
-    id: 'ecommerce',
-    tag: 'E-commerce & Payments',
-    title: 'E-commerce & Payment services',
-    subtitle: 'Reinvent how your customers pay, verify, and shop',
+    id: 'ims',
+    tag: 'Information Management',
+    title: 'Information Management',
+    subtitle: 'Reinvent how your organization processes data and makes decisions',
     description:
-      'From frictionless checkout to real-time buyer verification and instant refunds, open banking is reshaping e-commerce.',
+      'We architect systems that capture, manage, and deliver critical information securely. Stop relying on fragmented tools and step into unified data strategy.',
     features: [
-      'Fast, secure, and card-free checkout',
-      'Streamlined customer onboarding & verification',
-      'Real-time payment reconciliation & merchant risk check',
-      'Global expansion with compliance built in',
+      'Big data architecture and analytics',
+      'Business Intelligence dashboards',
+      'Cross-department data flow optimization',
+      'Operational scaling and system integration',
     ],
-    href: '/use-cases/ecommerce',
+    href: '/about',
     cardClass: 'bg-[#060809]',
     tagClass: 'bg-white/10 text-white/80 border-white/20',
     titleClass: 'text-white',
@@ -149,22 +148,22 @@ const useCases = [
     checkClass: 'text-[#52e147]',
     btnClass: 'bg-white text-navy-900 hover:bg-[#ebfaeb]',
     hasFlare: true,
-    visual: EcommerceVisual,
+    visual: InformationMgmtVisual,
   },
   {
-    id: 'banking',
-    tag: 'Banking',
-    title: 'Banking',
-    subtitle: 'Move beyond traditional banking',
+    id: 'fintech',
+    tag: 'Fintech & Embedded Finance',
+    title: 'Fintech & Embedded Finance',
+    subtitle: 'Move beyond traditional banking constraints',
     description:
-      'Unlock new revenue streams, reduce costs, and deliver a better customer experience through the power of open banking.',
+      'Unlock new revenue streams and reduce costs by embedding powerful financial features directly into your core product offering.',
     features: [
-      'Streamline customer onboarding & KYC',
-      'Enhance Personal Finance Management',
-      'Enable Multi-Banking services',
-      'Allow frictionless Payment Initiation (PIS)',
+      'Custom loan application systems',
+      'Real-time payment reconciliation',
+      'Digital wallet architecture',
+      'Automated compliance and KYC flows',
     ],
-    href: '/use-cases/banking',
+    href: '/about',
     cardClass: 'bg-gradient-to-r from-[#eafbe8] to-[#f8fff7]',
     tagClass: 'bg-[#e4f9e2] text-[#246b24] border-[#c9efc4]',
     titleClass: 'text-[#132013]',
@@ -177,19 +176,69 @@ const useCases = [
     visual: BankingVisual,
   },
   {
-    id: 'lending',
-    tag: 'Lending',
-    title: 'Lending',
-    subtitle: 'Real-time bank data for right lending decisions',
+    id: 'treasury',
+    tag: 'Treasury Automation',
+    title: 'Treasury Automation (Cash Positioning)',
+    subtitle: 'A 360-degree view of financials to eliminate operational risk',
     description:
-      'Unlock real-time customer bank data for faster onboarding, smarter credit decisions, and effortless repayments.',
+      'Transform your treasury strategy with Cash Positioning and systemic controls that outlive any single employee.',
     features: [
-      'Streamline the application and onboarding processes',
-      'Strike out credit risk from your list',
-      'Predict the future by improving your credit scoring',
-      'Boost your credit decision from days to minutes',
+      'Cash Position coverage',
+      'Daily liquidity automation and publishing',
+      'Cross-bank cash reconciliation',
+      'System-driven succession planning',
     ],
-    href: '/use-cases/lending',
+    href: '/about',
+    cardClass: 'bg-[#060809]',
+    tagClass: 'bg-white/10 text-white/80 border-white/20',
+    titleClass: 'text-white',
+    subtitleClass: 'text-[#52e147]',
+    descClass: 'text-white',
+    featureClass: 'text-white/80',
+    checkClass: 'text-[#52e147]',
+    btnClass: 'bg-white text-navy-900 hover:bg-[#ebfaeb]',
+    hasFlare: true,
+    visual: TreasuryVisual,
+  },
+  {
+    id: 'health-agri',
+    tag: 'Health & Agriculture',
+    title: 'Health & Agriculture',
+    subtitle: 'Scalable systems for essential sectors',
+    description:
+      'We bring the efficiency and resilience of fintech systems into healthcare and agriculture, optimizing supply chains and record management.',
+    features: [
+      'Supply chain data optimization',
+      'Secure health records management',
+      'Predictive analytics for crop and patient data',
+      'Operational scaling for rural and urban networks',
+    ],
+    href: '/about',
+    cardClass: 'bg-gradient-to-r from-[#eafbe8] to-[#f8fff7]',
+    tagClass: 'bg-[#e4f9e2] text-[#246b24] border-[#c9efc4]',
+    titleClass: 'text-[#132013]',
+    subtitleClass: 'text-[#132013]',
+    descClass: 'text-[#2f3f2f]',
+    featureClass: 'text-[#213121]',
+    checkClass: 'text-[#15c411]',
+    btnClass: 'bg-[#15c411] text-white hover:bg-[#13ad0f]',
+    hasFlare: false,
+    visual: HealthAgriVisual,
+  },
+  {
+    id: 'venture',
+    tag: 'Venture Building',
+    title: 'Venture Building',
+    subtitle: 'From concept to scalable enterprise',
+    description:
+      'We partner with ambitious founders to build and scale tech-enabled startups. We provide the technical backbone so you can focus on growth.',
+    features: [
+      'Technical co-founding and architecture',
+      'Product strategy and roadmap execution',
+      'Financial modeling and systemic planning',
+      'Go-to-market engineering',
+    ],
+    href: '/about',
     cardClass: 'bg-[#060809]',
     tagClass: 'bg-green-400/20 text-green-300 border-green-400/30',
     titleClass: 'text-white',
@@ -200,56 +249,6 @@ const useCases = [
     btnClass: 'bg-green-500 text-white hover:bg-green-400',
     hasFlare: true,
     visual: LendingVisual,
-  },
-  {
-    id: 'automotive',
-    tag: 'Automotive',
-    title: 'Automotive',
-    subtitle: 'Faster payments, smarter financing, seamless customer experiences',
-    description:
-      'Open banking helps dealerships, OEMs, and service providers enable secure, cost-efficient vehicle purchases, credit checks, and in-car payments.',
-    features: [
-      'Buy and sell cars with ease',
-      'Instant payouts and refunds',
-      'Smarter automotive financing',
-      'Automated account ownership verification',
-    ],
-    href: '/use-cases/automotive',
-    cardClass: 'bg-gradient-to-r from-[#eafbe8] to-[#f8fff7]',
-    tagClass: 'bg-[#e4f9e2] text-[#246b24] border-[#c9efc4]',
-    titleClass: 'text-[#132013]',
-    subtitleClass: 'text-[#132013]',
-    descClass: 'text-[#2f3f2f]',
-    featureClass: 'text-[#213121]',
-    checkClass: 'text-[#15c411]',
-    btnClass: 'bg-[#15c411] text-white hover:bg-[#13ad0f]',
-    hasFlare: false,
-    visual: AutomotiveVisual,
-  },
-  {
-    id: 'treasury',
-    tag: 'Treasury Management',
-    title: 'Treasury management',
-    subtitle: 'A 360-degree view of financials for corporates of any size',
-    description:
-      'Transform your treasury strategy with unified access to account data from over 5,000 financial institutions worldwide—across multiple banks and regions.',
-    features: [
-      'Seamless and better informed decisions',
-      'Full control over your business finances in one place',
-      'Seamless payments — any time, from anywhere',
-      'Multi-Entity Treasury Management',
-    ],
-    href: '/use-cases/treasury',
-    cardClass: 'bg-[#060809]',
-    tagClass: 'bg-white/10 text-white/80 border-white/20',
-    titleClass: 'text-white',
-    subtitleClass: 'text-white',
-    descClass: 'text-white',
-    featureClass: 'text-white/80',
-    checkClass: 'text-white',
-    btnClass: 'bg-white text-[#15c411] hover:bg-[#ebfaeb]',
-    hasFlare: true,
-    visual: TreasuryVisual,
   },
 ]
 </script>

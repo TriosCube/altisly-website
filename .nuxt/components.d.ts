@@ -24,9 +24,10 @@ export const ProductsSection: typeof import("../components/ProductsSection.vue")
 export const TrustedBySection: typeof import("../components/TrustedBySection.vue")['default']
 export const UseCasesSection: typeof import("../components/UseCasesSection.vue")['default']
 export const WhyChooseSection: typeof import("../components/WhyChooseSection.vue")['default']
-export const VisualsAutomotiveVisual: typeof import("../components/visuals/AutomotiveVisual.vue")['default']
 export const VisualsBankingVisual: typeof import("../components/visuals/BankingVisual.vue")['default']
 export const VisualsEcommerceVisual: typeof import("../components/visuals/EcommerceVisual.vue")['default']
+export const VisualsHealthAgriVisual: typeof import("../components/visuals/HealthAgriVisual.vue")['default']
+export const VisualsInformationMgmtVisual: typeof import("../components/visuals/InformationMgmtVisual.vue")['default']
 export const VisualsLendingVisual: typeof import("../components/visuals/LendingVisual.vue")['default']
 export const VisualsTreasuryVisual: typeof import("../components/visuals/TreasuryVisual.vue")['default']
 export const NuxtWelcome: typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']
@@ -63,9 +64,10 @@ export const LazyProductsSection: LazyComponent<typeof import("../components/Pro
 export const LazyTrustedBySection: LazyComponent<typeof import("../components/TrustedBySection.vue")['default']>
 export const LazyUseCasesSection: LazyComponent<typeof import("../components/UseCasesSection.vue")['default']>
 export const LazyWhyChooseSection: LazyComponent<typeof import("../components/WhyChooseSection.vue")['default']>
-export const LazyVisualsAutomotiveVisual: LazyComponent<typeof import("../components/visuals/AutomotiveVisual.vue")['default']>
 export const LazyVisualsBankingVisual: LazyComponent<typeof import("../components/visuals/BankingVisual.vue")['default']>
 export const LazyVisualsEcommerceVisual: LazyComponent<typeof import("../components/visuals/EcommerceVisual.vue")['default']>
+export const LazyVisualsHealthAgriVisual: LazyComponent<typeof import("../components/visuals/HealthAgriVisual.vue")['default']>
+export const LazyVisualsInformationMgmtVisual: LazyComponent<typeof import("../components/visuals/InformationMgmtVisual.vue")['default']>
 export const LazyVisualsLendingVisual: LazyComponent<typeof import("../components/visuals/LendingVisual.vue")['default']>
 export const LazyVisualsTreasuryVisual: LazyComponent<typeof import("../components/visuals/TreasuryVisual.vue")['default']>
 export const LazyNuxtWelcome: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']>

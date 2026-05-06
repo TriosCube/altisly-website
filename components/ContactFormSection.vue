@@ -6,7 +6,7 @@
         <div class="flex-1">
           <p class="section-label">Get Started</p>
           <h2 class="section-title mb-5">
-            Build tomorrow's financial services with open banking
+            Build tomorrow's scalable systems with Altisry
           </h2>
           <p class="section-subtitle mb-8">
             Fill out the form and our team will get back to you within 24 hours.
@@ -69,7 +69,7 @@
                   <input
                     v-model="form.phone"
                     type="tel"
-                    placeholder="+44 20 0000 0000"
+                    placeholder="+234 800 000 0000"
                     class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-navy-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#52e147] focus:border-transparent transition"
                   />
                 </div>
@@ -91,7 +91,7 @@
                 <textarea
                   v-model="form.message"
                   rows="3"
-                  placeholder="Tell us about your use case..."
+                  placeholder="Tell us about your project or systems challenges..."
                   class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-navy-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#52e147] focus:border-transparent transition resize-none"
                 ></textarea>
               </div>
@@ -104,7 +104,7 @@
                   class="mt-1 w-4 h-4 text-[#15c411] border-gray-300 rounded focus:ring-[#52e147]"
                 />
                 <label for="newsletter" class="text-xs text-gray-600 leading-relaxed">
-                  I agree to receive emails from Altisry about the company's news, product updates and industry insights.
+                  I agree to receive emails from Altisry about the company's news, insights, and updates.
                 </label>
               </div>
 
@@ -159,23 +159,23 @@ async function handleSubmit() {
 }
 
 const countries = [
+  'Nigeria',
   'United Kingdom',
+  'United States',
+  'Canada',
+  'South Africa',
+  'Kenya',
+  'Ghana',
+  'United Arab Emirates',
   'Germany',
   'France',
-  'Italy',
-  'Spain',
-  'Netherlands',
-  'Belgium',
-  'Austria',
-  'Poland',
-  'Sweden',
   'Other',
 ]
 
 const benefits = [
-  { text: 'Access 5,000+ financial institutions through a single API integration' },
-  { text: 'Get up and running in weeks, not months, with full sandbox access' },
-  { text: 'ISO 27001-certified infrastructure with enterprise-grade SLAs' },
-  { text: 'Dedicated onboarding support from open banking experts' },
+  { text: 'Partner with a team that bridges high-level strategy with technical execution.' },
+  { text: 'Eliminate key-person dependencies through automated, self-sustaining systems.' },
+  { text: 'Deploy robust data architectures for finance, health, and enterprise.' },
+  { text: 'Dedicated advisory and technical co-founding for ambitious ventures.' },
 ]
 </script>

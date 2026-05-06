@@ -24,9 +24,10 @@ interface _GlobalComponents {
   TrustedBySection: typeof import("../../components/TrustedBySection.vue")['default']
   UseCasesSection: typeof import("../../components/UseCasesSection.vue")['default']
   WhyChooseSection: typeof import("../../components/WhyChooseSection.vue")['default']
-  VisualsAutomotiveVisual: typeof import("../../components/visuals/AutomotiveVisual.vue")['default']
   VisualsBankingVisual: typeof import("../../components/visuals/BankingVisual.vue")['default']
   VisualsEcommerceVisual: typeof import("../../components/visuals/EcommerceVisual.vue")['default']
+  VisualsHealthAgriVisual: typeof import("../../components/visuals/HealthAgriVisual.vue")['default']
+  VisualsInformationMgmtVisual: typeof import("../../components/visuals/InformationMgmtVisual.vue")['default']
   VisualsLendingVisual: typeof import("../../components/visuals/LendingVisual.vue")['default']
   VisualsTreasuryVisual: typeof import("../../components/visuals/TreasuryVisual.vue")['default']
   NuxtWelcome: typeof import("../../node_modules/nuxt/dist/app/components/welcome.vue")['default']
@@ -63,9 +64,10 @@ interface _GlobalComponents {
   LazyTrustedBySection: LazyComponent<typeof import("../../components/TrustedBySection.vue")['default']>
   LazyUseCasesSection: LazyComponent<typeof import("../../components/UseCasesSection.vue")['default']>
   LazyWhyChooseSection: LazyComponent<typeof import("../../components/WhyChooseSection.vue")['default']>
-  LazyVisualsAutomotiveVisual: LazyComponent<typeof import("../../components/visuals/AutomotiveVisual.vue")['default']>
   LazyVisualsBankingVisual: LazyComponent<typeof import("../../components/visuals/BankingVisual.vue")['default']>
   LazyVisualsEcommerceVisual: LazyComponent<typeof import("../../components/visuals/EcommerceVisual.vue")['default']>
+  LazyVisualsHealthAgriVisual: LazyComponent<typeof import("../../components/visuals/HealthAgriVisual.vue")['default']>
+  LazyVisualsInformationMgmtVisual: LazyComponent<typeof import("../../components/visuals/InformationMgmtVisual.vue")['default']>
   LazyVisualsLendingVisual: LazyComponent<typeof import("../../components/visuals/LendingVisual.vue")['default']>
   LazyVisualsTreasuryVisual: LazyComponent<typeof import("../../components/visuals/TreasuryVisual.vue")['default']>
   LazyNuxtWelcome: LazyComponent<typeof import("../../node_modules/nuxt/dist/app/components/welcome.vue")['default']>

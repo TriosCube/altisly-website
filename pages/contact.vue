@@ -3,9 +3,9 @@
     <AppHeader />
     <main>
       <PageHero
-        tag="Contact"
-        title="Let's talk open banking"
-        description="Our team is ready to help you find the right solution for your business."
+        tag="Partner with us"
+        title="Let's build scalable systems"
+        description="Our systems architects and venture builders are ready to help you optimize data flows, automate compliance, and eliminate key-man risk."
       />
       <ContactFormSection />
     </main>
@@ -16,6 +16,6 @@
 <script setup lang="ts">
 useSeoMeta({
   title: 'Contact Us | Altisry',
-  description: 'Get in touch with the Altisry team. We\'ll help you find the right open banking solution.',
+  description: 'Get in touch with Altisry. Partner with elite systems architects and venture builders.',
 })
 </script>

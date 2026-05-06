@@ -23,29 +23,29 @@
       <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
         <!-- Text Content -->
         <div class="flex-1 text-center lg:text-left">
-          <!-- Report pill — like SaltEdge's announcement banner -->
+          <!-- Report pill -->
           <div class="inline-flex items-center gap-2 mb-8">
             <a
               href="#"
               class="flex items-center gap-2 text-sm text-white/75 hover:text-white transition-colors group"
             >
               <span class="px-2 py-0.5 bg-white/15 border border-white/20 rounded text-xs font-bold text-white tracking-wide">
-                Report
+                Insights
               </span>
-              State of open banking payments in Europe
+              The Future of Information Management Systems
               <svg class="w-3.5 h-3.5 opacity-60 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
               </svg>
             </a>
           </div>
 
-          <h1 class="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black text-white leading-[1.05] tracking-tight mb-6">
-            Open Finance.<br />
-            Endless possibilities
+          <h1 class="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-white leading-[1.1] tracking-tight mb-6">
+            Tech-Enabled Consulting &<br />
+            Venture Building
           </h1>
 
           <p class="text-lg md:text-xl text-white mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-            Harness the power of open banking. Embrace the future of finance.
+            We build scalable systems for finance, health, and enterprise. Strategy, engineering, and data unified.
           </p>
 
           <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10">
@@ -53,27 +53,26 @@
               to="/contact"
               class="inline-flex items-center justify-center px-7 py-4 bg-[#15c411] hover:bg-[#13ad0f] text-white font-semibold rounded-xl transition-colors text-base shadow-lg shadow-[#15c411]/30"
             >
-              Contact us
+              Partner with us
             </NuxtLink>
             <NuxtLink
-              to="/get-started"
+              to="/about"
               class="inline-flex items-center justify-center px-7 py-4 border-2 border-white/30 hover:border-white/60 text-white font-semibold rounded-xl transition-colors text-base backdrop-blur-sm"
             >
-              Get API keys
+              Explore our work
             </NuxtLink>
           </div>
 
-          <!-- Country flags — SaltEdge style -->
           <div class="flex items-center gap-4 justify-center lg:justify-start">
             <div class="flex items-center gap-1.5">
               <span
-                v-for="country in countries.slice(0, 5)"
+                v-for="country in countries.slice(0, 4)"
                 :key="country.code"
                 :title="country.name"
                 class="text-[28px] leading-none cursor-default hover:scale-110 transition-transform"
               >{{ country.flag }}</span>
             </div>
-            <span class="text-white text-sm font-medium">+39 countries</span>
+            <span class="text-white text-sm font-medium">From Africa to the World</span>
           </div>
         </div>
 
@@ -84,8 +83,8 @@
             <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-2xl">
               <div class="flex items-center justify-between mb-5">
                 <div>
-                  <p class="text-gray-500 text-xs font-medium uppercase tracking-wider">Total Balance</p>
-                  <p class="text-navy-900 text-3xl font-bold mt-1">€ 284,920.50</p>
+                  <p class="text-gray-500 text-xs font-medium uppercase tracking-wider">Capital Managed</p>
+                  <p class="text-navy-900 text-3xl font-bold mt-1">$ 12.4M</p>
                 </div>
                 <div class="w-10 h-10 rounded-xl bg-[#ebfaeb] border border-[#c9efc4] flex items-center justify-center">
                   <svg class="w-5 h-5 text-[#15c411]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -105,21 +104,21 @@
                 ></div>
               </div>
 
-              <!-- Connected banks -->
+              <!-- Connected systems -->
               <div class="space-y-3">
-                <p class="text-gray-500 text-xs font-medium uppercase tracking-wider">Connected Banks</p>
-                <div v-for="bank in connectedBanks" :key="bank.name" class="flex items-center justify-between">
+                <p class="text-gray-500 text-xs font-medium uppercase tracking-wider">Active Systems</p>
+                <div v-for="sys in connectedSystems" :key="sys.name" class="flex items-center justify-between">
                   <div class="flex items-center gap-3">
                     <div
                       class="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold"
-                      :class="bank.color"
-                    >{{ bank.abbr }}</div>
+                      :class="sys.color"
+                    >{{ sys.abbr }}</div>
                     <div>
-                      <p class="text-navy-900 text-sm font-medium">{{ bank.name }}</p>
-                      <p class="text-gray-500 text-xs">{{ bank.type }}</p>
+                      <p class="text-navy-900 text-sm font-medium">{{ sys.name }}</p>
+                      <p class="text-gray-500 text-xs">{{ sys.type }}</p>
                     </div>
                   </div>
-                  <p class="text-navy-900 text-sm font-semibold">{{ bank.balance }}</p>
+                  <p class="text-navy-900 text-sm font-semibold">{{ sys.status }}</p>
                 </div>
               </div>
             </div>
@@ -132,8 +131,8 @@
                 </svg>
               </div>
               <div>
-                <p class="text-navy-900 text-xs font-bold">Payment sent</p>
-                <p class="text-gray-500 text-xs">€ 12,450.00</p>
+                <p class="text-navy-900 text-xs font-bold">System Deployed</p>
+                <p class="text-gray-500 text-xs">Zero downtime</p>
               </div>
             </div>
 
@@ -145,8 +144,8 @@
                   </svg>
                 </div>
                 <div>
-                  <p class="text-navy-900 text-xs font-bold">5,000+ banks</p>
-                  <p class="text-gray-500 text-xs">50+ countries</p>
+                  <p class="text-navy-900 text-xs font-bold">Multi-Sector</p>
+                  <p class="text-gray-500 text-xs">Global Reach</p>
                 </div>
               </div>
             </div>
@@ -159,19 +158,17 @@
 
 <script setup lang="ts">
 const countries = [
-  { code: 'de', name: 'Germany', flag: '🇩🇪' },
+  { code: 'ng', name: 'Nigeria', flag: '🇳🇬' },
   { code: 'gb', name: 'United Kingdom', flag: '🇬🇧' },
-  { code: 'fr', name: 'France', flag: '🇫🇷' },
-  { code: 'it', name: 'Italy', flag: '🇮🇹' },
-  { code: 'at', name: 'Austria', flag: '🇦🇹' },
-  { code: 'es', name: 'Spain', flag: '🇪🇸' },
+  { code: 'us', name: 'United States', flag: '🇺🇸' },
+  { code: 'ke', name: 'Kenya', flag: '🇰🇪' },
 ]
 
 const chartBars = [40, 55, 45, 70, 60, 80, 65, 90, 75, 95, 85, 100]
 
-const connectedBanks = [
-  { name: 'Deutsche Bank', abbr: 'DB', type: 'Corporate account', balance: '€ 142,800', color: 'bg-[#15c411] text-white' },
-  { name: 'Barclays', abbr: 'BA', type: 'Current account', balance: '€ 98,320', color: 'bg-[#34d42f] text-white' },
-  { name: 'BNP Paribas', abbr: 'BN', type: 'Savings account', balance: '€ 43,800', color: 'bg-green-600 text-white' },
+const connectedSystems = [
+  { name: 'Fintech Core', abbr: 'FC', type: 'Embedded Finance', status: 'Operational', color: 'bg-[#15c411] text-white' },
+  { name: 'HealthTech Sync', abbr: 'HT', type: 'Data Architecture', status: 'Optimized', color: 'bg-[#34d42f] text-white' },
+  { name: 'AgriChain Flow', abbr: 'AC', type: 'Supply Chain', status: 'Scaling', color: 'bg-green-600 text-white' },
 ]
 </script>

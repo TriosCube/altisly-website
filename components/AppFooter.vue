@@ -9,7 +9,7 @@
           <div>
             <h3 class="text-lg font-bold mb-1">Be the first to get Altisry updates</h3>
             <p class="text-white/90 text-sm">
-              Get expert insights, product updates, and industry trends — straight to your inbox.
+              Get expert insights, strategy updates, and industry trends — straight to your inbox.
             </p>
           </div>
           <form @submit.prevent="subscribeNewsletter" class="flex gap-2 w-full sm:w-auto">
@@ -35,7 +35,7 @@
             <img src="~/assets/svg/logo_light.svg" alt="Altisry" class="h-10 w-auto" />
           </NuxtLink>
           <p class="text-white/90 text-sm leading-relaxed mb-6">
-            Global open banking and open finance platform powering tomorrow's financial services.
+            A tech-enabled consulting and investment group powering tomorrow's scalable systems.
           </p>
           <div class="flex items-center gap-3">
             <a
@@ -86,7 +86,7 @@
           </div>
         </div>
         <p class="text-white/80 text-xs mt-4 leading-relaxed max-w-3xl">
-          Altisry Limited, registered in England and Wales, is authorized by the FCA. All logos, trademarks, and brand
+          Altisry is a multi-sector consulting and venture building group. All logos, trademarks, and brand
           names used on this website that are not owned by Altisry Inc. are the property of their respective owners and
           are used for identification purposes only.
         </p>
@@ -119,45 +119,57 @@ const socials = [
 
 const footerNav = [
   {
-    title: 'Products',
+    title: 'Our Expertise',
     links: [
-      { label: 'Data Aggregation', href: '/products/data-aggregation' },
-      { label: 'Pay by Bank', href: '/products/pay-by-bank' },
-      { label: 'Bulk Payments', href: '/products/bulk-payments' },
-      { label: 'Data Enrichment', href: '/products/data-enrichment' },
-      { label: 'Compliance', href: '/products/compliance' },
-      { label: 'Mobile SCA', href: '/products/mobile-sca' },
-      { label: 'AML Monitoring', href: '/products/aml' },
+      { label: 'Information Management', href: '/expertise/information-management' },
+      { label: 'Fintech & Embedded Finance', href: '/expertise/fintech-embedded-finance' },
+      { label: 'Treasury Systems', href: '/expertise/treasury-systems' },
+      { label: 'Identity Systems', href: '/expertise/identity-systems' },
+      { label: 'Cross-Sector Advisory', href: '/expertise/cross-sector-advisory' },
+      { label: 'Venture Building', href: '/expertise/venture-building' },
+      { label: 'Systems Architecture', href: '/expertise/systems-architecture' },
     ],
   },
   {
-    title: 'Use Cases',
+    title: 'Products',
     links: [
-      { label: 'Lending', href: '/use-cases/lending' },
-      { label: 'Banking', href: '/use-cases/banking' },
-      { label: 'E-commerce', href: '/use-cases/ecommerce' },
-      { label: 'Treasury', href: '/use-cases/treasury' },
-      { label: 'Automotive', href: '/use-cases/automotive' },
+      { label: 'Atreasury', href: '/products/atreasury' },
+      { label: 'Reconciliation Suite', href: '/products/reconciliation-suite' },
+      { label: 'Compliance Suite', href: '/products/compliance-suite' },
+      { label: 'Merchant Suite', href: '/products/merchant-suite' },
+      { label: 'Liquidity Forecasting Suite', href: '/products/liquidity-forecasting' },
+      { label: 'Settlement System Suite', href: '/products/settlement-system' },
+      { label: 'Altis AI', href: '/products/altis-ai' },
+      { label: 'Altis Health', href: '/products/altis-health' },
+      { label: 'Altis Learn', href: '/products/altis-learn' },
+    ],
+  },
+  {
+    title: 'Industries',
+    links: [
+      { label: 'Financial Services', href: '/industries/financial-services' },
+      { label: 'Banking', href: '/industries/banking' },
+      { label: 'Healthcare', href: '/industries/healthcare' },
+      { label: 'Agriculture', href: '/industries/agriculture' },
+      { label: 'E-commerce & Retail', href: '/industries/ecommerce' },
+      { label: 'Government Tech', href: '/industries/government-tech' },
     ],
   },
   {
     title: 'Company',
     links: [
-      { label: 'About us', href: '/company/about' },
-      { label: 'Blog', href: '/blog' },
-      { label: 'Security', href: '/company/security' },
-      { label: 'Partnerships', href: '/company/partnerships' },
-      { label: 'Careers', href: '/company/careers' },
-      { label: 'Service Status', href: '/status' },
+      { label: 'About us', href: '/about' },
+      { label: 'Insights & Blog', href: '/blog' },
+      { label: 'Partnerships', href: '/partnerships' },
+      { label: 'Careers', href: '/careers' },
+      { label: 'Contact', href: '/contact' },
     ],
   },
   {
-    title: 'Developers',
+    title: 'Connect',
     links: [
-      { label: 'Documentation', href: '/developers/docs' },
-      { label: 'API Reference', href: '/developers/api' },
-      { label: 'Sandbox', href: '/developers/sandbox' },
-      { label: 'Get API Keys', href: '/get-started' },
+      { label: 'Book a Consultation', href: '/contact' },
+      { label: 'Join the Network', href: '/about' },
     ],
   },
 ]
@@ -166,6 +178,5 @@ const legalLinks = [
   { label: 'Terms of Service', href: '/legal/terms' },
   { label: 'Privacy Policy', href: '/legal/privacy' },
   { label: 'Legal Notice', href: '/legal/notice' },
-  { label: 'Site Map', href: '/sitemap' },
 ]
 </script>

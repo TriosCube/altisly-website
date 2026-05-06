@@ -3,11 +3,10 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Header -->
       <div class="text-center mb-16">
-        <p class="section-label">Why Altisry</p>
-        <h2 class="section-title mb-5">Why they chose us</h2>
+        <p class="section-label">The Altisry Advantage</p>
+        <h2 class="section-title mb-5">System &gt; Person</h2>
         <p class="section-subtitle mx-auto text-center">
-          We are committed to delivering top-tier performance and solutions tailored to businesses' unique needs. Our
-          dedication to excellence has made us a trusted partner in each client's open banking journey.
+          We believe in eliminating key-man risks by building intelligent, self-sustaining systems. Our solutions ensure zero operational disruption, empowering your leadership to focus on strategy rather than daily firefighting.
         </p>
       </div>
 
@@ -17,7 +16,7 @@
         <div class="absolute bottom-0 right-1/4 w-80 h-80 bg-[#15c411] rounded-full opacity-10 blur-3xl translate-y-1/2"></div>
         <div class="text-center mb-12">
           <h3 class="text-2xl md:text-3xl font-bold text-white">
-            Six reasons why top businesses choose
+            Six reasons elite businesses choose
             <span class="text-[#52e147]">Altisry</span>
           </h3>
         </div>
@@ -49,55 +48,55 @@
 <script setup lang="ts">
 const reasons = [
   {
-    title: 'Expertise',
-    subtitle: 'Putting our decade-long expertise to work for you',
+    title: 'Strategic Execution',
+    subtitle: 'From builder to decision-maker',
     description:
-      'For more than 10 years, our team of seasoned open banking professionals has been committed to sharing their knowledge and expertise to help you find the ideal solution for your needs.',
+      'We don\'t just write code; we decide what should be built and why. We bridge the gap between high-level business strategy and technical execution to build systems that scale.',
     icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z',
     iconBg: 'bg-yellow-500/20',
     iconColor: 'text-yellow-400',
   },
   {
-    title: 'Global Connectivity',
-    subtitle: 'Unlock global connectivity',
+    title: 'Global Standard',
+    subtitle: 'Premium advisory across borders',
     description:
-      'Expand your business horizons effortlessly with access to real-time account data from over 5,000 financial institutions spanning across 50+ countries.',
+      'Operating globally, we bring a top-tier consulting mindset to every project, ensuring your systems meet international standards of resilience and efficiency.',
     icon: 'M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
     iconBg: 'bg-[#15c411]/20',
     iconColor: 'text-[#52e147]',
   },
   {
-    title: 'One-Stop Platform',
-    subtitle: 'A one-stop shop open banking platform',
+    title: 'Multi-Sector Focus',
+    subtitle: 'Cross-industry innovation',
     description:
-      'Altisry is here to help any business thrive with innovative solutions tailored to their specific needs. Whether you\'re a bank, payment gateway, airline, or e-commerce, we\'ve got you covered!',
+      'From fintech to health and agriculture, we design cross-industry solutions. We take the best optimization strategies from one sector and apply them to yours.',
     icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
     iconBg: 'bg-purple-500/20',
     iconColor: 'text-purple-400',
   },
   {
-    title: 'No Licence Required',
-    subtitle: 'No licence? No worries!',
+    title: 'Data-Driven Decisions',
+    subtitle: 'Replacing guesswork with hard data',
     description:
-      'Explore countless possibilities and innovate without acquiring your own open banking licence or certificates. Instead, use ours.',
+      'We implement Information Management Systems that provide real-time insights, enabling your leadership team to make proactive, informed decisions.',
     icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z',
     iconBg: 'bg-green-500/20',
     iconColor: 'text-green-400',
   },
   {
-    title: 'Developer-Friendly',
-    subtitle: 'For developers with love',
+    title: 'Eliminate Key-Man Risk',
+    subtitle: 'Institutionalizing your knowledge',
     description:
-      'With clear documentation and a full testing environment, our SaaS solutions are fast and easy to integrate!',
+      'We build institutional knowledge directly into your system, ensuring that operations never walk out the door when an employee transitions or leaves.',
     icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
     iconBg: 'bg-pink-500/20',
     iconColor: 'text-pink-400',
   },
   {
-    title: 'High Security',
-    subtitle: 'Guarantee of high-security',
+    title: 'Automated Resilience',
+    subtitle: 'Built for zero failure',
     description:
-      'We are ISO 27001-certified and PSD2-licensed, employing the highest international security standards to safely access financial data and initiate payments.',
+      'Our systems are designed to handle 0% failure rates in critical areas like capital visibility, settlement flows, and Cash Positioning.',
     icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
     iconBg: 'bg-[#15c411]/20',
     iconColor: 'text-[#52e147]',

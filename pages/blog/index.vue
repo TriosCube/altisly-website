@@ -15,7 +15,7 @@
                 Blog
               </h1>
               <p class="text-xl text-gray-600 max-w-xl leading-relaxed">
-                Product updates, engineering deep dives, and market analysis from the Altisry team.
+                Insights, engineering deep dives, and strategic analysis from the Altisry network.
               </p>
             </div>
             <!-- Category filter pills -->
@@ -152,7 +152,7 @@
 <script setup lang="ts">
 useSeoMeta({
   title: 'Blog | Altisry',
-  description: 'Product updates, engineering deep dives, and open banking market analysis from the Altisry team.',
+  description: 'Insights, engineering deep dives, and strategic advisory analysis from the Altisry team.',
 })
 
 type BlogPost = {
