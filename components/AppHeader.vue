@@ -10,13 +10,7 @@
       hidden && !desktopMenuOpen ? '-translate-y-full' : 'translate-y-0',
     ]"
   >
-    <div
-      v-if="darkHeader"
-      class="pointer-events-none absolute inset-0"
-    >
-      <div class="absolute -top-16 left-1/4 w-72 h-72 bg-[#15c411] rounded-full opacity-15 blur-3xl"></div>
-      <div class="absolute -bottom-20 right-1/4 w-64 h-64 bg-[#15c411] rounded-full opacity-10 blur-3xl"></div>
-    </div>
+
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-[70]">
       <div class="flex items-center justify-between h-16 md:h-20">
 
