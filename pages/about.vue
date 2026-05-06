@@ -3,7 +3,7 @@
     <AppHeader />
     <main>
       <PageHero
-        tag="About Altisry"
+        tag="About Altisly"
         title="Building scalable systems for tomorrow's enterprises"
         description="We are a tech-enabled consulting and venture building firm operating across Africa and globally. We unify strategy, engineering, and data."
         parent-label="Company"
@@ -21,7 +21,7 @@
                 We believe that organizations scale when they institutionalize knowledge. Too many companies rely on "key-person dependencies"—when an expert leaves, the operational intelligence walks out the door with them.
               </p>
               <p class="text-gray-600 leading-relaxed mb-6">
-                Altisry was founded to build infrastructure that eliminates this risk. We provide the systems architecture, data intelligence, and automated resilience that businesses need to operate with 0% failure—even in transition.
+                Altisly was founded to build infrastructure that eliminates this risk. We provide the systems architecture, data intelligence, and automated resilience that businesses need to operate with 0% failure—even in transition.
               </p>
             </div>
             <div class="grid grid-cols-2 gap-5">
@@ -51,7 +51,7 @@
       <section class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center max-w-3xl mx-auto mb-16">
-            <p class="section-label text-[#15c411] font-semibold tracking-wider text-sm mb-2 uppercase">The Altisry Approach</p>
+            <p class="section-label text-[#15c411] font-semibold tracking-wider text-sm mb-2 uppercase">The Altisly Approach</p>
             <h2 class="text-3xl font-bold text-navy-900 mb-4">Execution meets Strategic Advisory</h2>
             <p class="text-gray-600 leading-relaxed">
               We don't just write code. We diagnose business bottlenecks, map out data flows, and architect solutions that align with executive strategy. We operate as technical co-founders and systems builders.
@@ -84,7 +84,7 @@
       </section>
 
       <CtaBanner
-        title="Partner with Altisry"
+        title="Partner with Altisly"
         subtitle="Let's build scalable systems and resilient infrastructure for your organization."
       />
     </main>
@@ -94,8 +94,8 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'About Us | Altisry',
-  description: 'Learn about Altisry — a tech-enabled consulting and venture building firm building scalable systems across finance, health, and enterprise.',
+  title: 'About Us | Altisly',
+  description: 'Learn about Altisly — a tech-enabled consulting and venture building firm building scalable systems across finance, health, and enterprise.',
 })
 
 const values = [

@@ -61,7 +61,7 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Government Tech | Altisry',
+  title: 'Government Tech | Altisly',
   description: 'We architect secure, citizen-centric identity, payment, and data systems for modern governments and public institutions.',
 })
 

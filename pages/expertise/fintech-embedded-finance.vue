@@ -77,7 +77,7 @@
 import { useSeoMeta } from 'nuxt/app'
 
 useSeoMeta({
-  title: 'Fintech & Embedded Finance | Altisry',
+  title: 'Fintech & Embedded Finance | Altisly',
   description: 'Scalable loan and wallet systems. We build high-throughput ledgers, credit-scoring engines, and embedded wallets.',
 })
 

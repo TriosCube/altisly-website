@@ -5,7 +5,7 @@
       <PageHero
         tag="Service Status"
         title="Platform and API status"
-        description="Track uptime, incidents, and maintenance windows across Altisry services."
+        description="Track uptime, incidents, and maintenance windows across Altisly services."
       />
 
       <section class="py-16 bg-white">
@@ -40,8 +40,8 @@
 import { useSeoMeta } from 'nuxt/app'
 
 useSeoMeta({
-  title: 'Service Status | Altisry',
-  description: 'Live platform and API status for Altisry services.',
+  title: 'Service Status | Altisly',
+  description: 'Live platform and API status for Altisly services.',
 })
 
 const services = [

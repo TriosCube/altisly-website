@@ -168,7 +168,7 @@
 
               <!-- Products card -->
               <div class="card">
-                <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">Altisry Products Used</h3>
+                <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">Altisly Products Used</h3>
                 <div class="space-y-2">
                   <div
                     v-for="product in story.products"
@@ -234,7 +234,7 @@
 
       <CtaBanner
         title="Ready to write your own success story?"
-        subtitle="Join 300+ companies already building with Altisry's open banking platform."
+        subtitle="Join 300+ companies already building with Altisly's open banking platform."
       />
     </main>
     <AppFooter />
@@ -274,18 +274,18 @@ const allStories = [
     headline: 'How Finom connected 2.4M transactions a month across 18 countries',
     overview: 'Finom is a European business finance super-app built for SMEs. They needed to connect their customers to every major European bank to provide a unified financial view — and they needed to do it fast.',
     challenge: 'Finom was expanding rapidly across Europe but faced a massive technical hurdle: integrating with hundreds of different banks, each with their own APIs, authentication flows, and data formats. Building those integrations in-house would have taken years and distracted their core team from product development.',
-    solution: 'Finom chose Altisry\'s Data Aggregation platform to serve as the backbone of their bank connectivity layer. With a single API, they gained instant access to 850+ banks across 18 countries, with data returned in a unified, enriched format ready for their product.',
+    solution: 'Finom chose Altisly\'s Data Aggregation platform to serve as the backbone of their bank connectivity layer. With a single API, they gained instant access to 850+ banks across 18 countries, with data returned in a unified, enriched format ready for their product.',
     solutionPoints: [
-      'Integrated Altisry\'s unified API in under 3 months from kickoff to production',
+      'Integrated Altisly\'s unified API in under 3 months from kickoff to production',
       'Covered 850+ banks across 18 European countries from day one',
       'Used financial insights endpoints to provide customers with automated cash flow analysis',
       'Received dedicated solution architect support throughout the integration',
-      'Leveraged Altisry\'s sandbox environment for thorough pre-launch testing',
+      'Leveraged Altisly\'s sandbox environment for thorough pre-launch testing',
     ],
-    quote: 'Altisry helped us connect our customers to every major European bank in under 3 months. The integration was seamless and the support was world-class.',
+    quote: 'Altisly helped us connect our customers to every major European bank in under 3 months. The integration was seamless and the support was world-class.',
     author: 'Marcus Weber',
     role: 'CTO',
-    results: 'In the three months since launching on Altisry, Finom has connected over 142,800 customer accounts, processes 2.4 million transactions per month, and maintains a 99.97% API uptime. Customer satisfaction scores for their account aggregation feature are among the highest in the app.',
+    results: 'In the three months since launching on Altisly, Finom has connected over 142,800 customer accounts, processes 2.4 million transactions per month, and maintains a 99.97% API uptime. Customer satisfaction scores for their account aggregation feature are among the highest in the app.',
     stats: [
       { value: '3mo', label: 'Time to market' },
       { value: '2.4M', label: 'Transactions/month' },
@@ -306,7 +306,7 @@ const allStories = [
     headline: 'How Lendex cut loan decisions from 5 days to 4 hours',
     overview: 'Lendex is a UK-based digital lender focused on SME finance. By integrating open banking data into their underwriting process, they transformed their loan decisioning speed and accuracy.',
     challenge: 'Traditional credit assessments relied on bank statements that took days to collect and manually verify. Lendex was losing deals to competitors who could approve loans faster, and their risk team was spending enormous time on document processing rather than actual credit analysis.',
-    solution: 'Lendex integrated Altisry\'s Data Aggregation and Enrichment APIs directly into their loan origination system. Applicants now connect their bank with a single click, and Altisry\'s enriched data feeds directly into Lendex\'s automated underwriting models.',
+    solution: 'Lendex integrated Altisly\'s Data Aggregation and Enrichment APIs directly into their loan origination system. Applicants now connect their bank with a single click, and Altisly\'s enriched data feeds directly into Lendex\'s automated underwriting models.',
     solutionPoints: [
       'Real-time bank connection replaces manual statement upload entirely',
       'Enriched transaction categories provide instant income and expense analysis',
@@ -338,7 +338,7 @@ const allStories = [
     headline: 'How Pleo reduced payment fees by 80% with open banking',
     overview: 'Pleo is a spend management platform used by thousands of European businesses. Adding pay-by-bank as a checkout option transformed their payment economics and improved the checkout experience for their customers.',
     challenge: 'Card payment fees were eating into Pleo\'s unit economics. Their finance team calculated that switching even 30% of transactions to bank transfers would save millions per year. But they needed a seamless bank payment experience — not the clunky manual transfer flows most open banking providers offered.',
-    solution: 'Pleo integrated Altisry\'s Pay by Bank product, which provides a smooth, one-click bank authentication and payment flow that rivals card checkout in speed and simplicity. The integration was designed to sit alongside existing card options, letting customers choose their preferred method.',
+    solution: 'Pleo integrated Altisly\'s Pay by Bank product, which provides a smooth, one-click bank authentication and payment flow that rivals card checkout in speed and simplicity. The integration was designed to sit alongside existing card options, letting customers choose their preferred method.',
     solutionPoints: [
       'Pay by Bank embedded directly into existing checkout with minimal UX disruption',
       'Covers all major European banks with a single integration',
@@ -370,15 +370,15 @@ const allStories = [
     headline: 'How Mambu became PSD2 compliant in 4 weeks, not 4 months',
     overview: 'Mambu is a cloud banking platform serving 200+ financial institutions worldwide. Adding PSD2 compliance to their platform was business-critical for their European clients — but compliance projects traditionally take months and carry significant regulatory risk.',
     challenge: 'Mambu\'s banking clients needed PSD2 compliance to operate in Europe. Building a compliant consent management and TPP verification layer in-house would have taken Mambu\'s team an estimated 6–9 months and required deep regulatory expertise they didn\'t have internally.',
-    solution: 'Mambu embedded Altisry\'s Open Banking Compliance layer into their platform as a white-label module. Their bank clients get a fully compliant API and consent management interface, while Mambu handles zero of the regulatory complexity.',
+    solution: 'Mambu embedded Altisly\'s Open Banking Compliance layer into their platform as a white-label module. Their bank clients get a fully compliant API and consent management interface, while Mambu handles zero of the regulatory complexity.',
     solutionPoints: [
       'White-label compliance layer embedded in Mambu\'s existing platform UI',
       'Automated TPP verification against official EBA and national registers',
       'Pre-built consent management dashboard for end customers',
-      'Continuous regulatory monitoring — Altisry tracks PSD2 changes across 30+ countries',
+      'Continuous regulatory monitoring — Altisly tracks PSD2 changes across 30+ countries',
       'Dedicated compliance specialist assigned to Mambu\'s account',
     ],
-    quote: 'PSD2 compliance used to feel overwhelming. Altisry made us compliant in exactly 4 weeks. No surprises.',
+    quote: 'PSD2 compliance used to feel overwhelming. Altisly made us compliant in exactly 4 weeks. No surprises.',
     author: 'Anna Schulz',
     role: 'Chief Compliance Officer',
     results: 'Mambu achieved full PSD2 compliance in 4 weeks with zero regulatory findings in their first audit. They now offer open banking compliance as a value-add service to all European bank clients, creating a new revenue stream while eliminating compliance risk.',
@@ -402,7 +402,7 @@ const allStories = [
     headline: 'How Toshl connected 5,000+ banks and lifted retention by 35%',
     overview: 'Toshl is a personal finance app with millions of users across Europe. Their core value proposition — showing all your accounts in one place — depended entirely on the breadth and reliability of their bank connections.',
     challenge: 'Toshl\'s previous bank connectivity solution covered only 1,200 banks and had refresh reliability issues that caused frustrating "account disconnected" errors for users. Churn analysis showed bank connectivity failures were the #1 reason users abandoned the app.',
-    solution: 'Toshl migrated to Altisry\'s Data Aggregation platform, gaining coverage across 5,000+ banks with industry-leading refresh rates. Altisry\'s enrichment layer also meant Toshl could offer beautifully categorised transactions out of the box.',
+    solution: 'Toshl migrated to Altisly\'s Data Aggregation platform, gaining coverage across 5,000+ banks with industry-leading refresh rates. Altisly\'s enrichment layer also meant Toshl could offer beautifully categorised transactions out of the box.',
     solutionPoints: [
       'Migrated all existing connected accounts with zero user-facing disruption',
       '5,000+ banks covered across 30+ countries from day one of migration',
@@ -413,7 +413,7 @@ const allStories = [
     quote: 'Our users can now see all their accounts in one place, with every transaction beautifully categorised. Retention went up 35%.',
     author: 'Gasper Vidovic',
     role: 'CEO',
-    results: 'After migrating to Altisry, Toshl saw a 35% improvement in 90-day user retention. Support tickets related to connectivity issues dropped 78%. The higher quality enriched data also allowed them to ship new personalised budgeting insights that users rated as the most valuable feature in recent surveys.',
+    results: 'After migrating to Altisly, Toshl saw a 35% improvement in 90-day user retention. Support tickets related to connectivity issues dropped 78%. The higher quality enriched data also allowed them to ship new personalised budgeting insights that users rated as the most valuable feature in recent surveys.',
     stats: [
       { value: '+35%', label: 'User retention' },
       { value: '5,000+', label: 'Banks connected' },
@@ -431,15 +431,15 @@ const allStories = [
     founded: '2013',
     avatarBg: 'bg-indigo-600',
     products: ['Data Enrichment', 'Merchant Identification'],
-    headline: 'How BudgetBakers achieved 96% categorisation accuracy with Altisry',
+    headline: 'How BudgetBakers achieved 96% categorisation accuracy with Altisly',
     overview: 'BudgetBakers makes Wallet, a popular personal finance app. Their ML-powered transaction categorisation is a core product feature — and one users judge harshly when it gets it wrong.',
     challenge: 'BudgetBakers had spent two years building their own categorisation engine. Despite significant investment, edge cases — merchant names in local languages, obscure fee codes, multi-currency transactions — kept accuracy below 85%. User complaints about miscategorised transactions were a persistent source of negative reviews.',
-    solution: 'BudgetBakers integrated Altisry\'s Data Enrichment and Merchant Identification APIs, feeding raw transaction data through Altisry\'s models before passing results to their own product layer. Altisry\'s models, trained on billions of European transactions, handle the long tail of edge cases that their in-house system struggled with.',
+    solution: 'BudgetBakers integrated Altisly\'s Data Enrichment and Merchant Identification APIs, feeding raw transaction data through Altisly\'s models before passing results to their own product layer. Altisly\'s models, trained on billions of European transactions, handle the long tail of edge cases that their in-house system struggled with.',
     solutionPoints: [
-      'Altisry enrichment processes every transaction in under 200ms',
+      'Altisly enrichment processes every transaction in under 200ms',
       '97+ merchant categories mapped to a consistent taxonomy across all languages',
       'Merchant logo and brand name resolution for 15M+ merchants globally',
-      'Continuous model improvement as Altisry processes more transactions across the network',
+      'Continuous model improvement as Altisly processes more transactions across the network',
       'Confidence scores allow BudgetBakers to flag low-confidence categorisations for user review',
     ],
     quote: 'The ML-powered categorisation is remarkably accurate. It handles edge cases we couldn\'t solve ourselves in 2 years of work.',
@@ -466,7 +466,7 @@ const allStories = [
     headline: 'How Sodexo unified 200+ corporate accounts across 12 countries overnight',
     overview: 'Sodexo is a global services company with operations in 55 countries. Their treasury team needed real-time visibility across hundreds of corporate bank accounts to optimize liquidity and reduce idle cash.',
     challenge: 'Sodexo\'s treasury team was working with end-of-day bank statements exported in multiple formats, reconciled manually in spreadsheets. Getting a consolidated cash position took 2–3 business days. With €4B+ in annual treasury flows, even 1% cash optimization would deliver enormous value.',
-    solution: 'Sodexo deployed Altisry\'s Data Aggregation platform for corporate accounts, connecting 200+ accounts across 12 countries to a single real-time cash management dashboard. Financial Insights powered automated cash flow forecasting.',
+    solution: 'Sodexo deployed Altisly\'s Data Aggregation platform for corporate accounts, connecting 200+ accounts across 12 countries to a single real-time cash management dashboard. Financial Insights powered automated cash flow forecasting.',
     solutionPoints: [
       'All 200+ corporate accounts connected with read-only API access in under 6 weeks',
       'Real-time balance and transaction monitoring with sub-minute refresh rates',
@@ -498,7 +498,7 @@ const allStories = [
     headline: 'How CRIF reduced fraud by 60% and cut credit decisions to 3 minutes',
     overview: 'CRIF is a global credit bureau and analytics company. They added open banking data to their credit risk models, fundamentally improving the accuracy and speed of credit assessments for their lending clients.',
     challenge: 'Traditional credit bureau data provides a historical view of credit behaviour but misses real-time financial health signals. CRIF\'s clients — banks and lenders — were making suboptimal decisions based on incomplete pictures, leading to higher-than-expected defaults and missed opportunities with creditworthy thin-file applicants.',
-    solution: 'CRIF integrated Altisry\'s open banking data APIs into their credit scoring pipeline. Real-time bank account data — income verification, spending patterns, existing debt obligations — now augments traditional credit bureau scores to produce more accurate risk assessments.',
+    solution: 'CRIF integrated Altisly\'s open banking data APIs into their credit scoring pipeline. Real-time bank account data — income verification, spending patterns, existing debt obligations — now augments traditional credit bureau scores to produce more accurate risk assessments.',
     solutionPoints: [
       'Open banking data blended with traditional bureau data in a unified scoring model',
       'Real-time income verification from live bank data replaces payslip document checks',
@@ -506,7 +506,7 @@ const allStories = [
       'Thin-file customers now assessable using cash flow data instead of credit history',
       'Fraud signals detected via account ownership verification and behaviour patterns',
     ],
-    quote: 'The quality of open banking data we get through Altisry has fundamentally changed how we assess credit risk.',
+    quote: 'The quality of open banking data we get through Altisly has fundamentally changed how we assess credit risk.',
     author: 'Marco Feletti',
     role: 'Chief Analytics Officer',
     results: 'CRIF\'s clients using the open banking enhanced scores have seen a 60% reduction in fraud and a 35% decrease in default rates. Credit decision time for applicants who consent to open banking data has dropped from hours to under 3 minutes. Approval rates for thin-file applicants have improved 28%.',
@@ -528,17 +528,17 @@ const allStories = [
     avatarBg: 'bg-sky-600',
     products: ['Open Banking Compliance', 'TPP Verification'],
     headline: 'How Finastra served 40+ bank clients with a single compliance integration',
-    overview: 'Finastra is one of the world\'s largest fintech software companies. They embedded Altisry\'s compliance layer into their banking platform, letting 40+ bank clients offer open banking services without each needing their own compliance programme.',
+    overview: 'Finastra is one of the world\'s largest fintech software companies. They embedded Altisly\'s compliance layer into their banking platform, letting 40+ bank clients offer open banking services without each needing their own compliance programme.',
     challenge: 'As open banking regulation expanded across Europe, Finastra\'s bank clients each needed to become PSD2 compliant. Managing 40+ separate compliance implementations was not feasible. Finastra needed a partner that could provide a single, embeddable compliance solution that scaled across their entire client base.',
-    solution: 'Finastra integrated Altisry\'s compliance APIs and TPP verification service into their FusionFabric.cloud platform. Any bank on the platform can now activate open banking compliance as a module, powered by Altisry\'s regulatory infrastructure.',
+    solution: 'Finastra integrated Altisly\'s compliance APIs and TPP verification service into their FusionFabric.cloud platform. Any bank on the platform can now activate open banking compliance as a module, powered by Altisly\'s regulatory infrastructure.',
     solutionPoints: [
       'Single API integration delivers PSD2 compliance to all 40+ bank clients simultaneously',
       'TPP verification checks against live EBA register data with every API call',
       'Per-bank compliance configuration handles regional regulatory variations',
-      'Regulatory change management handled entirely by Altisry\'s compliance team',
+      'Regulatory change management handled entirely by Altisly\'s compliance team',
       'Dedicated compliance dashboard for each bank client showing connection health and audit logs',
     ],
-    quote: 'Embedding Altisry\'s compliance layer into our platform let us offer open banking to 40+ bank clients with a single integration.',
+    quote: 'Embedding Altisly\'s compliance layer into our platform let us offer open banking to 40+ bank clients with a single integration.',
     author: 'Richard James',
     role: 'EVP Open Banking',
     results: 'All 40+ Finastra bank clients are now PSD2 compliant. The implementation took one quarter — versus the 1–2 years individual implementations would have taken. Zero regulatory breaches have occurred across the entire client base since launch.',
@@ -562,7 +562,7 @@ const allStories = [
     headline: 'How Odoo saved SME customers €850k a month in payment fees',
     overview: 'Odoo is an open-source ERP platform used by over 7 million users worldwide. Adding pay-by-bank to their invoicing and checkout modules created massive value for their SME customers who process high volumes of B2B payments.',
     challenge: 'Odoo\'s SME customers were paying 1.5–2.5% per card transaction on B2B invoices that often run into thousands of euros. For high-volume businesses, card fees represented a significant cost that was increasingly pushing customers toward manual bank transfers — a clunky, slow alternative that created reconciliation headaches.',
-    solution: 'Odoo integrated Altisry\'s Pay by Bank for invoice payments and Bulk Payments for payroll and supplier runs. The integration was embedded into Odoo\'s existing accounting and e-commerce modules, so customers needed no additional setup.',
+    solution: 'Odoo integrated Altisly\'s Pay by Bank for invoice payments and Bulk Payments for payroll and supplier runs. The integration was embedded into Odoo\'s existing accounting and e-commerce modules, so customers needed no additional setup.',
     solutionPoints: [
       'Pay by Bank available as a payment option on all Odoo-generated invoices',
       'One-click bank authorisation for invoice payers — no account needed',
@@ -602,7 +602,7 @@ const relatedStories = computed(() => {
 })
 
 useSeoMeta({
-  title: computed(() => story.value ? `${story.value.company} Case Study | Altisry` : 'Case Study | Altisry'),
+  title: computed(() => story.value ? `${story.value.company} Case Study | Altisly` : 'Case Study | Altisly'),
   description: computed(() => story.value?.overview ?? ''),
 })
 </script>

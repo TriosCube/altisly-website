@@ -61,7 +61,7 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Agriculture | Altisry',
+  title: 'Agriculture | Altisly',
   description: 'We engineer supply chain, logistics, and financial systems for modern agriculture, bridging the gap between field data and financial ledgers.',
 })
 

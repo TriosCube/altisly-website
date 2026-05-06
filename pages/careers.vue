@@ -14,7 +14,7 @@
       <section class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-14">
-            <p class="section-label text-[#15c411] font-semibold tracking-wider text-sm mb-2 uppercase">Life at Altisry</p>
+            <p class="section-label text-[#15c411] font-semibold tracking-wider text-sm mb-2 uppercase">Life at Altisly</p>
             <h2 class="section-title text-3xl font-bold text-navy-900 mb-5">The Consulting & Venture Advantage</h2>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -75,8 +75,8 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Careers | Altisry',
-  description: 'Join Altisry. We are hiring systems architects, data strategists, and venture builders.',
+  title: 'Careers | Altisly',
+  description: 'Join Altisly. We are hiring systems architects, data strategists, and venture builders.',
 })
 
 const perks = [

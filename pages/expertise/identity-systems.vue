@@ -62,7 +62,7 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Identity Systems | Altisry',
+  title: 'Identity Systems | Altisly',
   description: 'Secure verification & access flows. We architect zero-trust identity infrastructure, automated KYC, and biometric device binding.',
 })
 

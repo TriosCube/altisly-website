@@ -61,7 +61,7 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Financial Services | Altisry',
+  title: 'Financial Services | Altisly',
   description: 'We build the core ledgers, treasury systems, and compliance engines that power elite financial institutions.',
 })
 

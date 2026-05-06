@@ -6,7 +6,7 @@
         <p class="section-label">Our Focus Areas</p>
         <h2 class="section-title mb-5">Transforming industries through data</h2>
         <p class="section-subtitle mx-auto text-center">
-          See how Altisry's strategic engineering reshapes operations across finance, healthcare, and beyond.
+          See how Altisly's strategic engineering reshapes operations across finance, healthcare, and beyond.
         </p>
       </div>
     </div>

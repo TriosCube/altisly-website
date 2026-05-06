@@ -7,7 +7,7 @@
         {{ title || 'Ready to get started?' }}
       </h2>
       <p class="text-white/60 text-lg mb-8 max-w-xl mx-auto leading-relaxed">
-        {{ subtitle || 'Join 300+ companies already using Altisry to power their open banking services.' }}
+        {{ subtitle || 'Join 300+ companies already using Altisly to power their open banking services.' }}
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <NuxtLink to="/contact" class="btn-primary text-base px-8 py-4">

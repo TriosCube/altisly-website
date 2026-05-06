@@ -202,7 +202,7 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Reconciliation Management Suite | ATreasury — Altisry',
+  title: 'Reconciliation Management Suite | ATreasury — Altisly',
   description: 'Automate the full reconciliation lifecycle. Match transactions across bank statements, ledgers, and payment processors with configurable rules and AI-assisted break resolution.',
 })
 

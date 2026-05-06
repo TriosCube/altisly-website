@@ -42,7 +42,7 @@
               </div>
               <div>
                 <p class="text-navy-900 font-semibold text-sm">{{ post.author }}</p>
-                <p class="text-gray-500 text-xs">Altisry</p>
+                <p class="text-gray-500 text-xs">Altisly</p>
               </div>
             </div>
           </div>
@@ -64,7 +64,7 @@
                 </NuxtLink>
 
                 <!-- Rendered content -->
-                <div class="prose-altisry" v-html="renderedContent" />
+                <div class="prose-altisly" v-html="renderedContent" />
 
                 <!-- Tags -->
                 <div v-if="post.tags?.length" class="flex flex-wrap gap-2 mt-12 pt-8 border-t border-gray-100">
@@ -84,7 +84,7 @@
                   </div>
                   <div>
                     <p class="font-bold text-navy-900">{{ post.author }}</p>
-                    <p class="text-gray-500 text-sm mt-1">Writing about open banking, product design, and financial infrastructure at Altisry.</p>
+                    <p class="text-gray-500 text-sm mt-1">Writing about open banking, product design, and financial infrastructure at Altisly.</p>
                   </div>
                 </div>
               </article>
@@ -135,7 +135,7 @@
                 <!-- CTA card -->
                 <div class="bg-brand-50 border border-brand-100 rounded-2xl p-6 text-navy-900">
                   <h3 class="font-bold text-base mb-2">Start building</h3>
-                  <p class="text-gray-600 text-sm mb-5">Connect to 5,000+ banks with a single Altisry integration.</p>
+                  <p class="text-gray-600 text-sm mb-5">Connect to 5,000+ banks with a single Altisly integration.</p>
                   <NuxtLink to="/contact" class="block w-full text-center bg-brand-600 text-white font-bold text-sm py-2.5 rounded-xl hover:bg-brand-500 transition-colors">
                     Talk to sales
                   </NuxtLink>
@@ -253,7 +253,7 @@ const activeHeading = ref('')
 onMounted(() => {
   // Add IDs to h2 elements after render
   nextTick(() => {
-    const article = document.querySelector('.prose-altisry')
+    const article = document.querySelector('.prose-altisly')
     if (!article) return
     article.querySelectorAll('h2').forEach((el) => {
       const id = el.textContent?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') ?? ''
@@ -263,7 +263,7 @@ onMounted(() => {
 
   // Track active heading on scroll
   const onScroll = () => {
-    const article = document.querySelector('.prose-altisry')
+    const article = document.querySelector('.prose-altisly')
     if (!article) return
     const h2s = Array.from(article.querySelectorAll('h2'))
     const scrollY = window.scrollY + 120
@@ -281,7 +281,7 @@ onMounted(() => {
 })
 
 useSeoMeta({
-  title: computed(() => post.value ? `${post.value.title} | Altisry Blog` : 'Blog | Altisry'),
+  title: computed(() => post.value ? `${post.value.title} | Altisly Blog` : 'Blog | Altisly'),
   description: computed(() => post.value?.excerpt ?? ''),
 })
 
@@ -304,41 +304,41 @@ const readTime = (content: string) => {
 </script>
 
 <style>
-.prose-altisry .md-h2 {
+.prose-altisly .md-h2 {
   @apply text-2xl font-black text-navy-900 mt-12 mb-4 leading-snug;
 }
-.prose-altisry .md-h3 {
+.prose-altisly .md-h3 {
   @apply text-xl font-bold text-navy-900 mt-8 mb-3 leading-snug;
 }
-.prose-altisry .md-h1 {
+.prose-altisly .md-h1 {
   @apply text-3xl font-black text-navy-900 mt-10 mb-4;
 }
-.prose-altisry .md-p {
+.prose-altisly .md-p {
   @apply text-gray-700 leading-relaxed mb-5 text-base;
 }
-.prose-altisry .md-list {
+.prose-altisly .md-list {
   @apply mb-6 space-y-2 pl-0;
 }
-.prose-altisry .md-list li {
+.prose-altisly .md-list li {
   @apply flex items-start gap-3 text-gray-700 text-base leading-relaxed;
 }
-.prose-altisry .md-list li::before {
+.prose-altisly .md-list li::before {
   content: '';
   @apply w-1.5 h-1.5 rounded-full bg-brand-600 flex-shrink-0 mt-2;
 }
-.prose-altisry .code-block {
+.prose-altisly .code-block {
   @apply bg-gray-50 border border-gray-200 rounded-2xl p-6 mb-6 overflow-x-auto;
 }
-.prose-altisry .code-block code {
+.prose-altisly .code-block code {
   @apply text-gray-700 text-sm font-mono leading-relaxed;
 }
-.prose-altisry .inline-code {
+.prose-altisly .inline-code {
   @apply bg-brand-50 text-brand-600 px-1.5 py-0.5 rounded text-sm font-mono;
 }
-.prose-altisry strong {
+.prose-altisly strong {
   @apply font-bold text-navy-900;
 }
-.prose-altisry em {
+.prose-altisly em {
   @apply italic;
 }
 </style>

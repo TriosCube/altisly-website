@@ -61,7 +61,7 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Healthcare | Altisry',
+  title: 'Healthcare | Altisly',
   description: 'We build secure, compliant data architectures and operational systems for healthcare providers, ensuring zero data loss and strict regulatory adherence.',
 })
 

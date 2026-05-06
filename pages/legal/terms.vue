@@ -6,7 +6,7 @@
       <section class="pt-32 pb-12 md:pt-44 md:pb-16 bg-white border-b border-gray-100">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex items-center gap-2 text-xs text-gray-400 font-medium mb-4">
-            <NuxtLink to="/" class="hover:text-gray-600 transition-colors">Altisry</NuxtLink>
+            <NuxtLink to="/" class="hover:text-gray-600 transition-colors">Altisly</NuxtLink>
             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             <span>Legal</span>
             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
@@ -41,7 +41,7 @@
             <!-- Body -->
             <article class="flex-1 prose-legal">
               <div class="bg-[#ebfaeb] border border-[#15c411]/20 rounded-xl p-5 mb-10">
-                <p class="text-sm text-gray-700 leading-relaxed">These Terms of Service ("Terms") govern your access to and use of the websites, platforms, and services operated by <strong>Altisry Inc.</strong> ("Altisry", "we", "us", or "our"). By accessing or using any Altisry service you agree to be bound by these Terms. If you do not agree, do not use the services.</p>
+                <p class="text-sm text-gray-700 leading-relaxed">These Terms of Service ("Terms") govern your access to and use of the websites, platforms, and services operated by <strong>Altisly Inc.</strong> ("Altisly", "we", "us", or "our"). By accessing or using any Altisly service you agree to be bound by these Terms. If you do not agree, do not use the services.</p>
               </div>
 
               <div v-for="section in sections" :key="section.id" :id="section.id" class="mb-12">
@@ -76,8 +76,8 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Terms of Service | Altisry',
-  description: 'Read the Terms of Service governing your use of Altisry products and services.',
+  title: 'Terms of Service | Altisly',
+  description: 'Read the Terms of Service governing your use of Altisly products and services.',
 })
 
 const toc = [
@@ -101,7 +101,7 @@ const sections = [
     id: 'acceptance',
     title: '1. Acceptance of Terms',
     body: [
-      'By creating an account, accessing, or using any product or service offered by Altisry Inc. (including ATreasury, Altis AI, Altis Health, Altis Learn, and any related APIs or platforms), you confirm that you have read, understood, and agree to be bound by these Terms of Service and our Privacy Policy.',
+      'By creating an account, accessing, or using any product or service offered by Altisly Inc. (including ATreasury, Altis AI, Altis Health, Altis Learn, and any related APIs or platforms), you confirm that you have read, understood, and agree to be bound by these Terms of Service and our Privacy Policy.',
       'If you are accepting these Terms on behalf of a company or other legal entity, you represent that you have the authority to bind that entity to these Terms. In that case, "you" refers to that entity.',
     ],
   },
@@ -109,7 +109,7 @@ const sections = [
     id: 'services',
     title: '2. Description of Services',
     body: [
-      'Altisry provides a suite of technology products and consulting services, including treasury management systems (ATreasury), artificial intelligence tools (Altis AI), health information management and lending infrastructure (Altis Health), and educational technology platforms (Altis Learn).',
+      'Altisly provides a suite of technology products and consulting services, including treasury management systems (ATreasury), artificial intelligence tools (Altis AI), health information management and lending infrastructure (Altis Health), and educational technology platforms (Altis Learn).',
       'We reserve the right to modify, suspend, or discontinue any part of the services at any time, with reasonable notice where practicable. We will not be liable to you or any third party for any modification, suspension, or discontinuation of services.',
     ],
   },
@@ -117,7 +117,7 @@ const sections = [
     id: 'eligibility',
     title: '3. Eligibility',
     body: [
-      'You must be at least 18 years of age and legally capable of entering into binding contracts under applicable law to use Altisry services. Certain services may have additional eligibility requirements as specified in the applicable product terms.',
+      'You must be at least 18 years of age and legally capable of entering into binding contracts under applicable law to use Altisly services. Certain services may have additional eligibility requirements as specified in the applicable product terms.',
       'By using our services, you represent and warrant that you meet all eligibility requirements and that the information you provide is accurate and complete.',
     ],
   },
@@ -125,8 +125,8 @@ const sections = [
     id: 'accounts',
     title: '4. Accounts & Access',
     body: [
-      'To access most Altisry services, you must create an account and provide accurate, complete registration information. You are responsible for maintaining the security of your account credentials and for all activities that occur under your account.',
-      'You must notify us immediately at security@altisry.com if you suspect unauthorised use of your account. We cannot and will not be liable for any loss or damage arising from your failure to maintain adequate account security.',
+      'To access most Altisly services, you must create an account and provide accurate, complete registration information. You are responsible for maintaining the security of your account credentials and for all activities that occur under your account.',
+      'You must notify us immediately at security@altisly.com if you suspect unauthorised use of your account. We cannot and will not be liable for any loss or damage arising from your failure to maintain adequate account security.',
     ],
     list: [
       'You may not share your account credentials with any third party.',
@@ -139,7 +139,7 @@ const sections = [
     id: 'acceptable-use',
     title: '5. Acceptable Use',
     body: [
-      'You agree to use Altisry services only for lawful purposes and in accordance with these Terms. You agree not to use our services in any way that could damage, disable, overburden, or impair the services or interfere with any other party\'s use.',
+      'You agree to use Altisly services only for lawful purposes and in accordance with these Terms. You agree not to use our services in any way that could damage, disable, overburden, or impair the services or interfere with any other party\'s use.',
     ],
     list: [
       'Do not use the services to process, transmit, or store unlawful content or data.',
@@ -154,8 +154,8 @@ const sections = [
     id: 'ip',
     title: '6. Intellectual Property',
     body: [
-      'Altisry and its licensors own all intellectual property rights in and to the services, including but not limited to software, algorithms, user interfaces, designs, documentation, trade names, and trademarks. These Terms do not grant you any rights in or to our intellectual property except the limited right to use the services as set out herein.',
-      'You retain ownership of any data, content, or materials you upload or submit through the services ("Your Content"). By submitting Your Content, you grant Altisry a worldwide, royalty-free, non-exclusive licence to host, store, process, and display Your Content solely as necessary to provide the services to you.',
+      'Altisly and its licensors own all intellectual property rights in and to the services, including but not limited to software, algorithms, user interfaces, designs, documentation, trade names, and trademarks. These Terms do not grant you any rights in or to our intellectual property except the limited right to use the services as set out herein.',
+      'You retain ownership of any data, content, or materials you upload or submit through the services ("Your Content"). By submitting Your Content, you grant Altisly a worldwide, royalty-free, non-exclusive licence to host, store, process, and display Your Content solely as necessary to provide the services to you.',
     ],
   },
   {
@@ -170,7 +170,7 @@ const sections = [
     id: 'payment',
     title: '8. Payment Terms',
     body: [
-      'Access to certain Altisry services requires payment of fees as described in your service agreement or as displayed at the time of subscription. All fees are quoted in the currency specified in your agreement and are exclusive of applicable taxes unless stated otherwise.',
+      'Access to certain Altisly services requires payment of fees as described in your service agreement or as displayed at the time of subscription. All fees are quoted in the currency specified in your agreement and are exclusive of applicable taxes unless stated otherwise.',
       'Fees are due and payable in advance unless otherwise agreed in writing. We reserve the right to suspend access to paid services if payment is not received by the due date. Refund terms are as specified in the applicable product terms or service agreement.',
     ],
   },
@@ -178,8 +178,8 @@ const sections = [
     id: 'liability',
     title: '9. Limitation of Liability',
     body: [
-      'To the maximum extent permitted by applicable law, Altisry shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses, resulting from: (a) your access to or use of or inability to access or use the services; (b) any unauthorised access to or use of our servers and any personal or financial information stored therein; or (c) any bugs, viruses, or other harmful code that may be transmitted through the services.',
-      'Our total liability to you for any claims arising out of or related to these Terms or the services is limited to the amount you paid to Altisry in the twelve (12) months preceding the event giving rise to the claim.',
+      'To the maximum extent permitted by applicable law, Altisly shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses, resulting from: (a) your access to or use of or inability to access or use the services; (b) any unauthorised access to or use of our servers and any personal or financial information stored therein; or (c) any bugs, viruses, or other harmful code that may be transmitted through the services.',
+      'Our total liability to you for any claims arising out of or related to these Terms or the services is limited to the amount you paid to Altisly in the twelve (12) months preceding the event giving rise to the claim.',
     ],
   },
   {
@@ -210,7 +210,7 @@ const sections = [
     id: 'contact',
     title: '13. Contact',
     body: [
-      'If you have any questions about these Terms of Service, please contact Altisry Inc. at: legal@altisry.comm — or by writing to our registered address. We will respond to all legal enquiries within 5 business days.',
+      'If you have any questions about these Terms of Service, please contact Altisly Inc. at: legal@altisly.comm — or by writing to our registered address. We will respond to all legal enquiries within 5 business days.',
     ],
   },
 ]

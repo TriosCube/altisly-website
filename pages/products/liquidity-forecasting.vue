@@ -205,7 +205,7 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Liquidity Forecasting Suite | ATreasury — Altisry',
+  title: 'Liquidity Forecasting Suite | ATreasury — Altisly',
   description: 'ML-powered cash flow forecasting up to 90 days out. Multi-scenario modelling, FX exposure alerts, and real-time liquidity intelligence for corporate treasuries.',
 })
 

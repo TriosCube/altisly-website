@@ -1,10 +1,10 @@
 import { createHash, timingSafeEqual } from 'crypto'
 
-export const WRITE_SESSION_COOKIE = 'altisry_write_session'
+export const WRITE_SESSION_COOKIE = 'altisly_write_session'
 
 const DEFAULT_USERNAME = 'editor'
-const DEFAULT_PASSWORD = 'altisry-write'
-const DEFAULT_SECRET = 'altisry-write-session-secret'
+const DEFAULT_PASSWORD = 'altisly-write'
+const DEFAULT_SECRET = 'altisly-write-session-secret'
 
 const isProd = process.env.NODE_ENV === 'production'
 

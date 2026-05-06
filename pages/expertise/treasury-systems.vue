@@ -84,7 +84,7 @@
 import { useSeoMeta } from 'nuxt/app'
 
 useSeoMeta({
-  title: 'Treasury Systems | Altisry',
+  title: 'Treasury Systems | Altisly',
   description: 'We architect custom Treasury Systems to automate Cash Positioning and eliminate manual reconciliation.',
 })
 

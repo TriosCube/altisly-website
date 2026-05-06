@@ -175,7 +175,7 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Compliance Management Suite | ATreasury — Altisry',
+  title: 'Compliance Management Suite | ATreasury — Altisly',
   description: 'Embed AML screening, KYC management, sanctions checks, and regulatory reporting directly into your treasury operations — automatically on every transaction.',
 })
 

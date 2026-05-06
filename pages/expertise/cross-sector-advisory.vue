@@ -59,7 +59,7 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Cross-Sector Advisory | Altisry',
+  title: 'Cross-Sector Advisory | Altisly',
   description: 'Strategic architecture for complex industries including Health, Agriculture, and GovTech. Optimize data flows and modernize legacy infrastructure.',
 })
 

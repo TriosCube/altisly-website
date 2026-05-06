@@ -61,7 +61,7 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'E-commerce & Retail | Altisry',
+  title: 'E-commerce & Retail | Altisly',
   description: 'Infrastructure for high-volume retail. We build scalable inventory, checkout, and supply chain systems.',
 })
 

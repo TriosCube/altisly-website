@@ -3,7 +3,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Header -->
       <div class="text-center mb-16">
-        <p class="section-label">The Altisry Advantage</p>
+        <p class="section-label">The Altisly Advantage</p>
         <h2 class="section-title mb-5">System &gt; Person</h2>
         <p class="section-subtitle mx-auto text-center">
           We believe in eliminating key-man risks by building intelligent, self-sustaining systems. Our solutions ensure zero operational disruption, empowering your leadership to focus on strategy rather than daily firefighting.
@@ -17,7 +17,7 @@
         <div class="text-center mb-12">
           <h3 class="text-2xl md:text-3xl font-bold text-white">
             Six reasons elite businesses choose
-            <span class="text-[#52e147]">Altisry</span>
+            <span class="text-[#52e147]">Altisly</span>
           </h3>
         </div>
 

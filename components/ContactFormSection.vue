@@ -6,7 +6,7 @@
         <div class="flex-1">
           <p class="section-label">Get Started</p>
           <h2 class="section-title mb-5">
-            Build tomorrow's scalable systems with Altisry
+            Build tomorrow's scalable systems with Altisly
           </h2>
           <p class="section-subtitle mb-8">
             Fill out the form and our team will get back to you within 24 hours.
@@ -104,7 +104,7 @@
                   class="mt-1 w-4 h-4 text-[#15c411] border-gray-300 rounded focus:ring-[#52e147]"
                 />
                 <label for="newsletter" class="text-xs text-gray-600 leading-relaxed">
-                  I agree to receive emails from Altisry about the company's news, insights, and updates.
+                  I agree to receive emails from Altisly about the company's news, insights, and updates.
                 </label>
               </div>
 

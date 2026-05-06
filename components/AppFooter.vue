@@ -7,7 +7,7 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div>
-            <h3 class="text-lg font-bold mb-1">Be the first to get Altisry updates</h3>
+            <h3 class="text-lg font-bold mb-1">Be the first to get Altisly updates</h3>
             <p class="text-white/90 text-sm">
               Get expert insights, strategy updates, and industry trends — straight to your inbox.
             </p>
@@ -32,7 +32,7 @@
         <!-- Brand column -->
         <div class="col-span-2 md:col-span-3 lg:col-span-1">
           <NuxtLink to="/" class="inline-flex items-center mb-5">
-            <img src="~/assets/svg/logo_light.svg" alt="Altisry" class="h-10 w-auto" />
+            <img src="~/assets/svg/logo_light.svg" alt="Altisly" class="h-10 w-auto" />
           </NuxtLink>
           <p class="text-white/90 text-sm leading-relaxed mb-6">
             A tech-enabled consulting and investment group powering tomorrow's scalable systems.
@@ -73,7 +73,7 @@
       <!-- Bottom bar -->
       <div class="border-t border-white/10 pt-8">
         <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <p class="text-white/90 text-xs">© 2026, Altisry Inc. All rights reserved.</p>
+          <p class="text-white/90 text-xs">© 2026, Altisly Inc. All rights reserved.</p>
           <div class="flex items-center flex-wrap gap-4">
             <NuxtLink
               v-for="link in legalLinks"
@@ -86,8 +86,8 @@
           </div>
         </div>
         <p class="text-white/80 text-xs mt-4 leading-relaxed max-w-3xl">
-          Altisry is a multi-sector consulting and venture building group. All logos, trademarks, and brand
-          names used on this website that are not owned by Altisry Inc. are the property of their respective owners and
+          Altisly is a multi-sector consulting and venture building group. All logos, trademarks, and brand
+          names used on this website that are not owned by Altisly Inc. are the property of their respective owners and
           are used for identification purposes only.
         </p>
       </div>

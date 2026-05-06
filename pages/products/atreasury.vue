@@ -271,7 +271,7 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'ATreasury | Altisry',
+  title: 'ATreasury | Altisly',
   description: 'The complete treasury system. Multi-bank aggregation, automated liquidity publishing, reconciliation, compliance, merchant management, and liquidity forecasting — in one platform.',
 })
 

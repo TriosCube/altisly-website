@@ -78,7 +78,7 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Compliance Automation | Altisry',
+  title: 'Compliance Automation | Altisly',
   description: 'Automate AML, KYC, and regulatory reporting. We build compliance systems that eliminate human error and scale your operations.',
 })
 

@@ -5,7 +5,7 @@
       <PageHero
         tag="Developers"
         title="For developers with love"
-        description="Clear documentation, a full sandbox environment, and SDKs in every major language. Integrate Altisry in hours, not weeks."
+        description="Clear documentation, a full sandbox environment, and SDKs in every major language. Integrate Altisly in hours, not weeks."
       >
         <template #cta>
           <NuxtLink to="/get-started" class="btn-primary text-base px-8 py-4">Get API keys</NuxtLink>
@@ -91,8 +91,8 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Developers | Altisry',
-  description: 'Build with Altisry. REST API, SDKs, documentation, and sandbox environment. Get started in minutes.',
+  title: 'Developers | Altisly',
+  description: 'Build with Altisly. REST API, SDKs, documentation, and sandbox environment. Get started in minutes.',
 })
 
 const selectedLang = ref('Node.js')
@@ -107,10 +107,10 @@ const languages = [
 const codeExamples: Record<string, { filename: string; code: string }> = {
   'Node.js': {
     filename: 'connect.js',
-    code: `const Altisry = require('@altisry/sdk');
+    code: `const Altisly = require('@altisly/sdk');
 
-const client = new Altisry({
-  apiKey: process.env.ALTISRY_API_KEY
+const client = new Altisly({
+  apiKey: process.env.ALTISLY_API_KEY
 });
 
 // Create a connect session
@@ -121,14 +121,14 @@ const session = await client.connectSessions.create({
 });
 
 console.log(session.connectUrl);
-// → https://connect.altisry.co/...`,
+// → https://connect.altisly.co/...`,
   },
   Python: {
     filename: 'connect.py',
-    code: `import altisry
+    code: `import altisly
 
-client = altisry.Client(
-    api_key=os.environ['ALTISRY_API_KEY']
+client = altisly.Client(
+    api_key=os.environ['ALTISLY_API_KEY']
 )
 
 # Create a connect session
@@ -139,14 +139,14 @@ session = client.connect_sessions.create(
 )
 
 print(session.connect_url)
-# → https://connect.altisry.co/...`,
+# → https://connect.altisly.co/...`,
   },
   Ruby: {
     filename: 'connect.rb',
-    code: `require 'altisry'
+    code: `require 'altisly'
 
-client = Altisry::Client.new(
-  api_key: ENV['ALTISRY_API_KEY']
+client = Altisly::Client.new(
+  api_key: ENV['ALTISLY_API_KEY']
 )
 
 # Create a connect session
@@ -157,15 +157,15 @@ session = client.connect_sessions.create(
 )
 
 puts session.connect_url
-# → https://connect.altisry.co/...`,
+# → https://connect.altisly.co/...`,
   },
   PHP: {
     filename: 'connect.php',
     code: `<?php
-use Altisry\\Client;
+use Altisly\\Client;
 
 $client = new Client([
-    'api_key' => getenv('ALTISRY_API_KEY')
+    'api_key' => getenv('ALTISLY_API_KEY')
 ]);
 
 // Create a connect session
@@ -176,14 +176,14 @@ $session = $client->connectSessions->create([
 ]);
 
 echo $session->connect_url;
-// → https://connect.altisry.co/...`,
+// → https://connect.altisly.co/...`,
   },
 }
 
 const resources = [
   {
     title: 'API Reference',
-    description: 'Complete reference documentation for all Altisry API endpoints with examples.',
+    description: 'Complete reference documentation for all Altisly API endpoints with examples.',
     icon: 'M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
     iconBg: 'bg-blue-100', iconColor: 'text-blue-600',
     href: '/developers/api',

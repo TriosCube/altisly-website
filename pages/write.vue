@@ -7,7 +7,7 @@
         <!-- Logo -->
         <div class="text-center mb-8">
           <NuxtLink to="/" class="inline-block">
-            <img src="~/assets/svg/logo_light.svg" alt="Altisry" class="h-8 w-auto mx-auto" />
+            <img src="~/assets/svg/logo_light.svg" alt="Altisly" class="h-8 w-auto mx-auto" />
           </NuxtLink>
           <p class="text-gray-400 text-sm mt-4">Writing dashboard</p>
         </div>
@@ -63,7 +63,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
           <div class="flex items-center gap-3">
             <NuxtLink to="/" class="flex items-center">
-              <img src="~/assets/svg/logo_light.svg" alt="Altisry" class="h-6 w-auto" />
+              <img src="~/assets/svg/logo_light.svg" alt="Altisly" class="h-6 w-auto" />
             </NuxtLink>
             <span class="text-gray-300">/</span>
             <span class="text-sm font-semibold text-gray-600">Blog Dashboard</span>
@@ -384,7 +384,7 @@
 <script setup lang="ts">
 definePageMeta({ layout: false })
 
-useSeoMeta({ title: 'Write | Altisry', robots: 'noindex,nofollow' })
+useSeoMeta({ title: 'Write | Altisly', robots: 'noindex,nofollow' })
 
 type BlogPost = {
   id: string

@@ -34,8 +34,8 @@
 import { useSeoMeta } from 'nuxt/app'
 
 useSeoMeta({
-  title: 'Sandbox | Altisry Developers',
-  description: 'Test Altisry integrations with mock data and safe payment simulations.',
+  title: 'Sandbox | Altisly Developers',
+  description: 'Test Altisly integrations with mock data and safe payment simulations.',
 })
 
 const features = [

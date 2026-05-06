@@ -4,7 +4,7 @@
     <main>
       <PageHero
         tag="Partnerships"
-        title="Build the future with Altisry"
+        title="Build the future with Altisly"
         description="Join our global network of system architects, venture builders, and strategic partners. We offer co-building, advisory, and technology integration programmes."
         parent-label="Company"
         parent-href="/about"
@@ -42,7 +42,7 @@
       </section>
 
       <CtaBanner
-        title="Ready to partner with Altisry?"
+        title="Ready to partner with Altisly?"
         subtitle="Get in touch and our strategic advisory team will reach out within 48 hours."
       />
     </main>
@@ -52,15 +52,15 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Partnerships | Altisry',
-  description: 'Join the Altisry partner ecosystem. Strategic advisory, venture co-building, and technology integration programmes available.',
+  title: 'Partnerships | Altisly',
+  description: 'Join the Altisly partner ecosystem. Strategic advisory, venture co-building, and technology integration programmes available.',
 })
 
 const programs = [
   {
     emoji: '🤝',
     title: 'Strategic Advisory Partner',
-    description: 'Collaborate with Altisry on large-scale digital transformation and enterprise system deployments.',
+    description: 'Collaborate with Altisly on large-scale digital transformation and enterprise system deployments.',
     benefits: [
       'Joint go-to-market strategy',
       'Co-selling on enterprise accounts',

@@ -109,7 +109,7 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Information Management | Altisry',
+  title: 'Information Management | Altisly',
   description: 'Transform raw data into strategic intelligence. We build data architecture, ETL pipelines, and business intelligence systems.',
 })
 

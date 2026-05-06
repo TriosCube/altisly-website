@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Contact Us | Altisry',
-  description: 'Get in touch with Altisry. Partner with elite systems architects and venture builders.',
+  title: 'Contact Us | Altisly',
+  description: 'Get in touch with Altisly. Partner with elite systems architects and venture builders.',
 })
 </script>

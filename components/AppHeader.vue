@@ -24,7 +24,7 @@
         <NuxtLink to="/" class="flex items-center flex-shrink-0">
           <img
             src="~/assets/svg/logo_light.svg"
-            alt="Altisry"
+            alt="Altisly"
             class="h-9 md:h-10 w-auto"
           />
         </NuxtLink>
@@ -333,7 +333,7 @@ const navItems = [
     label: 'Company',
     megaMenu: [
       {
-        category: 'About Altisry',
+        category: 'About Altisly',
         items: [
           { label: 'About Us', desc: 'Our mission and vision', href: '/about', icon: 'M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
           { label: 'Insights & Blog', desc: 'Latest news and thinking', href: '/blog', icon: 'M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z' },

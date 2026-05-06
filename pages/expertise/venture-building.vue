@@ -30,7 +30,7 @@
       <section class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-14">
-            <p class="section-label text-[#15c411] font-semibold tracking-wider text-sm mb-2 uppercase">The Altisry Advantage</p>
+            <p class="section-label text-[#15c411] font-semibold tracking-wider text-sm mb-2 uppercase">The Altisly Advantage</p>
             <h2 class="section-title text-3xl font-bold text-navy-900 mb-5">More than just capital or code</h2>
             <p class="text-gray-600 max-w-2xl mx-auto">
               Building a successful tech company requires an intersection of domain expertise, robust engineering, and strategic execution. We provide all three.
@@ -81,8 +81,8 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Venture Building | Altisry',
-  description: 'We build and launch scalable tech ventures. Altisry acts as your technical co-founder providing strategy, engineering, and systems architecture.',
+  title: 'Venture Building | Altisly',
+  description: 'We build and launch scalable tech ventures. Altisly acts as your technical co-founder providing strategy, engineering, and systems architecture.',
 })
 
 const stats = [

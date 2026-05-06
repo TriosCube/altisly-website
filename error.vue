@@ -30,5 +30,5 @@ defineProps<{
   error?: { statusCode?: number; message?: string }
 }>()
 
-useSeoMeta({ title: 'Page not found | Altisry' })
+useSeoMeta({ title: 'Page not found | Altisly' })
 </script>

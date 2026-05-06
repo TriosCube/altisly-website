@@ -4,7 +4,7 @@
     <main>
       <PageHero
         tag="API Reference"
-        title="Everything you need to integrate Altisry APIs"
+        title="Everything you need to integrate Altisly APIs"
         description="Explore endpoints, auth, schemas, and example payloads for all core products."
         parent-label="Developers"
         parent-href="/developers"
@@ -41,8 +41,8 @@
 import { useSeoMeta } from 'nuxt/app'
 
 useSeoMeta({
-  title: 'API Reference | Altisry Developers',
-  description: 'Reference documentation for Altisry APIs including payloads, auth, and schemas.',
+  title: 'API Reference | Altisly Developers',
+  description: 'Reference documentation for Altisly APIs including payloads, auth, and schemas.',
 })
 
 const groups = [

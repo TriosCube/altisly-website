@@ -197,7 +197,7 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Settlement System Suite | ATreasury — Altisry',
+  title: 'Settlement System Suite | ATreasury — Altisly',
   description: 'Production-grade settlement infrastructure. Batch processing, real-time clearing, multi-currency netting, and a clean settlement ledger — deployed in weeks.',
 })
 

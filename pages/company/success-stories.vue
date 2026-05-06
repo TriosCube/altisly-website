@@ -25,7 +25,7 @@
             Success Stories
           </h1>
           <p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            See how companies across industries are using Altisry to build the future of financial services.
+            See how companies across industries are using Altisly to build the future of financial services.
           </p>
         </div>
       </section>
@@ -242,7 +242,7 @@
             <p class="section-label">Customer Spotlight</p>
             <h2 class="section-title">Impact that compounds over time</h2>
             <p class="section-subtitle mx-auto text-center mt-4">
-              Teams that adopt Altisry improve onboarding speed, payment conversion, and risk visibility in one platform.
+              Teams that adopt Altisly improve onboarding speed, payment conversion, and risk visibility in one platform.
             </p>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -283,7 +283,7 @@
 
       <CtaBanner
         title="Ready to write your own success story?"
-        subtitle="Join 300+ companies already building with Altisry's open banking platform."
+        subtitle="Join 300+ companies already building with Altisly's open banking platform."
       />
     </main>
     <AppFooter />
@@ -295,8 +295,8 @@ import { computed, ref } from 'vue'
 import { useSeoMeta } from 'nuxt/app'
 
 useSeoMeta({
-  title: 'Success Stories | Altisry',
-  description: 'See how 300+ companies use Altisry to build the future of financial services.',
+  title: 'Success Stories | Altisly',
+  description: 'See how 300+ companies use Altisly to build the future of financial services.',
 })
 
 const activeFilter = ref('All')
@@ -314,7 +314,7 @@ const featured = {
   abbr: 'FI',
   industry: 'Banking',
   product: 'Data Aggregation',
-  quote: 'Altisry helped us connect our customers to every major European bank in under 3 months. The integration was seamless and the support was world-class.',
+  quote: 'Altisly helped us connect our customers to every major European bank in under 3 months. The integration was seamless and the support was world-class.',
   author: 'Marcus Weber',
   role: 'CTO',
   href: '/company/success-stories/finom',
@@ -364,7 +364,7 @@ const allStories = [
     industry: 'Banking',
     location: 'Berlin, DE',
     product: 'Open Banking Compliance',
-    quote: 'PSD2 compliance used to feel overwhelming. Altisry made us compliant in exactly 4 weeks. No surprises.',
+    quote: 'PSD2 compliance used to feel overwhelming. Altisly made us compliant in exactly 4 weeks. No surprises.',
     highlight: { value: '4wks', label: 'Time to compliance', secondary: '0', secLabel: 'Regulatory findings' },
     avatarBg: 'bg-blue-600',
     tagClass: 'bg-blue-100 text-blue-700',
@@ -416,7 +416,7 @@ const allStories = [
     industry: 'Lending',
     location: 'Bologna, IT',
     product: 'Data Aggregation + Enrichment',
-    quote: 'The quality of open banking data we get through Altisry has fundamentally changed how we assess credit risk.',
+    quote: 'The quality of open banking data we get through Altisly has fundamentally changed how we assess credit risk.',
     highlight: { value: '60%', label: 'Fraud reduction', secondary: '3min', secLabel: 'Credit decision time' },
     avatarBg: 'bg-orange-600',
     tagClass: 'bg-orange-100 text-orange-700',
@@ -429,7 +429,7 @@ const allStories = [
     industry: 'Banking',
     location: 'London, UK',
     product: 'Open Banking Compliance',
-    quote: 'Embedding Altisry\'s compliance layer into our platform let us offer open banking to 40+ bank clients with a single integration.',
+    quote: 'Embedding Altisly\'s compliance layer into our platform let us offer open banking to 40+ bank clients with a single integration.',
     highlight: { value: '40+', label: 'Bank clients served', secondary: '1 API', secLabel: 'Single integration' },
     avatarBg: 'bg-sky-600',
     tagClass: 'bg-sky-100 text-sky-700',
@@ -465,14 +465,14 @@ const testimonials = [
     avatarBg: 'bg-brand-600',
   },
   {
-    quote: 'We evaluated 6 open banking providers. Altisry had the best coverage, the fastest support, and the most transparent pricing.',
+    quote: 'We evaluated 6 open banking providers. Altisly had the best coverage, the fastest support, and the most transparent pricing.',
     author: 'Sofia Andersson',
     role: 'VP Product, LendTech',
     initials: 'SA',
     avatarBg: 'bg-green-600',
   },
   {
-    quote: 'From sandbox to production in under a week. The Altisry team held our hand every step of the way. Exceptional service.',
+    quote: 'From sandbox to production in under a week. The Altisly team held our hand every step of the way. Exceptional service.',
     author: 'Ravi Patel',
     role: 'CTO, PayNow',
     initials: 'RP',

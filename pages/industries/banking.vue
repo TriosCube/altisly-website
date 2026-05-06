@@ -33,7 +33,7 @@
             <p class="section-label text-[#15c411] font-semibold tracking-wider text-sm mb-2 uppercase">Capabilities</p>
             <h2 class="section-title text-3xl font-bold text-navy-900 mb-5">Built for resilience and scale</h2>
             <p class="section-subtitle mx-auto text-center max-w-2xl text-gray-600">
-              From core ledger design to compliance automation, Altisry acts as your technical co-founder, building systems that don't fail.
+              From core ledger design to compliance automation, Altisly acts as your technical co-founder, building systems that don't fail.
             </p>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -65,7 +65,7 @@
 import { useSeoMeta } from 'nuxt/app'
 
 useSeoMeta({
-  title: 'Banking | Altisry',
+  title: 'Banking | Altisly',
   description: 'Scalable systems for modern banking. We build core infrastructure, ledgers, and compliance automation.',
 })
 

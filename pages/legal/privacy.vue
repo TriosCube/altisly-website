@@ -5,7 +5,7 @@
       <section class="pt-32 pb-12 md:pt-44 md:pb-16 bg-white border-b border-gray-100">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex items-center gap-2 text-xs text-gray-400 font-medium mb-4">
-            <NuxtLink to="/" class="hover:text-gray-600 transition-colors">Altisry</NuxtLink>
+            <NuxtLink to="/" class="hover:text-gray-600 transition-colors">Altisly</NuxtLink>
             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             <span>Legal</span>
             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
@@ -36,7 +36,7 @@
 
             <article class="flex-1">
               <div class="bg-[#ebfaeb] border border-[#15c411]/20 rounded-xl p-5 mb-10">
-                <p class="text-sm text-gray-700 leading-relaxed">Altisry Inc. is committed to protecting your privacy. This Privacy Policy explains how we collect, use, share, and protect information about you when you use our services. We are transparent about our practices and your rights.</p>
+                <p class="text-sm text-gray-700 leading-relaxed">Altisly Inc. is committed to protecting your privacy. This Privacy Policy explains how we collect, use, share, and protect information about you when you use our services. We are transparent about our practices and your rights.</p>
               </div>
 
               <div v-for="section in sections" :key="section.id" :id="section.id" class="mb-12">
@@ -66,8 +66,8 @@
               <div class="bg-gray-50 rounded-xl border border-gray-200 p-6 mt-10">
                 <h3 class="font-bold text-navy-900 mb-2">Exercise your privacy rights</h3>
                 <p class="text-sm text-gray-600 mb-4">To make a data access, correction, or deletion request, or to withdraw consent, contact our Data Protection Officer.</p>
-                <a href="mailto:privacy@altisry.com" class="inline-flex items-center gap-2 text-sm font-semibold text-[#15c411] hover:underline">
-                  privacy@altisry.com
+                <a href="mailto:privacy@altisly.com" class="inline-flex items-center gap-2 text-sm font-semibold text-[#15c411] hover:underline">
+                  privacy@altisly.com
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                 </a>
               </div>
@@ -82,8 +82,8 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Privacy Policy | Altisry',
-  description: 'Learn how Altisry collects, uses, and protects your information across all our products and services.',
+  title: 'Privacy Policy | Altisly',
+  description: 'Learn how Altisly collects, uses, and protects your information across all our products and services.',
 })
 
 const toc = [
@@ -106,8 +106,8 @@ const sections = [
     id: 'who-we-are',
     title: '1. Who We Are',
     body: [
-      'Altisry Inc. is a technology company incorporated in Nigeria (RC: XXXXXXXX), with operations in Nigeria, Ghana, and the United Kingdom. We operate treasury management, AI, health informatics, and educational technology platforms.',
-      'For the purposes of data protection law, Altisry Inc. is the data controller for personal information collected through our websites and platforms. For enterprise customers, Altisry acts as a data processor for the personal data of your users, as governed by the applicable Data Processing Agreement.',
+      'Altisly Inc. is a technology company incorporated in Nigeria (RC: XXXXXXXX), with operations in Nigeria, Ghana, and the United Kingdom. We operate treasury management, AI, health informatics, and educational technology platforms.',
+      'For the purposes of data protection law, Altisly Inc. is the data controller for personal information collected through our websites and platforms. For enterprise customers, Altisly acts as a data processor for the personal data of your users, as governed by the applicable Data Processing Agreement.',
     ],
   },
   {
@@ -186,7 +186,7 @@ const sections = [
     title: '6. Security',
     body: [
       'We implement appropriate technical and organisational measures to protect your personal data against unauthorised access, loss, destruction, or alteration. These measures include encryption at rest and in transit (TLS 1.2+), role-based access controls, multi-factor authentication for staff, regular penetration testing, and SOC 2-aligned security operations.',
-      'No system is completely secure. If you suspect a security incident involving your data, please contact security@altisry.com immediately.',
+      'No system is completely secure. If you suspect a security incident involving your data, please contact security@altisly.com immediately.',
     ],
   },
   {
@@ -219,14 +219,14 @@ const sections = [
     title: '9. Children\'s Privacy',
     body: [
       'Our services are not directed to children under the age of 16 (or 13 in jurisdictions where that is the applicable minimum). We do not knowingly collect personal information from children. Altis Learn programs for educational institutions are delivered through the institution as the responsible party, and institutions are responsible for appropriate consent and data protection for their students.',
-      'If you believe we have inadvertently collected data about a child, please contact privacy@altisry.com immediately.',
+      'If you believe we have inadvertently collected data about a child, please contact privacy@altisly.com immediately.',
     ],
   },
   {
     id: 'international',
     title: '10. International Data Transfers',
     body: [
-      'Altisry operates across Nigeria, Ghana, the United Kingdom, and other markets. Your data may be processed in countries outside your home country. Where we transfer data across borders, we ensure appropriate safeguards are in place — including standard contractual clauses, adequacy decisions, or other mechanisms approved under applicable data protection law.',
+      'Altisly operates across Nigeria, Ghana, the United Kingdom, and other markets. Your data may be processed in countries outside your home country. Where we transfer data across borders, we ensure appropriate safeguards are in place — including standard contractual clauses, adequacy decisions, or other mechanisms approved under applicable data protection law.',
     ],
   },
   {
@@ -240,8 +240,8 @@ const sections = [
     id: 'contact',
     title: '12. Contact & Data Protection Officer',
     body: [
-      'For privacy-related enquiries, data subject requests, or to contact our Data Protection Officer, please write to: privacy@altisry.com — or by post to Altisry Inc., [Registered Address], Lagos, Nigeria.',
-      'For UK-related data protection matters, please contact: uk-privacy@altisry.com. We aim to respond to all privacy requests within 30 days.',
+      'For privacy-related enquiries, data subject requests, or to contact our Data Protection Officer, please write to: privacy@altisly.com — or by post to Altisly Inc., [Registered Address], Lagos, Nigeria.',
+      'For UK-related data protection matters, please contact: uk-privacy@altisly.com. We aim to respond to all privacy requests within 30 days.',
     ],
   },
 ]

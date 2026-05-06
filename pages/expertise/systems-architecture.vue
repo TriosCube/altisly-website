@@ -87,7 +87,7 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Systems Architecture | Altisry',
+  title: 'Systems Architecture | Altisly',
   description: 'Design scalable, fault-tolerant frameworks. We architect complex systems from the ground up.',
 })
 

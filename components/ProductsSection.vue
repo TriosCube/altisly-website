@@ -9,7 +9,7 @@
             Scalable systems across industries
           </h2>
           <p class="section-subtitle mb-8">
-            At Altisry, we combine engineering excellence with high-level strategic decision-making. We build information management systems, optimize business processes, and design data architectures for modern enterprises.
+            At Altisly, we combine engineering excellence with high-level strategic decision-making. We build information management systems, optimize business processes, and design data architectures for modern enterprises.
           </p>
           <NuxtLink to="/about" class="btn-primary">
             Discover our approach

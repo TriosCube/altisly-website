@@ -4,7 +4,7 @@
     <main>
       <PageHero
         tag="Documentation"
-        title="Implementation guides for every Altisry workflow"
+        title="Implementation guides for every Altisly workflow"
         description="Follow step-by-step guides to launch onboarding, aggregation, payments, and treasury use cases."
         parent-label="Developers"
         parent-href="/developers"
@@ -31,8 +31,8 @@
 import { useSeoMeta } from 'nuxt/app'
 
 useSeoMeta({
-  title: 'Documentation | Altisry Developers',
-  description: 'Guides and tutorials for integrating Altisry APIs and launching in production.',
+  title: 'Documentation | Altisly Developers',
+  description: 'Guides and tutorials for integrating Altisly APIs and launching in production.',
 })
 
 const guides = [

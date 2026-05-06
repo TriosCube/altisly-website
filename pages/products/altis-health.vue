@@ -246,7 +246,7 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Altis Health | Altisry',
+  title: 'Altis Health | Altisly',
   description: 'Altis Health is a Health Information Management System and Health Facility Lending Engine — built to digitise clinical operations and unlock credit for health facilities across Africa.',
 })
 

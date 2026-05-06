@@ -8,7 +8,7 @@
             API Keys
           </div>
           <h1 class="text-3xl font-bold text-navy-900 mb-3">Get your API keys</h1>
-          <p class="text-gray-600">Create a free account and start building with Altisry's open banking platform.</p>
+          <p class="text-gray-600">Create a free account and start building with Altisly's open banking platform.</p>
         </div>
 
         <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
@@ -77,8 +77,8 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Get API Keys | Altisry',
-  description: 'Create a free Altisry account and get instant access to the sandbox. No credit card required.',
+  title: 'Get API Keys | Altisly',
+  description: 'Create a free Altisly account and get instant access to the sandbox. No credit card required.',
 })
 
 const form = reactive({ name: '', email: '', company: '', useCase: '', terms: false })

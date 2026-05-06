@@ -201,7 +201,7 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Merchant Management Suite | ATreasury — Altisry',
+  title: 'Merchant Management Suite | ATreasury — Altisly',
   description: 'Onboard, manage, and settle merchants at scale. Digital onboarding, tiered fee configuration, automated disbursements, dispute resolution, and real-time reporting.',
 })
 

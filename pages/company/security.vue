@@ -65,8 +65,8 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Security | Altisry',
-  description: 'ISO 27001-certified and PSD2-licensed. Altisry employs the highest international security standards.',
+  title: 'Security | Altisly',
+  description: 'ISO 27001-certified and PSD2-licensed. Altisly employs the highest international security standards.',
 })
 
 const certifications = [
