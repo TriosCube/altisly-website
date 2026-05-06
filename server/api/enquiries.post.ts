@@ -1,4 +1,5 @@
 import { createError, readBody } from 'h3'
+import { randomUUID } from 'crypto'
 import { addEnquiry, ENQUIRY_RECIPIENT, type EnquiryRecord, type EnquiryType } from '~/server/utils/enquiriesDb'
 
 const parseType = (value: unknown): EnquiryType =>
@@ -18,7 +19,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const enquiry: EnquiryRecord = {
-    id: crypto.randomUUID(),
+    id: randomUUID(),
     type: parseType((body as Record<string, unknown>).type),
     name: cleanText((body as Record<string, unknown>).name),
     email,
