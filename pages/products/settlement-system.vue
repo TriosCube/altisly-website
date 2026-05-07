@@ -21,7 +21,7 @@
           <div class="flex flex-col lg:flex-row items-center gap-16">
             <div class="lg:w-1/2 text-center lg:text-left">
               <div class="inline-flex items-center gap-2 mb-3">
-                <NuxtLink to="/products/atreasury" class="text-white/40 hover:text-white/70 text-xs font-semibold transition-colors">ATreasury</NuxtLink>
+                <NuxtLink to="/products/atreasury" class="text-white/40 hover:text-white/70 text-xs font-semibold transition-colors">Atreasury</NuxtLink>
                 <svg class="w-3 h-3 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                 <span class="text-white/60 text-xs font-semibold">Suite</span>
               </div>
@@ -33,14 +33,14 @@
                 Your own settlement infrastructure, fully operated
               </h1>
               <p class="text-lg md:text-xl text-white/80 leading-relaxed mb-6 max-w-xl mx-auto lg:mx-0">
-                Build and operate a production-grade settlement system without a 5-year engineering project. ATreasury's Settlement Suite gives you batch processing, real-time clearing, multi-currency netting, and a clean settlement ledger — deployed in weeks.
+                Build and operate a production-grade settlement system without a 5-year engineering project. Atreasury's Settlement Suite gives you batch processing, real-time clearing, multi-currency netting, and a clean settlement ledger — deployed in weeks.
               </p>
               <p class="text-base text-white/60 leading-relaxed mb-10 max-w-xl mx-auto lg:mx-0">
                 Designed for banks, payment service providers, mobile money operators, and fintechs who need to own their settlement stack.
               </p>
               <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <NuxtLink to="/contact" class="btn-primary px-8 py-4 text-base">Talk to an Engineer</NuxtLink>
-                <NuxtLink to="/products/atreasury" class="px-8 py-4 text-base border border-white/20 text-white rounded-lg hover:bg-white/10 transition-colors font-semibold">Back to ATreasury</NuxtLink>
+                <NuxtLink to="/products/atreasury" class="px-8 py-4 text-base border border-white/20 text-white rounded-lg hover:bg-white/10 transition-colors font-semibold">Back to Atreasury</NuxtLink>
               </div>
             </div>
 
@@ -188,7 +188,7 @@
 
       <CtaBanner
         title="Own your settlement infrastructure"
-        subtitle="Talk to our engineers about deploying the ATreasury Settlement Suite for your payment operation."
+        subtitle="Talk to our engineers about deploying the Atreasury Settlement Suite for your payment operation."
       />
     </main>
     <AppFooter />
@@ -197,7 +197,7 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Settlement System Suite | ATreasury — Altisly',
+  title: 'Settlement System Suite | Atreasury — Altisly',
   description: 'Production-grade settlement infrastructure. Batch processing, real-time clearing, multi-currency netting, and a clean settlement ledger — deployed in weeks.',
 })
 
@@ -275,7 +275,7 @@ const features = [
   },
   {
     title: 'Liquidity Position Feedback',
-    description: 'Every settled transaction feeds back into the ATreasury cash position in real time. Settlement activity is always reflected in your live liquidity view without manual reconciliation.',
+    description: 'Every settled transaction feeds back into the Atreasury cash position in real time. Settlement activity is always reflected in your live liquidity view without manual reconciliation.',
     icon: 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15',
   },
 ]

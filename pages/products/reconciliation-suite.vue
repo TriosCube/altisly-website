@@ -20,7 +20,7 @@
           <div class="flex flex-col lg:flex-row items-center gap-16">
             <div class="lg:w-1/2 text-center lg:text-left">
               <div class="inline-flex items-center gap-2 mb-3">
-                <NuxtLink to="/products/atreasury" class="text-white/40 hover:text-white/70 text-xs font-semibold transition-colors">ATreasury</NuxtLink>
+                <NuxtLink to="/products/atreasury" class="text-white/40 hover:text-white/70 text-xs font-semibold transition-colors">Atreasury</NuxtLink>
                 <svg class="w-3 h-3 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                 <span class="text-white/60 text-xs font-semibold">Suite</span>
               </div>
@@ -36,7 +36,7 @@
               </p>
               <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <NuxtLink to="/contact" class="btn-primary px-8 py-4 text-base">Request a Demo</NuxtLink>
-                <NuxtLink to="/products/atreasury" class="px-8 py-4 text-base border border-white/20 text-white rounded-lg hover:bg-white/10 transition-colors font-semibold">Back to ATreasury</NuxtLink>
+                <NuxtLink to="/products/atreasury" class="px-8 py-4 text-base border border-white/20 text-white rounded-lg hover:bg-white/10 transition-colors font-semibold">Back to Atreasury</NuxtLink>
               </div>
             </div>
 
@@ -123,7 +123,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
               <p class="font-bold text-red-600 text-sm uppercase tracking-wider mb-4 flex items-center gap-2">
-                <span>✕</span> Without ATreasury Reconciliation
+                <span>✕</span> Without Atreasury Reconciliation
               </p>
               <ul class="space-y-3">
                 <li v-for="pain in painPoints" :key="pain" class="flex items-start gap-3 text-sm text-gray-700">
@@ -134,7 +134,7 @@
             </div>
             <div class="bg-[#ebfaeb] border border-[#15c411]/20 rounded-2xl p-6">
               <p class="font-bold text-[#15c411] text-sm uppercase tracking-wider mb-4 flex items-center gap-2">
-                <span>✓</span> With ATreasury Reconciliation
+                <span>✓</span> With Atreasury Reconciliation
               </p>
               <ul class="space-y-3">
                 <li v-for="gain in gains" :key="gain" class="flex items-start gap-3 text-sm text-gray-700">
@@ -202,7 +202,7 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Reconciliation Management Suite | ATreasury — Altisly',
+  title: 'Reconciliation Management Suite | Atreasury — Altisly',
   description: 'Automate the full reconciliation lifecycle. Match transactions across bank statements, ledgers, and payment processors with configurable rules and AI-assisted break resolution.',
 })
 

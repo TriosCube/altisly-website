@@ -21,7 +21,7 @@
           <div class="flex flex-col lg:flex-row items-center gap-16">
             <div class="lg:w-1/2 text-center lg:text-left">
               <div class="inline-flex items-center gap-2 mb-3">
-                <NuxtLink to="/products/atreasury" class="text-white/40 hover:text-white/70 text-xs font-semibold transition-colors">ATreasury</NuxtLink>
+                <NuxtLink to="/products/atreasury" class="text-white/40 hover:text-white/70 text-xs font-semibold transition-colors">Atreasury</NuxtLink>
                 <svg class="w-3 h-3 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                 <span class="text-white/60 text-xs font-semibold">Suite</span>
               </div>
@@ -33,14 +33,14 @@
                 Know where your cash will be before it gets there
               </h1>
               <p class="text-lg md:text-xl text-white/80 leading-relaxed mb-6 max-w-xl mx-auto lg:mx-0">
-                The ATreasury Liquidity Forecasting Suite uses machine learning trained on your historical cash flows to generate probabilistic forecasts up to 90 days out. Model scenarios, manage FX exposure, and receive alerts before your position deteriorates.
+                The Atreasury Liquidity Forecasting Suite uses machine learning trained on your historical cash flows to generate probabilistic forecasts up to 90 days out. Model scenarios, manage FX exposure, and receive alerts before your position deteriorates.
               </p>
               <p class="text-base text-white/60 leading-relaxed mb-10 max-w-xl mx-auto lg:mx-0">
                 Move treasury from reactive to predictive. Stop managing yesterday's position — start planning tomorrow's.
               </p>
               <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <NuxtLink to="/contact" class="btn-primary px-8 py-4 text-base">See a Forecast Demo</NuxtLink>
-                <NuxtLink to="/products/atreasury" class="px-8 py-4 text-base border border-white/20 text-white rounded-lg hover:bg-white/10 transition-colors font-semibold">Back to ATreasury</NuxtLink>
+                <NuxtLink to="/products/atreasury" class="px-8 py-4 text-base border border-white/20 text-white rounded-lg hover:bg-white/10 transition-colors font-semibold">Back to Atreasury</NuxtLink>
               </div>
             </div>
 
@@ -196,7 +196,7 @@
 
       <CtaBanner
         title="Stop guessing. Start forecasting."
-        subtitle="See how the ATreasury Liquidity Forecasting Suite gives your treasury team a window into the future."
+        subtitle="See how the Atreasury Liquidity Forecasting Suite gives your treasury team a window into the future."
       />
     </main>
     <AppFooter />
@@ -205,7 +205,7 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Liquidity Forecasting Suite | ATreasury — Altisly',
+  title: 'Liquidity Forecasting Suite | Atreasury — Altisly',
   description: 'ML-powered cash flow forecasting up to 90 days out. Multi-scenario modelling, FX exposure alerts, and real-time liquidity intelligence for corporate treasuries.',
 })
 

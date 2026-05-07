@@ -32,7 +32,7 @@
                 Altis AI is not a chatbot. It is a modular agentic intelligence system that perceives data, reasons across context, and executes actions — autonomously or with human-in-the-loop approval — inside every Altisly product.
               </p>
               <p class="text-base text-white/60 leading-relaxed mb-10 max-w-xl mx-auto lg:mx-0">
-                Born inside ATreasury. Built to plug into any financial operation — reconciliation, compliance, merchant management, forecasting, and settlement — without configuration overhead.
+                Born inside Atreasury. Built to plug into any financial operation — reconciliation, compliance, merchant management, forecasting, and settlement — without configuration overhead.
               </p>
               <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <NuxtLink to="/contact" class="btn-primary px-8 py-4 text-base">See Altis AI in Action</NuxtLink>
@@ -95,11 +95,11 @@
         </div>
       </section>
 
-      <!-- What AI does inside ATreasury -->
+      <!-- What AI does inside Atreasury -->
       <section class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-14">
-            <p class="section-label text-[#15c411] font-semibold tracking-wider text-sm mb-2 uppercase">Origin — ATreasury</p>
+            <p class="section-label text-[#15c411] font-semibold tracking-wider text-sm mb-2 uppercase">Origin — Atreasury</p>
             <h2 class="section-title text-3xl font-bold text-navy-900 mb-5">What Altis AI does inside the treasury system</h2>
             <p class="text-gray-500 max-w-2xl mx-auto">Altis AI was built to solve the hardest problems in corporate treasury — where the cost of a wrong decision is measured in millions. These are its core capabilities in native deployment.</p>
           </div>
@@ -328,7 +328,7 @@
 <script setup lang="ts">
 useSeoMeta({
   title: 'Altis AI | Altisly',
-  description: 'Altis AI is a modular agentic intelligence system — born inside ATreasury, pluggable across every Altisly product out of the box. Perceive, reason, act, learn.',
+  description: 'Altis AI is a modular agentic intelligence system — born inside Atreasury, pluggable across every Altisly product out of the box. Perceive, reason, act, learn.',
 })
 
 const agentLog = [

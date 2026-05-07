@@ -20,7 +20,7 @@
           <div class="flex flex-col lg:flex-row items-center gap-16">
             <div class="lg:w-1/2 text-center lg:text-left">
               <div class="inline-flex items-center gap-2 mb-3">
-                <NuxtLink to="/products/atreasury" class="text-white/40 hover:text-white/70 text-xs font-semibold transition-colors">ATreasury</NuxtLink>
+                <NuxtLink to="/products/atreasury" class="text-white/40 hover:text-white/70 text-xs font-semibold transition-colors">Atreasury</NuxtLink>
                 <svg class="w-3 h-3 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                 <span class="text-white/60 text-xs font-semibold">Suite</span>
               </div>
@@ -32,14 +32,14 @@
                 Compliance built into every transaction
               </h1>
               <p class="text-lg md:text-xl text-white/80 leading-relaxed mb-6 max-w-xl mx-auto lg:mx-0">
-                Stop treating compliance as an afterthought. The ATreasury Compliance Suite embeds AML screening, sanctions checks, KYC workflows, and regulatory reporting directly into your treasury operations — automatically, on every transaction.
+                Stop treating compliance as an afterthought. The Atreasury Compliance Suite embeds AML screening, sanctions checks, KYC workflows, and regulatory reporting directly into your treasury operations — automatically, on every transaction.
               </p>
               <p class="text-base text-white/60 leading-relaxed mb-10 max-w-xl mx-auto lg:mx-0">
                 Built for banks, fintechs, payment companies, and corporate treasuries operating in regulated markets across Africa, the UK, and the EU.
               </p>
               <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <NuxtLink to="/contact" class="btn-primary px-8 py-4 text-base">Book a Compliance Demo</NuxtLink>
-                <NuxtLink to="/products/atreasury" class="px-8 py-4 text-base border border-white/20 text-white rounded-lg hover:bg-white/10 transition-colors font-semibold">Back to ATreasury</NuxtLink>
+                <NuxtLink to="/products/atreasury" class="px-8 py-4 text-base border border-white/20 text-white rounded-lg hover:bg-white/10 transition-colors font-semibold">Back to Atreasury</NuxtLink>
               </div>
             </div>
 
@@ -166,7 +166,7 @@
 
       <CtaBanner
         title="Build compliance into your core operations"
-        subtitle="See how the ATreasury Compliance Suite automates your entire financial crime prevention workflow."
+        subtitle="See how the Atreasury Compliance Suite automates your entire financial crime prevention workflow."
       />
     </main>
     <AppFooter />
@@ -175,7 +175,7 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Compliance Management Suite | ATreasury — Altisly',
+  title: 'Compliance Management Suite | Atreasury — Altisly',
   description: 'Embed AML screening, KYC management, sanctions checks, and regulatory reporting directly into your treasury operations — automatically on every transaction.',
 })
 

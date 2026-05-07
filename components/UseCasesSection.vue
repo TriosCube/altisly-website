@@ -154,7 +154,7 @@ const useCases = [
     id: 'fintech',
     tag: 'Fintech & Embedded Finance',
     title: 'Fintech & Embedded Finance',
-    subtitle: 'Move beyond traditional banking constraints',
+    subtitle: 'Move beyond traditional financial constraints',
     description:
       'Unlock new revenue streams and reduce costs by embedding powerful financial features directly into your core product offering.',
     features: [

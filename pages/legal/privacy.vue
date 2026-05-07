@@ -137,7 +137,7 @@ const sections = [
       {
         title: 'Information from third parties',
         items: [
-          'Banking data (for ATreasury): transaction data, balance data received via bank API integrations you authorise',
+          'Banking data (for Atreasury): transaction data, balance data received via bank API integrations you authorise',
           'Identity verification data from KYC providers we use for compliance purposes',
           'Business intelligence data from public sources for fraud and compliance screening',
         ],
@@ -167,7 +167,7 @@ const sections = [
     ],
     list: [
       'Service providers: We share data with carefully vetted third-party providers who assist us in operating the services (cloud infrastructure, payment processors, email providers, KYC vendors). These providers are bound by data processing agreements.',
-      'Banking partners: For ATreasury, we share data with the banking partners you explicitly connect via the platform.',
+      'Banking partners: For Atreasury, we share data with the banking partners you explicitly connect via the platform.',
       'Legal obligations: We disclose data when required by law, court order, or regulatory authority — including financial regulators such as CBN, FCA, and relevant tax authorities.',
       'Business transfers: In the event of a merger, acquisition, or sale of assets, personal data may be transferred as part of that transaction, with appropriate notice to affected users.',
       'With your consent: We share data in other circumstances only with your explicit consent.',
@@ -177,7 +177,7 @@ const sections = [
     id: 'retention',
     title: '5. Data Retention',
     body: [
-      'We retain personal data for as long as necessary to provide the services and as required by applicable law. For regulated products (ATreasury, Altis Health), certain records must be retained for a minimum period prescribed by financial or health regulations — typically 5–7 years.',
+      'We retain personal data for as long as necessary to provide the services and as required by applicable law. For regulated products (Atreasury, Altis Health), certain records must be retained for a minimum period prescribed by financial or health regulations — typically 5–7 years.',
       'When data is no longer required, we delete it or anonymise it in a secure manner. You may request earlier deletion of your personal data subject to any legal retention obligations.',
     ],
   },

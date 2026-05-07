@@ -117,7 +117,7 @@ const sections = [
     id: 'website',
     title: '1. Website & Platform Notice',
     body: [
-      'This Legal Notice applies to all websites, web applications, mobile applications, APIs, and platforms operated by Altisly Inc., including altisly.co and all subdomains, as well as the ATreasury, Altis AI, Altis Health, and Altis Learn platforms.',
+      'This Legal Notice applies to all websites, web applications, mobile applications, APIs, and platforms operated by Altisly Inc., including altisly.co and all subdomains, as well as the Atreasury, Altis AI, Altis Health, and Altis Learn platforms.',
       'The content on our websites and platforms is provided for informational and commercial purposes. While we take care to ensure accuracy, we make no warranties about the completeness, accuracy, or fitness for a particular purpose of any information published.',
     ],
   },
@@ -128,7 +128,7 @@ const sections = [
       'Certain Altisly products involve activities that may be regulated under financial services, data protection, or healthcare laws in the jurisdictions in which we operate. The following disclosures apply:',
     ],
     list: [
-      'ATreasury and related financial infrastructure products are technology platforms. Altisly does not hold a banking licence or financial institution licence unless specifically stated for a product or geography. Customers remain responsible for obtaining any required regulatory approvals for their own use of the platform.',
+      'Atreasury and related financial infrastructure products are technology platforms. Altisly does not hold a banking licence or financial institution licence unless specifically stated for a product or geography. Customers remain responsible for obtaining any required regulatory approvals for their own use of the platform.',
       'Altis Health: Health information management and lending activities are subject to applicable Nigerian health authority and financial regulations. Health facility lending activities are conducted through appropriately licensed lending partners.',
       'Compliance Suite and related products provide technology tools to assist compliance functions. They do not constitute legal advice, and users remain responsible for their own compliance obligations.',
       'If you have questions about the regulatory status of any specific product or service in your jurisdiction, please contact legal@altisly.comm.',
@@ -147,7 +147,7 @@ const sections = [
     id: 'trademarks',
     title: '4. Trademarks & Branding',
     body: [
-      '"Altisly", "ATreasury", "Altis AI", "Altis Health", "Altis Learn", and associated logos and product names are trademarks or registered trademarks of Altisly Inc. Unauthorised use of any Altisly trademark, logo, or brand element is prohibited.',
+      '"Altisly", "Atreasury", "Altis AI", "Altis Health", "Altis Learn", and associated logos and product names are trademarks or registered trademarks of Altisly Inc. Unauthorised use of any Altisly trademark, logo, or brand element is prohibited.',
       'Third-party trademarks, product names, and company names mentioned on this website are the property of their respective owners. Their appearance on Altisly platforms does not imply any endorsement, sponsorship, or affiliation between those parties and Altisly Inc., unless expressly stated.',
     ],
   },

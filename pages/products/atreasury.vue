@@ -28,7 +28,7 @@
                 The complete treasury system
               </h1>
               <p class="text-lg md:text-xl text-white/80 leading-relaxed mb-6 max-w-xl mx-auto lg:mx-0">
-                ATreasury is a full-stack treasury management platform. It connects every bank account, automates your daily liquidity workflow, enforces compliance controls, and gives your finance team a single book of record — in real time.
+                Atreasury is a full-stack treasury management platform. It connects every bank account, automates your daily liquidity workflow, enforces compliance controls, and gives your finance team a single book of record — in real time.
               </p>
               <p class="text-base text-white/60 leading-relaxed mb-10 max-w-xl mx-auto lg:mx-0">
                 Built for corporate treasuries, fintechs, banks, and payment companies operating across multiple currencies, corridors, and entities.
@@ -123,13 +123,13 @@
         </div>
       </section>
 
-      <!-- What ATreasury Does -->
+      <!-- What Atreasury Does -->
       <section class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-14">
             <p class="section-label text-[#15c411] font-semibold tracking-wider text-sm mb-2 uppercase">The Platform</p>
             <h2 class="section-title text-3xl font-bold text-navy-900 mb-5">Everything treasury, in one system</h2>
-            <p class="text-gray-500 max-w-2xl mx-auto text-base">ATreasury replaces spreadsheets, manual bank portals, and disconnected tools with a single automated operating layer for your entire finance function.</p>
+            <p class="text-gray-500 max-w-2xl mx-auto text-base">Atreasury replaces spreadsheets, manual bank portals, and disconnected tools with a single automated operating layer for your entire finance function.</p>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div v-for="feature in platformFeatures" :key="feature.title" class="card p-6 bg-gray-50 rounded-2xl border border-gray-100 hover:border-[#15c411] hover:shadow-md transition-all duration-300">
@@ -151,7 +151,7 @@
           <div class="text-center mb-14">
             <p class="section-label text-[#15c411] font-semibold tracking-wider text-sm mb-2 uppercase">Modular Suites</p>
             <h2 class="section-title text-3xl font-bold text-navy-900 mb-5">Deploy the modules your business needs</h2>
-            <p class="text-gray-500 max-w-2xl mx-auto text-base">Each ATreasury suite is a standalone product that integrates deeply with the core platform. Use them individually or as a unified stack.</p>
+            <p class="text-gray-500 max-w-2xl mx-auto text-base">Each Atreasury suite is a standalone product that integrates deeply with the core platform. Use them individually or as a unified stack.</p>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <NuxtLink v-for="suite in productSuites" :key="suite.title" :to="suite.href" class="group block bg-white rounded-2xl border border-gray-100 p-7 hover:border-[#15c411] hover:shadow-lg transition-all duration-300">
@@ -218,7 +218,7 @@
               <p class="section-label text-[#15c411] font-semibold tracking-wider text-sm mb-2 uppercase">How it works</p>
               <h2 class="section-title text-3xl font-bold text-navy-900 mb-6">One platform. Zero spreadsheets.</h2>
               <p class="text-gray-600 leading-relaxed mb-8">
-                ATreasury acts as the central nervous system for your capital. It connects directly to your banking partners, ERP systems, and data warehouses — eliminating manual data entry, spreadsheet consolidation, and key-man dependencies.
+                Atreasury acts as the central nervous system for your capital. It connects directly to your banking partners, ERP systems, and data warehouses — eliminating manual data entry, spreadsheet consolidation, and key-man dependencies.
               </p>
               <ul class="space-y-5">
                 <li v-for="step in howItWorks" :key="step.title" class="flex items-start gap-4">
@@ -242,7 +242,7 @@
           <div class="text-center mb-14">
             <p class="section-label text-[#15c411] font-semibold tracking-wider text-sm mb-2 uppercase">Integrations</p>
             <h2 class="section-title text-3xl font-bold text-navy-900 mb-5">Connects to your entire financial stack</h2>
-            <p class="text-gray-500 max-w-xl mx-auto text-base">ATreasury integrates with your banks, ERPs, data warehouses, and payment rails through direct API and file-based connections.</p>
+            <p class="text-gray-500 max-w-xl mx-auto text-base">Atreasury integrates with your banks, ERPs, data warehouses, and payment rails through direct API and file-based connections.</p>
           </div>
           <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div v-for="category in integrations" :key="category.title" class="bg-white rounded-2xl border border-gray-100 p-6">
@@ -261,7 +261,7 @@
       </section>
 
       <CtaBanner
-        title="Ready to deploy ATreasury?"
+        title="Ready to deploy Atreasury?"
         subtitle="Schedule a demo to see how we eliminate key-man risk and automate your entire treasury operation."
       />
     </main>
@@ -271,7 +271,7 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'ATreasury | Altisly',
+  title: 'Atreasury | Altisly',
   description: 'The complete treasury system. Multi-bank aggregation, automated liquidity publishing, reconciliation, compliance, merchant management, and liquidity forecasting — in one platform.',
 })
 
@@ -307,12 +307,12 @@ const platformFeatures = [
   },
   {
     title: 'Liquidity Sweep Automation',
-    description: 'Configure target balances, minimum thresholds, and sweep rules. ATreasury executes cross-entity and cross-border liquidity movements automatically.',
+    description: 'Configure target balances, minimum thresholds, and sweep rules. Atreasury executes cross-entity and cross-border liquidity movements automatically.',
     icon: 'M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z',
   },
   {
     title: 'Deposit Rate Optimisation',
-    description: 'Monitor and compare deposit rates across all banking partners. ATreasury flags rate changes and recommends optimal allocation strategies.',
+    description: 'Monitor and compare deposit rates across all banking partners. Atreasury flags rate changes and recommends optimal allocation strategies.',
     icon: 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6',
   },
   {
