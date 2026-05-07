@@ -109,6 +109,12 @@ const submitting = ref(false)
 const subscribeSuccess = ref(false)
 const subscribeError = ref('')
 
+const extractErrorMessage = (error: unknown) => {
+  const statusMessage = (error as { data?: { statusMessage?: string } })?.data?.statusMessage
+  if (typeof statusMessage === 'string' && statusMessage.trim()) return statusMessage
+  return 'Could not subscribe now. Please email hello@altisly.com.'
+}
+
 async function subscribeNewsletter() {
   subscribeSuccess.value = false
   subscribeError.value = ''
@@ -126,8 +132,8 @@ async function subscribeNewsletter() {
     subscribeSuccess.value = true
     email.value = ''
   }
-  catch {
-    subscribeError.value = 'Could not subscribe now. Please email hello@altisly.com.'
+  catch (error: unknown) {
+    subscribeError.value = extractErrorMessage(error)
   }
   finally {
     submitting.value = false

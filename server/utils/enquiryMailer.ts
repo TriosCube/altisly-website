@@ -2,16 +2,42 @@ import nodemailer from 'nodemailer'
 import { ENQUIRY_RECIPIENT, type EnquiryRecord } from '~/server/utils/enquiriesDb'
 
 const isTrue = (value: string | undefined) => String(value).toLowerCase() === 'true'
+const pick = (...values: Array<string | undefined>) => values.find((v) => Boolean(v && v.trim()))
 
 const mailConfig = () => {
-  const host = process.env.ENQUIRY_SMTP_HOST || 'smtp.hostinger.com'
-  const port = Number(process.env.ENQUIRY_SMTP_PORT || '465')
-  const secure = process.env.ENQUIRY_SMTP_SECURE
-    ? isTrue(process.env.ENQUIRY_SMTP_SECURE)
+  const host = pick(
+    process.env.ENQUIRY_SMTP_HOST,
+    process.env.SMTP_HOST,
+    process.env.MAIL_HOST,
+  ) || 'smtp.hostinger.com'
+  const port = Number(pick(
+    process.env.ENQUIRY_SMTP_PORT,
+    process.env.SMTP_PORT,
+    process.env.MAIL_PORT,
+  ) || '465')
+  const secureRaw = pick(
+    process.env.ENQUIRY_SMTP_SECURE,
+    process.env.SMTP_SECURE,
+    process.env.MAIL_SECURE,
+  )
+  const secure = secureRaw
+    ? isTrue(secureRaw)
     : port === 465
-  const user = process.env.ENQUIRY_SMTP_USER || ENQUIRY_RECIPIENT
-  const pass = process.env.ENQUIRY_SMTP_PASS || ''
-  const from = process.env.ENQUIRY_SMTP_FROM || user
+  const user = pick(
+    process.env.ENQUIRY_SMTP_USER,
+    process.env.SMTP_USER,
+    process.env.MAIL_USER,
+  ) || ENQUIRY_RECIPIENT
+  const pass = pick(
+    process.env.ENQUIRY_SMTP_PASS,
+    process.env.SMTP_PASS,
+    process.env.MAIL_PASSWORD,
+  ) || ''
+  const from = pick(
+    process.env.ENQUIRY_SMTP_FROM,
+    process.env.SMTP_FROM,
+    process.env.MAIL_FROM,
+  ) || user
   return { host, port, secure, user, pass, from }
 }
 
@@ -53,7 +79,7 @@ const detailsHtml = (enquiry: EnquiryRecord) => `
 export const sendEnquiryEmail = async (enquiry: EnquiryRecord) => {
   const config = mailConfig()
   if (!config.pass) {
-    throw new Error('Enquiry email transport is not configured')
+    throw new Error('SMTP_CONFIG_MISSING')
   }
 
   const transporter = nodemailer.createTransport({

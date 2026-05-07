@@ -39,10 +39,28 @@ export default defineEventHandler(async (event) => {
   try {
     await sendEnquiryEmail(enquiry)
   }
-  catch {
+  catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'UNKNOWN_ERROR'
+    console.error('[enquiries] smtp send failed', {
+      message,
+      enquiryType: enquiry.type,
+      sourcePage: enquiry.sourcePage,
+    })
+
+    let statusMessage = 'Could not deliver enquiry email'
+    if (message.includes('SMTP_CONFIG_MISSING')) {
+      statusMessage = 'SMTP is not configured on the server'
+    }
+    else if (message.includes('Invalid login') || message.includes('auth')) {
+      statusMessage = 'SMTP authentication failed'
+    }
+    else if (message.includes('ECONNECTION') || message.includes('ETIMEDOUT') || message.includes('ESOCKET')) {
+      statusMessage = 'SMTP connection failed'
+    }
+
     throw createError({
       statusCode: 500,
-      statusMessage: 'Could not deliver enquiry email',
+      statusMessage,
     })
   }
 

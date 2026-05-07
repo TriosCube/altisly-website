@@ -155,6 +155,12 @@ const submitting = ref(false)
 const submitted = ref(false)
 const submitError = ref('')
 
+const extractErrorMessage = (error: unknown) => {
+  const statusMessage = (error as { data?: { statusMessage?: string } })?.data?.statusMessage
+  if (typeof statusMessage === 'string' && statusMessage.trim()) return statusMessage
+  return 'Could not send enquiry right now. Please email hello@altisly.com.'
+}
+
 async function handleSubmit() {
   submitError.value = ''
   submitted.value = false
@@ -185,8 +191,8 @@ async function handleSubmit() {
       newsletter: false,
     })
   }
-  catch {
-    submitError.value = 'Could not send enquiry right now. Please email hello@altisly.com.'
+  catch (error: unknown) {
+    submitError.value = extractErrorMessage(error)
   }
   finally {
     submitting.value = false

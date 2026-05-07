@@ -87,6 +87,12 @@ const submitting = ref(false)
 const submitted = ref(false)
 const submitError = ref('')
 
+const extractErrorMessage = (error: unknown) => {
+  const statusMessage = (error as { data?: { statusMessage?: string } })?.data?.statusMessage
+  if (typeof statusMessage === 'string' && statusMessage.trim()) return statusMessage
+  return 'Could not submit right now. Please email hello@altisly.com.'
+}
+
 async function handleSubmit() {
   submitError.value = ''
   submitted.value = false
@@ -106,8 +112,8 @@ async function handleSubmit() {
     submitted.value = true
     Object.assign(form, { name: '', email: '', company: '', useCase: '', terms: false })
   }
-  catch {
-    submitError.value = 'Could not submit right now. Please email hello@altisly.com.'
+  catch (error: unknown) {
+    submitError.value = extractErrorMessage(error)
   }
   finally {
     submitting.value = false
