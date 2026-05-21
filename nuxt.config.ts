@@ -5,14 +5,14 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   app: {
     head: {
-      title: 'Altisly | Global Open Banking and Open Finance Platform',
+      title: 'Altisly | Tech-Enabled Consulting & Venture Building',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         {
           name: 'description',
           content:
-            'With connections to 5000+ banks worldwide, Altisly enables data aggregation, powers secure and fast open banking payments, and compliance under 1 powerful platform.',
+            'We build scalable systems for finance, health, and enterprise. Strategy, engineering, and data unified.',
         },
         { name: 'theme-color', content: '#051539' },
       ],
