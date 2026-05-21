@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Disallow: /write
+Disallow: /write/
+Disallow: /api/
+
+Sitemap: https://www.altisly.com/sitemap.xml
