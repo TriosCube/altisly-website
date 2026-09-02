@@ -1,34 +1,66 @@
+import tailwindcss from '@tailwindcss/vite'
+
+const themeInit = `(function(){try{var t=localStorage.getItem('altisly-theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;var r=(t==='light'||t==='dark')?t:(d?'dark':'light');document.documentElement.setAttribute('data-theme',r);}catch(e){}})();`
+
 export default defineNuxtConfig({
-  compatibilityDate: '2024-04-03',
+  compatibilityDate: '2025-01-01',
   devtools: { enabled: true },
-  modules: ['@nuxtjs/tailwindcss', '@nuxt/icon', '@vercel/analytics/nuxt'],
+
+  ssr: true,
+
+  modules: ['@vercel/analytics/nuxt'],
+
   css: ['~/assets/css/main.css'],
+
+  vite: {
+    plugins: [tailwindcss()],
+  },
+
+  runtimeConfig: {
+    public: {
+      treasuryUrl: 'https://treasury.altisly.com',
+    },
+  },
+
+  routeRules: {
+    '/expertise/**': { redirect: '/about' },
+    '/developers/**': { redirect: '/' },
+    '/get-started': { redirect: '/contact' },
+    '/status': { redirect: '/' },
+    '/company/security': { redirect: '/about' },
+    '/products/**': { redirect: '/' },
+    '/industries/**': { redirect: '/work' },
+    '/solutions/**': { redirect: '/work' },
+  },
+
   app: {
     head: {
-      title: 'Altisly | Tech-Enabled Consulting & Venture Building',
+      htmlAttrs: { lang: 'en', 'data-theme': 'light' },
+      title: 'Altisly · We build the heavy systems',
       meta: [
-        { charset: 'utf-8' },
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { charset: 'UTF-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
+        { name: 'theme-color', content: '#0E2D22' },
         {
           name: 'description',
           content:
-            'We build scalable systems for finance, health, and enterprise. Strategy, engineering, and data unified.',
+            'Altisly builds AI-enabled workflows serious teams scale on: treasury, payments, identity, and health infrastructure.',
         },
-        { name: 'theme-color', content: '#051539' },
       ],
       link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico', sizes: 'any' },
+        { rel: 'icon', type: 'image/png', href: '/favicon-32x32.png', sizes: '32x32' },
+        { rel: 'icon', type: 'image/png', href: '/favicon-16x16.png', sizes: '16x16' },
+        { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
+        { rel: 'manifest', href: '/site.webmanifest' },
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         {
           rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap',
+          href: 'https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap',
         },
-        { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicon/apple-touch-icon.png' },
-        { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon/favicon-32x32.png' },
-        { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon/favicon-16x16.png' },
-        { rel: 'manifest', href: '/favicon/site.webmanifest' },
-        { rel: 'shortcut icon', href: '/favicon/favicon.ico' },
       ],
+      script: [{ innerHTML: themeInit, tagPosition: 'head' }],
     },
   },
 })

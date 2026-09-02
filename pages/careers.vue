@@ -1,98 +1,86 @@
 <template>
   <div>
-    <AppHeader />
-    <main>
-      <PageHero
-        tag="Careers"
-        title="Build high-performance systems with us"
-        description="We are a team of systems architects, data strategists, and venture builders. We build the infrastructure that powers tomorrow's enterprises."
-        parent-label="Company"
-        parent-href="/about"
-      />
+    <PageIntro
+      eyebrow="Careers"
+      title="Small team, consequential problems."
+      lede="We hire systems thinkers and give them the autonomy to architect. The systems you build move money and carry patient records."
+    >
+      <template #actions>
+        <AppButton variant="lime" to="/contact">Send us your work →</AppButton>
+      </template>
+    </PageIntro>
 
-      <!-- Why work here -->
-      <section class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="text-center mb-14">
-            <p class="section-label text-[#15c411] font-semibold tracking-wider text-sm mb-2 uppercase">Life at Altisly</p>
-            <h2 class="section-title text-3xl font-bold text-navy-900 mb-5">The Consulting & Venture Advantage</h2>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div v-for="perk in perks" :key="perk.title" class="card p-6 bg-gray-50 rounded-2xl border border-gray-100 hover:border-[#15c411] hover:shadow-md transition-all duration-300">
-              <div class="text-3xl mb-3">{{ perk.emoji }}</div>
-              <h3 class="font-bold text-navy-900 mb-2">{{ perk.title }}</h3>
-              <p class="text-sm text-gray-600 leading-relaxed">{{ perk.description }}</p>
-            </div>
-          </div>
+    <section class="py-16 border-b border-base">
+      <div class="container-isura">
+        <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">Life here</span>
+        <h2
+          class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8"
+        >
+          What you get.
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <article v-for="perk in perks" :key="perk.title" class="bento-card">
+            <h3 class="text-[19px] font-bold tracking-[-0.018em] leading-[1.15] mb-2">
+              {{ perk.title }}
+            </h3>
+            <p class="text-muted text-[14px] leading-relaxed">{{ perk.description }}</p>
+          </article>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- Open roles -->
-      <section class="py-20 bg-[#ebfaeb] border-y border-[#52e147]/20">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="text-center mb-12">
-            <p class="section-label text-[#15c411] font-semibold tracking-wider text-sm mb-2 uppercase">Open roles</p>
-            <h2 class="section-title text-3xl font-bold text-navy-900 mb-5">Join the network</h2>
-          </div>
-          <div class="space-y-4">
-            <div
-              v-for="role in openRoles"
-              :key="role.title"
-              class="bg-white rounded-2xl p-6 border border-gray-100 hover:border-[#15c411] hover:shadow-md transition-all cursor-pointer flex items-center justify-between group"
+    <section class="py-16">
+      <div class="container-isura">
+        <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">Open roles</span>
+        <h2
+          class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8"
+        >
+          Where we need people.
+        </h2>
+
+        <div class="flex flex-col">
+          <NuxtLink
+            v-for="(role, i) in openRoles"
+            :key="role.title"
+            to="/contact"
+            class="flex items-center justify-between gap-4 py-5 border-t border-base group hover:bg-surface-2 transition-colors px-1"
+            :class="{ 'border-b': i === openRoles.length - 1 }"
+          >
+            <div>
+              <h3 class="font-semibold text-[16px] mb-1">{{ role.title }}</h3>
+              <p class="font-code text-[12px] text-muted">
+                {{ role.location }} · {{ role.type }}
+              </p>
+            </div>
+            <span
+              class="w-9 h-9 rounded-full bg-surface-2 group-hover:bg-brand group-hover:text-on-brand text-muted grid place-items-center flex-shrink-0 transition-colors"
             >
-              <div>
-                <div class="flex items-center gap-3 mb-1">
-                  <h3 class="font-bold text-navy-900">{{ role.title }}</h3>
-                  <span class="text-[10px] bg-[#ebfaeb] text-[#15c411] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide">{{ role.department }}</span>
-                </div>
-                <div class="flex items-center gap-4 text-sm text-gray-500">
-                  <span>{{ role.location }}</span>
-                  <span>·</span>
-                  <span>{{ role.type }}</span>
-                </div>
-              </div>
-              <svg
-                class="w-5 h-5 text-gray-400 group-hover:text-[#15c411] group-hover:translate-x-1 transition-all"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M7 17L17 7" />
+                <path d="M9 7h8v8" />
               </svg>
-            </div>
-          </div>
-
-          <div class="text-center mt-10">
-            <p class="text-gray-600 mb-4">Don't see a role that fits? We are always looking for elite systems thinkers.</p>
-            <NuxtLink to="/contact" class="btn-primary">Send us your portfolio</NuxtLink>
-          </div>
+            </span>
+          </NuxtLink>
         </div>
-      </section>
-    </main>
-    <AppFooter />
+
+        <p class="text-muted text-[14.5px] mt-8">
+          Nothing fits? We still want to hear from systems thinkers.
+        </p>
+      </div>
+    </section>
+
+    <CtaSection />
   </div>
 </template>
 
 <script setup lang="ts">
+import PageIntro from '@/components/ui/PageIntro.vue'
+import AppButton from '@/components/ui/AppButton.vue'
+import CtaSection from '@/components/landing/CtaSection.vue'
+import { openRoles, perks } from '@/data/content'
+
 useSeoMeta({
   title: 'Careers | Altisly',
-  description: 'Join Altisly. We are hiring systems architects, data strategists, and venture builders.',
+  description: 'Join Altisly. We hire systems architects, Rust engineers and product engineers.',
 })
-
-const perks = [
-  { emoji: '🌍', title: 'Global Execution', description: 'Work on cross-sector projects that span Africa and the globe.' },
-  { emoji: '🧠', title: 'Elite Network', description: 'Surround yourself with top-tier founders, consultants, and engineers.' },
-  { emoji: '📈', title: 'Venture Upside', description: 'We build ventures. You get to share in the upside of the products we launch.' },
-  { emoji: '🏛️', title: 'Strategic Autonomy', description: 'We hire systems thinkers and give them the autonomy to architect solutions.' },
-  { emoji: '🚀', title: 'High Impact', description: 'Directly shape the infrastructure that powers finance, health, and enterprise systems.' },
-  { emoji: '📚', title: 'Continuous Learning', description: 'Deep technical and strategic mentorship from industry leaders.' },
-]
-
-const openRoles = [
-  { title: 'Systems Architect', department: 'Engineering', location: 'Remote / Hybrid', type: 'Full-time' },
-  { title: 'Data Strategy Consultant', department: 'Advisory', location: 'Remote', type: 'Full-time' },
-  { title: 'Technical Product Manager', department: 'Product', location: 'Remote', type: 'Full-time' },
-  { title: 'Venture Analyst', department: 'Strategy', location: 'Hybrid', type: 'Full-time' },
-  { title: 'Treasury Systems Engineer', department: 'Fintech', location: 'Remote', type: 'Full-time' },
-]
 </script>

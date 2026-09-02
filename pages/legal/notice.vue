@@ -1,89 +1,51 @@
 <template>
-  <div>
-    <AppHeader />
-    <main>
-      <section class="pt-32 pb-12 md:pt-44 md:pb-16 bg-white border-b border-gray-100">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex items-center gap-2 text-xs text-gray-400 font-medium mb-4">
-            <NuxtLink to="/" class="hover:text-gray-600 transition-colors">Altisly</NuxtLink>
-            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            <span>Legal</span>
-            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            <span class="text-gray-600">Legal Notice</span>
-          </div>
-          <h1 class="text-3xl md:text-4xl font-black text-navy-900 mb-4">Legal Notice</h1>
-          <p class="text-gray-500 text-sm">Last updated: 1 May 2026</p>
-          <div class="flex flex-wrap gap-3 mt-6">
-            <NuxtLink to="/legal/terms" class="text-xs font-semibold text-gray-500 hover:text-[#15c411] transition-colors px-3 py-1.5 rounded-lg bg-gray-50 border border-gray-200 hover:border-[#15c411]">Terms of Service</NuxtLink>
-            <NuxtLink to="/legal/privacy" class="text-xs font-semibold text-gray-500 hover:text-[#15c411] transition-colors px-3 py-1.5 rounded-lg bg-gray-50 border border-gray-200 hover:border-[#15c411]">Privacy Policy</NuxtLink>
+  <LegalPage
+    title="Legal Notice"
+    updated="Last updated 1 May 2026."
+    :toc="toc"
+    :sections="sections"
+  >
+    <template #before>
+      <div class="rounded-isura-lg border border-base bg-surface-2 p-6 mb-10">
+        <h2 class="font-semibold text-[17px] mb-5">Company information</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-4">
+          <div v-for="detail in companyDetails" :key="detail.label">
+            <p class="font-code text-[10.5px] tracking-[0.1em] uppercase text-muted mb-1">
+              {{ detail.label }}
+            </p>
+            <p class="text-[14px] font-medium">{{ detail.value }}</p>
           </div>
         </div>
-      </section>
+      </div>
+    </template>
 
-      <section class="py-16 bg-white">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex flex-col lg:flex-row gap-12">
-            <aside class="lg:w-56 flex-shrink-0">
-              <div class="sticky top-28">
-                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Contents</p>
-                <nav class="space-y-1">
-                  <a v-for="section in toc" :key="section.id" :href="`#${section.id}`" class="block text-sm text-gray-500 hover:text-[#15c411] transition-colors py-1 border-l-2 border-transparent hover:border-[#15c411] pl-3 leading-tight">
-                    {{ section.label }}
-                  </a>
-                </nav>
-              </div>
-            </aside>
-
-            <article class="flex-1">
-
-              <!-- Company details card -->
-              <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 mb-10">
-                <h2 class="font-bold text-navy-900 mb-5 text-lg">Company Information</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-4">
-                  <div v-for="detail in companyDetails" :key="detail.label">
-                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">{{ detail.label }}</p>
-                    <p class="text-sm text-gray-700 font-medium">{{ detail.value }}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div v-for="section in sections" :key="section.id" :id="section.id" class="mb-12">
-                <h2 class="text-xl font-bold text-navy-900 mb-4 pb-3 border-b border-gray-100">{{ section.title }}</h2>
-                <div class="space-y-4">
-                  <p v-for="para in section.body" :key="para" class="text-sm text-gray-600 leading-relaxed">{{ para }}</p>
-                  <ul v-if="section.list" class="space-y-2 mt-2">
-                    <li v-for="item in section.list" :key="item" class="flex items-start gap-3 text-sm text-gray-600">
-                      <div class="w-1.5 h-1.5 rounded-full bg-[#15c411] flex-shrink-0 mt-2"></div>
-                      {{ item }}
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              <!-- Contact cards -->
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-10">
-                <div v-for="contact in contacts" :key="contact.title" class="bg-gray-50 rounded-xl border border-gray-200 p-5">
-                  <div class="w-9 h-9 rounded-lg bg-[#ebfaeb] flex items-center justify-center mb-3">
-                    <svg class="w-4 h-4 text-[#15c411]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="contact.icon" />
-                    </svg>
-                  </div>
-                  <h4 class="font-bold text-navy-900 text-sm mb-1">{{ contact.title }}</h4>
-                  <p class="text-xs text-gray-500 mb-2">{{ contact.desc }}</p>
-                  <a :href="contact.href" class="text-sm font-semibold text-[#15c411] hover:underline">{{ contact.label }}</a>
-                </div>
-              </div>
-
-            </article>
+    <template #after>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-10">
+        <div
+          v-for="contact in contacts"
+          :key="contact.title"
+          class="rounded-isura-lg border border-base bg-surface-2 p-5"
+        >
+          <div class="w-9 h-9 rounded-isura-sm bg-brand text-on-brand grid place-items-center mb-3">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="contact.icon" />
+            </svg>
           </div>
+          <h3 class="font-semibold text-[15px] mb-1">{{ contact.title }}</h3>
+          <p class="text-[13.5px] text-muted mb-3 leading-relaxed">{{ contact.desc }}</p>
+          <a
+            :href="contact.href"
+            class="text-[13.5px] font-semibold text-brand-deep hover:underline"
+            >{{ contact.label }}</a
+          >
         </div>
-      </section>
-    </main>
-    <AppFooter />
-  </div>
+      </div>
+    </template>
+  </LegalPage>
 </template>
 
 <script setup lang="ts">
+import LegalPage from '@/components/legal/LegalPage.vue'
 useSeoMeta({
   title: 'Legal Notice | Altisly',
   description: 'Legal notice, company information, regulatory disclosures, and contact information for Altisly Inc.',
@@ -108,8 +70,8 @@ const companyDetails = [
   { label: 'RC Number', value: 'RC-XXXXXXXX' },
   { label: 'Registered Address', value: 'Lagos, Nigeria' },
   { label: 'UK Operations', value: 'London, United Kingdom' },
-  { label: 'General Enquiries', value: 'hello@altisly.comm' },
-  { label: 'Legal Enquiries', value: 'legal@altisly.comm' },
+  { label: 'General Enquiries', value: 'hello@altisly.com' },
+  { label: 'Legal Enquiries', value: 'legal@altisly.com' },
 ]
 
 const sections = [
@@ -131,7 +93,7 @@ const sections = [
       'Atreasury and related financial infrastructure products are technology platforms. Altisly does not hold a banking licence or financial institution licence unless specifically stated for a product or geography. Customers remain responsible for obtaining any required regulatory approvals for their own use of the platform.',
       'Altis Health: Health information management and lending activities are subject to applicable Nigerian health authority and financial regulations. Health facility lending activities are conducted through appropriately licensed lending partners.',
       'Compliance Suite and related products provide technology tools to assist compliance functions. They do not constitute legal advice, and users remain responsible for their own compliance obligations.',
-      'If you have questions about the regulatory status of any specific product or service in your jurisdiction, please contact legal@altisly.comm.',
+      'If you have questions about the regulatory status of any specific product or service in your jurisdiction, please contact legal@altisly.com.',
     ],
   },
   {
@@ -188,8 +150,8 @@ const contacts = [
   {
     title: 'General Legal',
     desc: 'Terms, contracts, and legal notices',
-    href: 'mailto:legal@altisly.comm',
-    label: 'legal@altisly.comm',
+    href: 'mailto:legal@altisly.com',
+    label: 'legal@altisly.com',
     icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
   },
   {

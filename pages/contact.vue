@@ -1,21 +1,26 @@
 <template>
   <div>
-    <AppHeader />
-    <main>
-      <PageHero
-        tag="Partner with us"
-        title="Let's build scalable systems"
-        description="Our systems architects and venture builders are ready to help you optimize data flows, automate compliance, and eliminate key-man risk."
-      />
-      <ContactFormSection />
-    </main>
-    <AppFooter />
+    <PageIntro
+      eyebrow="Contact"
+      title="Talk to an engineer."
+      lede="Tell us about the operation, the pressure it runs under, and the system it needs. An engineer replies, not a sales team."
+    >
+      <template #actions>
+        <AppButton variant="ghost" to="/diagnose">Run a diagnostic first →</AppButton>
+      </template>
+    </PageIntro>
+    <ContactSection />
   </div>
 </template>
 
 <script setup lang="ts">
+import PageIntro from '@/components/ui/PageIntro.vue'
+import AppButton from '@/components/ui/AppButton.vue'
+import ContactSection from '@/components/ContactSection.vue'
+import { metaDescriptions } from '@/data/site'
+
 useSeoMeta({
-  title: 'Contact Us | Altisly',
-  description: 'Get in touch with Altisly. Partner with elite systems architects and venture builders.',
+  title: 'Contact | Altisly',
+  description: metaDescriptions.contact,
 })
 </script>

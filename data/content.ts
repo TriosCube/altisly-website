@@ -1,0 +1,142 @@
+export const stats = [
+  { value: '6', label: 'Platforms shipped' },
+  { value: '2', label: 'Rust services in production' },
+  { value: '5', label: 'Operational domains' },
+  { value: '700+', label: 'Commits across two flagships' },
+]
+
+export const systemCards = [
+  {
+    title: 'Web apps',
+    body: 'Portals, dashboards and internal tools shaped around the way teams actually work.',
+  },
+  {
+    title: 'AI models',
+    body: 'Retrieval, evals, guardrails and model workflows tied to useful business outcomes.',
+  },
+  {
+    title: 'Core banking',
+    body: 'Accounts, ledgers, limits and audit records for products that need regulated trust.',
+  },
+  {
+    title: 'Treasury systems',
+    body: 'Cash visibility, approvals, reconciliation and reporting finance teams can rely on.',
+  },
+  {
+    title: 'Health innovation',
+    body: 'Secure care workflows, patient data flows and decision support built with restraint.',
+  },
+  {
+    title: 'Ops platforms',
+    body: 'Automation, roles, telemetry and back-office controls in one operating layer.',
+  },
+  {
+    title: 'Websites',
+    body: 'Sharp product sites with clean messaging, polished motion and clear conversion paths.',
+  },
+]
+
+export const moves = [
+  {
+    number: '01',
+    title: 'Read the work',
+    body: 'We read the workflow before we touch the interface.',
+  },
+  {
+    number: '02',
+    title: 'Set the boundary',
+    body: 'We decide what belongs in the product and what should be made impossible by structure.',
+  },
+  {
+    number: '03',
+    title: 'Build the system',
+    body: 'We ship the interface, backend, data model and AI-assisted layer as one coherent system.',
+  },
+  {
+    number: '04',
+    title: 'Leave the standard',
+    body: 'We harden the failure paths and leave a rhythm your team can keep using.',
+  },
+]
+
+export const principles = [
+  {
+    title: 'The boundary is the product decision.',
+    body: 'Architecture is product strategy with stricter consequences. Splitting a control plane from a runtime plane is not tidiness, it is the decision that makes each surface honest about who it serves.',
+  },
+  {
+    title: 'Structure beats discipline.',
+    body: 'A rule that depends on perfect memory is a liability. We isolate tenants by schema because the best guardrail is the one a tired developer cannot accidentally step around.',
+  },
+  {
+    title: 'AI is leverage, not autocomplete.',
+    body: 'AI only compounds what has already been made explicit. The advantage is not typing faster, it is preserving architectural context long enough for a large build to stay coherent.',
+  },
+  {
+    title: 'Find the judgement worth encoding.',
+    body: 'Automation gets interesting when it captures expert judgement. Our treasury automation mattered because the exclusion rules and column mappings finally became an artefact.',
+  },
+]
+
+export const aboutStory = [
+  'Altisly started as an experiment: how much serious software can a small, AI-equipped studio actually ship? Six platforms later, across treasury, payments, identity and healthcare, the answer keeps compounding.',
+  'We are a tech-enabled consulting and venture building studio. Half of the work is building ventures we own end to end. The other half is doing the same for teams whose operations have outgrown their tooling.',
+  'The domains look scattered. They are not. Every one of them is operations heavy, and in every one the workflow is the product. We read the workflow before we touch the interface, decide what should be made impossible by structure, and ship the interface, backend, data model and AI-assisted layer as one coherent system.',
+  'Everything we build is shaped around the pressure it must survive: data boundaries, approvals, audit trails, failure paths, and the operators who use it every day.',
+]
+
+export const partnerPrograms = [
+  {
+    title: 'Venture co-build',
+    description:
+      'We take a product from architecture to production and stay on the hook for how it runs. Equity or a build fee, decided before the first commit.',
+    benefits: ['Architecture owned end to end', 'Shared upside on what ships', 'A team that stays past launch'],
+  },
+  {
+    title: 'Systems rebuild',
+    description:
+      'Your operation has outgrown its tooling. We read the workflow, redraw the boundaries, and rebuild the parts that carry the load.',
+    benefits: ['Diagnostic before any code', 'Rebuild in place, no big bang cutover', 'Your team runs it at handover'],
+  },
+  {
+    title: 'Platform partnership',
+    description:
+      'You have the distribution, we have the rails. Treasury, identity and health infrastructure built to sit behind your brand.',
+    benefits: ['White label surfaces', 'Typed API contracts', 'Isolation you can show a regulator'],
+  },
+]
+
+export const perks = [
+  {
+    title: 'Consequential problems',
+    description: 'The systems you build move money and carry patient records. Nothing here is a toy.',
+  },
+  {
+    title: 'Strategic autonomy',
+    description: 'We hire systems thinkers and let them architect, not just implement.',
+  },
+  {
+    title: 'Venture upside',
+    description: 'We build ventures we own, and you share in what we launch.',
+  },
+  {
+    title: 'AI-equipped by default',
+    description: 'Every engineer here works with AI leverage. It is how a small team ships six platforms.',
+  },
+  {
+    title: 'Deep mentorship',
+    description: 'Technical and strategic mentorship from people who have shipped it before.',
+  },
+  {
+    title: 'Small team',
+    description: 'No layers between you and the decision that matters.',
+  },
+]
+
+export const openRoles = [
+  { title: 'Systems Architect', location: 'Remote or hybrid', type: 'Full-time' },
+  { title: 'Rust Backend Engineer', location: 'Remote', type: 'Full-time' },
+  { title: 'Product Engineer, Vue', location: 'Remote', type: 'Full-time' },
+  { title: 'Data Strategy Consultant', location: 'Remote', type: 'Full-time' },
+  { title: 'Treasury Systems Engineer', location: 'Remote', type: 'Full-time' },
+]
