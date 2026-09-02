@@ -17,17 +17,7 @@
       ></span>
     </div>
 
-    <header class="diagnose-header">
-      <NuxtLink to="/" class="diagnose-brand" aria-label="Back to site">
-        <i aria-hidden="true"></i>
-        <b>Back to site</b>
-      </NuxtLink>
-
-      <nav aria-label="Diagnose context">
-        <NuxtLink to="/about">The studio</NuxtLink>
-        <NuxtLink to="/work">The systems</NuxtLink>
-      </nav>
-    </header>
+    <DiagnoseHeader />
 
     <div class="diagnose-stage">
       <div class="diagnose-intro">
@@ -196,19 +186,24 @@
           </div>
         </div>
 
-        <NuxtLink
-          :to="`/diagnose/run?industry=${encodeURIComponent(activeIndustry.descriptor)}`"
-          class="diagnose-cta"
-        >
+        <button type="button" class="diagnose-cta" @click="briefOpen = true">
           Run this on my business
-        </NuxtLink>
+        </button>
       </div>
     </div>
+
+    <DiagnoseModal
+      :open="briefOpen"
+      :industry="activeIndustry.descriptor"
+      @close="briefOpen = false"
+    />
   </section>
 </template>
 
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import DiagnoseHeader from './DiagnoseHeader.vue'
+import DiagnoseModal from './DiagnoseModal.vue'
 
 const scanSteps = ['Scan', 'Diagnose', 'Concept', 'Agents', 'Ship']
 
@@ -347,6 +342,7 @@ const stepIndex = ref(0)
 const isAuto = ref(true)
 const rollIndex = ref(0)
 const forgeCount = ref(1)
+const briefOpen = ref(false)
 
 const activeIndustry = computed(() => industries[industryIndex.value])
 const activeStage = computed(() => stageCopy[stepIndex.value])
@@ -480,11 +476,13 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .diagnose-page {
+  --scan-ink: var(--text);
+  --scan-accent: var(--brand-deep);
   position: relative;
   min-height: 100svh;
   overflow: hidden;
-  background: var(--invert-bg);
-  color: var(--invert-text);
+  background: var(--bg);
+  color: var(--scan-ink);
   isolation: isolate;
   font-family: var(--font-sans);
 }
@@ -500,59 +498,8 @@ onBeforeUnmount(() => {
 .diagnose-starfield span {
   position: absolute;
   border-radius: 50%;
-  background: rgba(234, 239, 230, 0.55);
+  background: color-mix(in srgb, var(--scan-ink) 55%, transparent);
   animation: diagnose-star-pulse 4.8s ease-in-out infinite;
-}
-
-.diagnose-header {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  z-index: 20;
-  display: flex;
-  min-height: 4.5rem;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 clamp(1.2rem, 4vw, 3.2rem);
-}
-
-.diagnose-brand,
-.diagnose-header nav {
-  font-family: var(--font-mono);
-  font-size: clamp(0.52rem, 0.7vw, 0.66rem);
-  letter-spacing: 0.18rem;
-  text-transform: uppercase;
-}
-
-.diagnose-brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.7rem;
-  color: rgba(234, 239, 230, 0.44);
-  transition: color 200ms ease;
-}
-
-.diagnose-brand i {
-  width: 0.4rem;
-  height: 0.4rem;
-  border-radius: 50%;
-  background: var(--brand);
-}
-
-.diagnose-header nav {
-  display: inline-flex;
-  gap: clamp(1rem, 2.4vw, 2.2rem);
-}
-
-.diagnose-header nav a {
-  color: rgba(234, 239, 230, 0.32);
-  transition: color 200ms ease;
-}
-
-.diagnose-brand:hover,
-.diagnose-header nav a:hover {
-  color: rgba(234, 239, 230, 0.86);
 }
 
 .diagnose-stage {
@@ -594,7 +541,7 @@ onBeforeUnmount(() => {
 .diagnose-copy p,
 .diagnose-hint {
   margin: 1rem 0 0;
-  color: rgba(234, 239, 230, 0.4);
+  color: color-mix(in srgb, var(--scan-ink) 40%, transparent);
   font-family: var(--font-mono);
   font-size: clamp(0.55rem, 0.8vw, 0.7rem);
   letter-spacing: 0.28rem;
@@ -607,10 +554,10 @@ onBeforeUnmount(() => {
   display: grid;
   width: 4.2rem;
   aspect-ratio: 1;
-  border: 1px solid rgba(200, 247, 93, 0.34);
+  border: 1px solid color-mix(in srgb, var(--brand) 34%, transparent);
   border-radius: 50%;
-  background: rgba(200, 247, 93, 0.035);
-  box-shadow: 0 0 5.5rem rgba(200, 247, 93, 0.34);
+  background: color-mix(in srgb, var(--brand) 4%, transparent);
+  box-shadow: 0 0 5.5rem color-mix(in srgb, var(--brand) 34%, transparent);
   padding: 0;
   place-items: center;
   transition:
@@ -622,7 +569,7 @@ onBeforeUnmount(() => {
 .diagnose-point::after {
   position: absolute;
   inset: -0.2rem;
-  border: 1px solid rgba(200, 247, 93, 0.28);
+  border: 1px solid color-mix(in srgb, var(--brand) 28%, transparent);
   border-radius: inherit;
   content: '';
   animation: diagnose-breathe 2.8s ease-out infinite;
@@ -637,11 +584,11 @@ onBeforeUnmount(() => {
   aspect-ratio: 1;
   border-radius: 50%;
   background: var(--brand);
-  box-shadow: 0 0 2rem rgba(200, 247, 93, 0.75);
+  box-shadow: 0 0 2rem color-mix(in srgb, var(--scan-accent) 75%, transparent);
 }
 
 .diagnose-point:hover {
-  border-color: rgba(200, 247, 93, 0.68);
+  border-color: color-mix(in srgb, var(--scan-accent) 68%, transparent);
   transform: scale(1.05);
 }
 
@@ -671,7 +618,7 @@ onBeforeUnmount(() => {
 
 .diagnose-system-list p {
   margin: 0 0 0.6rem;
-  color: rgba(234, 239, 230, 0.24);
+  color: color-mix(in srgb, var(--scan-ink) 24%, transparent);
   font-family: var(--font-mono);
   font-size: clamp(0.5rem, 0.66vw, 0.62rem);
   letter-spacing: 0.18rem;
@@ -686,7 +633,7 @@ onBeforeUnmount(() => {
   padding: 0.3rem 0 0.3rem 0.9rem;
   border: 0;
   background: transparent;
-  color: rgba(234, 239, 230, 0.34);
+  color: color-mix(in srgb, var(--scan-ink) 34%, transparent);
   font-family: var(--font-mono);
   font-size: clamp(0.55rem, 0.75vw, 0.68rem);
   letter-spacing: 0.14rem;
@@ -702,27 +649,27 @@ onBeforeUnmount(() => {
   width: 0.28rem;
   height: 0.28rem;
   border-radius: 50%;
-  background: rgba(234, 239, 230, 0.24);
+  background: color-mix(in srgb, var(--scan-ink) 24%, transparent);
   content: '';
   transform: translateY(-50%);
   transition: background 200ms ease;
 }
 
 .diagnose-system-list button:hover {
-  color: rgba(234, 239, 230, 0.7);
+  color: color-mix(in srgb, var(--scan-ink) 70%, transparent);
 }
 
 .diagnose-system-list button.is-active {
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--scan-ink);
 }
 
 .diagnose-system-list button.is-active::before {
   background: var(--brand);
-  box-shadow: 0 0 0.7rem rgba(200, 247, 93, 0.8);
+  box-shadow: 0 0 0.7rem color-mix(in srgb, var(--scan-accent) 80%, transparent);
 }
 
 .diagnose-system-list button small {
-  color: rgba(200, 247, 93, 0.66);
+  color: color-mix(in srgb, var(--scan-accent) 66%, transparent);
   font-size: 0.5rem;
   letter-spacing: 0.14rem;
 }
@@ -747,7 +694,7 @@ onBeforeUnmount(() => {
   top: clamp(5.5rem, 12svh, 8rem);
   z-index: 3;
   margin: 0;
-  color: rgba(234, 239, 230, 0.3);
+  color: color-mix(in srgb, var(--scan-ink) 30%, transparent);
   font-family: var(--font-mono);
   font-size: clamp(0.5rem, 0.66vw, 0.62rem);
   letter-spacing: 0.2rem;
@@ -763,7 +710,7 @@ onBeforeUnmount(() => {
 
 .diagnose-departments span {
   position: absolute;
-  color: rgba(234, 239, 230, 0.22);
+  color: color-mix(in srgb, var(--scan-ink) 22%, transparent);
   font-family: var(--font-mono);
   font-size: clamp(0.5rem, 0.66vw, 0.62rem);
   letter-spacing: 0.14rem;
@@ -786,7 +733,7 @@ onBeforeUnmount(() => {
 }
 
 .diagnose-roll span {
-  color: rgba(234, 239, 230, 0.42);
+  color: color-mix(in srgb, var(--scan-ink) 42%, transparent);
   animation: diagnose-roll-up 2.1s ease-out both;
 }
 
@@ -804,7 +751,7 @@ onBeforeUnmount(() => {
 }
 
 .diagnose-roll strong {
-  color: rgba(234, 239, 230, 0.6);
+  color: color-mix(in srgb, var(--scan-ink) 60%, transparent);
   font: inherit;
   letter-spacing: 0.18rem;
 }
@@ -836,7 +783,7 @@ onBeforeUnmount(() => {
 
 .diagnose-forge p {
   margin: 0 0 0.35rem;
-  color: rgba(234, 239, 230, 0.24);
+  color: color-mix(in srgb, var(--scan-ink) 24%, transparent);
   font-family: var(--font-mono);
   font-size: clamp(0.5rem, 0.66vw, 0.62rem);
   letter-spacing: 0.18rem;
@@ -851,7 +798,7 @@ onBeforeUnmount(() => {
 }
 
 .diagnose-forge i {
-  color: rgba(234, 239, 230, 0.28);
+  color: color-mix(in srgb, var(--scan-ink) 28%, transparent);
   font-family: var(--font-mono);
   font-size: 0.52rem;
   font-style: normal;
@@ -860,13 +807,13 @@ onBeforeUnmount(() => {
 }
 
 .diagnose-forge b {
-  color: rgba(234, 239, 230, 0.78);
+  color: color-mix(in srgb, var(--scan-ink) 78%, transparent);
   font-size: 0.82rem;
   font-weight: 400;
 }
 
 .diagnose-forge em {
-  color: rgba(200, 247, 93, 0.7);
+  color: color-mix(in srgb, var(--scan-accent) 70%, transparent);
   font-family: var(--font-mono);
   font-size: 0.52rem;
   font-style: normal;
@@ -881,12 +828,14 @@ onBeforeUnmount(() => {
 
 .diagnose-cta {
   position: absolute;
+  border: 0;
+  background: transparent;
   right: clamp(1.2rem, 4vw, 3.4rem);
   bottom: clamp(1.6rem, 3.2svh, 2.6rem);
   z-index: 4;
   padding-bottom: 0.4rem;
-  border-bottom: 1px solid rgba(234, 239, 230, 0.16);
-  color: rgba(234, 239, 230, 0.44);
+  border-bottom: 1px solid color-mix(in srgb, var(--scan-ink) 16%, transparent);
+  color: color-mix(in srgb, var(--scan-ink) 44%, transparent);
   font-family: var(--font-mono);
   font-size: clamp(0.52rem, 0.7vw, 0.66rem);
   letter-spacing: 0.18rem;
@@ -903,8 +852,8 @@ onBeforeUnmount(() => {
 }
 
 .diagnose-cta:hover {
-  border-color: rgba(200, 247, 93, 0.5);
-  color: rgba(234, 239, 230, 0.86);
+  border-color: color-mix(in srgb, var(--brand) 50%, transparent);
+  color: color-mix(in srgb, var(--scan-ink) 86%, transparent);
 }
 
 .diagnose-network {
@@ -928,20 +877,20 @@ onBeforeUnmount(() => {
 
 .diagnose-orbit {
   fill: none;
-  stroke: rgba(234, 239, 230, 0.055);
+  stroke: color-mix(in srgb, var(--scan-ink) 6%, transparent);
   stroke-width: 1;
   vector-effect: non-scaling-stroke;
 }
 
 .diagnose-spoke {
   fill: none;
-  stroke: rgba(234, 239, 230, 0.13);
+  stroke: color-mix(in srgb, var(--scan-ink) 13%, transparent);
   stroke-width: 1;
   vector-effect: non-scaling-stroke;
 }
 
 .diagnose-packet {
-  fill: rgba(234, 239, 230, 0.55);
+  fill: color-mix(in srgb, var(--scan-ink) 55%, transparent);
   opacity: 0;
 }
 
@@ -967,8 +916,8 @@ onBeforeUnmount(() => {
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(200, 247, 93, 0.16),
-    rgba(200, 247, 93, 0.05) 32%,
+    color-mix(in srgb, var(--brand) 16%, transparent),
+    color-mix(in srgb, var(--brand) 5%, transparent) 32%,
     transparent 68%
   );
   content: '';
@@ -996,8 +945,8 @@ onBeforeUnmount(() => {
   background: linear-gradient(
     90deg,
     transparent 0 44%,
-    rgba(234, 239, 230, 0.09) 58%,
-    rgba(234, 239, 230, 0.26) 88%,
+    color-mix(in srgb, var(--scan-ink) 9%, transparent) 58%,
+    color-mix(in srgb, var(--scan-ink) 26%, transparent) 88%,
     transparent
   );
   transform: rotate(calc((var(--fan-index) - 12.5) * 1.9deg));
@@ -1023,7 +972,7 @@ onBeforeUnmount(() => {
   display: grid;
   gap: 0.55rem;
   justify-items: center;
-  color: rgba(234, 239, 230, 0.46);
+  color: color-mix(in srgb, var(--scan-ink) 46%, transparent);
   font-size: clamp(0.72rem, 0.95vw, 0.92rem);
   line-height: 1;
   text-transform: lowercase;
@@ -1039,7 +988,7 @@ onBeforeUnmount(() => {
   width: 0.4rem;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: rgba(234, 239, 230, 0.5);
+  background: color-mix(in srgb, var(--scan-ink) 50%, transparent);
   transition:
     width 260ms ease,
     background 260ms ease,
@@ -1051,12 +1000,12 @@ onBeforeUnmount(() => {
 }
 
 .diagnose-node.is-active {
-  color: rgba(255, 255, 255, 0.94);
+  color: var(--scan-ink);
 }
 
 .diagnose-node.is-active i {
   background: var(--brand);
-  box-shadow: 0 0 0.9rem rgba(200, 247, 93, 0.8);
+  box-shadow: 0 0 0.9rem color-mix(in srgb, var(--scan-accent) 80%, transparent);
 }
 
 .diagnose-node.is-active i::after {
@@ -1068,8 +1017,8 @@ onBeforeUnmount(() => {
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(200, 247, 93, 0.3),
-    rgba(200, 247, 93, 0.08) 38%,
+    color-mix(in srgb, var(--brand) 30%, transparent),
+    color-mix(in srgb, var(--brand) 8%, transparent) 38%,
     transparent 70%
   );
   content: '';
@@ -1080,21 +1029,21 @@ onBeforeUnmount(() => {
 .diagnose-step-3 .diagnose-node.is-active i,
 .diagnose-step-4 .diagnose-node.is-active i {
   box-shadow:
-    0 0 0 0.28rem var(--invert-bg),
-    0 0 0 0.34rem rgba(200, 247, 93, 0.5),
-    0 0 1rem rgba(200, 247, 93, 0.5);
+    0 0 0 0.28rem var(--bg),
+    0 0 0 0.34rem color-mix(in srgb, var(--brand) 50%, transparent),
+    0 0 1rem color-mix(in srgb, var(--brand) 50%, transparent);
 }
 
 .diagnose-node.is-agent {
   z-index: 5;
-  color: rgba(200, 247, 93, 0.86);
+  color: color-mix(in srgb, var(--scan-accent) 86%, transparent);
   animation: diagnose-agent-cycle 6.6s ease-in-out infinite both;
   animation-delay: var(--node-delay);
 }
 
 .diagnose-node.is-agent i {
   background: var(--brand);
-  box-shadow: 0 0 0.9rem rgba(200, 247, 93, 0.8);
+  box-shadow: 0 0 0.9rem color-mix(in srgb, var(--scan-accent) 80%, transparent);
 }
 
 .diagnose-node.is-agent i::after {
@@ -1106,8 +1055,8 @@ onBeforeUnmount(() => {
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(200, 247, 93, 0.26),
-    rgba(200, 247, 93, 0.07) 38%,
+    color-mix(in srgb, var(--brand) 26%, transparent),
+    color-mix(in srgb, var(--brand) 7%, transparent) 38%,
     transparent 70%
   );
   content: '';
@@ -1126,16 +1075,16 @@ onBeforeUnmount(() => {
   align-content: center;
   gap: 0.34rem;
   padding-left: 0.85rem;
-  border: 1px solid rgba(200, 247, 93, 0.4);
+  border: 1px solid color-mix(in srgb, var(--brand) 40%, transparent);
   border-radius: 0.7rem;
-  background: color-mix(in srgb, var(--invert-bg) 55%, transparent);
+  background: color-mix(in srgb, var(--bg) 62%, transparent);
   transform: translate(-50%, -50%);
   animation: diagnose-window-in 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .diagnose-window i {
   height: 1px;
-  background: rgba(200, 247, 93, 0.5);
+  background: color-mix(in srgb, var(--brand) 50%, transparent);
 }
 
 .diagnose-window i:first-child {
@@ -1162,7 +1111,7 @@ onBeforeUnmount(() => {
   top: 0;
   width: 22rem;
   aspect-ratio: 1;
-  border: 1px solid rgba(200, 247, 93, 0.34);
+  border: 1px solid color-mix(in srgb, var(--brand) 34%, transparent);
   border-radius: 50%;
   transform: translate(-50%, -50%);
   animation: diagnose-pulse-out 4.6s ease-out infinite;
@@ -1189,7 +1138,7 @@ onBeforeUnmount(() => {
 }
 
 .diagnose-bottom-copy span {
-  color: rgba(200, 247, 93, 0.76);
+  color: color-mix(in srgb, var(--scan-accent) 76%, transparent);
   font-family: var(--font-mono);
   font-size: 0.58rem;
   letter-spacing: 0.18rem;
@@ -1199,7 +1148,7 @@ onBeforeUnmount(() => {
 .diagnose-bottom-copy strong {
   max-width: 40ch;
   margin-top: 0.7rem;
-  color: rgba(255, 255, 255, 0.94);
+  color: var(--scan-ink);
   font-size: clamp(0.85rem, 1.05vw, 1rem);
   font-weight: 400;
   line-height: 1.38;
@@ -1217,7 +1166,7 @@ onBeforeUnmount(() => {
   position: relative;
   border: 0;
   background: transparent;
-  color: rgba(234, 239, 230, 0.3);
+  color: color-mix(in srgb, var(--scan-ink) 30%, transparent);
   font-family: var(--font-mono);
   font-size: clamp(0.52rem, 0.7vw, 0.66rem);
   letter-spacing: 0.18rem;
@@ -1232,7 +1181,7 @@ onBeforeUnmount(() => {
   right: 0;
   top: 0;
   height: 1px;
-  background: rgba(234, 239, 230, 0.3);
+  background: color-mix(in srgb, var(--scan-ink) 30%, transparent);
   content: '';
   opacity: 0;
   transition:
@@ -1249,12 +1198,12 @@ onBeforeUnmount(() => {
 }
 
 .diagnose-bottom-copy button.is-visited {
-  color: rgba(234, 239, 230, 0.5);
+  color: color-mix(in srgb, var(--scan-ink) 50%, transparent);
 }
 
 .diagnose-bottom-copy button.is-active,
 .diagnose-bottom-copy button:hover {
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--scan-ink);
 }
 
 .diagnose-bottom-copy button::after {
@@ -1263,7 +1212,7 @@ onBeforeUnmount(() => {
   right: -0.6rem;
   top: 0.15rem;
   bottom: -0.35rem;
-  border: 1px solid rgba(200, 247, 93, 0.55);
+  border: 1px solid color-mix(in srgb, var(--brand) 55%, transparent);
   border-radius: 0.35rem;
   content: '';
   opacity: 0;
@@ -1393,11 +1342,11 @@ onBeforeUnmount(() => {
 @keyframes diagnose-hub-pulse {
   0%,
   100% {
-    box-shadow: 0 0 1.6rem rgba(200, 247, 93, 0.55);
+    box-shadow: 0 0 1.6rem color-mix(in srgb, var(--brand) 55%, transparent);
     transform: translate(-50%, -50%) scale(1);
   }
   50% {
-    box-shadow: 0 0 2.6rem rgba(200, 247, 93, 0.8);
+    box-shadow: 0 0 2.6rem color-mix(in srgb, var(--scan-accent) 80%, transparent);
     transform: translate(-50%, -50%) scale(1.12);
   }
 }

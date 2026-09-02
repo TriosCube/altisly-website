@@ -30,6 +30,7 @@ export default defineNuxtConfig({
     '/company/security': { redirect: '/about' },
     '/products/**': { redirect: '/' },
     '/industries/**': { redirect: '/work' },
+    '/diagnose/run': { redirect: '/diagnose' },
     '/solutions/**': { redirect: '/work' },
   },
 

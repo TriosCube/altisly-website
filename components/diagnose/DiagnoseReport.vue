@@ -1,225 +1,91 @@
 <template>
-  <div>
-    <section class="py-14 border-b border-base">
-      <div class="container-isura">
-        <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">The read</span>
-        <h2
-          class="text-[clamp(30px,3.6vw,48px)] font-bold tracking-[-0.03em] leading-[1.08] mt-3 max-w-[22ch]"
-        >
-          {{ report.survey.read }}
-        </h2>
-      </div>
+  <div class="report">
+    <section class="report-read">
+      <span class="report-eyebrow">The read</span>
+      <p class="report-lede">{{ report.survey.read }}</p>
     </section>
 
-    <section class="py-14">
-      <div class="container-isura">
-        <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted"
-          >What is leaking</span
-        >
-        <h3
-          class="text-[clamp(28px,3.2vw,42px)] font-bold tracking-[-0.028em] leading-[1.08] mt-3 mb-8"
-        >
-          Where the work breaks.
-        </h3>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <article
-            v-for="(friction, i) in report.survey.frictions"
-            :key="friction.name"
-            class="bento-card"
-          >
-            <div class="flex items-center gap-3 mb-4">
-              <span
-                class="w-9 h-9 rounded-full bg-brand text-on-brand grid place-items-center font-code text-[13px] font-bold"
-                >{{ String(i + 1).padStart(2, '0') }}</span
-              >
-              <h4 class="text-[19px] font-bold tracking-[-0.018em] leading-tight">
-                {{ friction.name }}
-              </h4>
-            </div>
-            <p class="text-[14.5px] leading-relaxed mb-4">{{ friction.symptom }}</p>
-            <dl class="flex flex-col gap-3 mt-auto pt-4 border-t border-base">
+    <section>
+      <span class="report-eyebrow">Where the work breaks</span>
+      <div class="report-frictions">
+        <article v-for="(friction, i) in report.survey.frictions" :key="friction.name">
+          <span class="report-index">{{ String(i + 1).padStart(2, '0') }}</span>
+          <div>
+            <h4>{{ friction.name }}</h4>
+            <p>{{ friction.symptom }}</p>
+            <dl>
               <div>
-                <dt class="font-code text-[10.5px] tracking-[0.1em] uppercase text-brand-deep">
-                  Evidence
-                </dt>
-                <dd class="text-muted text-[13.5px] leading-relaxed mt-1 m-0">
-                  {{ friction.evidence }}
-                </dd>
+                <dt>Evidence</dt>
+                <dd>{{ friction.evidence }}</dd>
               </div>
               <div>
-                <dt class="font-code text-[10.5px] tracking-[0.1em] uppercase text-muted">Cost</dt>
-                <dd class="text-muted text-[13.5px] leading-relaxed mt-1 m-0">
-                  {{ friction.cost }}
-                </dd>
+                <dt>Cost</dt>
+                <dd>{{ friction.cost }}</dd>
               </div>
             </dl>
-          </article>
-        </div>
+          </div>
+        </article>
       </div>
     </section>
 
-    <section class="bg-invert text-invert py-14">
-      <div class="container-isura grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-12">
+    <section class="report-blind">
+      <span class="report-eyebrow">The blind spot</span>
+      <p>{{ report.survey.blind_spot }}</p>
+      <template v-if="report.survey.questions.length">
+        <span class="report-eyebrow report-eyebrow-inset">What we would ask next</span>
+        <ul>
+          <li v-for="question in report.survey.questions" :key="question">{{ question }}</li>
+        </ul>
+      </template>
+    </section>
+
+    <section>
+      <span class="report-eyebrow">The concept</span>
+      <h3 class="report-title">{{ report.concept.system_name }}</h3>
+      <p class="report-premise">{{ report.concept.premise }}</p>
+
+      <div class="report-columns">
         <div>
-          <span class="font-code text-[11px] tracking-[0.1em] uppercase text-invert-muted"
-            >The blind spot</span
-          >
-          <p
-            class="text-[clamp(22px,2.4vw,32px)] font-semibold tracking-[-0.022em] leading-[1.25] mt-4"
-          >
-            {{ report.survey.blind_spot }}
-          </p>
-        </div>
-        <div v-if="report.survey.questions.length">
-          <span class="font-code text-[11px] tracking-[0.1em] uppercase text-invert-muted"
-            >What we would ask next</span
-          >
-          <div class="flex flex-col mt-4">
-            <p
-              v-for="(question, i) in report.survey.questions"
-              :key="question"
-              class="text-invert-muted text-[14.5px] leading-relaxed py-3.5 border-t border-invert"
-              :class="{ 'border-b': i === report.survey.questions.length - 1 }"
-            >
-              {{ question }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="py-14">
-      <div class="container-isura">
-        <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">The concept</span>
-        <h3
-          class="text-[clamp(30px,3.6vw,48px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-3"
-        >
-          {{ report.concept.system_name }}
-        </h3>
-        <p class="text-muted text-[17px] leading-relaxed max-w-[52ch] mb-10">
-          {{ report.concept.premise }}
-        </p>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div class="bg-surface border border-base rounded-isura-xl p-7">
-            <span class="font-code text-[10.5px] tracking-[0.1em] uppercase text-muted"
-              >Modules</span
-            >
-            <div class="flex flex-col mt-3">
-              <div
-                v-for="(module, i) in report.concept.modules"
-                :key="module.name"
-                class="py-4 border-t border-base"
-                :class="{ 'border-t-0 pt-0': i === 0 }"
-              >
-                <h5 class="text-[15.5px] font-semibold mb-1">{{ module.name }}</h5>
-                <p class="text-muted text-[13.5px] leading-relaxed">{{ module.does }}</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-surface border border-base rounded-isura-xl p-7">
-            <span class="font-code text-[10.5px] tracking-[0.1em] uppercase text-muted"
-              >Agents on duty</span
-            >
-            <div class="flex flex-col mt-3">
-              <div
-                v-for="(agent, i) in report.concept.agents"
-                :key="agent.name"
-                class="py-4 border-t border-base flex items-start gap-3.5"
-                :class="{ 'border-t-0 pt-0': i === 0 }"
-              >
-                <span
-                  class="w-8 h-8 rounded-full bg-brand text-on-brand grid place-items-center flex-shrink-0"
-                >
-                  <svg
-                    width="15"
-                    height="15"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  >
-                    <rect x="4" y="7" width="16" height="12" rx="2" />
-                    <path d="M12 3v4M9 13h.01M15 13h.01" />
-                  </svg>
-                </span>
-                <div>
-                  <h5 class="text-[15.5px] font-semibold mb-1">{{ agent.name }}</h5>
-                  <p class="text-muted text-[13.5px] leading-relaxed">{{ agent.owns }}</p>
-                </div>
-              </div>
+          <span class="report-sub">Modules</span>
+          <div class="report-rows">
+            <div v-for="module in report.concept.modules" :key="module.name">
+              <h5>{{ module.name }}</h5>
+              <p>{{ module.does }}</p>
             </div>
           </div>
         </div>
-
-        <div class="mt-4 bg-surface border border-base rounded-isura-xl p-7">
-          <span class="font-code text-[10.5px] tracking-[0.1em] uppercase text-muted"
-            >How it ships</span
-          >
-          <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mt-4">
-            <div v-for="(phase, i) in report.concept.phases" :key="phase.stage">
-              <div class="flex items-center gap-2 mb-2.5">
-                <span
-                  class="w-6 h-6 rounded-full bg-brand text-on-brand grid place-items-center font-code text-[11px] font-bold"
-                  >{{ i + 1 }}</span
-                >
-                <span class="font-semibold text-[14px]">{{ phase.stage }}</span>
-              </div>
-              <p class="text-muted text-[13px] leading-relaxed mb-2">{{ phase.move }}</p>
-              <p class="font-code text-[11px] text-brand-deep leading-relaxed">
-                {{ phase.output }}
-              </p>
+        <div>
+          <span class="report-sub">Agents on duty</span>
+          <div class="report-rows">
+            <div v-for="agent in report.concept.agents" :key="agent.name">
+              <h5>{{ agent.name }}</h5>
+              <p>{{ agent.owns }}</p>
             </div>
           </div>
         </div>
       </div>
+
+      <div class="report-phases">
+        <div v-for="(phase, i) in report.concept.phases" :key="phase.stage">
+          <span class="report-step">{{ i + 1 }} · {{ phase.stage }}</span>
+          <p>{{ phase.move }}</p>
+          <em>{{ phase.output }}</em>
+        </div>
+      </div>
     </section>
 
-    <section class="pb-20">
-      <div class="container-isura">
-        <div
-          class="bg-invert text-invert rounded-isura-xl p-10 lg:p-14 grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-10 items-center relative overflow-hidden"
-        >
-          <div
-            class="absolute -right-50 -bottom-50 w-125 h-125 rounded-full"
-            style="
-              background: radial-gradient(
-                closest-side,
-                color-mix(in srgb, #c8f75d 50%, transparent),
-                transparent 75%
-              );
-              pointer-events: none;
-            "
-          ></div>
-
-          <div class="relative z-10">
-            <span class="font-code text-[11px] tracking-[0.1em] uppercase text-invert-muted"
-              >Why us</span
-            >
-            <p
-              class="text-[clamp(20px,2.2vw,28px)] font-semibold tracking-[-0.02em] leading-[1.3] mt-3"
-            >
-              {{ report.concept.wedge }}
-            </p>
-          </div>
-
-          <div class="relative z-10">
-            <div class="py-4 border-t border-b border-invert">
-              <span class="font-code text-[10.5px] tracking-[0.1em] uppercase text-invert-muted"
-                >First move, week one</span
-              >
-              <p class="text-[15px] leading-relaxed mt-2">{{ report.concept.first_move }}</p>
-            </div>
-            <div class="flex gap-3 flex-wrap mt-7">
-              <AppButton variant="lime" size="lg" :href="mailtoHref">Talk about building it →</AppButton>
-              <AppButton variant="on-dark-ghost" size="lg" @click="$emit('restart')">
-                Run it again
-              </AppButton>
-            </div>
-          </div>
-        </div>
+    <section class="report-close">
+      <div>
+        <span class="report-eyebrow">Why us</span>
+        <p class="report-wedge">{{ report.concept.wedge }}</p>
+      </div>
+      <div class="report-first">
+        <span class="report-sub">First move, week one</span>
+        <p>{{ report.concept.first_move }}</p>
+      </div>
+      <div class="report-actions">
+        <a class="is-primary" :href="mailtoHref">Talk about building it →</a>
+        <button type="button" @click="$emit('restart')">Run it again</button>
       </div>
     </section>
   </div>
@@ -227,7 +93,6 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import AppButton from '@/components/ui/AppButton.vue'
 import { site } from '@/data/site'
 import type { DiagnoseBrief, DiagnoseReport } from '@/utils/diagnose'
 
@@ -262,3 +127,275 @@ const mailtoHref = computed(() => {
   )}&body=${encodeURIComponent(body)}`
 })
 </script>
+
+<style scoped>
+.report {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.6rem, 3.4vw, 2.6rem);
+  gap: 2.4rem;
+}
+
+.report-eyebrow {
+  display: block;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16rem;
+  text-transform: uppercase;
+}
+
+.report-eyebrow-inset {
+  margin-top: 1.4rem;
+}
+
+.report-lede {
+  margin: 0.8rem 0 0;
+  font-size: clamp(1.25rem, 2.4vw, 1.7rem);
+  font-weight: 700;
+  letter-spacing: -0.026em;
+  line-height: 1.18;
+}
+
+.report-frictions {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 1rem;
+}
+
+.report-frictions article {
+  display: flex;
+  gap: 1rem;
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface-2);
+}
+
+.report-index {
+  color: var(--brand-deep);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding-top: 0.15rem;
+}
+
+.report-frictions h4 {
+  margin: 0 0 0.35rem;
+  font-size: 15.5px;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+}
+
+.report-frictions > article > div > p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.report-frictions dl {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0.9rem 0 0;
+}
+
+.report-frictions dt {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14rem;
+  text-transform: uppercase;
+}
+
+.report-frictions dd {
+  margin: 0.2rem 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.report-blind {
+  padding: 1.4rem 1.5rem;
+  border-radius: var(--radius-lg);
+  background: var(--invert-bg);
+  color: var(--invert-text);
+}
+
+.report-blind .report-eyebrow {
+  color: var(--invert-muted);
+}
+
+.report-blind > p {
+  margin: 0.7rem 0 0;
+  font-size: clamp(1rem, 1.9vw, 1.2rem);
+  font-weight: 600;
+  letter-spacing: -0.018em;
+  line-height: 1.35;
+}
+
+.report-blind ul {
+  margin: 0.6rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.report-blind li {
+  padding: 0.65rem 0;
+  border-top: 1px solid var(--invert-border);
+  color: var(--invert-muted);
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+
+.report-title {
+  margin: 0.7rem 0 0;
+  font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+  font-weight: 700;
+  letter-spacing: -0.028em;
+  line-height: 1.06;
+}
+
+.report-premise {
+  max-width: 52ch;
+  margin: 0.6rem 0 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.report-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 0.9rem;
+  margin-top: 1.4rem;
+}
+
+.report-columns > div {
+  padding: 1.2rem 1.3rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.report-sub {
+  display: block;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14rem;
+  text-transform: uppercase;
+}
+
+.report-rows > div {
+  padding: 0.85rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.report-rows > div:first-child {
+  border-top: 0;
+  padding-top: 0.7rem;
+}
+
+.report-rows h5 {
+  margin: 0 0 0.25rem;
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+.report-rows p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.report-phases {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 0.9rem;
+  margin-top: 0.9rem;
+  padding: 1.2rem 1.3rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.report-step {
+  display: block;
+  margin-bottom: 0.45rem;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+}
+
+.report-phases p {
+  margin: 0 0 0.4rem;
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.report-phases em {
+  color: var(--brand-deep);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-style: normal;
+  line-height: 1.5;
+}
+
+.report-close {
+  display: grid;
+  gap: 1.2rem;
+  padding: 1.5rem 1.6rem;
+  border-radius: var(--radius-lg);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+}
+
+.report-wedge {
+  max-width: 60ch;
+  margin: 0.6rem 0 0;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.report-first p {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.report-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.report-actions .is-primary {
+  padding: 0.7rem 1.5rem;
+  border-radius: 9999px;
+  background: var(--brand);
+  color: var(--on-brand);
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.report-actions .is-primary:hover {
+  background: var(--brand-soft);
+}
+
+.report-actions button {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16rem;
+  text-transform: uppercase;
+  transition: color 180ms ease;
+}
+
+.report-actions button:hover {
+  color: var(--text);
+}
+</style>
