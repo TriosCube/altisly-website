@@ -235,7 +235,13 @@ const questions: Question[] = [
   },
 ]
 
+const route = useRoute()
 const brief = reactive({ ...emptyBrief })
+
+const industryFromQuery = route.query.industry
+if (typeof industryFromQuery === 'string' && industryFromQuery.trim()) {
+  brief.industry = industryFromQuery.trim().slice(0, briefFieldLimit)
+}
 const step = ref(0)
 const phase = ref<'form' | 'running' | 'report'>('form')
 const stageIndex = ref(0)
