@@ -37,7 +37,7 @@ export default defineNuxtConfig({
   app: {
     head: {
       htmlAttrs: { lang: 'en', 'data-theme': 'light' },
-      title: 'Altisly · We build the heavy systems',
+      title: 'Altisly · We build the systems businesses run on',
       meta: [
         { charset: 'UTF-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },

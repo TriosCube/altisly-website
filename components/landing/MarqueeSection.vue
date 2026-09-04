@@ -14,12 +14,12 @@
 
 <script setup lang="ts">
 const items = [
-  'Web apps',
-  'AI models',
+  'Treasury',
+  'Payments',
+  'Identity',
+  'Health records',
   'Core banking',
-  'Treasury systems',
-  'Health innovation',
-  'Ops platforms',
-  'Venture building',
+  'Approvals and audit',
+  'Workflow automation',
 ]
 </script>

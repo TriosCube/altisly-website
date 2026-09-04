@@ -1,5 +1,5 @@
 <template>
-  <section class="py-[60px]">
+  <section class="py-[60px]" id="what-we-do">
     <div class="container-isura">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-[240px] gap-4">
         <div
@@ -7,16 +7,15 @@
         >
           <span
             class="chip bg-[rgba(234,239,230,0.12)] text-invert-muted border-invert font-code text-[11.5px]"
-            >What we build</span
+            >What we do</span
           >
           <h3
             class="text-[36px] font-bold tracking-[-0.025em] leading-none mt-[14px] mb-3 max-w-[16ch]"
           >
-            Systems for operations that cannot afford to break.
+            We build the parts of a business that cannot go down.
           </h3>
           <p class="text-invert-muted text-[15px] max-w-[38ch] mb-7">
-            Product surfaces, AI workflows, financial rails and operating systems that turn messy
-            business logic into software teams can trust.
+            From the record of truth to the screen someone opens at eight in the morning.
           </p>
 
           <svg
@@ -82,42 +81,48 @@
             <circle cx="80" cy="240" r="4" fill="#C8F75D" />
           </svg>
 
-          <div class="flex gap-8 mt-auto relative z-10">
-            <div v-for="stat in orbitStats" :key="stat.label">
-              <div class="text-[11.5px] text-invert-muted tracking-[0.08em] uppercase">
-                {{ stat.label }}
-              </div>
-              <div class="text-[26px] font-bold tracking-[-0.02em] mt-1 font-code text-brand">
-                {{ stat.value }}
-              </div>
-            </div>
-          </div>
+          <NuxtLink
+            to="/work"
+            class="mt-auto relative z-10 inline-flex items-center gap-3 text-[15px] font-semibold border-t border-invert pt-5 w-fit group"
+          >
+            See what we have built
+            <span
+              class="w-9 h-9 rounded-full bg-brand text-on-brand grid place-items-center flex-shrink-0"
+            >
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+              >
+                <path d="M7 17L17 7" />
+                <path d="M9 7h8v8" />
+              </svg>
+            </span>
+          </NuxtLink>
         </div>
 
-        <a :href="treasuryUrl" class="bento-card bg-brand text-on-brand border-brand">
-          <span
-            class="arrow-btn absolute top-[22px] right-[22px] w-11 h-11 rounded-full text-brand grid place-items-center"
-          >
+        <div class="bento-card bg-brand text-on-brand border-brand">
+          <div class="icon-on-lime w-[42px] h-[42px] rounded-full text-brand grid place-items-center mb-auto">
             <svg
-              width="18"
-              height="18"
+              width="20"
+              height="20"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
               stroke-width="2"
             >
-              <path d="M7 17L17 7" />
-              <path d="M9 7h8v8" />
+              <rect x="3" y="4" width="18" height="16" rx="2" />
+              <path d="M3 10h18M8 4v16" />
             </svg>
-          </span>
-          <h4 class="text-[22px] font-bold tracking-[-0.02em] leading-[1.1]">
-            Explore<br />Isura
+          </div>
+          <h4 class="text-[22px] font-bold tracking-[-0.02em] leading-[1.1] mb-2">
+            {{ capabilities[0].label }}
           </h4>
-          <p class="text-on-brand/80 text-sm mt-auto">
-            Our multi tenant platform: five applications, two Rust services, one framework
-            underneath.
-          </p>
-        </a>
+          <p class="text-on-brand/80 text-sm">{{ capabilities[0].body }}</p>
+        </div>
 
         <div class="bento-card">
           <div
@@ -131,30 +136,25 @@
               stroke="currentColor"
               stroke-width="2"
             >
-              <rect x="3" y="6" width="18" height="14" rx="2" />
-              <path d="M16 13a2 2 0 110 4 2 2 0 010-4z" />
+              <rect x="5" y="2" width="14" height="20" rx="2" />
+              <path d="M11 18h2" />
             </svg>
           </div>
           <h4 class="text-[22px] font-bold tracking-[-0.02em] leading-[1.1] mb-2">
-            Health innovation
+            {{ capabilities[1].label }}
           </h4>
-          <p class="text-muted text-sm">
-            Secure care workflows, patient data flows and decision support built with restraint.
-          </p>
+          <p class="text-muted text-sm">{{ capabilities[1].body }}</p>
         </div>
 
         <div class="bento-card md:col-span-2 bg-invert text-invert border-invert">
           <span
             class="chip bg-[rgba(234,239,230,0.12)] text-invert-muted border-invert font-code text-[11.5px]"
-            >Ops platforms</span
+            >{{ capabilities[2].label }}</span
           >
           <h4 class="text-[22px] font-bold tracking-[-0.02em] leading-[1.1] mt-4 mb-2">
-            Automation, roles and telemetry in one operating layer.
+            The work moves without someone pushing it.
           </h4>
-          <p class="text-invert-muted text-sm max-w-[38ch]">
-            Every build is shaped around the pressure it must survive: data boundaries, approvals,
-            audit trails, failure paths, and the operators who use it every day.
-          </p>
+          <p class="text-invert-muted text-sm max-w-[38ch]">{{ capabilities[2].body }}</p>
 
           <div class="flex items-end gap-1 h-[70px] mt-auto">
             <div
@@ -183,11 +183,9 @@
             </svg>
           </div>
           <h4 class="text-[22px] font-bold tracking-[-0.02em] leading-[1.1] mb-2">
-            Core banking
+            {{ capabilities[3].label }}
           </h4>
-          <p class="text-muted text-sm">
-            Accounts, ledgers, limits and audit records for products that need regulated trust.
-          </p>
+          <p class="text-muted text-sm">{{ capabilities[3].body }}</p>
         </div>
       </div>
     </div>
@@ -195,13 +193,7 @@
 </template>
 
 <script setup lang="ts">
-const treasuryUrl = useRuntimeConfig().public.treasuryUrl
-
-const orbitStats = [
-  { label: 'Platforms', value: '6' },
-  { label: 'Rust services', value: '2' },
-  { label: 'Domains', value: '5' },
-]
+import { capabilities } from '@/data/content'
 
 const reportBars = [
   { h: '30%', color: 'rgba(234,239,230,0.15)' },
@@ -220,7 +212,7 @@ const reportBars = [
 </script>
 
 <style scoped>
-.arrow-btn {
+.icon-on-lime {
   background: var(--on-brand);
 }
 </style>

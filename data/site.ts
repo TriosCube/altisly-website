@@ -8,7 +8,7 @@ export const site = {
 } as const
 
 export const metaDescriptions = {
-  home: 'Altisly builds AI workflows serious teams scale on: product surfaces, financial rails, and operating systems for treasury, payments, identity and health infrastructure.',
+  home: 'Altisly designs and builds the software behind day to day operations: the ledgers, approvals, records and workflows a business cannot afford to get wrong.',
   work: 'The platforms Altisly has designed, built and operates: multi tenant SaaS, treasury operations, AI workflow automation, hospital management and identity infrastructure.',
   about:
     'Altisly is a tech-enabled consulting and venture building studio in Lagos. We turn messy business logic into software teams can trust.',

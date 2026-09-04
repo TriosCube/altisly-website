@@ -5,57 +5,96 @@ export const stats = [
   { value: '700+', label: 'Commits across two flagships' },
 ]
 
-export const systemCards = [
+export const capabilities = [
   {
-    title: 'Web apps',
-    body: 'Portals, dashboards and internal tools shaped around the way teams actually work.',
+    label: 'Business systems',
+    lead: 'The systems the work runs on.',
+    body: 'Ledgers, records and approvals: the parts of the operation that cannot be improvised.',
   },
   {
-    title: 'AI models',
-    body: 'Retrieval, evals, guardrails and model workflows tied to useful business outcomes.',
+    label: 'Digital products',
+    lead: 'Ideas that need to become real.',
+    body: 'An idea taken from concept to something customers use every day.',
   },
   {
-    title: 'Core banking',
-    body: 'Accounts, ledgers, limits and audit records for products that need regulated trust.',
+    label: 'Automation',
+    lead: 'Work that should not still be manual.',
+    body: 'The manual steps between systems, removed and recorded.',
   },
   {
-    title: 'Treasury systems',
-    body: 'Cash visibility, approvals, reconciliation and reporting finance teams can rely on.',
+    label: 'Technology strategy',
+    lead: 'Decisions that need technical clarity.',
+    body: 'Deciding what is worth building, and what it will cost to run.',
+  },
+]
+
+export const whoWeAre = [
+  {
+    title: 'One team, end to end.',
+    body: 'The people who scope the work are the people who build it.',
   },
   {
-    title: 'Health innovation',
-    body: 'Secure care workflows, patient data flows and decision support built with restraint.',
+    title: 'We work where mistakes cost.',
+    body: 'Money moving, records kept, regulators asking.',
   },
   {
-    title: 'Ops platforms',
-    body: 'Automation, roles, telemetry and back-office controls in one operating layer.',
+    title: 'We finish.',
+    body: 'A system nobody has to babysit, run by your own people.',
+  },
+]
+
+export const problems = [
+  {
+    title: 'Your operation has outgrown its tools.',
+    body: 'What worked at ten a day quietly breaks at three hundred.',
   },
   {
-    title: 'Websites',
-    body: 'Sharp product sites with clean messaging, polished motion and clear conversion paths.',
+    title: 'The critical work is still manual.',
+    body: 'It runs on spreadsheets, chat messages and one person\'s memory.',
   },
+  {
+    title: 'The systems do not agree with each other.',
+    body: 'Every reconciliation turns into an argument about which one is right.',
+  },
+  {
+    title: 'You know what needs to exist, not how to build it.',
+    body: 'The idea is settled. The operation behind it is not.',
+  },
+]
+
+export const commitments = [
+  'Business before technology.',
+  'Build for the day it goes wrong.',
+  'The complexity stays with us.',
+  'Leave your team running it.',
+]
+
+export const nextSteps = [
+  'You describe the operation.',
+  'We reply within one business day.',
+  'If there is a fit, we tell you what the next step looks like.',
 ]
 
 export const moves = [
   {
     number: '01',
-    title: 'Read the work',
-    body: 'We read the workflow before we touch the interface.',
+    title: 'Understand',
+    body: 'We map how the work actually runs before anyone designs a screen.',
   },
   {
     number: '02',
-    title: 'Set the boundary',
-    body: 'We decide what belongs in the product and what should be made impossible by structure.',
+    title: 'Design',
+    body: 'We decide what the system should make impossible, not merely discourage.',
   },
   {
     number: '03',
-    title: 'Build the system',
-    body: 'We ship the interface, backend, data model and AI-assisted layer as one coherent system.',
+    title: 'Build',
+    body: 'Interface, data and automation shipped as one thing, not three.',
   },
   {
     number: '04',
-    title: 'Leave the standard',
-    body: 'We harden the failure paths and leave a rhythm your team can keep using.',
+    title: 'Embed',
+    body: 'We harden the failure paths and leave your team running it.',
   },
 ]
 

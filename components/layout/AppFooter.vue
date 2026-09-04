@@ -5,8 +5,7 @@
         <div class="col-span-2 lg:col-span-1">
           <IcLogo to="/" />
           <p class="text-muted text-sm max-w-70 mt-4">
-            A tech-enabled consulting and venture building studio. Operations-heavy software, built
-            from Lagos.
+            We build the systems businesses run on. Operations software, built from Lagos.
           </p>
         </div>
 

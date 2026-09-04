@@ -501,21 +501,31 @@ the hero and let the four hero columns be ordered by commercial priority.
 **No real outcome number exists.** One real figure, even a single before and after, would be worth
 more than any section on this page.
 
-**Two promises in the CTA need confirming**, since they are commitments rather than copy: a reply
-within one business day, and a written scope inside a week.
+**One promise in the CTA is a commitment, not copy**: a reply within one business day. The written
+scope inside a week was cut deliberately, since it could not be honoured for large or ambiguous
+engagements.
 
-### 9.9 Draft copy, awaiting approval
+**The footer still lists product names** under "The work", and `/about` still carries the commit
+count and the venture-building paragraph. Both sit outside the agreed homepage scope and are the
+obvious next pass.
 
-Not yet in the code. Written against the rules above.
+### 9.9 Final copy, shipped
+
+Approved and built. Differences from the earlier draft: the eyebrow went broad rather than
+regulated-specialist; the hero sub no longer says "hands over", so the handover promise lands later
+in How we work and What we stand for; Applied AI was dropped as a standalone capability and
+Technology strategy took the fourth tile; "we stay until the new way of working holds" became "we
+build until the new way of working can stand on its own"; and the one-week scope promise was
+removed.
 
 **01 Hero**
 
-> Eyebrow: `Built for operations that carry risk`
+> Eyebrow: `Built for work that has to hold up`
 >
 > # We build the systems businesses run on.
 >
-> Altisly designs, builds and hands over the software behind day to day operations: the ledgers,
-> approvals, records and workflows a business cannot afford to get wrong.
+> Altisly designs and builds the software behind day to day operations: the ledgers, approvals,
+> records and workflows a business cannot afford to get wrong.
 >
 > `Talk to us`  `Run a diagnostic`
 
@@ -526,14 +536,15 @@ Band, four columns, mono uppercase label over one line:
 | BUSINESS SYSTEMS | The systems the work actually runs on. |
 | DIGITAL PRODUCTS | Ideas that need to become something real. |
 | AUTOMATION | Work that should not still be manual. |
-| ADVISORY | Decisions that need technical clarity. |
+| TECHNOLOGY STRATEGY | Decisions that need technical clarity. |
 
 **02 Who we are**
 
 > ## Some problems do not fit a software brief.
 >
 > Altisly works inside the operation, not beside it. We take on problems where the process, the data
-> and the software all have to change together, and we stay until the new way of working holds.
+> and the software all have to change together, and we build until the new way of working can stand
+> on its own.
 
 Three characteristics: **One team, end to end.** The people who scope it are the people who build
 it. / **We work where mistakes cost.** Money moving, records kept, regulators asking. / **We
@@ -563,7 +574,7 @@ Four capability tiles:
 | Business systems | Ledgers, records and approvals: the things the work runs on. |
 | Digital products | An idea taken from concept to something customers use daily. |
 | Automation | The manual steps between systems, removed and recorded. |
-| Applied AI | Aimed where judgement is the bottleneck, not just data entry. |
+| Technology strategy | Deciding what is worth building, and what it will cost to run. |
 
 **06 How we work**
 
@@ -597,8 +608,8 @@ Four capability tiles:
 >
 > `Talk to us`  `Run a diagnostic`
 
-Right column, what happens next: 01 You describe the operation. / 02 An engineer replies within a
-business day. / 03 You get a written scope inside a week.
+Right column, what happens next: 01 You describe the operation. / 02 We reply within one business
+day. / 03 If there is a fit, we tell you what the next step looks like.
 
 ---
 

@@ -9,38 +9,41 @@
             class="w-6 h-6 rounded-full bg-brand text-on-brand grid place-items-center text-sm font-bold"
             >✦</span
           >
-          Tech-enabled consulting and venture building
+          Built for work that has to hold up
         </span>
 
         <h1
           class="font-extrabold text-[clamp(48px,6.4vw,92px)] leading-[0.98] tracking-[-0.035em] my-5.5 text-body"
         >
-          We build the heavy systems
+          We build the systems
           <span
             class="inline-flex items-center gap-4 bg-brand text-on-brand px-5.5 pb-1.5 rounded-full font-bold align-middle mr-1"
           >
-            end to end.
+            businesses run on.
             <span class="text-on-brand text-[0.55em] ml-1">✦</span>
           </span>
         </h1>
 
         <p class="text-lg leading-relaxed text-muted max-w-130 mb-8">
-          We design and ship AI-enabled workflows for treasury, payments, identity and health
-          infrastructure, shaped around the controls and failure modes that determine whether
-          operations hold up.
+          Altisly designs and builds the software behind day to day operations: the ledgers,
+          approvals, records and workflows a business cannot afford to get wrong.
         </p>
 
         <div class="flex gap-3 items-center flex-wrap">
-          <AppButton variant="lime" size="lg" to="/diagnose">Run a diagnostic →</AppButton>
-          <AppButton variant="ghost" size="lg" to="/work">See the work</AppButton>
+          <AppButton variant="lime" size="lg" to="/contact">Talk to us →</AppButton>
+          <AppButton variant="ghost" size="lg" to="/diagnose">Run a diagnostic</AppButton>
         </div>
 
-        <div class="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-5">
-          <div v-for="stat in stats" :key="stat.label" class="border-t border-base pt-3.5">
-            <div class="font-code text-[26px] font-bold tracking-[-0.02em] text-body leading-none">
-              {{ stat.value }}
+        <div class="mt-11 grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-6">
+          <div
+            v-for="capability in capabilities"
+            :key="capability.label"
+            class="border-t border-base pt-3.5"
+          >
+            <div class="font-code text-[10.5px] tracking-[0.14em] uppercase text-brand-deep">
+              {{ capability.label }}
             </div>
-            <div class="text-[12.5px] text-muted mt-1.5 leading-snug">{{ stat.label }}</div>
+            <div class="text-[13.5px] mt-2 leading-snug text-muted">{{ capability.lead }}</div>
           </div>
         </div>
       </div>
@@ -53,5 +56,5 @@
 <script setup lang="ts">
 import AppButton from '@/components/ui/AppButton.vue'
 import HeroStage from './HeroStage.vue'
-import { stats } from '@/data/content'
+import { capabilities } from '@/data/content'
 </script>
