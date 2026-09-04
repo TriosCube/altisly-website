@@ -9,12 +9,13 @@
     <div class="container-isura hero-inner" :style="{ '--recede': recede }">
       <div class="hero-copy">
         <h1 class="reveal headline" style="--i: 0">
-          We build the systems
+          We build the
           <span class="mark">
             <span class="mark-field"></span>
-            <span class="mark-text">businesses run on.</span>
+            <span class="mark-text">systems</span>
             <span class="mark-star">✦</span>
           </span>
+          businesses run on.
         </h1>
 
         <p class="reveal lede" style="--i: 1">
@@ -231,18 +232,19 @@ onBeforeUnmount(() => {
   position: relative;
   display: inline-block;
   isolation: isolate;
-  padding: 0 0.32em 0 0.2em;
+  white-space: nowrap;
+  padding: 0 0.16em;
 }
 
 .mark-field {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 0.11em;
-  bottom: 0.04em;
+  left: -0.04em;
+  right: -0.04em;
+  top: 0.13em;
+  bottom: 0.08em;
   z-index: -1;
   background: var(--brand);
-  border-radius: 4px 20px 6px 22px;
+  border-radius: 3px 14px 4px 16px;
   transform: scaleX(0);
   transform-origin: left center;
   transition: transform 720ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -259,9 +261,9 @@ onBeforeUnmount(() => {
 
 .mark-star {
   position: absolute;
-  right: -0.16em;
-  top: -0.1em;
-  font-size: 0.34em;
+  right: -0.12em;
+  top: 0.02em;
+  font-size: 0.3em;
   color: var(--brand-deep);
   opacity: 0;
   transition: opacity 400ms ease 1000ms;
