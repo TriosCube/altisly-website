@@ -266,23 +266,42 @@ across a `34rem` canvas, overlapping the heading's column.
 `prefers-reduced-motion` shows everything immediately and never observes. It plays once, in place.
 No sticky section, no scroll scrubbing.
 
-### 6.5 Model diagram, section 4
+### 6.5 Stacked takeover, section 4
 
-The centrepiece. A square canvas, four nodes at the compass points of a `0 to 100` viewBox
-(`50,10`, `50,90`, `10,50`, `90,50`), a ring at `r 34`, and four spokes from the hub. On entry, one
-`IntersectionObserver` adds `is-shown` and the composition assembles: spokes draw themselves via
-`stroke-dashoffset 60 → 0` staggered 140ms, the hub scales from `0.2`, nodes fade in staggered
-160ms, the ring follows at 500ms, and the four text rows rise staggered 120ms.
+Four capability panels, each `position: sticky; top: 9vh; height: 78vh`, with an ascending
+`z-index`. Because they are sticky siblings, each panel pins itself and the next one scrolls up
+**over** it rather than waiting for it to leave. That part is free: no JavaScript sets the stacking.
 
-Once assembled, a packet rides each spoke inward on `animateMotion`, 4.6s to 5.8s, staggered 1.15s,
-the same device the diagnose scanner uses, which ties the two together.
+What JavaScript adds is the recession. One scroll handler behind `requestAnimationFrame` computes a
+continuous head position:
 
-Hovering or focusing a node or a row sets an active index: that node's dot fills lime with a soft
-ring, its label goes to full ink, and the other three nodes and spokes drop to 35 to 40 percent. The
-rows and the diagram drive the same state, so either side can be used.
+```
+step = stack.offsetHeight / stageCount
+head = clamp(-stackRect.top, 0, stack.offsetHeight) / step
+recede[i] = clamp(head - i, 0, 1)
+```
 
-Under `prefers-reduced-motion` the packets are not rendered at all, rather than merely paused, and
-everything else is shown in final position.
+`recede[i]` is how far the next panel has advanced over panel `i`, and drives one transform plus one
+overlay:
+
+| Property | At rest | Fully covered |
+| --- | --- | --- |
+| `translateY` | 0 | `-20px` |
+| `scale` | 1 | `0.965` |
+| `rotate` | 0 | `-0.8deg` |
+| page-colour overlay | 0 | `0.32` |
+
+Restrained on purpose. The panel behind should read as pushed back, not thrown.
+
+**Tones alternate** so the stack never looks like four copies of one card: deep green, light surface,
+lime, deep green. Each carries a small operational composition rather than an icon: reconciled
+invoice rows, a request-to-post flow, fourteen steps becoming three, a product surface.
+
+Total footprint is roughly `312vh`, four panels at `78vh`, which is less than the `330vh` the
+deleted work showcase used to spend on projects.
+
+Under `prefers-reduced-motion` the handler never attaches, the panels drop to static flow at natural
+height, and nothing transforms.
 
 ### 6.6 Scrubbed statement, section 8
 
@@ -545,7 +564,7 @@ care who we are at position two.
 | 1 | Hero | `HeroSection` + `HeroStage` | motion | Copy, capability band, unbranded stage cards. |
 | 2 | Where work gets hard | `MarqueeSection` | motion | Fixed label, moving friction phrases, 52s. |
 | 3 | When the tools stop fitting the operation | `ProblemsSection` | quiet | Scattered artefacts, revealing on entry. |
-| 4 | What we change | `ModelSection` ⭐ | **signature** | Radial diagram: operation, system, data, control. |
+| 4 | What we do | `StackSection` ⭐ | **signature** | Four capability stages taking over one another on a sticky stack. |
 | 5 | Sometimes the software is the easy part | `StatementSection` | quiet | Typography only. Text reveal. |
 | 6 | How we work | `JourneySection` ⭐ | **signature** | Protected flip cards. Content only. |
 | 7 | Who we are | `WhoWeAre` | quiet | Oversized line, three traits entering in sequence. |
@@ -558,13 +577,12 @@ The page alternates deliberately: motion, quiet, signature, quiet, signature, qu
 climax, quiet. Three sections carry real interaction and everything between them is still, so the
 signatures read as moments rather than as a house style.
 
-The three signatures are the model diagram, the flip cards and the scrubbed statement. Each uses a
-different mechanism: a radial composition assembling itself on entry, cards turning at scroll
-thresholds, and typography lit word by word in direct proportion to scroll position. No two sections
-share a behaviour.
+The three signatures are the stacked takeover, the flip cards and the scrubbed statement. Each uses a
+different mechanism: panels physically covering one another, cards turning at scroll thresholds, and
+typography lit word by word in proportion to scroll position. No two sections share a behaviour.
 
-Borrowed from NestJS: heterogeneous section compositions, a central conceptual diagram rather than a
-card grid, alternating visual intensity, and restrained scroll reveals. None of its appearance.
+Borrowed from NestJS: the stacked takeover, the scrubbed typography, heterogeneous section
+compositions and alternating intensity. None of its appearance.
 
 **The page carries two quartets, and they answer different questions.** The hero band lists the four
 capabilities: Systems, Products, Automation, Strategy. That is the commercial answer to "what can I

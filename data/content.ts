@@ -12,22 +12,30 @@ export const capabilities = [
   { label: 'Strategy', lead: 'Direction for hard operating calls.' },
 ]
 
-export const layers = [
+export const stages = [
   {
-    label: 'The operation',
-    body: 'How the work should actually happen, before anyone writes software for it.',
+    number: '01',
+    title: 'Systems that hold up',
+    body: 'Business systems built around how the operation actually works, not around the database underneath it.',
+    tone: 'invert',
   },
   {
-    label: 'The system',
-    body: 'The software that makes it repeatable instead of remembered.',
+    number: '02',
+    title: 'Work that flows',
+    body: 'Processes connected across people, systems and information, so nothing waits on someone remembering.',
+    tone: 'surface',
   },
   {
-    label: 'The data',
-    body: 'A reliable record of what happened, and of what happens next.',
+    number: '03',
+    title: 'Less done by hand',
+    body: 'Repetitive work redesigned and automated where technology carries it better than a person can.',
+    tone: 'brand',
   },
   {
-    label: 'The control',
-    body: 'The approvals, the rules and the accountability around it.',
+    number: '04',
+    title: 'Better digital products',
+    body: 'New products taken from an operating idea to something people can actually use every day.',
+    tone: 'invert',
   },
 ]
 
