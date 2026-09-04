@@ -7,24 +7,39 @@ export const stats = [
 
 export const capabilities = [
   {
-    label: 'Business systems',
-    lead: 'The systems the work runs on.',
-    body: 'Ledgers, records and approvals: the parts of the operation that cannot be improvised.',
+    label: 'Systems',
+    body: 'The technology the operation runs on: records, ledgers and approvals.',
   },
   {
-    label: 'Digital products',
-    lead: 'Ideas that need to become real.',
-    body: 'An idea taken from concept to something customers use every day.',
+    label: 'Products',
+    body: 'New ideas turned into working digital products people use daily.',
   },
   {
     label: 'Automation',
-    lead: 'Work that should not still be manual.',
-    body: 'The manual steps between systems, removed and recorded.',
+    body: 'Repetitive work removed where it should never have needed a person.',
   },
   {
-    label: 'Technology strategy',
-    lead: 'Decisions that need technical clarity.',
-    body: 'Deciding what is worth building, and what it will cost to run.',
+    label: 'Strategy',
+    body: 'Technical direction for difficult operating decisions.',
+  },
+]
+
+export const frictions = [
+  {
+    mess: 'Spreadsheets only one person can open',
+    replaces: 'One record everyone works from',
+  },
+  {
+    mess: 'Approvals buried in chat',
+    replaces: 'Decisions with a name and a time against them',
+  },
+  {
+    mess: 'Three systems, three answers',
+    replaces: 'One number, and the trail behind it',
+  },
+  {
+    mess: 'Work that stops when someone is away',
+    replaces: 'A process that runs without heroics',
   },
 ]
 
@@ -40,25 +55,6 @@ export const whoWeAre = [
   {
     title: 'We finish.',
     body: 'A system nobody has to babysit, run by your own people.',
-  },
-]
-
-export const problems = [
-  {
-    title: 'Your operation has outgrown its tools.',
-    body: 'What worked at ten a day quietly breaks at three hundred.',
-  },
-  {
-    title: 'The critical work is still manual.',
-    body: 'It runs on spreadsheets, chat messages and one person\'s memory.',
-  },
-  {
-    title: 'The systems do not agree with each other.',
-    body: 'Every reconciliation turns into an argument about which one is right.',
-  },
-  {
-    title: 'You know what needs to exist, not how to build it.',
-    body: 'The idea is settled. The operation behind it is not.',
   },
 ]
 

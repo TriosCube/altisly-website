@@ -14,12 +14,11 @@
 
 <script setup lang="ts">
 const items = [
+  'Financial services',
   'Treasury',
   'Payments',
-  'Identity',
-  'Health records',
-  'Core banking',
-  'Approvals and audit',
-  'Workflow automation',
+  'Healthcare',
+  'Identity and verification',
+  'Operations',
 ]
 </script>

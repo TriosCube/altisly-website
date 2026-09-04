@@ -207,7 +207,7 @@ The pattern in both scroll sections is the same: a tall outer section (`260vh`, 
 `sticky top-0` inner that is one viewport tall. The viewport appears frozen while the page scrolls
 past, and progress drives what happens inside.
 
-### 6.2 Marquee, section 3
+### 6.2 Marquee, section 2
 
 Pure CSS, no JS. The seven-item list is rendered twice into one flex row, and the row translates
 `0 → -50%` over `30s linear infinite` (`@keyframes marquee`, applied by the `animate-marquee`
@@ -216,7 +216,7 @@ utility). Because the content is exactly duplicated, the reset at `-50%` is invi
 Never pauses, never observes visibility, does not honour `prefers-reduced-motion`. This is the one
 motion gap worth closing.
 
-### 6.3 Journey flip cards, section 4
+### 6.3 Journey flip cards, section 5
 
 Outer section `min-height: 260vh`, inner `sticky top-0 h-screen`, so the section holds still for
 roughly 1.6 viewports of scrolling.
@@ -236,9 +236,20 @@ trigger point; it does not scrub the rotation. Scrolling back up unflips them.
 left origin, `transition-transform duration-200 ease-out`, so it completes at progress `0.71`,
 roughly as the last card turns. Hidden below `lg`.
 
-### 6.4 Work showcase, section 7
+### 6.4 Friction rows, section 3
 
-Two sections. The first is the title, the second the cards.
+The only new motion. An `IntersectionObserver` with `rootMargin: -15% 0px -15% 0px` fires once, adds
+`is-settled`, and disconnects. Before it fires, the left column sits translated `-1.1rem` and rotated
+about a degree with alternating direction, at 28% opacity, while the arrow and the right column are
+translated and fully transparent. Settling is a 620ms `cubic-bezier(.22,1,.36,1)` transition,
+staggered 90ms per row via `--row-index`. `prefers-reduced-motion` sets the settled state
+immediately and never observes.
+
+It plays once, in place, as the section passes. No sticky section, no scroll scrubbing.
+
+### 6.5 Work showcase, removed
+
+Deleted with the homepage rewrite. It was two sections. The first was the title, the second the cards.
 
 **Title, `150vh`.** Sticky centred block. Inline style bound to progress:
 `transform: scale(0.9 + p * 0.1)` and `opacity: min(0.35 + p * 1.6, 1)`, with
@@ -284,7 +295,7 @@ rotate(startRotation * inverse)
 This is the only section on the site that reads layout (`getBoundingClientRect`, `offsetLeft`,
 `offsetTop`) inside a rAF loop every frame while scrolling.
 
-### 6.5 Diagnose scanner
+### 6.6 Diagnose scanner
 
 The heaviest motion on the site, and the only permanent rAF loop. Full description in section 7.
 Summary of the moving parts: 130 pulsing points on staggered delays; two breathing rings on the
@@ -298,7 +309,7 @@ within a 340px radius, up to 36px, composed with a stage-five shrink to `0.78`.
 
 `prefers-reduced-motion` freezes the pointer loop and the named keyframe animations.
 
-### 6.6 Small transitions
+### 6.7 Small transitions
 
 - **Brief modal**: Vue `<Transition>`, backdrop 240ms opacity, panel `translateY(1.2rem) scale(.985)`
   over 280ms `cubic-bezier(.22,1,.36,1)`. Question text re-animates on each step via a `:key` change.
@@ -308,9 +319,10 @@ within a 340px radius, up to 36px, composed with a stage-five shrink to `0.78`.
 - **Skeletons**: `@keyframes skeleton-shimmer`, a 400px background sweep, used on the blog index.
 - **`pulse-dot`**: defined in the stylesheet, currently unused.
 
-### 6.7 Motion rules in force
+### 6.8 Motion rules in force
 
 1. Scroll-driven sections use the sticky pattern: tall outer, `sticky top-0` inner one viewport tall.
+   Entrance animations that play once use an `IntersectionObserver` and a class toggle instead.
 2. Threshold flips use a CSS transition on a class toggle; continuous motion writes inline
    transforms from rAF. Do not mix the two on one property.
 3. Anything continuous and expensive must check `prefers-reduced-motion`. The work showcase and the
@@ -440,21 +452,33 @@ The homepage answers, in order: who this company is, what kind of company it is,
 whether it recognises the visitor's problem, what it can do about it, how it works, what it stands
 for, what it believes, and how to start.
 
-**Problems comes before What we do, deliberately.** The order is "your world, then our answer", not
-"here is what we sell, perhaps some of it applies to you". That single swap is most of what
-separates this from an agency template.
+**The first half belongs to the visitor.** The page spends four sections on the visitor's world
+before it says a word about what kind of company Altisly is, and only then talks about itself. The
+sequence borrows its commercial logic from SeamlessHR: proposition, context, recognition, offering,
+method, then identity. Who we are sits at position six deliberately, because a stranger does not yet
+care who we are at position two.
 
 | # | Section | Component | Change |
 | --- | --- | --- | --- |
-| 1 | Hero, the company at a glance | `HeroSection` + `HeroStage` | New copy. **The stat band is redesigned, not repurposed.** Stage cards unbranded. |
-| 2 | Who we are | **new** | Heading, short paragraph, three characteristics. No motion. |
-| 3 | Where we work | `MarqueeSection` | Sector words only. Mechanics unchanged. |
-| 4 | Problems we solve | **new** | Numbered rows on rules, page ground, four client symptoms. No motion. |
-| 5 | What we do | `BentoGrid` | Statement tile carrying a link to `/work`, plus four capability tiles. |
-| 6 | How we work | `JourneySection` | Understand, Design, Build, Embed. Animation untouched. |
+| 1 | Hero | `HeroSection` + `HeroStage` | New copy. **No band under the buttons**, see below. Stage cards unbranded. |
+| 2 | Where we work | `MarqueeSection` | Sectors. A bridge rather than a section. Mechanics unchanged. |
+| 3 | When the tools stop fitting the operation | `ProblemsSection` **new** | Four mess-to-replaced pairs, settling on entry. |
+| 4 | What we do | `BentoGrid` | Statement tile carrying the `/work` link, plus Systems, Products, Automation, Strategy. |
+| 5 | How we work | `JourneySection` | Understand, Design, Build, Embed. Animation untouched. |
+| 6 | Who we are | `WhoWeAre` **new** | Heading, short paragraph, three characteristics. No motion. |
 | 7 | What we stand for | `PrinciplesSection` | Client-facing commitments, not aphorisms. |
-| 8 | Our defining belief | `TestimonialSection` | Brand manifesto. Quote marks and avatar circle removed. |
+| 8 | Our defining belief | `BeliefSection` | Brand statement and three denials. Quote marks and avatar circle gone. |
 | 9 | Let's talk | `CtaSection` | New copy. Metric rows become what happens next. |
+
+**The hero band was removed rather than redesigned.** It was going to carry the four capabilities,
+but the capabilities now live in the Bento three sections later, and two identical quartets that
+close together read as a pattern rather than a point. Its slot, directly beneath the hero buttons,
+is now the reserved place for a proof strip when there is real evidence to put there.
+
+**Where the ideas came from.** Breeze: state the mess before the solution, and make a complicated
+company understandable in seconds. SeamlessHR: arrange the page as proposition, trust, offering,
+proof, action, and keep the corporate story off the front. Neither site's appearance was copied,
+only its information hierarchy.
 
 **`WorkShowcase.vue` is removed from the homepage and deleted.** It consumed `150vh` for its title
 plus `180vh` for the cards, spending a third of a kilometre of scroll on projects, on a page whose
@@ -499,7 +523,10 @@ or regulatory risk", the widest honest reading. Naming the single buyer most wan
 the hero and let the four hero columns be ordered by commercial priority.
 
 **No real outcome number exists.** One real figure, even a single before and after, would be worth
-more than any section on this page.
+more than any section on this page. When two or three defensible outcomes exist, or customers who
+can be named publicly, they go into the reserved slot directly beneath the hero buttons, before any
+further section is added. Proof at that position is the highest-value addition the homepage can
+take.
 
 **One promise in the CTA is a commitment, not copy**: a reply within one business day. The written
 scope inside a week was cut deliberately, since it could not be honoured for large or ambiguous
@@ -529,16 +556,9 @@ removed.
 >
 > `Talk to us`  `Run a diagnostic`
 
-Band, four columns, mono uppercase label over one line:
+No band. The slot beneath the buttons is held for a future proof strip.
 
-| Label | Line |
-| --- | --- |
-| BUSINESS SYSTEMS | The systems the work actually runs on. |
-| DIGITAL PRODUCTS | Ideas that need to become something real. |
-| AUTOMATION | Work that should not still be manual. |
-| TECHNOLOGY STRATEGY | Decisions that need technical clarity. |
-
-**02 Who we are**
+**06 Who we are**
 
 > ## Some problems do not fit a software brief.
 >
@@ -550,33 +570,38 @@ Three characteristics: **One team, end to end.** The people who scope it are the
 it. / **We work where mistakes cost.** Money moving, records kept, regulators asking. / **We
 finish.** A system nobody has to babysit, run by your own people.
 
-**03 Where we work**
+**02 Where we work**
 
-Marquee: Treasury · Payments · Identity · Health records · Core banking · Approvals and audit ·
-Workflow automation
+Marquee: Financial services · Treasury · Payments · Healthcare · Identity and verification ·
+Operations
 
-**04 Problems we solve**
+**03 When the tools stop fitting the operation**
 
-> **01 Your operation has outgrown its tools.** What worked at ten a day quietly breaks at three hundred.
-> **02 The critical work is still manual.** It runs on spreadsheets, chat messages and one person's memory.
-> **03 The systems do not agree with each other.** Every reconciliation turns into an argument about which one is right.
-> **04 You know what needs to exist, not how to build it.** The idea is settled. The operation behind it is not.
+Four rows, the mess on the left in mono, an arrow, what replaces it on the right in semibold.
 
-**05 What we do**
+| The mess | What replaces it |
+| --- | --- |
+| Spreadsheets only one person can open | One record everyone works from |
+| Approvals buried in chat | Decisions with a name and a time against them |
+| Three systems, three answers | One number, and the trail behind it |
+| Work that stops when someone is away | A process that runs without heroics |
 
-Statement tile: **We build the parts of a business that cannot go down.** From the record of truth to
-the screen someone opens at eight in the morning. Ends with `See what we have built →` linking `/work`.
+**04 What we do**
+
+Statement tile: **We work across the operation, not just the software.** The process, the record and
+the software have to change together, or the old way quietly wins. Ends with
+`See what we have built →` linking `/work`.
 
 Four capability tiles:
 
 | Tile | Line |
 | --- | --- |
-| Business systems | Ledgers, records and approvals: the things the work runs on. |
-| Digital products | An idea taken from concept to something customers use daily. |
-| Automation | The manual steps between systems, removed and recorded. |
-| Technology strategy | Deciding what is worth building, and what it will cost to run. |
+| Systems | The technology the operation runs on: records, ledgers and approvals. |
+| Products | New ideas turned into working digital products people use daily. |
+| Automation | Repetitive work removed where it should never have needed a person. |
+| Strategy | Technical direction for difficult operating decisions. |
 
-**06 How we work**
+**05 How we work**
 
 > 01 **Understand.** We map how the work actually runs before anyone designs a screen.
 > 02 **Design.** We decide what the system should make impossible, not merely discourage.
@@ -596,8 +621,8 @@ Four capability tiles:
 >
 > ## Technology is only worth it when the business underneath works better.
 >
-> Not technology for its own sake. / Not complexity dressed as sophistication. / The outcome that
-> needed to change, changed.
+> Not software for software's sake. / Not automation around a broken process. / Not another system
+> your team has to work around.
 
 **09 Let's talk**
 

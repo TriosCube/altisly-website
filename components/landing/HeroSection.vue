@@ -33,19 +33,6 @@
           <AppButton variant="lime" size="lg" to="/contact">Talk to us →</AppButton>
           <AppButton variant="ghost" size="lg" to="/diagnose">Run a diagnostic</AppButton>
         </div>
-
-        <div class="mt-11 grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-6">
-          <div
-            v-for="capability in capabilities"
-            :key="capability.label"
-            class="border-t border-base pt-3.5"
-          >
-            <div class="font-code text-[10.5px] tracking-[0.14em] uppercase text-brand-deep">
-              {{ capability.label }}
-            </div>
-            <div class="text-[13.5px] mt-2 leading-snug text-muted">{{ capability.lead }}</div>
-          </div>
-        </div>
       </div>
 
       <HeroStage />
@@ -56,5 +43,4 @@
 <script setup lang="ts">
 import AppButton from '@/components/ui/AppButton.vue'
 import HeroStage from './HeroStage.vue'
-import { capabilities } from '@/data/content'
 </script>

@@ -32,8 +32,8 @@
 
 <script setup lang="ts">
 const supports = [
-  'Not technology for its own sake.',
-  'Not complexity dressed as sophistication.',
-  'The outcome that needed to change, changed.',
+  'Not software for software\'s sake.',
+  'Not automation around a broken process.',
+  'Not another system your team has to work around.',
 ]
 </script>

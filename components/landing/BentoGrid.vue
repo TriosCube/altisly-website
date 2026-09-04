@@ -12,10 +12,11 @@
           <h3
             class="text-[36px] font-bold tracking-[-0.025em] leading-none mt-[14px] mb-3 max-w-[16ch]"
           >
-            We build the parts of a business that cannot go down.
+            We work across the operation, not just the software.
           </h3>
           <p class="text-invert-muted text-[15px] max-w-[38ch] mb-7">
-            From the record of truth to the screen someone opens at eight in the morning.
+            The process, the record and the software have to change together, or the old way
+            quietly wins.
           </p>
 
           <svg

@@ -1,6 +1,6 @@
 <template>
   <section
-    id="features"
+    id="how-we-work"
     ref="sectionRef"
     class="relative"
     :style="{ minHeight: '260vh' }"
@@ -9,7 +9,7 @@
     <div class="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
       <div class="container-isura w-full">
         <div class="text-center">
-          <span class="text-[13px] text-muted tracking-[0.04em]">How we build</span>
+          <span class="text-[13px] text-muted tracking-[0.04em]">How we work</span>
           <h2
             class="font-bold tracking-[-0.035em] text-[clamp(40px,5vw,64px)] leading-none text-center mt-[14px] max-w-[18ch] mx-auto"
           >
