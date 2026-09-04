@@ -1,5 +1,11 @@
 <template>
   <header ref="heroRef" class="hero" :class="{ 'is-in': entered }">
+    <div class="sky" aria-hidden="true">
+      <span class="drift drift-a"></span>
+      <span class="drift drift-b"></span>
+      <span class="drift drift-c"></span>
+    </div>
+
     <div class="container-isura hero-inner" :style="{ '--recede': recede }">
       <div class="hero-copy">
         <h1 class="reveal headline" style="--i: 0">
@@ -84,27 +90,81 @@ onBeforeUnmount(() => {
   position: relative;
   z-index: 0;
   padding: 4.5rem 0 4rem;
+  overflow: hidden;
   background-color: var(--bg);
-  background-image:
-    radial-gradient(
-      ellipse 60% 55% at 76% 26%,
-      color-mix(in srgb, var(--brand) 20%, transparent),
-      transparent 62%
-    ),
-    radial-gradient(
-      ellipse 70% 60% at 8% 88%,
-      color-mix(in srgb, var(--brand-deep) 9%, transparent),
-      transparent 60%
-    ),
-    radial-gradient(circle at center, var(--border) 1px, transparent 1px);
-  background-size:
-    auto,
-    auto,
-    34px 34px;
-  background-position:
-    center,
-    center,
-    center;
+  background-image: radial-gradient(circle at center, var(--border) 1px, transparent 1px);
+  background-size: 34px 34px;
+}
+
+.sky {
+  position: absolute;
+  inset: -20% -10%;
+  z-index: -1;
+  pointer-events: none;
+  filter: blur(70px);
+}
+
+.drift {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+.drift-a {
+  left: 46%;
+  top: -6%;
+  width: 46%;
+  aspect-ratio: 1.4;
+  background: color-mix(in srgb, var(--brand) 34%, transparent);
+  animation: drift-a 52s ease-in-out infinite;
+}
+
+.drift-b {
+  left: 58%;
+  top: 26%;
+  width: 38%;
+  aspect-ratio: 1.1;
+  background: color-mix(in srgb, var(--brand-deep) 22%, transparent);
+  animation: drift-b 68s ease-in-out infinite;
+}
+
+.drift-c {
+  left: -4%;
+  top: 52%;
+  width: 42%;
+  aspect-ratio: 1.3;
+  background: color-mix(in srgb, var(--brand) 16%, transparent);
+  animation: drift-c 84s ease-in-out infinite;
+}
+
+@keyframes drift-a {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-7%, 6%, 0) scale(1.12);
+  }
+}
+
+@keyframes drift-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1.06);
+  }
+  50% {
+    transform: translate3d(6%, -8%, 0) scale(0.94);
+  }
+}
+
+@keyframes drift-c {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(0.98);
+  }
+  50% {
+    transform: translate3d(9%, -5%, 0) scale(1.14);
+  }
 }
 
 .hero::after {
@@ -253,6 +313,10 @@ onBeforeUnmount(() => {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .drift {
+    animation: none;
+  }
+
   .hero-inner {
     transform: none;
     opacity: 1;
