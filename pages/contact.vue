@@ -12,7 +12,7 @@
 
     <ContactSection />
 
-    <section class="py-16">
+    <section v-reveal class="py-16">
       <div class="container-isura grid grid-cols-1 lg:grid-cols-[1fr_1.15fr] gap-12 lg:gap-16">
         <div>
           <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">
@@ -45,7 +45,7 @@
       </div>
     </section>
 
-    <section class="pb-20">
+    <section v-reveal class="pb-20">
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">Questions</span>
         <h2
@@ -54,8 +54,8 @@
           What happens after you send it.
         </h2>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <article v-for="faq in contactFaqs" :key="faq.q" class="bento-card">
+        <div data-reveal-flow class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <article v-for="(faq, i) in contactFaqs" :key="faq.q" class="bento-card" v-reveal>
             <h3 class="text-[16px] font-semibold tracking-[-0.015em] mb-2.5">{{ faq.q }}</h3>
             <p class="text-muted text-[14.5px] leading-relaxed">{{ faq.a }}</p>
           </article>

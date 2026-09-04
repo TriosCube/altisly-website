@@ -11,7 +11,7 @@
       </template>
     </PageIntro>
 
-    <section class="py-16">
+    <section v-reveal class="py-16">
       <div class="container-isura grid grid-cols-1 lg:grid-cols-[1fr_1.15fr] gap-12">
         <div>
           <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">The story</span>
@@ -29,7 +29,7 @@
       </div>
     </section>
 
-    <section class="py-16">
+    <section v-reveal class="py-16">
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted"
           >The principles</span
@@ -40,11 +40,12 @@
           What every build answers to.
         </h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div data-reveal-flow class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <article
             v-for="(principle, i) in principles"
             :key="principle.title"
             class="bento-card"
+            v-reveal
           >
             <div
               class="w-11 h-11 rounded-full bg-brand text-on-brand grid place-items-center font-code font-bold text-[15px] mb-5"
@@ -60,13 +61,14 @@
       </div>
     </section>
 
-    <section class="pb-16">
+    <section v-reveal class="pb-16">
       <div class="container-isura">
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div data-reveal-flow class="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <div
-            v-for="stat in stats"
+            v-for="(stat, i) in stats"
             :key="stat.label"
             class="drift-card bg-surface border border-base rounded-isura-xl p-6"
+            v-reveal
           >
             <div class="font-code text-[34px] font-bold tracking-[-0.025em] leading-none">
               {{ stat.value }}

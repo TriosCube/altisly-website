@@ -16,7 +16,7 @@
       </template>
     </PageIntro>
 
-    <section class="py-14">
+    <section v-reveal class="py-14">
       <div class="container-isura flex flex-col lg:flex-row gap-12">
         <aside class="lg:w-60 flex-shrink-0">
           <div class="lg:sticky lg:top-24">

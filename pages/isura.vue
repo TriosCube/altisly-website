@@ -18,7 +18,7 @@
       </template>
     </PageIntro>
 
-    <section class="py-16">
+    <section v-reveal class="py-16">
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">
           The foundation
@@ -29,8 +29,8 @@
           Four decisions everything else rests on.
         </h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <article v-for="(pillar, i) in isuraPillars" :key="pillar.title" class="bento-card">
+        <div data-reveal-flow class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <article v-for="(pillar, i) in isuraPillars" :key="pillar.title" class="bento-card" v-reveal>
             <div
               class="w-11 h-11 rounded-full bg-brand text-on-brand grid place-items-center font-code font-bold text-[15px] mb-5"
             >
@@ -45,7 +45,7 @@
       </div>
     </section>
 
-    <section v-if="project?.diagram" class="bg-invert text-invert py-16">
+    <section v-reveal v-if="project?.diagram" class="bg-invert text-invert py-16">
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-invert-muted">
           The architecture
@@ -59,7 +59,7 @@
       </div>
     </section>
 
-    <section class="py-16">
+    <section v-reveal class="py-16">
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">The surfaces</span>
         <h2
@@ -68,8 +68,8 @@
           One platform, four audiences.
         </h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-          <article v-for="surface in isuraSurfaces" :key="surface.name" class="bento-card">
+        <div data-reveal-flow class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+          <article v-for="(surface, i) in isuraSurfaces" :key="surface.name" class="bento-card" v-reveal>
             <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">
               {{ surface.audience }}
             </span>
@@ -82,7 +82,7 @@
       </div>
     </section>
 
-    <section class="py-16">
+    <section v-reveal class="py-16">
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">
           What it carries
@@ -93,8 +93,8 @@
           The parts a tenant actually uses.
         </h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-          <article v-for="cap in isuraCapabilities" :key="cap.title" class="bento-card">
+        <div data-reveal-flow class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          <article v-for="(cap, i) in isuraCapabilities" :key="cap.title" class="bento-card" v-reveal>
             <h3 class="text-[19px] font-bold tracking-[-0.02em] leading-[1.15] mb-2.5">
               {{ cap.title }}
             </h3>
@@ -104,13 +104,14 @@
       </div>
     </section>
 
-    <section class="py-16">
+    <section v-reveal class="py-16">
       <div class="container-isura">
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div data-reveal-flow class="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <div
-            v-for="item in isuraProof"
+            v-for="(item, i) in isuraProof"
             :key="item.label"
             class="drift-card bg-surface border border-base rounded-isura-xl p-6"
+            v-reveal
           >
             <div class="font-code text-[34px] font-bold tracking-[-0.025em] leading-none">
               {{ item.value }}
@@ -121,7 +122,7 @@
       </div>
     </section>
 
-    <section class="py-16">
+    <section v-reveal class="py-16">
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">Questions</span>
         <h2
@@ -130,8 +131,8 @@
           The ones we get asked.
         </h2>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <article v-for="faq in isuraFaqs" :key="faq.q" class="bento-card">
+        <div data-reveal-flow class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <article v-for="(faq, i) in isuraFaqs" :key="faq.q" class="bento-card" v-reveal>
             <h3 class="text-[16px] font-semibold tracking-[-0.015em] mb-2.5">{{ faq.q }}</h3>
             <p class="text-muted text-[14.5px] leading-relaxed">{{ faq.a }}</p>
           </article>
@@ -139,7 +140,7 @@
       </div>
     </section>
 
-    <CtaSection />
+    <CtaSection v-reveal />
   </div>
 </template>
 

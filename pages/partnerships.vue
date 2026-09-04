@@ -11,10 +11,10 @@
       </template>
     </PageIntro>
 
-    <section class="py-16">
+    <section v-reveal class="py-16">
       <div class="container-isura">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <article v-for="program in partnerPrograms" :key="program.title" class="bento-card">
+        <div data-reveal-flow class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <article v-for="(program, i) in partnerPrograms" :key="program.title" class="bento-card" v-reveal>
             <h3 class="text-[24px] font-bold tracking-[-0.022em] leading-[1.1] mb-3">
               {{ program.title }}
             </h3>
@@ -34,7 +34,7 @@
       </div>
     </section>
 
-    <section class="py-16">
+    <section v-reveal class="py-16">
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">
           The engagement
@@ -58,7 +58,7 @@
       </div>
     </section>
 
-    <section class="py-16">
+    <section v-reveal class="py-16">
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">The fit</span>
         <h2
@@ -111,7 +111,7 @@
       </div>
     </section>
 
-    <section class="py-16">
+    <section v-reveal class="py-16">
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">Commercials</span>
         <h2
@@ -140,7 +140,7 @@
       </div>
     </section>
 
-    <section class="py-16">
+    <section v-reveal class="py-16">
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">Questions</span>
         <h2
@@ -149,8 +149,8 @@
           Asked before every build.
         </h2>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <article v-for="faq in partnerFaqs" :key="faq.q" class="bento-card">
+        <div data-reveal-flow class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <article v-for="(faq, i) in partnerFaqs" :key="faq.q" class="bento-card" v-reveal>
             <h3 class="text-[16px] font-semibold tracking-[-0.015em] mb-2.5">{{ faq.q }}</h3>
             <p class="text-muted text-[14.5px] leading-relaxed">{{ faq.a }}</p>
           </article>
@@ -158,7 +158,7 @@
       </div>
     </section>
 
-    <CtaSection />
+    <CtaSection v-reveal />
   </div>
 </template>
 

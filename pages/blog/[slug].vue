@@ -37,7 +37,7 @@
         </template>
       </PageIntro>
 
-      <section v-if="post.coverImage" class="pt-10">
+      <section v-reveal v-if="post.coverImage" class="pt-10">
         <div class="container-isura">
           <img
             :src="post.coverImage"
@@ -47,7 +47,7 @@
         </div>
       </section>
 
-      <section class="py-14">
+      <section v-reveal class="py-14">
         <div class="container-isura flex flex-col lg:flex-row gap-12">
           <aside class="lg:w-64 flex-shrink-0 lg:order-2">
             <div class="lg:sticky lg:top-24 flex flex-col gap-5">
@@ -152,7 +152,7 @@
         </div>
       </section>
 
-      <section v-if="relatedPosts.length" class="pb-20">
+      <section v-reveal v-if="relatedPosts.length" class="pb-20">
         <div class="container-isura">
           <div class="flex items-end justify-between gap-4">
             <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">
@@ -162,12 +162,13 @@
               All posts →
             </NuxtLink>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-5">
+          <div data-reveal-flow class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-5">
             <NuxtLink
-              v-for="related in relatedPosts"
+              v-for="(related, i) in relatedPosts"
               :key="related.id"
               :to="`/blog/${related.slug}`"
               class="bento-card hover:border-strong transition-colors"
+              v-reveal
             >
               <span class="chip bg-surface-2 border-base text-[11px] text-muted self-start mb-4">{{
                 related.category
@@ -181,7 +182,7 @@
         </div>
       </section>
 
-      <CtaSection />
+      <CtaSection v-reveal />
     </template>
   </div>
 </template>

@@ -24,10 +24,10 @@
       </template>
     </PageIntro>
 
-    <section class="py-14">
+    <section v-reveal class="py-14">
       <div class="container-isura">
-        <div v-if="pending" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div v-for="i in 3" :key="i" class="bento-card min-h-[240px]">
+        <div data-reveal-flow v-if="pending" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div v-for="i in 3" :key="i" class="bento-card min-h-[240px]" v-reveal>
             <div class="skeleton h-4 w-1/4 mb-4"></div>
             <div class="skeleton h-6 w-3/4 mb-3"></div>
             <div class="skeleton h-4 w-full mb-2"></div>
@@ -107,12 +107,13 @@
             </div>
           </NuxtLink>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div data-reveal-flow class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <NuxtLink
-              v-for="post in filteredPosts.slice(1)"
+              v-for="(post, i) in filteredPosts.slice(1)"
               :key="post.id"
               :to="`/blog/${post.slug}`"
               class="bento-card hover:border-strong transition-colors"
+              v-reveal
             >
               <img
                 v-if="post.coverImage"

@@ -21,7 +21,7 @@
       </template>
     </PageIntro>
 
-    <section class="py-16">
+    <section v-reveal class="py-16">
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">The problem</span>
         <h2
@@ -37,7 +37,7 @@
       </div>
     </section>
 
-    <section class="py-16">
+    <section v-reveal class="py-16">
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted"
           >The decisions</span
@@ -58,7 +58,7 @@
       </div>
     </section>
 
-    <section v-if="project.diagram" class="bg-invert text-invert py-16">
+    <section v-reveal v-if="project.diagram" class="bg-invert text-invert py-16">
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-invert-muted"
           >The architecture</span
@@ -72,7 +72,7 @@
       </div>
     </section>
 
-    <section class="py-16">
+    <section v-reveal class="py-16">
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">The build</span>
         <h2
@@ -94,7 +94,7 @@
       </div>
     </section>
 
-    <section class="pb-20">
+    <section v-reveal class="pb-20">
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">The outcome</span>
         <h2

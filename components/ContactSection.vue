@@ -1,5 +1,5 @@
 <template>
-  <section class="py-16">
+  <section v-reveal class="py-16">
     <div class="container-isura grid grid-cols-1 lg:grid-cols-[1fr_1.15fr] gap-12 lg:gap-16 items-start">
       <div>
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">Get in touch</span>

@@ -10,7 +10,7 @@
       </template>
     </PageIntro>
 
-    <section class="py-16">
+    <section v-reveal class="py-16">
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">Life here</span>
         <h2
@@ -18,8 +18,8 @@
         >
           What you get.
         </h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <article v-for="perk in perks" :key="perk.title" class="bento-card">
+        <div data-reveal-flow class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <article v-for="(perk, i) in perks" :key="perk.title" class="bento-card" v-reveal>
             <h3 class="text-[19px] font-bold tracking-[-0.018em] leading-[1.15] mb-2">
               {{ perk.title }}
             </h3>
@@ -29,7 +29,7 @@
       </div>
     </section>
 
-    <section class="py-16">
+    <section v-reveal class="py-16">
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">
           What we look for
@@ -39,8 +39,8 @@
         >
           The four things we read for.
         </h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <article v-for="trait in whatWeLookFor" :key="trait.title" class="bento-card">
+        <div data-reveal-flow class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <article v-for="(trait, i) in whatWeLookFor" :key="trait.title" class="bento-card" v-reveal>
             <h3 class="text-[20px] font-bold tracking-[-0.02em] leading-[1.15] mb-2.5">
               {{ trait.title }}
             </h3>
@@ -50,7 +50,7 @@
       </div>
     </section>
 
-    <section class="py-16">
+    <section v-reveal class="py-16">
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">How we hire</span>
         <h2
@@ -68,7 +68,7 @@
       </div>
     </section>
 
-    <section class="py-16">
+    <section v-reveal class="py-16">
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">The set-up</span>
         <h2
@@ -90,7 +90,7 @@
       </div>
     </section>
 
-    <section class="py-16">
+    <section v-reveal class="py-16">
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">Open roles</span>
         <h2
@@ -139,7 +139,7 @@
       </div>
     </section>
 
-    <CtaSection />
+    <CtaSection v-reveal />
   </div>
 </template>
 
