@@ -407,54 +407,198 @@ the visual identity, the section mechanics and the animations.
 7. Keep the terse convention: a heading plus one-line points.
 8. Keep the UI identity and interactions unless a component genuinely cannot carry the new content.
 
-### 9.4 Target narrative
+### 9.4 Writing rules
 
-The homepage should answer, in order: who this company is, where it operates, what it does, what
-problems it takes on, how it works, what it stands for, what it believes, and how to start.
+The structure is settled. The remaining risk is filling a good structure with polished corporate
+language, which fails the brief exactly as badly as the engineering language did.
+
+**Banned vocabulary.** innovative, cutting-edge, empower, seamless, leverage as a verb, solutions as
+a bare noun, passionate, committed to, forward-thinking, world-class, best-in-class, holistic,
+synergy, robust, transform your business, take you to the next level, unlock, end-to-end as a
+buzzword rather than a description.
+
+**Banned constructions.**
+
+- The abstract tricolon: "people, process and technology", "strategy, design and delivery". Three
+  abstract nouns in a row is the single most common tell in machine-written copy.
+- The empty relative clause: "a company that is dedicated to ...".
+- Present participle padding: "helping organisations to ...", "enabling businesses to ...".
+- Uniform sentence length. Real writing varies between four words and twenty five.
+
+**The substitution test.** Swap Altisly for any competitor's name. If the sentence is still true, it
+says nothing and must be cut or made specific.
+
+**Prefer concrete nouns.** Spreadsheet, approval, ledger, month-end, handover, reconciliation,
+audit, queue. Not "operational excellence", "digital journey", "value creation".
+
+**Voice.** Active, present tense, plain. State the thing, then stop. Do not open consecutive
+sections with "We".
+
+### 9.5 Target narrative
+
+The homepage answers, in order: who this company is, what kind of company it is, where it operates,
+whether it recognises the visitor's problem, what it can do about it, how it works, what it stands
+for, what it believes, and how to start.
+
+**Problems comes before What we do, deliberately.** The order is "your world, then our answer", not
+"here is what we sell, perhaps some of it applies to you". That single swap is most of what
+separates this from an agency template.
 
 | # | Section | Component | Change |
 | --- | --- | --- | --- |
-| 1 | Hero, the company at a glance | `HeroSection` + `HeroStage` | New copy. Stat band becomes four sector columns. Stage cards unbranded. |
-| 2 | Who we are | **new** | New section. Heading, short paragraph, three facts. No motion. |
+| 1 | Hero, the company at a glance | `HeroSection` + `HeroStage` | New copy. **The stat band is redesigned, not repurposed.** Stage cards unbranded. |
+| 2 | Who we are | **new** | Heading, short paragraph, three characteristics. No motion. |
 | 3 | Where we work | `MarqueeSection` | Sector words only. Mechanics unchanged. |
-| 4 | What we do | `BentoGrid` | Five capability tiles plus one tile linking `/work`. |
-| 5 | Problems we solve | **new** | Numbered rows on rules, page ground, four items. No motion. |
+| 4 | Problems we solve | **new** | Numbered rows on rules, page ground, four client symptoms. No motion. |
+| 5 | What we do | `BentoGrid` | Statement tile carrying a link to `/work`, plus four capability tiles. |
 | 6 | How we work | `JourneySection` | Understand, Design, Build, Embed. Animation untouched. |
-| 7 | What we stand for | `PrinciplesSection` | Commitments, not aphorisms. **Moved after the work link.** |
-| 8 | Our defining belief | `TestimonialSection` | Brand statement. Quote marks and avatar circle removed. |
+| 7 | What we stand for | `PrinciplesSection` | Client-facing commitments, not aphorisms. |
+| 8 | Our defining belief | `TestimonialSection` | Brand manifesto. Quote marks and avatar circle removed. |
 | 9 | Let's talk | `CtaSection` | New copy. Metric rows become what happens next. |
 
 **`WorkShowcase.vue` is removed from the homepage and deleted.** It consumed `150vh` for its title
-plus `180vh` for the cards, a third of a kilometre of scroll spent showing projects on a page that
-should be introducing a company. `/work` already renders its own cards. Evidence survives on the
-homepage as a single Bento tile linking to it.
+plus `180vh` for the cards, spending a third of a kilometre of scroll on projects, on a page whose
+job is introducing a company. `/work` already renders its own cards. Evidence survives on the
+homepage as a link inside the statement tile.
 
-Two new sections, one removed, so the page ends up shorter and better answered.
+Two new sections, one removed. The page ends up shorter and better answered.
 
-### 9.5 Consequences for motion
+### 9.6 Two traps to design against
 
-Removing `WorkShowcase` deletes the site's most expensive scroll section: the rAF loop that reads
-layout every frame. After the rewrite the homepage runs one scroll listener (`JourneySection`) and
-one CSS marquee. The scanner keeps the showpiece interactions, which is the right place for them.
+**The hero band must not force sectors into a component built for statistics.** The existing band is
+a big mono number over a muted label. With no legitimate numbers, dropping sector names into that
+shape reads as a workaround. Redesign the piece: a mono uppercase label over one short line, four
+across, keeping the four-column rule rhythm but not the numeric form.
 
-The two new sections are deliberately still. The page currently alternates card grid and dark band
-with almost nothing between; static, well-set type is the variation it is missing.
+**What we do and Problems we solve must not restate each other.** They are opposite viewpoints.
 
-### 9.6 Open decisions
+| | Problems we solve | What we do |
+| --- | --- | --- |
+| Voice | The client recognising themselves | Altisly looking outward |
+| Content | Symptoms, in the client's words | Capabilities, in ours |
+| Example | "The critical work is still manual" | "Automation" |
+| Mentions Altisly | Never | Throughout |
 
-**The company name is unresolved and blocks the hero sentence.** The site says Altisly throughout,
-the domain is altisly.com, and the legal pages name **Altisly Inc.** The company has also been
-referred to as **Altis Platforms Limited**. If that is the legal entity and Altisly is the trading
-brand, the homepage says Altisly and only the legal pages carry the entity. If the company is
-actually renaming, that is a site-wide job touching the footer, legal pages, metadata and the logo,
-and it falls outside the agreed scope.
+If a line in Problems names a capability, it has drifted. If a tile in What we do describes a
+symptom, it has drifted.
 
-**The buyer is not yet named.** The copy currently addresses "organisations whose operations carry
-money, records or regulatory risk", which is the widest honest reading. Naming the single buyer most
-wanted would sharpen the hero and let the four sector columns be ordered by commercial priority.
+### 9.7 Naming, resolved
 
-**No real outcome number exists yet.** One real figure, even a single before and after, would be
-worth more than any section on the page and would give the hero band something to hold.
+The public site says **Altisly**. Altis Platforms Limited is the registered entity and appears only
+where a registered entity belongs: the legal pages and the footer's small print. The homepage never
+says "Altis Platforms Limited".
+
+This explicitly is **not** a rebrand to "Altis". Renaming the brand would be a site-wide exercise
+across the logo, footer, metadata, domain and legal pages, and must never be decided as a side
+effect of a homepage copy pass.
+
+### 9.8 Still open
+
+**The buyer is not named.** The copy addresses "organisations whose operations carry money, records
+or regulatory risk", the widest honest reading. Naming the single buyer most wanted would sharpen
+the hero and let the four hero columns be ordered by commercial priority.
+
+**No real outcome number exists.** One real figure, even a single before and after, would be worth
+more than any section on this page.
+
+**Two promises in the CTA need confirming**, since they are commitments rather than copy: a reply
+within one business day, and a written scope inside a week.
+
+### 9.9 Draft copy, awaiting approval
+
+Not yet in the code. Written against the rules above.
+
+**01 Hero**
+
+> Eyebrow: `Built for operations that carry risk`
+>
+> # We build the systems businesses run on.
+>
+> Altisly designs, builds and hands over the software behind day to day operations: the ledgers,
+> approvals, records and workflows a business cannot afford to get wrong.
+>
+> `Talk to us`  `Run a diagnostic`
+
+Band, four columns, mono uppercase label over one line:
+
+| Label | Line |
+| --- | --- |
+| BUSINESS SYSTEMS | The systems the work actually runs on. |
+| DIGITAL PRODUCTS | Ideas that need to become something real. |
+| AUTOMATION | Work that should not still be manual. |
+| ADVISORY | Decisions that need technical clarity. |
+
+**02 Who we are**
+
+> ## Some problems do not fit a software brief.
+>
+> Altisly works inside the operation, not beside it. We take on problems where the process, the data
+> and the software all have to change together, and we stay until the new way of working holds.
+
+Three characteristics: **One team, end to end.** The people who scope it are the people who build
+it. / **We work where mistakes cost.** Money moving, records kept, regulators asking. / **We
+finish.** A system nobody has to babysit, run by your own people.
+
+**03 Where we work**
+
+Marquee: Treasury · Payments · Identity · Health records · Core banking · Approvals and audit ·
+Workflow automation
+
+**04 Problems we solve**
+
+> **01 Your operation has outgrown its tools.** What worked at ten a day quietly breaks at three hundred.
+> **02 The critical work is still manual.** It runs on spreadsheets, chat messages and one person's memory.
+> **03 The systems do not agree with each other.** Every reconciliation turns into an argument about which one is right.
+> **04 You know what needs to exist, not how to build it.** The idea is settled. The operation behind it is not.
+
+**05 What we do**
+
+Statement tile: **We build the parts of a business that cannot go down.** From the record of truth to
+the screen someone opens at eight in the morning. Ends with `See what we have built →` linking `/work`.
+
+Four capability tiles:
+
+| Tile | Line |
+| --- | --- |
+| Business systems | Ledgers, records and approvals: the things the work runs on. |
+| Digital products | An idea taken from concept to something customers use daily. |
+| Automation | The manual steps between systems, removed and recorded. |
+| Applied AI | Aimed where judgement is the bottleneck, not just data entry. |
+
+**06 How we work**
+
+> 01 **Understand.** We map how the work actually runs before anyone designs a screen.
+> 02 **Design.** We decide what the system should make impossible, not merely discourage.
+> 03 **Build.** Interface, data and automation shipped as one thing, not three.
+> 04 **Embed.** We harden the failure paths and leave your team running it.
+
+**07 What we stand for**
+
+> 01 Business before technology.
+> 02 Build for the day it goes wrong.
+> 03 The complexity stays with us.
+> 04 Leave your team running it.
+
+**08 Our defining belief**
+
+> `WE BELIEVE`
+>
+> ## Technology is only worth it when the business underneath works better.
+>
+> Not technology for its own sake. / Not complexity dressed as sophistication. / The outcome that
+> needed to change, changed.
+
+**09 Let's talk**
+
+> ## Have a problem worth solving?
+>
+> Tell us what is not working, what you are trying to build, or where you want to go next. An
+> engineer replies, not a sales team.
+>
+> `Talk to us`  `Run a diagnostic`
+
+Right column, what happens next: 01 You describe the operation. / 02 An engineer replies within a
+business day. / 03 You get a written scope inside a week.
 
 ---
 
