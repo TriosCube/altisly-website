@@ -268,8 +268,10 @@ No sticky section, no scroll scrubbing.
 
 ### 6.5 Stacked takeover, section 4
 
-Four capability panels, each `position: sticky; top: 9vh; height: 78vh`, with an ascending
-`z-index`. Because they are sticky siblings, each panel pins itself and the next one scrolls up
+Four capability panels, each `position: sticky; top: 4vh; height: 92vh`, with an ascending
+`z-index`. Near full screen and near full bleed: the panels sit outside `container-isura`, inset
+only `0.75rem` to `1.6rem` from the viewport edge, so an incoming panel visibly covers the one
+behind rather than sliding into a column. Because they are sticky siblings, each panel pins itself and the next one scrolls up
 **over** it rather than waiting for it to leave. That part is free: no JavaScript sets the stacking.
 
 What JavaScript adds is the recession. One scroll handler behind `requestAnimationFrame` computes a
@@ -286,19 +288,26 @@ overlay:
 
 | Property | At rest | Fully covered |
 | --- | --- | --- |
-| `translateY` | 0 | `-20px` |
-| `scale` | 1 | `0.965` |
-| `rotate` | 0 | `-0.8deg` |
-| page-colour overlay | 0 | `0.32` |
+| `translateY` | 0 | `-22px` |
+| `scale` | 1 | `0.962` |
+| `rotate` | 0 | `-0.7deg` |
+| page-colour overlay | 0 | `0.34` |
 
 Restrained on purpose. The panel behind should read as pushed back, not thrown.
 
-**Tones alternate** so the stack never looks like four copies of one card: deep green, light surface,
-lime, deep green. Each carries a small operational composition rather than an icon: reconciled
-invoice rows, a request-to-post flow, fourteen steps becoming three, a product surface.
+**Layout inside a panel** follows the reference: a mono number, an oversized centred title, one mono
+line beneath it, then a wide interface composition that fills the remaining height and is cropped by
+the panel's bottom edge, so it reads as a screen continuing past the fold.
 
-Total footprint is roughly `312vh`, four panels at `78vh`, which is less than the `330vh` the
-deleted work showcase used to spend on projects.
+**Tones alternate** so the stack never looks like four copies of one card: deep green, light surface,
+lime, deep green. Every surface inside a composition is built from `color-mix` against
+`currentColor`, so the same markup reads correctly on all three grounds.
+
+The four compositions: a posted ledger with one pending row, a request-to-posted board, a nightly
+run log with one step in flight, and a staff portal form. Real operational surfaces rather than
+service icons.
+
+Total footprint is roughly `368vh`, four panels at `92vh`.
 
 Under `prefers-reduced-motion` the handler never attaches, the panels drop to static flow at natural
 height, and nothing transforms.

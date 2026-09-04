@@ -1,5 +1,5 @@
 <template>
-  <section class="py-20" id="what-we-do">
+  <section class="pt-20" id="what-we-do">
     <div class="container-isura">
       <div class="max-w-[20ch]">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">What we do</span>
@@ -18,56 +18,66 @@
         class="stage"
         :style="{ '--z': i + 1, '--recede': recede[i] }"
       >
-        <div class="container-isura">
-          <article class="panel" :class="`tone-${stage.tone}`">
-            <div class="panel-copy">
-              <span class="panel-number">{{ stage.number }}</span>
-              <h3>{{ stage.title }}</h3>
-              <p>{{ stage.body }}</p>
+        <article class="panel" :class="`tone-${stage.tone}`">
+          <span class="panel-number">{{ stage.number }}</span>
+          <h3>{{ stage.title }}</h3>
+          <p>{{ stage.body }}</p>
+
+          <div class="console" aria-hidden="true">
+            <div class="console-bar">
+              <span class="dots"><i></i><i></i><i></i></span>
+              <span class="console-name">{{ consoles[i].name }}</span>
+              <span class="console-tag">{{ consoles[i].tag }}</span>
             </div>
 
-            <div class="panel-art" aria-hidden="true">
-              <div v-if="i === 0" class="art-records">
-                <span v-for="row in records" :key="row.label" class="record">
-                  <em>{{ row.label }}</em>
-                  <b>{{ row.value }}</b>
-                  <i :class="row.state"></i>
-                </span>
-                <span class="record record-total">
-                  <em>Balanced</em>
-                  <b>0 breaks</b>
-                </span>
+            <div v-if="i === 0" class="console-body ledger">
+              <div class="ledger-head">
+                <span>Reference</span><span>Counterparty</span><span>Amount</span><span>State</span>
               </div>
-
-              <div v-else-if="i === 1" class="art-flow">
-                <span v-for="(node, n) in flow" :key="node" class="flow-node">
-                  {{ node }}
-                  <i v-if="n < flow.length - 1" class="flow-link"></i>
-                </span>
+              <div v-for="row in ledger" :key="row.ref" class="ledger-row">
+                <span class="font-code">{{ row.ref }}</span>
+                <span>{{ row.party }}</span>
+                <span class="font-code num">{{ row.amount }}</span>
+                <span class="state" :class="row.state">{{ row.state }}</span>
               </div>
+            </div>
 
-              <div v-else-if="i === 2" class="art-count">
-                <span class="count-before">14 steps</span>
-                <span class="count-arrow">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M5 12h14M13 6l6 6-6 6" />
+            <div v-else-if="i === 1" class="console-body board">
+              <div v-for="column in board" :key="column.title" class="board-col">
+                <span class="board-title">{{ column.title }}</span>
+                <span v-for="card in column.cards" :key="card" class="board-card">{{ card }}</span>
+              </div>
+            </div>
+
+            <div v-else-if="i === 2" class="console-body runlog">
+              <div v-for="step in runlog" :key="step.label" class="run-row" :class="step.state">
+                <span class="run-tick">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <path d="M4 12l5 5L20 6" />
                   </svg>
                 </span>
-                <span class="count-after">3</span>
-                <span class="count-note">The rest happens without asking.</span>
-              </div>
-
-              <div v-else class="art-product">
-                <span class="product-bar">
-                  <i></i><i></i><i></i>
-                </span>
-                <span class="product-line" style="width: 72%"></span>
-                <span class="product-line" style="width: 54%"></span>
-                <span class="product-cta">Submit</span>
+                <span class="run-label">{{ step.label }}</span>
+                <span class="run-time font-code">{{ step.time }}</span>
               </div>
             </div>
-          </article>
-        </div>
+
+            <div v-else class="console-body app">
+              <aside class="app-rail">
+                <span v-for="item in rail" :key="item" class="rail-item">{{ item }}</span>
+              </aside>
+              <div class="app-main">
+                <span class="app-title">New request</span>
+                <span class="app-field"></span>
+                <span class="app-field short"></span>
+                <span class="app-row">
+                  <span class="app-field half"></span>
+                  <span class="app-field half"></span>
+                </span>
+                <span class="app-submit">Submit</span>
+              </div>
+            </div>
+          </div>
+        </article>
       </div>
     </div>
   </section>
@@ -87,9 +97,11 @@ function update() {
   const stack = stackRef.value
   if (!stack || reduced.value) return
 
-  const rect = stack.getBoundingClientRect()
   const step = stack.offsetHeight / stages.length
-  const travelled = Math.min(Math.max(-rect.top, 0), stack.offsetHeight)
+  const travelled = Math.min(
+    Math.max(-stack.getBoundingClientRect().top, 0),
+    stack.offsetHeight,
+  )
   const head = travelled / step
 
   recede.value = stages.map((_, i) => Math.min(Math.max(head - i, 0), 1))
@@ -115,41 +127,66 @@ onBeforeUnmount(() => {
   window.removeEventListener('resize', schedule)
 })
 
-const records = [
-  { label: 'Invoice 4821', value: '412,900', state: 'ok' },
-  { label: 'Invoice 4822', value: '96,400', state: 'ok' },
-  { label: 'Invoice 4823', value: '18,250', state: 'now' },
+const consoles = [
+  { name: 'ledger · today', tag: 'Reconciled' },
+  { name: 'requests · live', tag: '4 stages' },
+  { name: 'run · nightly', tag: 'Automated' },
+  { name: 'portal · staff', tag: 'In use' },
 ]
 
-const flow = ['Request', 'Review', 'Approve', 'Post']
+const ledger = [
+  { ref: 'TRX-4821', party: 'Northbank Ltd', amount: '412,900.00', state: 'posted' },
+  { ref: 'TRX-4822', party: 'Osun Traders', amount: '96,400.00', state: 'posted' },
+  { ref: 'TRX-4823', party: 'Kite Logistics', amount: '18,250.00', state: 'pending' },
+  { ref: 'TRX-4824', party: 'Marra Health', amount: '204,780.00', state: 'posted' },
+  { ref: 'TRX-4825', party: 'Vale Partners', amount: '7,900.00', state: 'posted' },
+]
+
+const board = [
+  { title: 'Request', cards: ['Vendor onboarding', 'Card limit change'] },
+  { title: 'Review', cards: ['Refund over cap'] },
+  { title: 'Approve', cards: ['Payment run', 'New supplier'] },
+  { title: 'Posted', cards: ['Payroll batch', 'Q3 accrual', 'Rebate credit'] },
+]
+
+const runlog = [
+  { label: 'Pull yesterday from the bank', time: '00:04', state: 'done' },
+  { label: 'Match against expected items', time: '00:11', state: 'done' },
+  { label: 'Raise the three that disagree', time: '00:02', state: 'done' },
+  { label: 'Post the rest to the ledger', time: 'running', state: 'now' },
+  { label: 'Send the morning summary', time: 'queued', state: 'wait' },
+]
+
+const rail = ['Overview', 'Requests', 'People', 'Records', 'Settings']
 </script>
 
 <style scoped>
 .stack {
   position: relative;
-  margin-top: 3rem;
+  margin-top: 2.5rem;
 }
 
 .stage {
   position: sticky;
-  top: 9vh;
-  height: 78vh;
+  top: 4vh;
+  height: 92vh;
   z-index: var(--z);
-  transform: translateY(calc(var(--recede) * -20px)) scale(calc(1 - var(--recede) * 0.035))
-    rotate(calc(var(--recede) * -0.8deg));
+  padding: 0 clamp(0.75rem, 1.6vw, 1.6rem);
+  transform: translateY(calc(var(--recede) * -22px)) scale(calc(1 - var(--recede) * 0.038))
+    rotate(calc(var(--recede) * -0.7deg));
   transform-origin: 50% 0;
 }
 
 .panel {
   position: relative;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
-  height: 78vh;
-  max-height: 40rem;
-  padding: clamp(1.8rem, 4vw, 3.4rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 92vh;
+  padding: clamp(2.4rem, 6vh, 4.5rem) clamp(1.2rem, 4vw, 3.5rem) 0;
   border-radius: var(--radius-xl);
   overflow: hidden;
+  text-align: center;
   box-shadow: var(--shadow-pop);
 }
 
@@ -159,14 +196,14 @@ const flow = ['Request', 'Review', 'Approve', 'Post']
   content: '';
   border-radius: var(--radius-xl);
   background: var(--bg);
-  opacity: calc(var(--recede) * 0.32);
+  opacity: calc(var(--recede) * 0.34);
   pointer-events: none;
+  z-index: 5;
 }
 
 .tone-invert {
   background: var(--invert-bg);
   color: var(--invert-text);
-  border: 1px solid var(--invert-bg);
 }
 
 .tone-surface {
@@ -178,163 +215,286 @@ const flow = ['Request', 'Review', 'Approve', 'Post']
 .tone-brand {
   background: var(--brand);
   color: var(--on-brand);
-  border: 1px solid var(--brand);
 }
 
 .panel-number {
   font-family: var(--font-mono);
   font-size: 11px;
-  letter-spacing: 0.18em;
-  opacity: 0.6;
-}
-
-.panel-copy h3 {
-  margin: 1rem 0 0;
-  font-size: clamp(28px, 4vw, 52px);
-  font-weight: 700;
-  letter-spacing: -0.032em;
-  line-height: 1.03;
-  max-width: 14ch;
-}
-
-.panel-copy p {
-  margin: 1.1rem 0 0;
-  max-width: 40ch;
-  font-size: clamp(14.5px, 1.5vw, 17px);
-  line-height: 1.6;
-  opacity: 0.72;
-}
-
-.panel-art {
-  display: none;
-}
-
-.art-records,
-.art-flow,
-.art-count,
-.art-product {
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-  width: 100%;
-  max-width: 22rem;
-  padding: 1.3rem;
-  border-radius: var(--radius-lg);
-  background: color-mix(in srgb, currentColor 7%, transparent);
-  border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
-}
-
-.record {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: 13px;
-}
-
-.record em {
-  font-style: normal;
-  opacity: 0.7;
-}
-
-.record b {
-  margin-left: auto;
-  font-family: var(--font-mono);
-  font-weight: 600;
-}
-
-.record i {
-  width: 0.45rem;
-  height: 0.45rem;
-  border-radius: 50%;
-  background: currentColor;
-  opacity: 0.35;
-}
-
-.record i.now {
-  background: var(--brand);
-  opacity: 1;
-}
-
-.record-total {
-  margin-top: 0.3rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid color-mix(in srgb, currentColor 16%, transparent);
-  font-weight: 600;
-}
-
-.flow-node {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.flow-link {
-  flex: 1;
-  height: 1px;
-  background: repeating-linear-gradient(
-    to right,
-    currentColor 0 4px,
-    transparent 4px 9px
-  );
-  opacity: 0.4;
-}
-
-.art-count {
-  align-items: flex-start;
-}
-
-.count-before {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  text-decoration: line-through;
+  letter-spacing: 0.2em;
   opacity: 0.55;
 }
 
-.count-arrow svg {
-  width: 1.1rem;
-  height: 1.1rem;
-  opacity: 0.6;
-}
-
-.count-after {
-  font-size: 3.4rem;
+.panel h3 {
+  margin: 0.9rem 0 0;
+  font-size: clamp(34px, 6.4vw, 92px);
   font-weight: 700;
-  letter-spacing: -0.04em;
-  line-height: 1;
+  letter-spacing: -0.038em;
+  line-height: 0.98;
+  max-width: 16ch;
 }
 
-.count-note {
-  font-size: 12.5px;
+.panel p {
+  margin: 1.1rem 0 0;
+  max-width: 62ch;
+  font-family: var(--font-mono);
+  font-size: clamp(12.5px, 1.25vw, 15px);
+  line-height: 1.6;
   opacity: 0.7;
 }
 
-.product-bar {
-  display: flex;
-  gap: 0.3rem;
+.console {
+  width: min(100%, 68rem);
+  margin-top: clamp(2rem, 5vh, 3.6rem);
+  flex: 1;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+  border-bottom: 0;
+  background: color-mix(in srgb, currentColor 6%, transparent);
+  overflow: hidden;
+  text-align: left;
 }
 
-.product-bar i {
+.console-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+}
+
+.dots {
+  display: flex;
+  gap: 0.28rem;
+}
+
+.dots i {
   width: 0.45rem;
   height: 0.45rem;
   border-radius: 50%;
   background: currentColor;
-  opacity: 0.3;
+  opacity: 0.28;
 }
 
-.product-line {
-  height: 0.55rem;
-  border-radius: 3px;
-  background: color-mix(in srgb, currentColor 18%, transparent);
+.console-name,
+.console-tag {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.6;
 }
 
-.product-cta {
+.console-tag {
+  margin-left: auto;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+  opacity: 0.75;
+}
+
+.console-body {
+  padding: 1.1rem 1.2rem;
+}
+
+.ledger-head,
+.ledger-row {
+  display: grid;
+  grid-template-columns: 7rem 1fr 8rem 6rem;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.62rem 0;
+  font-size: 13px;
+}
+
+.ledger-head {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.45;
+  border-bottom: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+}
+
+.ledger-row + .ledger-row {
+  border-top: 1px solid color-mix(in srgb, currentColor 8%, transparent);
+}
+
+.num {
+  text-align: right;
+}
+
+.state {
+  justify-self: start;
+  padding: 0.12rem 0.6rem;
+  border-radius: 999px;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+  opacity: 0.7;
+}
+
+.state.pending {
+  background: var(--brand);
+  color: var(--on-brand);
+  border-color: transparent;
+  opacity: 1;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+}
+
+.board-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.board-title {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.45;
+  padding-bottom: 0.3rem;
+}
+
+.board-card {
+  padding: 0.6rem 0.7rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+  background: color-mix(in srgb, currentColor 5%, transparent);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.runlog {
+  display: flex;
+  flex-direction: column;
+}
+
+.run-row {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.72rem 0;
+  font-size: 13.5px;
+}
+
+.run-row + .run-row {
+  border-top: 1px solid color-mix(in srgb, currentColor 9%, transparent);
+}
+
+.run-tick {
+  display: grid;
+  width: 1.3rem;
+  height: 1.3rem;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+}
+
+.run-tick svg {
+  width: 0.7rem;
+  height: 0.7rem;
+  opacity: 0;
+}
+
+.run-row.done .run-tick {
+  background: currentColor;
+  border-color: transparent;
+}
+
+.run-row.done .run-tick svg {
+  opacity: 1;
+  color: var(--brand);
+}
+
+.tone-brand .run-row.done .run-tick svg {
+  color: var(--brand);
+}
+
+.run-row.now .run-tick {
+  border-color: currentColor;
+  box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 12%, transparent);
+}
+
+.run-row.wait {
+  opacity: 0.45;
+}
+
+.run-time {
+  margin-left: auto;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  opacity: 0.55;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 11rem 1fr;
+  gap: 1.4rem;
+}
+
+.app-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-right: 1.2rem;
+  border-right: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+}
+
+.rail-item {
+  padding: 0.42rem 0.6rem;
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+  opacity: 0.6;
+}
+
+.rail-item:nth-child(2) {
+  background: color-mix(in srgb, currentColor 10%, transparent);
+  opacity: 1;
+}
+
+.app-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.app-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.app-field {
+  height: 2.1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+  background: color-mix(in srgb, currentColor 4%, transparent);
+}
+
+.app-field.short {
+  width: 62%;
+}
+
+.app-row {
+  display: flex;
+  gap: 0.7rem;
+}
+
+.app-field.half {
+  flex: 1;
+}
+
+.app-submit {
+  align-self: flex-start;
   margin-top: 0.4rem;
-  padding: 0.45rem 1rem;
-  width: fit-content;
+  padding: 0.5rem 1.1rem;
   border-radius: 999px;
   background: var(--brand);
   color: var(--on-brand);
@@ -342,16 +502,31 @@ const flow = ['Request', 'Review', 'Approve', 'Post']
   font-weight: 600;
 }
 
-@media (min-width: 900px) {
-  .panel {
-    grid-template-columns: 1.15fr 0.85fr;
-    align-items: center;
-    gap: 3rem;
+@media (max-width: 900px) {
+  .panel p {
+    font-size: 12.5px;
   }
 
-  .panel-art {
-    display: flex;
-    justify-content: flex-end;
+  .ledger-head,
+  .ledger-row {
+    grid-template-columns: 5.5rem 1fr 5.5rem;
+  }
+
+  .ledger-head span:last-child,
+  .ledger-row .state {
+    display: none;
+  }
+
+  .board {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .app {
+    grid-template-columns: 1fr;
+  }
+
+  .app-rail {
+    display: none;
   }
 }
 
@@ -362,13 +537,18 @@ const flow = ['Request', 'Review', 'Approve', 'Post']
   margin-bottom: 1rem;
 }
 
+.is-flat .panel {
+  height: auto;
+  padding-bottom: 0;
+}
+
 .is-flat .panel::after {
   display: none;
 }
 
-.is-flat .panel {
-  height: auto;
-  max-height: none;
+.is-flat .console {
+  height: 22rem;
+  flex: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -379,13 +559,17 @@ const flow = ['Request', 'Review', 'Approve', 'Post']
     margin-bottom: 1rem;
   }
 
+  .panel {
+    height: auto;
+  }
+
   .panel::after {
     display: none;
   }
 
-  .panel {
-    height: auto;
-    max-height: none;
+  .console {
+    height: 22rem;
+    flex: none;
   }
 }
 </style>
