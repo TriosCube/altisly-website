@@ -75,7 +75,7 @@ export const moves = [
   {
     number: '01',
     title: 'Understand',
-    body: 'We map how the work actually runs before anyone designs a screen.',
+    body: 'We get inside the operation before deciding what needs to change.',
   },
   {
     number: '02',
@@ -85,12 +85,12 @@ export const moves = [
   {
     number: '03',
     title: 'Build',
-    body: 'Interface, data and automation shipped as one thing, not three.',
+    body: 'We turn that design into software people can depend on.',
   },
   {
     number: '04',
     title: 'Embed',
-    body: 'We harden the failure paths and leave your team running it.',
+    body: 'We put it into operation and leave your team able to run it.',
   },
 ]
 
