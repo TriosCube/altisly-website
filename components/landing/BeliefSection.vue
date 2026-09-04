@@ -1,18 +1,23 @@
 <template>
   <section
     ref="sectionRef"
-    class="belief bg-invert text-invert relative"
+    class="belief text-invert relative"
     :style="{ minHeight: '180vh' }"
     id="belief"
   >
     <div class="sticky top-0 h-screen flex items-center overflow-hidden">
-      <div class="field" aria-hidden="true" :style="{ opacity: fieldOpacity }">
-        <svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid slice">
-          <g class="lines">
-            <path v-for="line in lines" :key="line" :d="line" />
-          </g>
-          <circle v-for="(dot, i) in dots" :key="i" :cx="dot.x" :cy="dot.y" :r="dot.r" />
-        </svg>
+      <div class="stars" aria-hidden="true">
+        <span
+          v-for="star in stars"
+          :key="star.id"
+          :style="{
+            left: star.left,
+            top: star.top,
+            width: star.size,
+            height: star.size,
+            animationDelay: star.delay,
+          }"
+        ></span>
       </div>
 
       <div class="container-isura relative z-10">
@@ -53,6 +58,14 @@ onMounted(() => {
   reduced.value = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 })
 
+const stars = Array.from({ length: 110 }, (_, index) => ({
+  id: index,
+  left: `${(index * 37.7 + 11) % 100}%`,
+  top: `${(index * 61.3 + 17) % 100}%`,
+  size: index % 9 === 0 ? '2px' : index % 3 === 0 ? '1.5px' : '1px',
+  delay: `${((index % 13) * 0.47).toFixed(2)}s`,
+}))
+
 const groups = [
   { text: 'Technology is only worth it', lime: false },
   { text: 'when the business underneath', lime: false },
@@ -81,52 +94,51 @@ const tailOpacity = computed(() => {
   return Math.min(Math.max((scrubbed.value - 0.78) / 0.14, 0), 1)
 })
 
-const fieldOpacity = computed(() => {
-  if (reduced.value) return 1
-  return 0.35 + Math.min(scrubbed.value, 1) * 0.65
-})
-
-const lines = [
-  'M0 26 H120',
-  'M0 54 H120',
-  'M30 0 V80',
-  'M76 0 V80',
-  'M0 12 L120 68',
-]
-
-const dots = [
-  { x: 30, y: 26, r: 0.55 },
-  { x: 76, y: 26, r: 0.4 },
-  { x: 30, y: 54, r: 0.4 },
-  { x: 76, y: 54, r: 0.55 },
-  { x: 14, y: 40, r: 0.3 },
-  { x: 100, y: 18, r: 0.3 },
-  { x: 58, y: 70, r: 0.35 },
-]
 </script>
 
 <style scoped>
-.field {
+.belief {
+  background-color: var(--invert-bg);
+}
+
+.stars {
   position: absolute;
   inset: 0;
+  overflow: hidden;
   pointer-events: none;
-  transition: opacity 400ms ease;
 }
 
-.field svg {
-  width: 100%;
-  height: 100%;
+.stars span {
+  position: absolute;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--invert-text) 70%, transparent);
+  animation: twinkle 5.2s ease-in-out infinite;
 }
 
-.lines path {
-  fill: none;
-  stroke: var(--invert-border);
-  stroke-width: 0.25;
+.belief > div::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    var(--invert-bg),
+    transparent 18%,
+    transparent 82%,
+    var(--invert-bg)
+  );
 }
 
-.field circle {
-  fill: var(--brand);
-  opacity: 0.5;
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.08;
+    transform: scale(0.7);
+  }
+  50% {
+    opacity: 0.62;
+    transform: scale(1);
+  }
 }
 
 .statement {
@@ -170,6 +182,11 @@ const dots = [
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .stars span {
+    animation: none;
+    opacity: 0.32;
+  }
+
   .belief {
     min-height: 0 !important;
   }
