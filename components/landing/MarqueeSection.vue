@@ -1,24 +1,36 @@
 <template>
-  <section class="bg-invert text-invert overflow-hidden border-t border-b border-invert">
-    <div class="flex gap-14 py-[22px] whitespace-nowrap animate-marquee">
-      <span
-        v-for="(item, i) in [...items, ...items]"
-        :key="`${item}-${i}`"
-        class="inline-flex items-center gap-[18px] text-[22px] font-semibold tracking-[-0.02em]"
+  <section class="bg-invert text-invert border-t border-b border-invert overflow-hidden">
+    <div class="flex items-stretch">
+      <div
+        class="hidden md:flex items-center flex-shrink-0 px-7 border-r border-invert"
       >
-        {{ item }} <span class="text-brand text-[22px]">✦</span>
-      </span>
+        <span class="font-code text-[11px] tracking-[0.16em] uppercase text-invert-muted">
+          Where work gets hard
+        </span>
+      </div>
+
+      <div class="flex-1 overflow-hidden">
+        <div class="flex gap-12 py-5 whitespace-nowrap animate-marquee">
+          <span
+            v-for="(item, i) in [...items, ...items]"
+            :key="`${item}-${i}`"
+            class="inline-flex items-center gap-12 font-code text-[14px] tracking-[0.12em] uppercase"
+          >
+            {{ item }} <span class="text-brand">✦</span>
+          </span>
+        </div>
+      </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
 const items = [
-  'Financial services',
-  'Treasury',
-  'Payments',
-  'Healthcare',
-  'Identity and verification',
-  'Operations',
+  'Manual handoffs',
+  'Disconnected systems',
+  'Unclear ownership',
+  'Fragmented records',
+  'Repeated work',
+  'Operational bottlenecks',
 ]
 </script>

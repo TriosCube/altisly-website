@@ -31,25 +31,6 @@ export const layers = [
   },
 ]
 
-export const frictions = [
-  {
-    mess: 'Spreadsheets only one person can open',
-    replaces: 'One record everyone works from',
-  },
-  {
-    mess: 'Approvals buried in chat',
-    replaces: 'Decisions with a name and a time against them',
-  },
-  {
-    mess: 'Three systems, three answers',
-    replaces: 'One number, and the trail behind it',
-  },
-  {
-    mess: 'Work that stops when someone is away',
-    replaces: 'A process that runs without heroics',
-  },
-]
-
 export const whoWeAre = [
   {
     title: 'One team, end to end.',

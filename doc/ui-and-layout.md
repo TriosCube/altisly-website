@@ -155,8 +155,9 @@ a `stage-card` (surface, `--r-lg`, hairline border, `shadow-2`, 20px padding). O
 (`--text` ground), one is invert green with a lime sparkline, two are surface. A lime 80px circle
 with a plus sign floats over them. **No motion. The rotations are static CSS.**
 
-**3. MarqueeSection** Full-bleed invert band, top and bottom hairline. Seven sector words at 22px
-semibold separated by lime `✦`. **Motion: infinite CSS marquee.**
+**3. MarqueeSection** Full-bleed invert band, top and bottom hairline. A fixed mono label behind a
+vertical rule, then friction phrases in mono uppercase separated by lime `✦`.
+**Motion: infinite CSS marquee, 52s.**
 
 **4. JourneySection** Sticky scroll section, `260vh` tall. Four flip cards.
 **Motion: scroll-progress driven flips plus a filling rule.**
@@ -213,8 +214,9 @@ Pure CSS, no JS. The seven-item list is rendered twice into one flex row, and th
 `0 → -50%` over `30s linear infinite` (`@keyframes marquee`, applied by the `animate-marquee`
 utility). Because the content is exactly duplicated, the reset at `-50%` is invisible.
 
-Never pauses, never observes visibility, does not honour `prefers-reduced-motion`. This is the one
-motion gap worth closing.
+Slowed from 30s to 52s so it reads as ambient movement rather than a news ticker, and it now honours
+`prefers-reduced-motion`, which closes the one motion gap this document used to flag. Still never
+pauses off-screen.
 
 ### 6.3 Journey flip cards, section 5
 
@@ -236,16 +238,18 @@ trigger point; it does not scrub the rotation. Scrolling back up unflips them.
 left origin, `transition-transform duration-200 ease-out`, so it completes at progress `0.71`,
 roughly as the last card turns. Hidden below `lg`.
 
-### 6.4 Friction rows, section 3
+### 6.4 Artefact reveal, section 3
 
-The only new motion. An `IntersectionObserver` with `rootMargin: -15% 0px -15% 0px` fires once, adds
-`is-settled`, and disconnects. Before it fires, the left column sits translated `-1.1rem` and rotated
-about a degree with alternating direction, at 28% opacity, while the arrow and the right column are
-translated and fully transparent. Settling is a 620ms `cubic-bezier(.22,1,.36,1)` transition,
-staggered 90ms per row via `--row-index`. `prefers-reduced-motion` sets the settled state
-immediately and never observes.
+The only new motion. An `IntersectionObserver` with `rootMargin: -12% 0px -12% 0px` fires once, adds
+`is-shown`, and disconnects. Each artefact rises `1.4rem` into place over 700ms
+`cubic-bezier(.22,1,.36,1)`, staggered 110ms via `--i`, keeping its rotation throughout: the cards
+arrive, they do not straighten. Staying crooked is the point of the section.
 
-It plays once, in place, as the section passes. No sticky section, no scroll scrubbing.
+Below `lg` the artefacts are a plain wrapped flex row. At `lg` and above they are absolutely placed
+across a `34rem` canvas, overlapping the heading's column.
+
+`prefers-reduced-motion` shows everything immediately and never observes. It plays once, in place.
+No sticky section, no scroll scrubbing.
 
 ### 6.5 Work showcase, removed
 
@@ -465,8 +469,8 @@ care who we are at position two.
 | # | Section | Component | Change |
 | --- | --- | --- | --- |
 | 1 | Hero | `HeroSection` + `HeroStage` | New copy. Band carries the four capabilities. Stage cards unbranded. |
-| 2 | Where we work | `MarqueeSection` | Sectors. A bridge rather than a section. Mechanics unchanged. |
-| 3 | When the tools stop fitting the operation | `ProblemsSection` **new** | Four mess-to-replaced pairs, settling on entry. |
+| 2 | Where work gets hard | `MarqueeSection` | Fixed mono label, moving operational-friction phrases. Slowed to 52s, reduced-motion guarded. |
+| 3 | When the tools stop fitting the operation | `ProblemsSection` **new** | A scattered composition of operational artefacts, revealing on entry. |
 | 4 | What we change | `BentoGrid` | Statement tile carrying the `/work` link, plus the four layers: operation, system, data, control. |
 | 5 | How we work | `JourneySection` | Understand, Design, Build, Embed. Animation untouched. |
 | 6 | Who we are | `WhoWeAre` **new** | Heading, short paragraph, three characteristics. No motion. |
@@ -586,21 +590,30 @@ Three characteristics: **One team, end to end.** The people who scope it are the
 it. / **We work where mistakes cost.** Money moving, records kept, regulators asking. / **We
 finish.** A system nobody has to babysit, run by your own people.
 
-**02 Where we work**
+**02 Where work gets hard**
 
-Marquee: Financial services · Treasury · Payments · Healthcare · Identity and verification ·
-Operations
+A fixed mono label, `WHERE WORK GETS HARD`, sits against a left rule. The phrases move beside it:
+Manual handoffs · Disconnected systems · Unclear ownership · Fragmented records · Repeated work ·
+Operational bottlenecks.
+
+Naming sectors here was wrong. It implied Altisly is a treasury company, or a healthcare company,
+which is exactly the narrowing the rewrite set out to remove. Operational friction language keeps
+the positioning wide and hands the reader straight into the next section.
 
 **03 When the tools stop fitting the operation**
 
-Four rows, the mess on the left in mono, an arrow, what replaces it on the right in semibold.
+Not a comparison table. A composition. The heading sits top left, five operational artefacts are
+scattered across the full width at varied angles and depths, and a closing line lands beneath them:
+*Spreadsheets. Messages. Manual handoffs. Records that disagree. The operation starts working around
+its tools.*
 
-| The mess | What replaces it |
-| --- | --- |
-| Spreadsheets only one person can open | One record everyone works from |
-| Approvals buried in chat | Decisions with a name and a time against them |
-| Three systems, three answers | One number, and the trail behind it |
-| Work that stops when someone is away | A process that runs without heroics |
+The artefacts: a spreadsheet named `final_v7.xlsx` where one person knows what column K means; an
+approval asked for in a chat thread with no record of who said yes; the same figure differing across
+ledger, portal and report; an owner field reading unassigned above the words "Who owns this?"; a
+handoff by email, entered again on the other side.
+
+The resolution is the next section. Fragmentation gives way to the four ordered layers of the Bento
+grid, which is the before-and-after told through composition rather than through arrows.
 
 **04 What we change**
 

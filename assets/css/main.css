@@ -716,7 +716,13 @@
   }
 }
 @utility animate-marquee {
-  animation: marquee 30s linear infinite;
+  animation: marquee 52s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
 }
 
 @utility theme-toggle {
