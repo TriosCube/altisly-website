@@ -153,6 +153,9 @@ onBeforeUnmount(() => {
 }
 
 .halo {
+  --halo-core: color-mix(in srgb, var(--brand-deep) 34%, transparent);
+  --halo-mid: color-mix(in srgb, var(--invert-bg) 13%, transparent);
+  --halo-blur: 58px;
   position: absolute;
   left: var(--gx, 56%);
   top: var(--gy, 44%);
@@ -163,11 +166,11 @@ onBeforeUnmount(() => {
   pointer-events: none;
   background: radial-gradient(
     circle,
-    color-mix(in srgb, var(--brand) 24%, transparent),
-    color-mix(in srgb, var(--brand) 7%, transparent) 44%,
-    transparent 70%
+    var(--halo-core),
+    var(--halo-mid) 44%,
+    transparent 72%
   );
-  filter: blur(72px);
+  filter: blur(var(--halo-blur));
   opacity: 0;
   transform: translate(-50%, -50%);
   transition: opacity 1200ms ease 300ms;
@@ -176,6 +179,12 @@ onBeforeUnmount(() => {
 
 .is-in .halo {
   opacity: 1;
+}
+
+html[data-theme='dark'] .halo {
+  --halo-core: color-mix(in srgb, var(--brand) 26%, transparent);
+  --halo-mid: color-mix(in srgb, var(--brand) 8%, transparent);
+  --halo-blur: 72px;
 }
 
 @keyframes halo-breathe {
