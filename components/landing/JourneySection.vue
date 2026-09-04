@@ -9,16 +9,18 @@
     <div class="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
       <div class="container-isura w-full">
         <div class="text-center">
-          <span class="text-[13px] text-muted tracking-[0.04em]">How we work</span>
+          <span class="font-code text-[11px] tracking-[0.14em] uppercase text-muted">
+            How we work
+          </span>
           <h2
             class="font-bold tracking-[-0.035em] text-[clamp(40px,5vw,64px)] leading-none text-center mt-[14px] max-w-[18ch] mx-auto"
           >
-            Four moves
+            From problem
             <span
               class="inline-block align-middle w-14 h-14 rounded-full bg-brand text-on-brand text-center leading-[56px] text-[28px] mx-1"
               >✦</span
             >
-            every time
+            to working system
           </h2>
         </div>
 

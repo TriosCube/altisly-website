@@ -3,7 +3,8 @@
     <HeroSection />
     <MarqueeSection />
     <ProblemsSection />
-    <BentoGrid />
+    <ModelSection />
+    <StatementSection />
     <JourneySection />
     <WhoWeAre />
     <PrinciplesSection />
@@ -16,7 +17,8 @@
 import HeroSection from '@/components/landing/HeroSection.vue'
 import MarqueeSection from '@/components/landing/MarqueeSection.vue'
 import ProblemsSection from '@/components/landing/ProblemsSection.vue'
-import BentoGrid from '@/components/landing/BentoGrid.vue'
+import ModelSection from '@/components/landing/ModelSection.vue'
+import StatementSection from '@/components/landing/StatementSection.vue'
 import JourneySection from '@/components/landing/JourneySection.vue'
 import WhoWeAre from '@/components/landing/WhoWeAre.vue'
 import PrinciplesSection from '@/components/landing/PrinciplesSection.vue'

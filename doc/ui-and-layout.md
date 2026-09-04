@@ -251,7 +251,36 @@ across a `34rem` canvas, overlapping the heading's column.
 `prefers-reduced-motion` shows everything immediately and never observes. It plays once, in place.
 No sticky section, no scroll scrubbing.
 
-### 6.5 Work showcase, removed
+### 6.5 Model diagram, section 4
+
+The centrepiece. A square canvas, four nodes at the compass points of a `0 to 100` viewBox
+(`50,10`, `50,90`, `10,50`, `90,50`), a ring at `r 34`, and four spokes from the hub. On entry, one
+`IntersectionObserver` adds `is-shown` and the composition assembles: spokes draw themselves via
+`stroke-dashoffset 60 → 0` staggered 140ms, the hub scales from `0.2`, nodes fade in staggered
+160ms, the ring follows at 500ms, and the four text rows rise staggered 120ms.
+
+Once assembled, a packet rides each spoke inward on `animateMotion`, 4.6s to 5.8s, staggered 1.15s,
+the same device the diagnose scanner uses, which ties the two together.
+
+Hovering or focusing a node or a row sets an active index: that node's dot fills lime with a soft
+ring, its label goes to full ink, and the other three nodes and spokes drop to 35 to 40 percent. The
+rows and the diagram drive the same state, so either side can be used.
+
+Under `prefers-reduced-motion` the packets are not rendered at all, rather than merely paused, and
+everything else is shown in final position.
+
+### 6.6 Sequential statements, section 8
+
+One `IntersectionObserver` with `rootMargin: -25% 0px -25% 0px` watching four rows, unobserving each
+as it fires. Each statement rises `1.2rem` over 760ms as it reaches the middle band of the viewport,
+so they arrive one at a time at reading pace rather than as a group.
+
+### 6.7 Text reveals, sections 5 and 7
+
+The quiet sections share one pattern: a single observer per section, a `.reveal` class, `0.9rem` to
+`1rem` of rise, 720ms to 760ms, staggered by a `--i` custom property. Cheap, once, in place.
+
+### 6.8 Work showcase, removed
 
 Deleted with the homepage rewrite. It was two sections. The first was the title, the second the cards.
 
@@ -299,7 +328,7 @@ rotate(startRotation * inverse)
 This is the only section on the site that reads layout (`getBoundingClientRect`, `offsetLeft`,
 `offsetTop`) inside a rAF loop every frame while scrolling.
 
-### 6.6 Diagnose scanner
+### 6.9 Diagnose scanner
 
 The heaviest motion on the site, and the only permanent rAF loop. Full description in section 7.
 Summary of the moving parts: 130 pulsing points on staggered delays; two breathing rings on the
@@ -313,7 +342,7 @@ within a 340px radius, up to 36px, composed with a stage-five shrink to `0.78`.
 
 `prefers-reduced-motion` freezes the pointer loop and the named keyframe animations.
 
-### 6.7 Small transitions
+### 6.10 Small transitions
 
 - **Brief modal**: Vue `<Transition>`, backdrop 240ms opacity, panel `translateY(1.2rem) scale(.985)`
   over 280ms `cubic-bezier(.22,1,.36,1)`. Question text re-animates on each step via a `:key` change.
@@ -323,7 +352,7 @@ within a 340px radius, up to 36px, composed with a stage-five shrink to `0.78`.
 - **Skeletons**: `@keyframes skeleton-shimmer`, a 400px background sweep, used on the blog index.
 - **`pulse-dot`**: defined in the stylesheet, currently unused.
 
-### 6.8 Motion rules in force
+### 6.11 Motion rules in force
 
 1. Scroll-driven sections use the sticky pattern: tall outer, `sticky top-0` inner one viewport tall.
    Entrance animations that play once use an `IntersectionObserver` and a class toggle instead.
@@ -333,6 +362,10 @@ within a 340px radius, up to 36px, composed with a stage-five shrink to `0.78`.
    scanner do; the marquee does not.
 4. Decorative motion is `aria-hidden`.
 5. No animation library. No GSAP, no Framer, no Lenis, no smooth-scroll hijacking.
+6. **Alternate intensity.** A section carrying real interaction is followed by one that is still.
+   Three signatures per page is the ceiling.
+7. **No two sections share a mechanism.** If a behaviour already exists on the page, the next
+   section needs a different one or none at all.
 
 ---
 
@@ -466,24 +499,37 @@ sequence borrows its commercial logic from SeamlessHR: proposition, context, rec
 method, then identity. Who we are sits at position six deliberately, because a stranger does not yet
 care who we are at position two.
 
-| # | Section | Component | Change |
-| --- | --- | --- | --- |
-| 1 | Hero | `HeroSection` + `HeroStage` | New copy. Band carries the four capabilities. Stage cards unbranded. |
-| 2 | Where work gets hard | `MarqueeSection` | Fixed mono label, moving operational-friction phrases. Slowed to 52s, reduced-motion guarded. |
-| 3 | When the tools stop fitting the operation | `ProblemsSection` **new** | A scattered composition of operational artefacts, revealing on entry. |
-| 4 | What we change | `BentoGrid` | Statement tile carrying the `/work` link, plus the four layers: operation, system, data, control. |
-| 5 | How we work | `JourneySection` | Understand, Design, Build, Embed. Animation untouched. |
-| 6 | Who we are | `WhoWeAre` **new** | Heading, short paragraph, three characteristics. No motion. |
-| 7 | What we stand for | `PrinciplesSection` | Client-facing commitments, not aphorisms. |
-| 8 | Our defining belief | `BeliefSection` | Brand statement and three denials. Quote marks and avatar circle gone. |
-| 9 | Let's talk | `CtaSection` | New copy. Metric rows become what happens next. |
+| # | Section | Component | Tempo | Change |
+| --- | --- | --- | --- | --- |
+| 1 | Hero | `HeroSection` + `HeroStage` | motion | Copy, capability band, unbranded stage cards. |
+| 2 | Where work gets hard | `MarqueeSection` | motion | Fixed label, moving friction phrases, 52s. |
+| 3 | When the tools stop fitting the operation | `ProblemsSection` | quiet | Scattered artefacts, revealing on entry. |
+| 4 | What we change | `ModelSection` ⭐ | **signature** | Radial diagram: operation, system, data, control. |
+| 5 | Sometimes the software is the easy part | `StatementSection` | quiet | Typography only. Text reveal. |
+| 6 | How we work | `JourneySection` ⭐ | **signature** | Protected flip cards. Content only. |
+| 7 | Who we are | `WhoWeAre` | quiet | Oversized line, three traits entering in sequence. |
+| 8 | What we stand for | `PrinciplesSection` ⭐ | **signature** | Oversized statements revealing one at a time. |
+| 9 | Our defining belief | `BeliefSection` | climax | Lime block. The statement and three denials. |
+| 10 | Let's talk | `CtaSection` | quiet | What happens next. |
+
+### 9.5.1 Tempo
+
+The page alternates deliberately: motion, quiet, signature, quiet, signature, quiet, signature,
+climax, quiet. Three sections carry real interaction and everything between them is still, so the
+signatures read as moments rather than as a house style.
+
+The three signatures are the model diagram, the flip cards and the sequential statements. Each uses
+a different mechanism: a radial composition assembling itself, cards turning on scroll thresholds,
+and oversized type arriving line by line. No two sections share a behaviour.
+
+Borrowed from NestJS: heterogeneous section compositions, a central conceptual diagram rather than a
+card grid, alternating visual intensity, and restrained scroll reveals. None of its appearance.
 
 **The page carries two quartets, and they answer different questions.** The hero band lists the four
 capabilities: Systems, Products, Automation, Strategy. That is the commercial answer to "what can I
-hire you for". The Bento lists the four layers of the problem: the operation, the system, the data,
-the control. That is the intellectual answer to "why does this not fit a software brief", and it is
-what earns the Who we are line later on. They were briefly the same list, which read as a repeated
-pattern rather than a point, so the Bento moved to the layers and the band kept the capabilities.
+hire you for". The model diagram carries the four layers of the problem: the operation, the system,
+the data, the control. That is the intellectual answer to "why does this not fit a software brief",
+and it is what earns the Who we are line three sections later.
 
 The reserved proof slot sits between the band and the marquee. When two or three defensible
 outcomes exist, or customers who can be named, they go there.
