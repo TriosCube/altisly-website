@@ -284,11 +284,36 @@ rows and the diagram drive the same state, so either side can be used.
 Under `prefers-reduced-motion` the packets are not rendered at all, rather than merely paused, and
 everything else is shown in final position.
 
-### 6.6 Sequential statements, section 8
+### 6.6 Scrubbed statement, section 8
 
-One `IntersectionObserver` with `rootMargin: -25% 0px -25% 0px` watching four rows, unobserving each
-as it fires. Each statement rises `1.2rem` over 760ms as it reaches the middle band of the viewport,
-so they arrive one at a time at reading pace rather than as a group.
+The third signature, and the only scrubbed motion on the site. `180vh` outer, `h-screen` sticky
+inner. The whole sentence is present from the first frame at 20 percent opacity. Scroll position
+drives a reading head across it:
+
+```
+head   = progress * (wordCount + spread * 1.6)
+amount = clamp((head - wordIndex) / spread, 0, 1)     // spread = 2.6 words
+opacity = 0.2 + amount * 0.8
+```
+
+Because `spread` is 2.6, roughly three words are mid-transition at any moment, which gives the soft
+leading edge. Nothing moves and nothing fades in or out; only contrast advances, so the effect is
+attached to the finger rather than played back after a trigger.
+
+**Why word interpolation rather than a clip mask.** The statement wraps to three lines. A horizontal
+clip advances across a box, not along a wrapped text flow, so it would need one mask per line and
+would break at any other width. Interpolating per word is resolution independent and wraps freely.
+
+The final phrase, "works better.", switches to lime once its own amount passes 0.55, so the brand
+colour lands exactly as the sentence completes. The four commitments fade in beneath between
+progress 0.78 and 0.92.
+
+Behind it sits a faint field of grid lines and lime intersection points, rising from 35 to 100
+percent opacity across the section. Restrained, and drawn from the same vocabulary as the scanner
+and the model diagram.
+
+Under `prefers-reduced-motion` every word renders at full contrast, the sticky and the `180vh` are
+dropped, and the section becomes ordinary padded content.
 
 ### 6.7 Text reveals, sections 5 and 7
 
@@ -379,6 +404,7 @@ within a 340px radius, up to 36px, composed with a stage-five shrink to `0.78`.
 5. No animation library. No GSAP, no Framer, no Lenis, no smooth-scroll hijacking.
 6. **Alternate intensity.** A section carrying real interaction is followed by one that is still.
    Three signatures per page is the ceiling.
+   The scrubbed-typography treatment is used once, on the belief statement, and nowhere else.
 7. **No two sections share a mechanism.** If a behaviour already exists on the page, the next
    section needs a different one or none at all.
 
@@ -523,9 +549,8 @@ care who we are at position two.
 | 5 | Sometimes the software is the easy part | `StatementSection` | quiet | Typography only. Text reveal. |
 | 6 | How we work | `JourneySection` ⭐ | **signature** | Protected flip cards. Content only. |
 | 7 | Who we are | `WhoWeAre` | quiet | Oversized line, three traits entering in sequence. |
-| 8 | What we stand for | `PrinciplesSection` ⭐ | **signature** | Oversized statements revealing one at a time. |
-| 9 | Our defining belief | `BeliefSection` | climax | Lime block. The statement and three denials. |
-| 10 | Let's talk | `CtaSection` | quiet | What happens next. |
+| 8 | Our defining belief | `BeliefSection` ⭐ | **signature** | Scroll-scrubbed typography. The commitments follow it. |
+| 9 | Let's talk | `CtaSection` | quiet | What happens next. |
 
 ### 9.5.1 Tempo
 
@@ -533,9 +558,10 @@ The page alternates deliberately: motion, quiet, signature, quiet, signature, qu
 climax, quiet. Three sections carry real interaction and everything between them is still, so the
 signatures read as moments rather than as a house style.
 
-The three signatures are the model diagram, the flip cards and the sequential statements. Each uses
-a different mechanism: a radial composition assembling itself, cards turning on scroll thresholds,
-and oversized type arriving line by line. No two sections share a behaviour.
+The three signatures are the model diagram, the flip cards and the scrubbed statement. Each uses a
+different mechanism: a radial composition assembling itself on entry, cards turning at scroll
+thresholds, and typography lit word by word in direct proportion to scroll position. No two sections
+share a behaviour.
 
 Borrowed from NestJS: heterogeneous section compositions, a central conceptual diagram rather than a
 card grid, alternating visual intensity, and restrained scroll reveals. None of its appearance.
