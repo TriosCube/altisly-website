@@ -127,7 +127,7 @@ onBeforeUnmount(() => {
 <style scoped>
 .stage {
   position: relative;
-  min-height: 34rem;
+  min-height: 31rem;
   display: none;
   transform: translate3d(var(--px), var(--py), 0);
 }
@@ -220,7 +220,7 @@ onBeforeUnmount(() => {
 .card-approval {
   left: 3%;
   top: 1%;
-  width: 17rem;
+  width: 16rem;
   z-index: 4;
   background: var(--invert-bg);
   border-color: var(--invert-bg);
@@ -231,14 +231,14 @@ onBeforeUnmount(() => {
 .card-exceptions {
   right: -1%;
   top: 35%;
-  width: 13rem;
+  width: 12.5rem;
   z-index: 3;
 }
 
 .card-record {
   left: 10%;
   bottom: 7%;
-  width: 15.5rem;
+  width: 15rem;
   z-index: 5;
 }
 
@@ -251,7 +251,7 @@ onBeforeUnmount(() => {
 }
 
 .card-amount {
-  font-size: 19px;
+  font-size: 17px;
   font-weight: 600;
   letter-spacing: -0.02em;
 }
@@ -295,7 +295,7 @@ onBeforeUnmount(() => {
 }
 
 .count b {
-  font-size: 2.4rem;
+  font-size: 2rem;
   font-weight: 700;
   letter-spacing: -0.04em;
   line-height: 1;
@@ -320,7 +320,7 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   gap: 0.55rem;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 600;
   letter-spacing: -0.015em;
   transition: color 400ms ease;

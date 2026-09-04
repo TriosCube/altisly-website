@@ -84,6 +84,35 @@ onBeforeUnmount(() => {
   position: relative;
   z-index: 0;
   padding: 4.5rem 0 4rem;
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(
+      ellipse 60% 55% at 76% 26%,
+      color-mix(in srgb, var(--brand) 20%, transparent),
+      transparent 62%
+    ),
+    radial-gradient(
+      ellipse 70% 60% at 8% 88%,
+      color-mix(in srgb, var(--brand-deep) 9%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(circle at center, var(--border) 1px, transparent 1px);
+  background-size:
+    auto,
+    auto,
+    34px 34px;
+  background-position:
+    center,
+    center,
+    center;
+}
+
+.hero::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent 55%, var(--bg) 96%);
 }
 
 .hero-inner {
@@ -109,6 +138,11 @@ onBeforeUnmount(() => {
   z-index: 2;
 }
 
+.container-isura {
+  position: relative;
+  z-index: 1;
+}
+
 .reveal {
   opacity: 0;
   transform: translateY(0.9rem);
@@ -125,8 +159,8 @@ onBeforeUnmount(() => {
 
 .headline {
   margin: 0;
-  max-width: 12ch;
-  font-size: clamp(46px, 6.2vw, 92px);
+  max-width: 13ch;
+  font-size: clamp(38px, 4.7vw, 72px);
   font-weight: 800;
   letter-spacing: -0.038em;
   line-height: 0.98;
@@ -178,9 +212,9 @@ onBeforeUnmount(() => {
 }
 
 .lede {
-  max-width: 34ch;
-  margin: 2rem 0 2.4rem;
-  font-size: clamp(15.5px, 1.5vw, 17px);
+  max-width: 36ch;
+  margin: 1.6rem 0 2.1rem;
+  font-size: clamp(15px, 1.3vw, 16px);
   line-height: 1.6;
   color: var(--muted);
 }
