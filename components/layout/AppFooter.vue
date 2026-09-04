@@ -7,6 +7,16 @@
           <p class="text-muted text-sm max-w-70 mt-4">
             We build the systems businesses run on. Operations software, built from Lagos.
           </p>
+          <div class="flex flex-wrap gap-x-4 gap-y-1.5 mt-5">
+            <span
+              v-for="place in presence"
+              :key="place.name"
+              class="text-muted text-[13px] inline-flex items-center gap-1.5"
+            >
+              <span aria-hidden="true">{{ place.flag }}</span>
+              {{ place.name }}
+            </span>
+          </div>
         </div>
 
         <div v-for="col in footerLinks" :key="col.heading">
@@ -35,26 +45,26 @@
 
 <script setup lang="ts">
 import IcLogo from '@/components/ui/IcLogo.vue'
-import { projects } from '@/data/projects'
-import { site } from '@/data/site'
+import { presence, site } from '@/data/site'
 
 const year = new Date().getFullYear()
 
 const footerLinks = [
   {
-    heading: 'The work',
-    links: projects.slice(0, 4).map((project) => ({
-      label: project.name,
-      to: `/work/${project.slug}`,
-    })),
-  },
-  {
     heading: 'Company',
     links: [
-      { label: 'About', to: '/about' },
+      { label: 'Who we are', to: '/about' },
       { label: 'Partnerships', to: '/partnerships' },
       { label: 'Careers', to: '/careers' },
       { label: 'Insights', to: '/blog' },
+    ],
+  },
+  {
+    heading: 'Explore',
+    links: [
+      { label: 'Isura', to: '/isura' },
+      { label: 'The work', to: '/work' },
+      { label: 'Run a diagnostic', to: '/diagnose' },
       { label: 'Contact', to: '/contact' },
     ],
   },

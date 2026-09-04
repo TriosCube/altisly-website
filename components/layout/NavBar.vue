@@ -1,6 +1,10 @@
 <template>
-  <div class="sticky top-3.5 z-50 px-4">
-    <div class="max-w-[72rem] mx-auto relative" @mouseleave="closeMenus">
+  <div class="sticky top-3.5 z-50 px-4 nav-shell" :class="{ 'is-tucked': tucked }">
+    <div
+      class="max-w-[72rem] mx-auto relative"
+      @mouseenter="onShellEnter"
+      @mouseleave="onShellLeave"
+    >
       <nav
         class="flex items-center justify-between gap-5 px-4.5 py-1.5 pr-2.5 bg-surface/88 backdrop-saturate-160 backdrop-blur-[14px] rounded-pill border border-base"
       >
@@ -13,7 +17,7 @@
               class="nav-link"
               :class="{ 'is-open': openMenu === menu.key }"
               :aria-expanded="openMenu === menu.key"
-              @mouseenter="openMenu = menu.key"
+              @mouseenter="openNow(menu.key)"
               @click="toggleMenu(menu.key)"
             >
               {{ menu.label }}
@@ -33,6 +37,7 @@
 
           <NuxtLink to="/blog" class="nav-link" @mouseenter="closeMenus">Insights</NuxtLink>
           <NuxtLink to="/contact" class="nav-link" @mouseenter="closeMenus">Contact</NuxtLink>
+          <NuxtLink to="/isura" class="nav-link" @mouseenter="closeMenus">Isura</NuxtLink>
         </div>
 
         <div class="flex items-center gap-2">
@@ -42,7 +47,7 @@
               class="nav-link"
               :class="{ 'is-open': openMenu === 'global' }"
               :aria-expanded="openMenu === 'global'"
-              @mouseenter="openMenu = 'global'"
+              @mouseenter="openNow('global')"
               @click="toggleMenu('global')"
             >
               <svg
@@ -247,6 +252,9 @@
             <NuxtLink to="/contact" class="mobile-item" @click="mobileOpen = false">
               Contact
             </NuxtLink>
+            <NuxtLink to="/isura" class="mobile-item" @click="mobileOpen = false">
+              Isura
+            </NuxtLink>
           </div>
 
           <div class="mobile-group">
@@ -271,14 +279,11 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import IcLogo from '@/components/ui/IcLogo.vue'
 import AppButton from '@/components/ui/AppButton.vue'
+import { presence } from '@/data/site'
 import { cycleTheme, getThemeMode, initTheme } from '@/utils/helpers'
 import type { ThemeMode } from '@/utils/types'
 
 const icons: Record<string, string> = {
-  layers: 'M12 3l9 5-9 5-9-5 9-5zM3 13l9 5 9-5',
-  grid: 'M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z',
-  spark: 'M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2z',
-  shield: 'M12 3l7 3v6c0 4.2-2.9 7.6-7 9-4.1-1.4-7-4.8-7-9V6z',
   people: 'M16 19v-1.5a4 4 0 00-4-4H7a4 4 0 00-4 4V19M9.5 9.5a3 3 0 100-6 3 3 0 000 6zM19 19v-1.5a4 4 0 00-3-3.9',
   handshake: 'M8 12l3 3 2-2 3 3M3 10l4-4 5 2 5-2 4 4-5 6-4-3-4 3z',
   compass: 'M12 21a9 9 0 100-18 9 9 0 000 18zM15.5 8.5l-2 5-5 2 2-5z',
@@ -286,65 +291,6 @@ const icons: Record<string, string> = {
 }
 
 const menus = [
-  {
-    key: 'work',
-    label: 'Work',
-    columns: [
-      {
-        heading: 'Selected builds',
-        items: [
-          {
-            label: 'Isura',
-            to: '/work/isura',
-            icon: 'layers',
-            desc: 'A multi tenant platform built for structural isolation.',
-          },
-          {
-            label: 'aTreasury',
-            to: '/work/atreasury',
-            icon: 'compass',
-            desc: 'Treasury and risk operations, off the spreadsheet.',
-          },
-          {
-            label: 'altisHMS',
-            to: '/work/altishms',
-            icon: 'shield',
-            desc: 'Hospital management, designed from inside the room.',
-          },
-        ],
-      },
-      {
-        heading: 'More builds',
-        items: [
-          {
-            label: 'perSona',
-            to: '/work/persona',
-            icon: 'people',
-            desc: 'Identity and verification, with a vertical on top.',
-          },
-          {
-            label: 'Treasury AI Assistant',
-            to: '/work/treasury-ai-assistant',
-            icon: 'spark',
-            desc: 'Reconciliation and forecasting, automated.',
-          },
-          {
-            label: 'All work',
-            to: '/work',
-            icon: 'grid',
-            desc: 'Every build, and the decisions behind it.',
-          },
-        ],
-      },
-    ],
-    feature: {
-      eyebrow: 'Diagnostic',
-      title: 'Run the survey on your own operation',
-      body: 'Eight questions. The engine finds where the work leaks, then designs the system that answers it.',
-      cta: 'Start the diagnostic',
-      to: '/diagnose',
-    },
-  },
   {
     key: 'company',
     label: 'Company',
@@ -394,25 +340,122 @@ const menus = [
   },
 ]
 
-const presence = [
-  { flag: '🇳🇬', name: 'Nigeria', note: 'Lagos' },
-  { flag: '🇬🇭', name: 'Ghana' },
-  { flag: '🇬🇧', name: 'United Kingdom' },
-]
-
 const route = useRoute()
 const openMenu = ref('')
+let closeTimer: ReturnType<typeof setTimeout> | null = null
 const mobileOpen = ref(false)
 const themeMode = ref<ThemeMode>('system')
+const tucked = ref(false)
+
+const TOP_ZONE = 90
+const SCROLL_STEP = 6
+const REVEAL_HOLD = 2000
+const HIDE_ON_DOWNWARD_SCROLL = true
+
+let lastY = 0
+let ticking = false
+let hovering = false
+let revealTimer: ReturnType<typeof setTimeout> | null = null
 
 const activeMenu = computed(() => menus.find((menu) => menu.key === openMenu.value))
 
+function cancelClose() {
+  if (closeTimer === null) return
+  clearTimeout(closeTimer)
+  closeTimer = null
+}
+
+function openNow(key: string) {
+  cancelClose()
+  openMenu.value = key
+}
+
+function scheduleClose() {
+  cancelClose()
+  closeTimer = setTimeout(() => {
+    openMenu.value = ''
+    closeTimer = null
+  }, 220)
+}
+
 function toggleMenu(key: string) {
+  cancelClose()
   openMenu.value = openMenu.value === key ? '' : key
 }
 
 function closeMenus() {
+  cancelClose()
   openMenu.value = ''
+}
+
+function cancelReveal() {
+  if (revealTimer === null) return
+  clearTimeout(revealTimer)
+  revealTimer = null
+}
+
+function holdOpen() {
+  return hovering || openMenu.value !== '' || mobileOpen.value
+}
+
+function scheduleTuck() {
+  cancelReveal()
+  revealTimer = setTimeout(() => {
+    revealTimer = null
+    if (holdOpen() || window.scrollY <= TOP_ZONE) return
+    tucked.value = true
+  }, REVEAL_HOLD)
+}
+
+function reveal(hold: boolean) {
+  tucked.value = false
+  if (hold) scheduleTuck()
+  else cancelReveal()
+}
+
+function onShellEnter() {
+  hovering = true
+  cancelClose()
+  cancelReveal()
+}
+
+function onShellLeave() {
+  hovering = false
+  scheduleClose()
+  if (window.scrollY > TOP_ZONE) scheduleTuck()
+}
+
+function readScroll() {
+  ticking = false
+  const y = window.scrollY
+  const delta = y - lastY
+
+  if (y <= TOP_ZONE) {
+    lastY = y
+    reveal(false)
+    return
+  }
+
+  if (Math.abs(delta) < SCROLL_STEP) return
+  const goingDown = delta > 0
+  lastY = y
+
+  if (holdOpen()) return
+
+  if (goingDown === HIDE_ON_DOWNWARD_SCROLL) {
+    tucked.value = true
+    cancelReveal()
+    closeMenus()
+    return
+  }
+
+  reveal(true)
+}
+
+function onScroll() {
+  if (ticking) return
+  ticking = true
+  requestAnimationFrame(readScroll)
 }
 
 function onKeydown(event: KeyboardEvent) {
@@ -430,19 +473,47 @@ watch(
   () => {
     closeMenus()
     mobileOpen.value = false
+    lastY = 0
+    reveal(false)
   },
 )
 
 onMounted(() => {
   initTheme()
   themeMode.value = getThemeMode()
+  lastY = window.scrollY
   document.addEventListener('keydown', onKeydown)
+  window.addEventListener('scroll', onScroll, { passive: true })
 })
 
-onBeforeUnmount(() => document.removeEventListener('keydown', onKeydown))
+onBeforeUnmount(() => {
+  cancelClose()
+  cancelReveal()
+  document.removeEventListener('keydown', onKeydown)
+  window.removeEventListener('scroll', onScroll)
+})
 </script>
 
 <style scoped>
+.nav-shell {
+  transition:
+    transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 200ms ease;
+  will-change: transform;
+}
+
+.nav-shell.is-tucked {
+  transform: translateY(calc(-100% - 1.5rem));
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-shell {
+    transition: none;
+  }
+}
+
 .nav-link {
   display: inline-flex;
   align-items: center;
@@ -497,6 +568,16 @@ onBeforeUnmount(() => document.removeEventListener('keydown', onKeydown))
   border-radius: var(--radius-xl);
   background: var(--surface);
   box-shadow: var(--shadow-pop);
+}
+
+.mega::before,
+.globe-panel::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  height: 1rem;
 }
 
 .mega-inner {

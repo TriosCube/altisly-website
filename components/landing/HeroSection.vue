@@ -1,5 +1,11 @@
 <template>
-  <header ref="heroRef" class="hero" :class="{ 'is-in': entered }">
+  <header
+    ref="heroRef"
+    class="hero"
+    :class="{ 'is-in': entered }"
+    :style="{ '--nx': `${net.x}%`, '--ny': `${net.y}%` }"
+  >
+    <span class="hero-net" aria-hidden="true"></span>
 
     <div class="hero-viewport">
       <div class="container-isura hero-inner" :style="{ '--recede': recede }">
@@ -40,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import HeroStage from './HeroStage.vue'
 import { capabilities } from '@/data/content'
@@ -48,9 +54,12 @@ import { capabilities } from '@/data/content'
 const heroRef = ref<HTMLElement | null>(null)
 const entered = ref(false)
 const recede = ref(0)
+const net = reactive({ x: 50, y: 42 })
 
 let frame = 0
+let ease = 0
 let reduced = false
+const netTarget = { x: 50, y: 42 }
 
 function update() {
   const hero = heroRef.value
@@ -66,6 +75,21 @@ function schedule() {
   frame = requestAnimationFrame(update)
 }
 
+function onPointerMove(event: PointerEvent) {
+  const hero = heroRef.value
+  if (!hero) return
+
+  const rect = hero.getBoundingClientRect()
+  netTarget.x = ((event.clientX - rect.left) / rect.width) * 100
+  netTarget.y = ((event.clientY - rect.top) / rect.height) * 100
+}
+
+function drift() {
+  net.x += (netTarget.x - net.x) * 0.07
+  net.y += (netTarget.y - net.y) * 0.07
+  ease = requestAnimationFrame(drift)
+}
+
 onMounted(() => {
   reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   entered.value = true
@@ -74,10 +98,14 @@ onMounted(() => {
   update()
   window.addEventListener('scroll', schedule, { passive: true })
   window.addEventListener('resize', schedule)
+  window.addEventListener('pointermove', onPointerMove, { passive: true })
+  ease = requestAnimationFrame(drift)
 })
 
 onBeforeUnmount(() => {
   cancelAnimationFrame(frame)
+  cancelAnimationFrame(ease)
+  window.removeEventListener('pointermove', onPointerMove)
   window.removeEventListener('scroll', schedule)
   window.removeEventListener('resize', schedule)
 })
@@ -90,15 +118,38 @@ onBeforeUnmount(() => {
   padding: 0 0 4rem;
   overflow: hidden;
   background-color: var(--bg);
-  background-image:
-    linear-gradient(color-mix(in srgb, var(--text) 4%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--text) 4%, transparent) 1px, transparent 1px);
-  background-size: 46px 46px;
 }
 
-@media (min-width: 1024px) {
-  .hero {
-    background-image: none;
+/* The net. Same 46px lattice the tenant-console auth layout uses, but drawn as its own layer so the
+   pointer glow can mask it: barely present across the page, resolved where the light falls. */
+.hero-net {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--text) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--text) 7%, transparent) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: radial-gradient(
+    38rem 38rem at var(--nx, 50%) var(--ny, 42%),
+    #000 0%,
+    rgba(0, 0, 0, 0.72) 26%,
+    rgba(0, 0, 0, 0.22) 54%,
+    rgba(0, 0, 0, 0.11) 100%
+  );
+  opacity: 0;
+  transition: opacity 900ms ease 200ms;
+}
+
+.is-in .hero-net {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-net {
+    mask-image: none;
+    opacity: 0.34;
   }
 }
 
@@ -128,7 +179,7 @@ onBeforeUnmount(() => {
 
 @media (min-width: 1024px) {
   .hero-inner {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.02fr);
+    grid-template-columns: minmax(0, 1.34fr) minmax(0, 1fr);
     gap: 3rem;
   }
 }
@@ -160,7 +211,7 @@ onBeforeUnmount(() => {
 .headline {
   margin: 0;
   max-width: 13ch;
-  font-size: clamp(38px, 4.7vw, 72px);
+  font-size: clamp(38px, 5.6vw, 80px);
   font-weight: 800;
   letter-spacing: -0.038em;
   line-height: 0.98;

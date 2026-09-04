@@ -7,6 +7,12 @@ export const site = {
   url: 'https://www.altisly.com',
 } as const
 
+export const presence = [
+  { flag: '🇳🇬', name: 'Nigeria', note: 'Lagos' },
+  { flag: '🇬🇭', name: 'Ghana', note: '' },
+  { flag: '🇬🇧', name: 'United Kingdom', note: '' },
+] as const
+
 export const metaDescriptions = {
   home: 'Altisly designs and builds the software behind day to day operations: the ledgers, approvals, records and workflows a business cannot afford to get wrong.',
   work: 'The platforms Altisly has designed, built and operates: multi tenant SaaS, treasury operations, AI workflow automation, hospital management and identity infrastructure.',

@@ -1,6 +1,7 @@
 # Homepage revision spec
 
-Status: **agreed, not yet implemented.** This document records the review decisions taken on the
+Status: **partly implemented.** Sections 3.4, 3.5 and 3.5b are done; the rest still stands as
+agreed. This document records the review decisions taken on the
 current homepage build so the changes can be made without re-litigating them.
 
 The structure is **locked**. No new sections. No re-ordering. The remaining work is copy discipline,
@@ -14,7 +15,7 @@ The homepage order in [pages/index.vue](pages/index.vue) is final:
 
 | # | Section | Component | Motion |
 | --- | --- | --- | --- |
-| 1 | Hero | `landing/HeroSection.vue` + `HeroStage.vue` | ambient system visuals |
+| 1 | Hero | `landing/HeroSection.vue` + `HeroStage.vue` + `HeroField.vue` | ⭐ mouse-reactive topology, depth parallax, state cycle |
 | 2 | Signal strip | `landing/MarqueeSection.vue` | slow horizontal marquee |
 | 3 | Problems | `landing/ProblemsSection.vue` | operational artefacts |
 | 4 | What we do | `landing/StackSection.vue` | ⭐ stacked scroll takeover |
@@ -26,6 +27,73 @@ The homepage order in [pages/index.vue](pages/index.vue) is final:
 
 The flow this produces: **hero → friction → capabilities → point of view → method → company →
 belief → conversion.**
+
+### Hero background: system topology
+
+The hero background was a graph-paper grid only, which left the whole hero reading as a tidy
+wireframe. It is now a **mouse-reactive system field** in
+[components/landing/HeroField.vue](components/landing/HeroField.vue), drawn on canvas behind the
+copy and the cards.
+
+**Rejected outright**, recorded so it does not come back: sliders and carousels (Revolution Slider
+was specifically considered and turned down as template-like), particle stars, blobs, spinning
+gradients, generic mouse trails, 3D globes. The reference is an interactive backend topology, not a
+particle system.
+
+What it does:
+
+- **One background layer, not two.** The canvas draws the 46px grid itself and the CSS
+  `background-image` on `.hero` is switched off above 1024px. The first build had the CSS grid and
+  the canvas topology as two unrelated overlays, which read as two competing backgrounds. Below
+  1024px the field is disabled and the CSS grid takes over again.
+- **Nodes sit on grid intersections.** Positions are grid coordinates, not free-floating normalized
+  ones, so the topology reads as routing laid over the grid rather than a second pattern on top of
+  it. This is what ties the two together.
+- **Density is generated, not hand-authored.** Tiers land every 3 columns with 3 to 5 nodes each,
+  placed by a deterministic hash of the tier and node index, so it adapts to viewport size and is
+  identical on every load with no `Math.random`. At 1990 x 1069 that is 14 tiers, 62 nodes, 70
+  edges — against 19 nodes and 28 edges in the first build, which looked scanty.
+- **Edges are tier-local.** They connect only to next-tier nodes within 3 grid rows, so lengths run
+  138 to 268px, averaging 161. The first build allowed any pairing and produced 500px+ diagonals
+  spanning the whole viewport, which is what made it read as a lattice instead of a network.
+- **Nodes never move.** Only activation animates. That single constraint is what separates this from
+  particles.
+- **Asymmetric activation.** `regionGain()` ramps from 0.2 on the left to 1.0 past x = 0.58, so the
+  field stays almost inert behind the headline and wakes up behind the cards. The left/right
+  division of the hero is preserved by the background rather than fought by it.
+- **Cursor proximity** lights nearby nodes and their edges in lime, plus a radial lime wash that
+  peaks at 5.5 percent alpha and is itself scaled by `regionGain`.
+- **`Approval → Exception → Record`** are micro mono labels placed on three nodes spaced along the
+  route in the right half, revealed only when activation on that node passes 0.12. They sit on the
+  route, so hovering reinforces the same path the cycle lights.
+- **The grid itself reacts.** Within about 3 cells of the cursor, grid lines are redrawn in lime at
+  up to 9 percent alpha inside a clipped circle. The base grid is cached to an offscreen canvas and
+  blitted each frame, so only the local highlight costs anything.
+- **One slow autonomous cycle**, `REQUEST → APPROVED → POSTING → RECONCILED`. A route is walked
+  once at layout time from the leftmost tier to the rightmost, following a gentle sine drift, then
+  split into four legs. Each cycle step lights one leg and runs a signal along it, so the route
+  fills left to right across the full width and resolves at the right edge where the cards sit.
+  Eight steps: four active, four at rest, so there are real quiet gaps.
+- Every node is guaranteed an outgoing edge — if nothing sits within 3 rows it links to the nearest
+  next-tier node regardless. Without that the route broke at one tier and the signal teleported
+  across the gap.
+- **On mouse leave it genuinely settles.** When total energy drops below 0.004 and no signal is
+  in flight, the component draws one last frame and cancels its rAF entirely. It costs nothing while
+  idle and restarts on pointer movement or the next cycle tick.
+
+The cycle is **shared, not duplicated**, via
+[composables/useOperationCycle.ts](composables/useOperationCycle.ts) — one refcounted interval that
+both `HeroField` and `HeroStage` read. Two timers would have drifted, and the whole point is that
+the background path lights as the foreground cards change.
+
+Foreground cards parallax at three depths (`--d` of 1, 0.65 and 0.4, nearest to furthest), with the
+wire layer at 0.25. The enter animation moved to the `translate` and `scale` longhands so that
+`transform` is left free for parallax and does not inherit the 800ms enter easing.
+
+Cheap when it should be: disabled entirely below 1024px, paused by `IntersectionObserver` once the
+hero scrolls away, paused on `visibilitychange`, and static under `prefers-reduced-motion`. Canvas
+colours are read from the live tokens through a probe element and re-read on `data-theme` change, so
+nothing here hardcodes a colour.
 
 ### Lines that carry the voice
 
@@ -97,19 +165,67 @@ records, Repeated work, Operational bottlenecks) are **symptoms**, not places. "
 read as a bridge into the problems section rather than a claim about which sectors Altisly serves.
 The item list itself is final.
 
-### 3.4 Problems section — freeze, do not extend
+### 3.4 Problems section — rebuilt composition, breadth through situation
 
-The artefact treatment is correct as built:
+Two rounds of change landed here. The section is now
+[components/landing/ProblemsSection.vue](components/landing/ProblemsSection.vue) as a two-column
+editorial composition, not five floating cards.
 
-> Sheet · final_v7.xlsx · Approval · in a chat thread · Same figure · three systems ·
-> Owner · unassigned · Handoff · by email
+**Composition.** Left column holds all the copy — eyebrow, headline, closing — and nothing overlaps
+it. Right column is one contained stage with five artefacts in a deliberate hierarchy: one focal,
+two medium, two small. Positions are solved so that every overlap is a corner (138x39, 48x71 and
+21x70 px) and the higher-z card never covers the lower card's label row. That constraint is why the
+overlaps are corners rather than the deep stacking first sketched: these cards carry real text, and
+a card covering another's label makes the section unreadable rather than messy.
 
-and it closes on:
+**Headline.** Was breaking into six ragged lines inside a `max-w-[24ch]` box. Now a hard two-line
+break, `When the tools stop / fitting the operation.` The size is set from a measurement, not a
+guess: `"fitting the operation."` in Onest 700 with `-0.032em` tracking is **9.115em** (0.414 em per
+character — Onest is much narrower than it looks). At the 0.68fr column that permits about 51px. The
+rule is `clamp(30px, 10.4cqw, 50px)` against `container-type: inline-size` on the copy column, so it
+sizes off the actual column width at every breakpoint. The exact limit is 10.97cqw; 10.4 leaves
+5 percent headroom.
+
+**Breadth through situation, not labels.** The first version's five artefacts all read as
+finance back-office, and the `Ledger / Portal / Report / 412,900` card was the single worst offender
+— it made the whole section read as treasury. The five now each carry a different operational
+failure, with no sector labels anywhere:
+
+| Artefact | Operational domain |
+| --- | --- |
+| `Sheet · final_v7.xlsx` | general business |
+| `Patient record · incomplete` | healthcare |
+| `Verification · needs review` | identity |
+| `Application · pending` | government and internal workflow |
+| `Payment · exception` | financial operations |
+
+This is the same breadth the old sector strip (`TREASURY ✦ HEALTHCARE ✦ IDENTITY`) was reaching for,
+carried by the situations instead of declared. The unifying idea is that these are different
+industries with the same class of problem, which is exactly what the closing line already says.
+
+Flagged values use `--warn`, not `--brand-deep`. A mismatch is semantically a warning rather than a
+brand accent, and it avoids the lime-as-ink contrast problem in the one place the section needs a
+value to actually stand out.
+
+**Interaction.** Cursor repulsion inside the stage only: nearby cards shift up to 11px away from the
+pointer, so the composition feels unstable under the hand. Scrolling toward `WHAT WE DO` drives an
+`--order` value from 0 to 1 which scales both the repulsion and each card's rotation to zero, so the
+artefacts snap into alignment as the next section takes over. The rAF loop stops once motion falls
+below 0.05px with the pointer outside. No network background, no particles, no connecting lines.
+
+The background is a single faint oversized spreadsheet fragment (92 x 34px cells, radially masked)
+behind the artefact area only — deliberately rectangular so it reads as a spreadsheet rather than
+repeating the hero's square grid.
+
+It closes on:
 
 > Spreadsheets. Messages. Manual handoffs. Records that disagree.
 > **The operation starts working around its tools.**
 
 Nothing is added after that line. The section has done its job; a further explanation would undo it.
+
+No further cards, connecting lines, particles or background effects. The sophistication comes from
+typography, controlled disorder and the one interaction.
 
 ### 3.5 What we do — two body rewrites
 
@@ -129,6 +245,32 @@ than a person can**." Read cold, that is "replace people, machines are better." 
 > Repetitive work redesigned and automated where people should not have to carry it.
 
 Stages 02 and 04 are unchanged.
+
+### 3.5b The `ch`-on-a-wrapper bug
+
+`StackSection`'s intro heading was rendering one word per line — `We / work / on / more / than / the
+/ software.` It was not a styling choice, it was a unit error, and it is worth writing down because
+it is easy to reintroduce.
+
+`max-w-[20ch]` was on the **wrapper div**, not the heading. `ch` resolves against the element's own
+font-size, and the div inherits 16px, so the box was `20 x 10.64px = 213px` while the heading ran at
+58.9px. The single word `"software."` needs 251px at that size — wider than the entire box — so
+every word overflowed and the browser broke after each one.
+
+The fix is to move the constraint onto the heading itself: `max-w-[16ch]` on the `h2`, which
+resolves at 58.9px to 622px and yields `We work on more than / the software.` Because `ch` scales
+with font-size, the wrap point is font-size independent: verified as the same two lines at 1024,
+1280, 1440, 1920 and 2560px.
+
+Audited every other `max-w-[Nch]` in the codebase. **This was the only wrapper case** — the headings
+in `WhoWeAre`, `CtaSection`, `ContactSection`, `BeliefSection`, `HeroSection` and `PageIntro` all
+carry the constraint on the heading element and break correctly.
+
+Rule: put `ch` limits on the element whose font-size they are meant to measure. Never on a wrapper.
+
+Known, not yet fixed: the hero headline breaks to four lines because the lime `.mark` pill adds
+about 44px of inline padding that the `13ch` limit does not account for, orphaning `on.` on its own
+line.
 
 ### 3.6 Statement section eyebrow
 

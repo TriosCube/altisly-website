@@ -24,7 +24,7 @@
                 type="text"
                 autocomplete="username"
                 required
-                class="w-full px-4 py-3 rounded-isura-md border border-base text-sm focus:outline-none focus:ring-2 focus:ring-[#95C129] focus:border-transparent"
+                class="w-full px-4 py-3 rounded-isura-md border border-base text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand-deep)] focus:border-transparent"
                 placeholder="editor"
               />
             </div>
@@ -35,7 +35,7 @@
                 type="password"
                 autocomplete="current-password"
                 required
-                class="w-full px-4 py-3 rounded-isura-md border border-base text-sm focus:outline-none focus:ring-2 focus:ring-[#95C129] focus:border-transparent"
+                class="w-full px-4 py-3 rounded-isura-md border border-base text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand-deep)] focus:border-transparent"
               />
             </div>
 
@@ -204,7 +204,7 @@
                     v-model="newTag"
                     type="text"
                     placeholder="New tag…"
-                    class="flex-1 px-3 py-1.5 rounded-lg border border-base text-xs focus:outline-none focus:ring-2 focus:ring-[#95C129]"
+                    class="flex-1 px-3 py-1.5 rounded-lg border border-base text-xs focus:outline-none focus:ring-2 focus:ring-[var(--brand-deep)]"
                     @keydown.enter.prevent="addTag"
                   />
                   <button type="button" @click="addTag" class="px-3 py-1.5 rounded-lg bg-surface-2 text-xs font-semibold text-muted hover:bg-surface-3 transition-colors">
@@ -319,7 +319,7 @@
                   v-model="searchQuery"
                   type="search"
                   placeholder="Search posts…"
-                  class="ml-auto px-3 py-1.5 rounded-lg border border-base text-xs focus:outline-none focus:ring-2 focus:ring-[#95C129] w-48"
+                  class="ml-auto px-3 py-1.5 rounded-lg border border-base text-xs focus:outline-none focus:ring-2 focus:ring-[var(--brand-deep)] w-48"
                 />
               </div>
 
@@ -702,6 +702,6 @@ const formatDate = (iso: string) =>
   @apply block text-xs font-bold text-muted uppercase tracking-wider mb-1.5;
 }
 .write-input {
-  @apply w-full px-4 py-3 rounded-isura-md border border-base text-sm focus:outline-none focus:ring-2 focus:ring-[#95C129] focus:border-transparent bg-surface;
+  @apply w-full px-4 py-3 rounded-isura-md border border-base text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand-deep)] focus:border-transparent bg-surface;
 }
 </style>

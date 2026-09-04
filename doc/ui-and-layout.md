@@ -25,7 +25,7 @@ Body sets `font-feature-settings: 'ss01','ss03','cv11'` and antialiasing.
 | --- | --- | --- |
 | `--brand` | `#C8F75D` | Lime. Primary accent, buttons, pills, active dots. |
 | `--brand-soft` | `#E5FBA8` | Button hover. |
-| `--brand-deep` | `#95C129` | Accent text on light backgrounds. Redefined to `#C8F75D` in dark theme so accent text stays readable. |
+| `--brand-deep` | `#45772C` | Accent text on light backgrounds. Redefined to `#C8F75D` in dark theme so accent text stays readable. |
 | `--on-brand` | `#0E2D22` (light) / `#061309` (dark) | Text placed on a lime surface. |
 | `--positive` | `#2D8B5F` | |
 | `--negative` | `#D14545` | |
@@ -39,16 +39,55 @@ before paint (no flash). Preference persists to `localStorage` under `altisly-th
 
 | Token | Light | Dark |
 | --- | --- | --- |
-| `--bg` | `#F4F6F2` | `#0A1A12` |
-| `--surface` | `#FFFFFF` | `#122A20` |
-| `--surface-2` | `#ECEEEA` | `#163828` |
-| `--surface-3` | `#E1E4DE` | `#1D4231` |
+| `--bg` | `#F4F6F2` | `#07100C` |
+| `--surface` | `#FFFFFF` | `#11231C` |
+| `--surface-2` | `#ECEEEA` | `#152F23` |
+| `--surface-3` | `#E1E4DE` | `#1C392B` |
 | `--text` | `#0F1410` | `#EFF2EC` |
 | `--text-2` | `#2B3230` | `#D2D6CE` |
 | `--muted` | `#6A716D` | `#8E9A91` |
 | `--muted-2` | `#9CA09D` | `#6A766D` |
-| `--border` | `#E3E6E0` | `#1B3527` |
-| `--border-strong` | `#CDD0CB` | `#2A4E3A` |
+| `--border` | `#E3E6E0` | `#182C21` |
+| `--border-strong` | `#CDD0CB` | `#274334` |
+
+`--brand-deep` was darkened from `#95C129` to `#45772C` in a separate pass. It is the lime's stand-in
+on light backgrounds — used as ink in 24 places across 14 files, from the hero capability labels and
+`WhoWeAre` numerals to the blog, contact, legal and error pages — and at `l45.9` it read as washed
+out, measuring **1.94:1** against `--bg`. That fails legibility outright at the 10.5 to 12px sizes it
+is mostly used at. It now measures **4.92:1** on `--bg` and 5.35:1 on white, and stays readable at
+4.10:1 inside the 14 percent `badge-brand` tint.
+
+The hue moved from 78 to 100 deliberately. Darkening a yellow-green at constant hue goes olive, which
+relates to nothing else in the palette; 100 sits between the lime's 78 and the deep greens' 151 to
+153, so it reads as the lime darkened while belonging to the same family. Saturation 46 likewise sits
+between the lime's 65 and the invert greens' 34 to 39. The dark theme override to `#C8F75D` is
+unchanged — this was a light-theme legibility problem only.
+
+**There is now one green, not two.** The light theme's invert ramp holds the *same hex values* as
+the dark theme's base ramp:
+
+| Light token | = Dark token | Value |
+| --- | --- | --- |
+| `--invert-bg` | `--bg` | `#07100C` |
+| `--invert-bg-2` | `--surface` | `#11231C` |
+| `--invert-bg-3` | `--surface-3` | `#1C392B` |
+
+A dark band on a light page is the same green as the dark theme's page. This replaced an earlier
+attempt that matched only the *character* (h156.7 s39.1 l9.0 against dark `--surface`'s h156.7 s34.6
+l10.2) — close, but a full lightness step off, and visibly not the same colour. Match the values.
+
+Step ratios came out near the originals (`bg → bg-2` 1.18 against 1.15, `bg → bg-3` 1.53 against
+1.56). `--on-brand` and the `--color-deep*` trio in `@theme` moved with it, since they were
+deliberately the same value as `--invert-bg`; ink on a lime chip improved from 11.94:1 to 15.54:1,
+and invert text on the band from 12.69:1 to 16.53:1.
+
+Dark theme's own invert set stays darker still (`#030805`), so an invert band inside a dark page
+continues to read as darker than the page around it.
+
+The dark ramp was taken down roughly three lightness points and four saturation points from its
+first version. Contrast compresses as you approach black, so the steps were solved individually to
+hold the original separation rather than shifted by a flat amount: `bg → surface` 1.18:1,
+`surface → surface-2` 1.14:1, `surface-2 → surface-3` 1.14:1. Hue is unchanged.
 
 ### Invert tokens
 
@@ -58,18 +97,54 @@ page around them.
 
 | Token | Light | Dark |
 | --- | --- | --- |
-| `--invert-bg` | `#0E2D22` | `#050C08` |
-| `--invert-bg-2` | `#16382B` | `#0E2218` |
-| `--invert-text` | `#EAEFE6` | `#EFF2EC` |
-| `--invert-muted` | `rgba(234,239,230,0.62)` | `rgba(239,242,236,0.60)` |
-| `--invert-border` | `rgba(234,239,230,0.10)` | `rgba(239,242,236,0.08)` |
+| `--invert-bg` | `#07100C` | `#030805` |
+| `--invert-bg-2` | `#11231C` | `#0B1812` |
+| `--invert-bg-3` | `#1C392B` | `#1D4134` |
+| `--invert-text-rgb` | `234 239 230` | `239 242 236` |
+| `--invert-text` | `rgb(var(--invert-text-rgb))` | same |
+| `--invert-muted` | `… / 0.62` | `… / 0.60` |
+| `--invert-border` | `… / 0.10` | `… / 0.08` |
+| `--invert-hairline` | `… / 0.25` | same |
+| `--invert-wash` | `… / 0.08` | same |
+| `--invert-wash-2` | `… / 0.12` | same |
+
+Known gap: `--invert-bg-2` sits only 1.11:1 against `--invert-bg` in dark theme (it was 1.08:1
+before the ramp change), so a raised band inside an invert section does not currently read as
+raised. Not yet resolved.
+
+### Channel tokens
+
+Two tokens carry raw channels rather than finished colours, so translucent values derive from one
+place instead of being retyped:
+
+| Token | Light | Dark | Feeds |
+| --- | --- | --- | --- |
+| `--ink-rgb` | `15 20 16` | same | every shadow, `--scroll-thumb` |
+| `--invert-text-rgb` | `234 239 230` | `239 242 236` | the invert alpha set above, `--scroll-thumb` in dark |
+
+Consume them as `rgb(var(--ink-rgb) / 0.14)`. Also derived: `--scrim` (`rgb(3 8 5 / 0.76)`, the modal
+backdrop) and `--scroll-thumb`, which is the one token whose *formula* differs per theme — ink in
+light, invert ink in dark — which is why the scrollbar rule no longer needs a `[data-theme]` branch.
 
 ### Radii and shadows
 
 `--r-sm 8px`, `--r-md 12px`, `--r-lg 18px`, `--r-xl 28px`, `--r-pill 9999px`.
 
-`--shadow-1` hairline, `--shadow-2` card lift, `--shadow-pop` `0 30px 80px -30px rgba(15,20,16,.32)`
-for the big floating panels.
+`--shadow-1` hairline, `--shadow-2` card lift, `--shadow-pop` for the big floating panels,
+`--shadow-lift` / `--shadow-lift-hover` for the chip rest and hover pair, `--shadow-marquee` for the
+signal strip's upward edge, `--shadow-float` for the cookie banner. All are built from
+`rgb(var(--ink-rgb) / a)`.
+
+### The one rule
+
+**Colour literals are legal in exactly one place: the token declarations.** Everything downstream —
+component `<style>` blocks, `@utility` bodies, Tailwind arbitrary values — goes through `var()`.
+Arbitrary values take them directly: `accent-[var(--brand-deep)]`, `bg-[var(--invert-wash-2)]`,
+`shadow-[0_0_0_4px_color-mix(in_srgb,var(--brand)_25%,transparent)]`.
+
+The only accepted exception is [components/ui/IcLogo.vue](components/ui/IcLogo.vue), where literals
+appear as the last-resort fallback in a `var(--a, var(--b, #hex))` chain because the component is
+meant to survive being lifted out of this stylesheet.
 
 ---
 

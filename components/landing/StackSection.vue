@@ -1,10 +1,10 @@
 <template>
   <section class="pt-20" id="what-we-do">
     <div class="container-isura">
-      <div class="max-w-[20ch]">
+      <div>
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">What we do</span>
         <h2
-          class="text-[clamp(34px,4.6vw,60px)] font-bold tracking-[-0.032em] leading-[1.02] mt-3"
+          class="text-[clamp(34px,4.6vw,60px)] font-bold tracking-[-0.032em] leading-[1.02] mt-3 max-w-[16ch]"
         >
           We work on more than the software.
         </h2>

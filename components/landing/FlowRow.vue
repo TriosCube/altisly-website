@@ -5,7 +5,7 @@
       class="w-[22px] h-[22px] rounded-full grid place-items-center flex-shrink-0"
       :class="{
         'bg-brand text-on-brand': state === 'done',
-        'bg-invert text-brand shadow-[0_0_0_4px_color-mix(in_srgb,#C8F75D_25%,transparent)]':
+        'bg-invert text-brand shadow-[0_0_0_4px_color-mix(in_srgb,var(--brand)_25%,transparent)]':
           state === 'now',
         'bg-surface-2 text-muted': state === 'wait',
       }"

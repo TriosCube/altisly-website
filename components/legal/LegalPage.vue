@@ -38,7 +38,7 @@
 
         <article class="flex-1 min-w-0">
           <div
-            v-if="intro"
+            v-if="intro || $slots.intro"
             class="rounded-isura-lg border border-base bg-surface-2 p-5 mb-10 text-[14px] text-muted leading-relaxed"
           >
             <slot name="intro">{{ intro }}</slot>

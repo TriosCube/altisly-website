@@ -22,7 +22,7 @@ const props = withDefaults(
     size: 'md',
     src: undefined,
     to: undefined,
-    label: 'Isura',
+    label: 'Altisly',
     decorative: false,
   },
 )
@@ -38,7 +38,7 @@ const height = computed(() => {
   return String(s)
 })
 
-const viewBox = computed(() => (props.variant === 'symbol' ? '0 0 36 32' : '0 0 216 40'))
+const viewBox = '0 0 36 32'
 
 const a11y = computed(() =>
   props.decorative
@@ -63,33 +63,23 @@ const a11y = computed(() =>
       v-bind="a11y"
     />
 
-    <svg
-      v-else-if="variant === 'symbol'"
-      class="ic-logo__mark"
-      :viewBox="viewBox"
-      fill="currentColor"
-      v-bind="a11y"
-    >
-      <path
-        d="M1 3h8l10 10h-8L1 3Zm26 0h8L25 13h-8L27 3ZM11 19h8L9 29H1l10-10Zm6 0h8l10 10h-8L17 19Z"
-      />
-    </svg>
+    <template v-else>
+      <svg
+        class="ic-logo__mark"
+        :viewBox="viewBox"
+        fill="currentColor"
+        v-bind="variant === 'symbol' ? a11y : { 'aria-hidden': 'true' }"
+      >
+        <path
+          d="M1 3h8l10 10h-8L1 3Zm26 0h8L25 13h-8L27 3ZM11 19h8L9 29H1l10-10Zm6 0h8l10 10h-8L17 19Z"
+        />
+      </svg>
 
-    <svg v-else class="ic-logo__mark" :viewBox="viewBox" fill="currentColor" v-bind="a11y">
-      <path
-        d="M1 5h8l10 10h-8L1 5Zm26 0h8L25 15h-8L27 5ZM11 21h8L9 31H1l10-10Zm6 0h8l10 10h-8L17 21Z"
-      />
-      <path d="M43 4h2v32h-2zM56 8h5v24h-5z" />
-      <path
-        d="M70 8h24v4H75c-3 0-4 1-4 3s1 3 4 3h13c6 0 9 2 9 7s-3 7-9 7H66v-4h21c3 0 5-1 5-3s-2-3-5-3H74c-6 0-8-2-8-7s3-7 4-7Z"
-      />
-      <path d="M104 8h5v16c0 3 2 4 7 4h7c5 0 7-1 7-4V8h5v17c0 5-4 7-12 7h-7c-8 0-12-2-12-7V8Z" />
-      <path
-        fill-rule="evenodd"
-        d="M144 8h20c7 0 10 3 10 8 0 4-2 7-8 8l9 8h-7l-8-8h-11v8h-5V8Zm5 4v8h14c4 0 6-1 6-4s-2-4-6-4h-14Z"
-      />
-      <path d="m183 32 13-24h6l13 24h-6l-10-19-10 19h-6Z" />
-    </svg>
+      <template v-if="variant === 'full'">
+        <span class="ic-logo__rule" aria-hidden="true"></span>
+        <span class="ic-logo__word" :aria-hidden="decorative ? 'true' : undefined">Altisly</span>
+      </template>
+    </template>
   </component>
 </template>
 
@@ -97,8 +87,9 @@ const a11y = computed(() =>
 .ic-logo {
   display: inline-flex;
   align-items: center;
+  gap: calc(var(--ic-logo-h) * 0.22);
   flex: none;
-  color: var(--ic-logo-ink, #0e2d22);
+  color: var(--ic-logo-ink, var(--color-deep, #11231c));
 }
 
 :root[data-theme='dark'] .ic-logo--auto {
@@ -110,13 +101,31 @@ const a11y = computed(() =>
 }
 
 .ic-logo--rail {
-  color: var(--ic-logo-ink, #f4f6f2);
+  color: var(--ic-logo-ink, var(--bg, #f4f6f2));
 }
 
 .ic-logo__mark {
   display: block;
   height: var(--ic-logo-h);
   width: auto;
+}
+
+.ic-logo__rule {
+  display: block;
+  width: max(1.5px, calc(var(--ic-logo-h) * 0.055));
+  height: calc(var(--ic-logo-h) * 0.86);
+  border-radius: 1px;
+  background: currentColor;
+}
+
+.ic-logo__word {
+  font-family: var(--font-sans);
+  font-size: calc(var(--ic-logo-h) * 0.62);
+  font-weight: 800;
+  letter-spacing: 0.055em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .ic-logo__tenant {

@@ -322,7 +322,7 @@ onBeforeUnmount(() => {
   display: grid;
   place-items: center;
   padding: clamp(1rem, 4vw, 2.6rem);
-  background: color-mix(in srgb, #050c08 76%, transparent);
+  background: var(--scrim);
   backdrop-filter: blur(10px) saturate(1.1);
 }
 

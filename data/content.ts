@@ -16,7 +16,7 @@ export const stages = [
   {
     number: '01',
     title: 'Systems that hold up',
-    body: 'Business systems built around how the operation actually works, not around the database underneath it.',
+    body: 'Business systems built around how the operation actually works, rather than forcing the operation around the software.',
     tone: 'invert',
   },
   {
@@ -28,7 +28,7 @@ export const stages = [
   {
     number: '03',
     title: 'Less done by hand',
-    body: 'Repetitive work redesigned and automated where technology carries it better than a person can.',
+    body: 'Repetitive work redesigned and automated where people should not have to carry it.',
     tone: 'brand',
   },
   {
@@ -170,4 +170,158 @@ export const openRoles = [
   { title: 'Product Engineer, Vue', location: 'Remote', type: 'Full-time' },
   { title: 'Data Strategy Consultant', location: 'Remote', type: 'Full-time' },
   { title: 'Treasury Systems Engineer', location: 'Remote', type: 'Full-time' },
+]
+
+export const engagementStages = [
+  {
+    number: '01',
+    title: 'Diagnostic',
+    duration: 'One to two weeks',
+    body: 'We sit with the operation and follow one real case end to end. What we produce is a map of where the work leaks, and a written recommendation you can act on with or without us.',
+  },
+  {
+    number: '02',
+    title: 'Architecture',
+    duration: 'Two to three weeks',
+    body: 'Boundaries, data model, failure paths and the decisions we are deliberately rejecting. This is where we choose what the system will make impossible rather than merely discourage.',
+  },
+  {
+    number: '03',
+    title: 'Build',
+    duration: 'Twelve weeks and up',
+    body: 'Interface, backend, data model and the automated layer shipped as one system. You see working software every two weeks, running against real data, not a staging fiction.',
+  },
+  {
+    number: '04',
+    title: 'Handover',
+    duration: 'Four weeks, overlapping',
+    body: 'Your team runs it with us in the room, then without us. Runbooks, architecture notes and the reasoning behind each decision go with the code.',
+  },
+]
+
+export const engagementFit = {
+  yes: [
+    'The workflow is the product, and it is currently held together by people remembering things.',
+    'Money moves, records are kept, or a regulator can ask you to prove what happened.',
+    'You have an operation running today, with real users and real data behind it.',
+    'Someone on your side can make architectural decisions without a committee.',
+  ],
+  no: [
+    'A design refresh over a system nobody has agreed on yet.',
+    'Staff augmentation, where the architecture is decided elsewhere and we only type.',
+    'A fixed scope written before anyone has looked at how the work actually runs.',
+    'Anything where the deadline is fixed, the scope is fixed, and neither can move.',
+  ],
+}
+
+export const commercialModels = [
+  {
+    model: 'Build fee',
+    shape: 'Fixed monthly, scoped in phases',
+    suits: 'A funded team that wants the system owned outright at the end.',
+  },
+  {
+    model: 'Equity co-build',
+    shape: 'Reduced fee against equity',
+    suits: 'A venture at the start, where we carry part of the risk and share the upside.',
+  },
+  {
+    model: 'Platform partnership',
+    shape: 'Licence plus integration fee',
+    suits: 'You hold the distribution and want our rails behind your brand.',
+  },
+]
+
+export const partnerFaqs = [
+  {
+    q: 'Do you work with teams that already have engineers?',
+    a: 'Most of the time, yes. We take the parts that carry the load and the boundaries between them. Your engineers keep shipping product on top, and they are in the architecture conversations from the first week.',
+  },
+  {
+    q: 'What happens to the code at the end?',
+    a: 'You own it. Repositories, infrastructure, deployment and documentation transfer at handover. On equity co-builds the ownership question is settled in writing before the first commit.',
+  },
+  {
+    q: 'Can we start with the diagnostic only?',
+    a: 'Yes, and a good number of engagements end there. You get the map and the recommendation. If the right answer is that you do not need a rebuild, that is what the document will say.',
+  },
+  {
+    q: 'How small is too small?',
+    a: 'If the work fits inside a few weeks and does not change how the operation runs, we are the wrong shape for it. We are built for systems that have to hold up for years.',
+  },
+]
+
+export const hiringProcess = [
+  {
+    number: '01',
+    title: 'Send the work',
+    body: 'A repository, a system you designed, or a written account of a decision you made and what it cost. No cover letter.',
+  },
+  {
+    number: '02',
+    title: 'A conversation',
+    body: 'Forty five minutes with an engineer about something you have built. We are listening for how you reason about boundaries and failure.',
+  },
+  {
+    number: '03',
+    title: 'A real problem',
+    body: 'One of our actual architecture problems, discussed live. Nothing timed, nothing whiteboarded under pressure, nothing you would never do on the job.',
+  },
+  {
+    number: '04',
+    title: 'Offer',
+    body: 'Within a week of the last conversation. We tell you where you would sit, what you would own, and what we expect in the first quarter.',
+  },
+]
+
+export const whatWeLookFor = [
+  {
+    title: 'You design before you type.',
+    body: 'You can say what a system should make impossible, and what you rejected to get there.',
+  },
+  {
+    title: 'You have shipped something that stayed up.',
+    body: 'Not a demo. Something with users, data and a failure you had to answer for.',
+  },
+  {
+    title: 'You use AI as leverage.',
+    body: 'The advantage is holding architectural context across a large build, not typing faster.',
+  },
+  {
+    title: 'You finish.',
+    body: 'The last ten percent is the part that decides whether an operation can actually run on it.',
+  },
+]
+
+export const workingHere = [
+  { label: 'Where', value: 'Remote first, with a Lagos hub for the people who want a room' },
+  { label: 'How', value: 'Async by default, two fixed calls a week, no standups' },
+  { label: 'Cadence', value: 'Working software every two weeks, against real data' },
+  { label: 'Ownership', value: 'One engineer owns a surface end to end, design through operation' },
+]
+
+export const messageChecklist = [
+  'What the operation does, and where the work currently leaks.',
+  'What you have already tried, and why it did not hold.',
+  'Who runs it day to day, and what they need it to do.',
+  'Any constraint that is not moving: a regulator, a date, an existing system.',
+]
+
+export const contactFaqs = [
+  {
+    q: 'Who replies?',
+    a: 'An engineer, within one business day. Nobody is going to book you into a discovery call to qualify you.',
+  },
+  {
+    q: 'Should I run the diagnostic first?',
+    a: 'It helps. Eight questions, a few minutes, and it gives us the shape of the operation before we speak. It is not a prerequisite.',
+  },
+  {
+    q: 'Do you sign an NDA?',
+    a: 'Yes, before anything sensitive is shared. Send yours or ask for ours.',
+  },
+  {
+    q: 'We are not ready to build yet.',
+    a: 'Write anyway. A lot of useful conversations happen months before a build, and the diagnostic is worth having on file when the timing arrives.',
+  },
 ]

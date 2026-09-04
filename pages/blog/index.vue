@@ -52,7 +52,7 @@
           >
             <div class="bg-invert text-invert p-10 flex flex-col justify-between min-h-[240px]">
               <span
-                class="chip bg-[rgba(234,239,230,0.12)] text-invert-muted border-invert font-code text-[11px] self-start"
+                class="chip bg-[var(--invert-wash-2)] text-invert-muted border-invert font-code text-[11px] self-start"
                 >{{ filteredPosts[0].category }}</span
               >
               <span

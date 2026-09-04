@@ -4,7 +4,6 @@
     updated="Last updated 1 May 2026. Effective 1 May 2026."
     :toc="toc"
     :sections="sections"
-    intro="placeholder"
   >
     <template #intro>
       These Terms of Service govern your access to and use of the websites, platforms and services

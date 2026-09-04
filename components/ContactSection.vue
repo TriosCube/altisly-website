@@ -89,7 +89,7 @@
             <input
               v-model="form.newsletter"
               type="checkbox"
-              class="mt-0.5 w-4 h-4 accent-[#95C129]"
+              class="mt-0.5 w-4 h-4 accent-[var(--brand-deep)]"
             />
             <span class="field-note">Send me occasional updates from Altisly.</span>
           </label>

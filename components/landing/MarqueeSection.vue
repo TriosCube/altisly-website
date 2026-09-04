@@ -37,6 +37,6 @@ const items = [
 
 <style scoped>
 .strip {
-  box-shadow: 0 -22px 44px -30px rgba(15, 20, 16, 0.5);
+  box-shadow: var(--shadow-marquee);
 }
 </style>

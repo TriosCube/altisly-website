@@ -9,7 +9,7 @@
           <p class="cookie-desc">
             We use essential cookies for site operation and optional analytics cookies to understand
             how visitors use this site. Declining optional cookies has no effect on your browsing.
-            <NuxtLink to="/privacy" target="_blank" class="cookie-link">Privacy Policy</NuxtLink>.
+            <NuxtLink to="/legal/privacy" target="_blank" class="cookie-link">Privacy Policy</NuxtLink>.
           </p>
         </div>
 
@@ -44,10 +44,10 @@ function decline() { consent.value = 'declined' }
   transform: translateX(-50%);
   z-index: 9999;
   width: min(680px, calc(100vw - 32px));
-  background: #fff;
-  border: 1px solid #e2e6ef;
-  border-radius: 14px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-float);
 }
 .cookie-inner {
   display: flex;
@@ -59,25 +59,27 @@ function decline() { consent.value = 'declined' }
 .cookie-icon { font-size: 26px; flex: none; }
 .cookie-body { flex: 1; min-width: 200px; }
 .cookie-title {
-  font-size: 13.5px; font-weight: 650; color: #0f1117;
+  font-size: 13.5px; font-weight: 650; color: var(--text);
   margin: 0 0 3px;
 }
 .cookie-desc {
-  font-size: 12.5px; line-height: 1.6; color: #6b7280; margin: 0;
+  font-size: 12.5px; line-height: 1.6; color: var(--muted); margin: 0;
 }
-.cookie-link { color: #16a34a; text-underline-offset: 2px; }
+.cookie-link { color: var(--brand-deep); text-underline-offset: 2px; }
 .cookie-actions { display: flex; gap: 8px; flex: none; flex-wrap: wrap; }
 .cookie-btn {
-  padding: 8px 16px; border-radius: 8px; font-size: 13px;
+  padding: 8px 16px; border-radius: var(--radius-sm); font-size: 13px;
   font-weight: 600; cursor: pointer; white-space: nowrap;
-  transition: background 0.12s, border-color 0.12s;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
 }
 .cookie-btn--ghost {
-  background: transparent; border: 1px solid #d1d5db; color: #6b7280;
+  background: transparent; border: 1px solid var(--border-strong); color: var(--muted);
 }
-.cookie-btn--ghost:hover { background: #f3f4f6; color: #0f1117; }
-.cookie-btn--primary { background: #16a34a; border: 1px solid transparent; color: #fff; }
-.cookie-btn--primary:hover { background: #15803d; }
+.cookie-btn--ghost:hover { background: var(--surface-2); color: var(--text); }
+.cookie-btn--primary {
+  background: var(--brand); border: 1px solid transparent; color: var(--on-brand);
+}
+.cookie-btn--primary:hover { background: var(--brand-soft); }
 
 .cookie-enter-active, .cookie-leave-active { transition: opacity 0.22s ease, transform 0.22s ease; }
 .cookie-enter-from, .cookie-leave-to { opacity: 0; transform: translateX(-50%) translateY(12px); }

@@ -10,7 +10,7 @@
           style="
             background: radial-gradient(
               closest-side,
-              color-mix(in srgb, #c8f75d 50%, transparent),
+              color-mix(in srgb, var(--brand) 50%, transparent),
               transparent 75%
             );
             pointer-events: none;
