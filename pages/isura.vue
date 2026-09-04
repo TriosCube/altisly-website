@@ -18,7 +18,7 @@
       </template>
     </PageIntro>
 
-    <section class="py-16 border-b border-base">
+    <section class="py-16">
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">
           The foundation
@@ -59,7 +59,7 @@
       </div>
     </section>
 
-    <section class="py-16 border-b border-base">
+    <section class="py-16">
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">The surfaces</span>
         <h2
@@ -82,7 +82,7 @@
       </div>
     </section>
 
-    <section class="py-16 border-b border-base">
+    <section class="py-16">
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">
           What it carries
@@ -104,13 +104,13 @@
       </div>
     </section>
 
-    <section class="py-16 border-b border-base">
+    <section class="py-16">
       <div class="container-isura">
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <div
             v-for="item in isuraProof"
             :key="item.label"
-            class="bg-surface border border-base rounded-isura-xl p-6"
+            class="drift-card bg-surface border border-base rounded-isura-xl p-6"
           >
             <div class="font-code text-[34px] font-bold tracking-[-0.025em] leading-none">
               {{ item.value }}

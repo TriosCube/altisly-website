@@ -21,7 +21,7 @@
       </template>
     </PageIntro>
 
-    <section class="py-16 border-b border-base">
+    <section class="py-16">
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">The problem</span>
         <h2
@@ -115,7 +115,6 @@
           <AppButton variant="ghost" :to="`/work/${adjacent.prev.slug}`"
             >← {{ adjacent.prev.name }}</AppButton
           >
-          <AppButton variant="ghost" to="/work">All work</AppButton>
           <AppButton variant="ghost" :to="`/work/${adjacent.next.slug}`"
             >{{ adjacent.next.name }} →</AppButton
           >

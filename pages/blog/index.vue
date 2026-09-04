@@ -48,14 +48,24 @@
           <NuxtLink
             v-if="filteredPosts[0]"
             :to="`/blog/${filteredPosts[0].slug}`"
-            class="group grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] rounded-isura-xl overflow-hidden border border-base bg-surface hover:border-strong transition-colors mb-4"
+            class="drift-card group grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] rounded-isura-xl overflow-hidden border border-base bg-surface hover:border-strong transition-colors mb-4"
           >
-            <div class="bg-invert text-invert p-10 flex flex-col justify-between min-h-[240px]">
+            <div
+              class="relative bg-invert text-invert p-10 flex flex-col justify-between min-h-[240px] overflow-hidden"
+            >
+              <img
+                v-if="filteredPosts[0].coverImage"
+                :src="filteredPosts[0].coverImage"
+                alt=""
+                loading="lazy"
+                class="absolute inset-0 w-full h-full object-cover opacity-45"
+              />
               <span
-                class="chip bg-[var(--invert-wash-2)] text-invert-muted border-invert font-code text-[11px] self-start"
+                class="relative chip bg-[var(--invert-wash-2)] text-invert-muted border-invert font-code text-[11px] self-start"
                 >{{ filteredPosts[0].category }}</span
               >
               <span
+                v-if="!filteredPosts[0].coverImage"
                 class="text-[68px] font-extrabold tracking-[-0.04em] leading-none text-brand select-none"
                 >{{ filteredPosts[0].category.slice(0, 2).toUpperCase() }}</span
               >
@@ -104,6 +114,13 @@
               :to="`/blog/${post.slug}`"
               class="bento-card hover:border-strong transition-colors"
             >
+              <img
+                v-if="post.coverImage"
+                :src="post.coverImage"
+                alt=""
+                loading="lazy"
+                class="w-full h-40 object-cover rounded-isura-md border border-base mb-4"
+              />
               <div class="flex items-center justify-between mb-4">
                 <span class="chip bg-surface-2 border-base text-[11px] text-muted">{{
                   post.category
@@ -147,6 +164,7 @@ interface BlogPost {
   title: string
   slug: string
   excerpt: string
+  coverImage: string
   category: string
   tags: string[]
   author: string

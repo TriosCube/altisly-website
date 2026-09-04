@@ -6,12 +6,12 @@
       lede="Altisly is a tech-enabled consulting and venture building studio in Lagos. We build our own platforms, and we build for teams whose operations have outgrown their tooling."
     >
       <template #actions>
-        <AppButton variant="lime" to="/work">Browse the builds →</AppButton>
+        <AppButton variant="lime" to="/isura">See a build →</AppButton>
         <AppButton variant="ghost" to="/contact">Talk to an engineer</AppButton>
       </template>
     </PageIntro>
 
-    <section class="py-16 border-b border-base">
+    <section class="py-16">
       <div class="container-isura grid grid-cols-1 lg:grid-cols-[1fr_1.15fr] gap-12">
         <div>
           <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">The story</span>
@@ -66,7 +66,7 @@
           <div
             v-for="stat in stats"
             :key="stat.label"
-            class="bg-surface border border-base rounded-isura-xl p-6"
+            class="drift-card bg-surface border border-base rounded-isura-xl p-6"
           >
             <div class="font-code text-[34px] font-bold tracking-[-0.025em] leading-none">
               {{ stat.value }}

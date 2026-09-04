@@ -1,67 +1,74 @@
 <template>
-  <section ref="sectionRef" class="problems" id="problems">
-    <div class="container-isura layout" :class="{ 'is-shown': shown }">
-      <div class="copy">
-        <span class="eyebrow">Problems we solve</span>
-        <h2 class="headline">
-          When the tools stop<br />
-          fitting the operation.
-        </h2>
-        <p class="closing">
-          Spreadsheets. Messages. Manual handoffs. Records that disagree.
-          <strong>The operation starts working around its tools.</strong>
-        </p>
-      </div>
+  <section
+    ref="sectionRef"
+    class="problems"
+    id="problems"
+    :class="{ 'is-pinned': pinned, 'is-shown': shown }"
+  >
+    <div class="pin">
+      <div class="container-isura layout">
+        <div class="copy">
+          <span class="eyebrow">Problems we solve</span>
+          <h2 class="headline">
+            When the tools stop<br />
+            fitting the operation.
+          </h2>
+          <p class="closing">
+            Spreadsheets. Messages. Manual handoffs. Records that disagree.
+            <strong>The operation starts working around its tools.</strong>
+          </p>
+        </div>
 
-      <div ref="stageRef" class="stage" :style="{ '--order': order }">
-        <article class="artefact is-medium at-left" style="--i: 1; --rot: -3.2deg">
-          <span class="artefact-label">Sheet · final_v7.xlsx</span>
-          <div class="bars">
-            <span class="bar" style="width: 82%"></span>
-            <span class="bar" style="width: 64%"></span>
-            <span class="bar" style="width: 71%"></span>
-          </div>
-          <span class="artefact-note">One person knows what column K means.</span>
-        </article>
+        <div ref="stageRef" class="stage" :style="{ '--order': order }">
+          <article class="artefact is-medium at-left" style="--i: 1; --rot: -3.2deg">
+            <span class="artefact-label">Sheet · final_v7.xlsx</span>
+            <div class="bars">
+              <span class="bar" style="width: 82%"></span>
+              <span class="bar" style="width: 64%"></span>
+              <span class="bar" style="width: 71%"></span>
+            </div>
+            <span class="artefact-note">One person knows what column K means.</span>
+          </article>
 
-        <article class="artefact is-medium at-top" style="--i: 0; --rot: 2.4deg">
-          <span class="artefact-label">Patient record · incomplete</span>
-          <div class="fields">
-            <span><em>Blood group</em> O positive</span>
-            <span><em>Last review</em> 4 Mar</span>
-            <span class="flagged"><em>Allergy status</em> —</span>
-          </div>
-          <span class="artefact-note">Allergy status missing.</span>
-          <strong class="artefact-ask">Which record is current?</strong>
-        </article>
+          <article class="artefact is-medium at-top" style="--i: 0; --rot: 2.4deg">
+            <span class="artefact-label">Patient record · incomplete</span>
+            <div class="fields">
+              <span><em>Blood group</em> O positive</span>
+              <span><em>Last review</em> 4 Mar</span>
+              <span class="flagged"><em>Allergy status</em> —</span>
+            </div>
+            <span class="artefact-note">Allergy status missing.</span>
+            <strong class="artefact-ask">Which record is current?</strong>
+          </article>
 
-        <article class="artefact is-focal at-focal" style="--i: 2; --rot: -1.2deg">
-          <span class="artefact-label">Verification · needs review</span>
-          <div class="fields">
-            <span><em>On document</em> A. O. Balogun</span>
-            <span class="flagged"><em>As submitted</em> Ade Balogun</span>
-          </div>
-          <span class="artefact-note">Document name does not match the submitted identity.</span>
-          <strong class="artefact-ask">Who makes the call?</strong>
-        </article>
+          <article class="artefact is-focal at-focal" style="--i: 2; --rot: -1.2deg">
+            <span class="artefact-label">Verification · needs review</span>
+            <div class="fields">
+              <span><em>On document</em> A. O. Balogun</span>
+              <span class="flagged"><em>As submitted</em> Ade Balogun</span>
+            </div>
+            <span class="artefact-note">Document name does not match the submitted identity.</span>
+            <strong class="artefact-ask">Who makes the call?</strong>
+          </article>
 
-        <article class="artefact is-small at-low" style="--i: 3; --rot: 3.6deg">
-          <span class="artefact-label">Application · pending</span>
-          <div class="stalled">
-            <b>11</b>
-            <em>days</em>
-          </div>
-          <strong class="artefact-ask">Waiting on an internal approval.</strong>
-        </article>
+          <article class="artefact is-small at-low" style="--i: 3; --rot: 3.6deg">
+            <span class="artefact-label">Application · pending</span>
+            <div class="stalled">
+              <b>11</b>
+              <em>days</em>
+            </div>
+            <strong class="artefact-ask">Waiting on an internal approval.</strong>
+          </article>
 
-        <article class="artefact is-small at-base" style="--i: 4; --rot: -2.2deg">
-          <span class="artefact-label">Payment · exception</span>
-          <div class="fields">
-            <span class="flagged"><em>Reference</em> —</span>
-          </div>
-          <span class="artefact-note">Reference missing.</span>
-          <strong class="artefact-ask">Waiting for someone to investigate.</strong>
-        </article>
+          <article class="artefact is-small at-base" style="--i: 4; --rot: -2.2deg">
+            <span class="artefact-label">Payment · exception</span>
+            <div class="fields">
+              <span class="flagged"><em>Reference</em> —</span>
+            </div>
+            <span class="artefact-note">Reference missing.</span>
+            <strong class="artefact-ask">Waiting for someone to investigate.</strong>
+          </article>
+        </div>
       </div>
     </div>
   </section>
@@ -73,16 +80,20 @@ import { onBeforeUnmount, onMounted, ref } from 'vue'
 const sectionRef = ref<HTMLElement | null>(null)
 const stageRef = ref<HTMLElement | null>(null)
 const shown = ref(false)
+const pinned = ref(false)
 const order = ref(0)
 
-type Drift = { el: HTMLElement; x: number; y: number; tx: number; ty: number }
+const LEAD_IN = 0.06
+const SETTLE = 0.86
 
-let drifts: Drift[] = []
+type Card = { el: HTMLElement; seat: number; t: number; x: number; y: number; tx: number; ty: number }
+
+let cards: Card[] = []
 let observer: IntersectionObserver | undefined
 let raf = 0
 let running = false
 let reduced = false
-let enabled = false
+let wide = false
 let pointerInside = false
 
 function smoothstep(edge0: number, edge1: number, value: number) {
@@ -94,10 +105,25 @@ function measureOrder() {
   const section = sectionRef.value
   if (!section) return
 
-  const bottom = section.getBoundingClientRect().bottom
+  const rect = section.getBoundingClientRect()
   const view = window.innerHeight || 1
 
-  order.value = smoothstep(view * 0.9, view * 0.34, bottom)
+  if (!pinned.value) {
+    order.value = smoothstep(view * 0.9, view * 0.34, rect.bottom)
+    return
+  }
+
+  const travel = rect.height - view
+  const progress = travel > 0 ? Math.min(Math.max(-rect.top / travel, 0), 1) : 0
+  order.value = progress
+
+  const step = (1 - LEAD_IN) / Math.max(cards.length, 1)
+
+  for (const card of cards) {
+    const from = LEAD_IN + card.seat * step
+    card.t = smoothstep(from, from + step * SETTLE, progress)
+    card.el.style.setProperty('--t', card.t.toFixed(3))
+  }
 }
 
 function onScroll() {
@@ -106,7 +132,7 @@ function onScroll() {
 
 function onPointerMove(event: PointerEvent) {
   const stage = stageRef.value
-  if (!stage || !drifts.length) return
+  if (!stage || !cards.length) return
 
   const rect = stage.getBoundingClientRect()
   const inside =
@@ -118,9 +144,9 @@ function onPointerMove(event: PointerEvent) {
   pointerInside = inside
 
   if (!inside) {
-    for (const drift of drifts) {
-      drift.tx = 0
-      drift.ty = 0
+    for (const card of cards) {
+      card.tx = 0
+      card.ty = 0
     }
     wake()
     return
@@ -128,15 +154,15 @@ function onPointerMove(event: PointerEvent) {
 
   const reach = Math.min(rect.width, rect.height) * 0.42
 
-  for (const drift of drifts) {
-    const box = drift.el.getBoundingClientRect()
+  for (const card of cards) {
+    const box = card.el.getBoundingClientRect()
     const dx = box.left + box.width / 2 - event.clientX
     const dy = box.top + box.height / 2 - event.clientY
     const distance = Math.sqrt(dx * dx + dy * dy) || 1
     const push = (1 - smoothstep(0, 1, distance / reach)) * 11
 
-    drift.tx = (dx / distance) * push
-    drift.ty = (dy / distance) * push
+    card.tx = (dx / distance) * push
+    card.ty = (dy / distance) * push
   }
 
   wake()
@@ -145,18 +171,18 @@ function onPointerMove(event: PointerEvent) {
 function frame() {
   let motion = 0
 
-  for (const drift of drifts) {
-    const settle = 1 - order.value
-    const tx = drift.tx * settle
-    const ty = drift.ty * settle
+  for (const card of cards) {
+    const settle = pinned.value ? card.t : 1 - order.value
+    const tx = card.tx * settle
+    const ty = card.ty * settle
 
-    drift.x += (tx - drift.x) * 0.11
-    drift.y += (ty - drift.y) * 0.11
+    card.x += (tx - card.x) * 0.11
+    card.y += (ty - card.y) * 0.11
 
-    drift.el.style.setProperty('--ox', `${drift.x.toFixed(2)}px`)
-    drift.el.style.setProperty('--oy', `${drift.y.toFixed(2)}px`)
+    card.el.style.setProperty('--ox', `${card.x.toFixed(2)}px`)
+    card.el.style.setProperty('--oy', `${card.y.toFixed(2)}px`)
 
-    motion = Math.max(motion, Math.abs(tx - drift.x), Math.abs(ty - drift.y))
+    motion = Math.max(motion, Math.abs(tx - card.x), Math.abs(ty - card.y))
   }
 
   if (motion < 0.05 && !pointerInside) {
@@ -168,18 +194,37 @@ function frame() {
 }
 
 function wake() {
-  if (running || reduced || !enabled) return
+  if (running || reduced || !wide) return
   running = true
   raf = requestAnimationFrame(frame)
 }
 
 onMounted(() => {
   reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  enabled = window.matchMedia('(min-width: 1024px)').matches
+  wide = window.matchMedia('(min-width: 1024px)').matches
+  pinned.value = wide && !reduced
+
+  const elements = Array.from(stageRef.value?.querySelectorAll<HTMLElement>('.artefact') ?? [])
+
+  cards = elements
+    .map((el) => ({
+      el,
+      seat: Number(getComputedStyle(el).getPropertyValue('--i')) || 0,
+      t: 0,
+      x: 0,
+      y: 0,
+      tx: 0,
+      ty: 0,
+    }))
+    .sort((a, b) => a.seat - b.seat)
+
+  cards.forEach((card, index) => {
+    card.seat = index
+  })
 
   if (reduced) {
     shown.value = true
-  } else {
+  } else if (!pinned.value) {
     observer = new IntersectionObserver(
       (entries) => {
         if (!entries.some((entry) => entry.isIntersecting)) return
@@ -192,11 +237,7 @@ onMounted(() => {
     if (sectionRef.value) observer.observe(sectionRef.value)
   }
 
-  if (reduced || !enabled) return
-
-  drifts = Array.from(stageRef.value?.querySelectorAll<HTMLElement>('.artefact') ?? []).map(
-    (el) => ({ el, x: 0, y: 0, tx: 0, ty: 0 }),
-  )
+  if (reduced || !wide) return
 
   measureOrder()
   window.addEventListener('scroll', onScroll, { passive: true })
@@ -216,16 +257,23 @@ onBeforeUnmount(() => {
 <style scoped>
 .problems {
   padding: 5.5rem 0;
-  overflow: hidden;
+  overflow: clip;
+}
+
+.pin {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.pin > * {
+  width: 100%;
+  flex: none;
 }
 
 .layout {
   display: grid;
   gap: 3rem;
-}
-
-.copy {
-  container-type: inline-size;
 }
 
 .eyebrow {
@@ -238,7 +286,7 @@ onBeforeUnmount(() => {
 
 .headline {
   margin: 0.85rem 0 0;
-  font-size: clamp(30px, 10.4cqw, 50px);
+  font-size: clamp(34px, 4.6vw, 60px);
   font-weight: 700;
   letter-spacing: -0.032em;
   line-height: 1.03;
@@ -400,8 +448,29 @@ onBeforeUnmount(() => {
 }
 
 @media (min-width: 1024px) {
+  .problems.is-pinned {
+    --steps: 5;
+    padding: 0;
+    height: calc(100svh + var(--steps) * 46svh);
+  }
+
+  .is-pinned .pin {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+  }
+
+  .is-pinned .artefact {
+    transition: none;
+    opacity: var(--t, 0);
+    translate: 0 calc((1 - var(--t, 0)) * 1.5rem);
+    transform: translate(var(--ox, 0px), var(--oy, 0px))
+      rotate(calc(var(--rot, 0deg) * (1 - var(--t, 0))))
+      scale(calc(0.97 + var(--t, 0) * 0.03));
+  }
+
   .layout {
-    grid-template-columns: minmax(0, 0.68fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 3.5rem;
     align-items: center;
   }

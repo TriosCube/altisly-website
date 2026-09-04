@@ -20,7 +20,7 @@
         </p>
         <div class="flex gap-3 justify-center flex-wrap">
           <AppButton variant="lime" size="lg" to="/">Go home</AppButton>
-          <AppButton variant="ghost" size="lg" to="/work">See the work</AppButton>
+          <AppButton variant="ghost" size="lg" to="/blog">Read the blog</AppButton>
         </div>
       </div>
     </main>

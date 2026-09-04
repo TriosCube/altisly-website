@@ -1,8 +1,8 @@
 <template>
-  <section ref="sectionRef" class="py-28 border-t border-base" id="who-we-are">
+  <section ref="sectionRef" class="py-28" id="who-we-are">
     <div class="container-isura" :class="{ 'is-shown': shown }">
       <h2
-        class="reveal text-[clamp(36px,6vw,86px)] font-bold tracking-[-0.036em] leading-[1] max-w-[16ch]"
+        class="reveal text-[clamp(34px,4.6vw,60px)] font-bold tracking-[-0.036em] leading-[1] max-w-[16ch]"
         style="--i: 0"
       >
         Some problems do not fit a software brief.

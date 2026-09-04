@@ -1,5 +1,5 @@
 <template>
-  <div class="sticky top-3.5 z-50 px-4 nav-shell" :class="{ 'is-tucked': tucked }">
+  <div ref="shellRef" class="sticky top-3.5 z-50 px-4 nav-shell" :class="{ 'is-tucked': tucked }">
     <div
       class="max-w-[72rem] mx-auto relative"
       @mouseenter="onShellEnter"
@@ -37,7 +37,9 @@
 
           <NuxtLink to="/blog" class="nav-link" @mouseenter="closeMenus">Insights</NuxtLink>
           <NuxtLink to="/contact" class="nav-link" @mouseenter="closeMenus">Contact</NuxtLink>
-          <NuxtLink to="/isura" class="nav-link" @mouseenter="closeMenus">Isura</NuxtLink>
+          <NuxtLink to="/work/atreasury" class="nav-link" @mouseenter="closeMenus">
+            Treasury
+          </NuxtLink>
         </div>
 
         <div class="flex items-center gap-2">
@@ -140,9 +142,6 @@
             </svg>
           </button>
 
-          <AppButton variant="ghost" size="sm" to="/diagnose" class="hidden sm:inline-flex">
-            Diagnose
-          </AppButton>
           <AppButton variant="lime" size="sm" to="/contact">Talk to us</AppButton>
 
           <button
@@ -191,15 +190,8 @@
                   class="mega-item"
                   @click="closeMenus"
                 >
-                  <span class="mega-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
-                      <path :d="icons[item.icon]" />
-                    </svg>
-                  </span>
-                  <span>
-                    <strong>{{ item.label }}</strong>
-                    <em>{{ item.desc }}</em>
-                  </span>
+                  <strong>{{ item.label }}</strong>
+                  <em>{{ item.desc }}</em>
                 </NuxtLink>
               </div>
             </div>
@@ -221,6 +213,7 @@
                   <path d="M5 12h14M13 6l6 6-6 6" />
                 </svg>
               </span>
+
             </NuxtLink>
           </div>
         </div>
@@ -252,8 +245,8 @@
             <NuxtLink to="/contact" class="mobile-item" @click="mobileOpen = false">
               Contact
             </NuxtLink>
-            <NuxtLink to="/isura" class="mobile-item" @click="mobileOpen = false">
-              Isura
+            <NuxtLink to="/work/atreasury" class="mobile-item" @click="mobileOpen = false">
+              Treasury
             </NuxtLink>
           </div>
 
@@ -283,59 +276,48 @@ import { presence } from '@/data/site'
 import { cycleTheme, getThemeMode, initTheme } from '@/utils/helpers'
 import type { ThemeMode } from '@/utils/types'
 
-const icons: Record<string, string> = {
-  people: 'M16 19v-1.5a4 4 0 00-4-4H7a4 4 0 00-4 4V19M9.5 9.5a3 3 0 100-6 3 3 0 000 6zM19 19v-1.5a4 4 0 00-3-3.9',
-  handshake: 'M8 12l3 3 2-2 3 3M3 10l4-4 5 2 5-2 4 4-5 6-4-3-4 3z',
-  compass: 'M12 21a9 9 0 100-18 9 9 0 000 18zM15.5 8.5l-2 5-5 2 2-5z',
-  doc: 'M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8zM14 3v5h5M9 13h6M9 17h4',
-}
-
 const menus = [
   {
     key: 'company',
     label: 'Company',
     columns: [
       {
-        heading: 'About Altisly',
+        heading: 'About',
         items: [
           {
             label: 'Who we are',
             to: '/about',
-            icon: 'compass',
             desc: 'A studio that works inside the operation.',
           },
           {
             label: 'Partnerships',
             to: '/partnerships',
-            icon: 'handshake',
             desc: 'Three ways we work alongside a team.',
           },
         ],
       },
       {
-        heading: 'Join or read',
+        heading: 'More',
         items: [
           {
             label: 'Careers',
             to: '/careers',
-            icon: 'people',
             desc: 'Small team, consequential problems.',
           },
           {
             label: 'Insights',
             to: '/blog',
-            icon: 'doc',
             desc: 'Notes from the build.',
           },
         ],
       },
     ],
     feature: {
-      eyebrow: 'Start here',
-      title: 'Have a problem worth solving?',
-      body: 'Tell us what is not working. An engineer replies within one business day.',
-      cta: 'Talk to us',
-      to: '/contact',
+      eyebrow: 'Diagnostic',
+      title: 'Run the survey on your operation',
+      body: 'Eight questions. The engine finds where the work leaks.',
+      cta: 'Start the diagnostic',
+      to: '/diagnose',
     },
   },
 ]
@@ -346,6 +328,17 @@ let closeTimer: ReturnType<typeof setTimeout> | null = null
 const mobileOpen = ref(false)
 const themeMode = ref<ThemeMode>('system')
 const tucked = ref(false)
+const shellRef = ref<HTMLElement | null>(null)
+
+/* The nav is sticky, so it still takes its height in normal flow. Publish that height so a section
+   below can subtract it and genuinely fill the first screen. */
+let navResize: ResizeObserver | undefined
+
+function publishNavHeight() {
+  const shell = shellRef.value
+  if (!shell) return
+  document.documentElement.style.setProperty('--nav-h', `${Math.round(shell.offsetHeight)}px`)
+}
 
 const TOP_ZONE = 90
 const SCROLL_STEP = 6
@@ -479,6 +472,12 @@ watch(
 )
 
 onMounted(() => {
+  publishNavHeight()
+  if (shellRef.value) {
+    navResize = new ResizeObserver(publishNavHeight)
+    navResize.observe(shellRef.value)
+  }
+
   initTheme()
   themeMode.value = getThemeMode()
   lastY = window.scrollY
@@ -487,6 +486,8 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
+  navResize?.disconnect()
+
   cancelClose()
   cancelReveal()
   document.removeEventListener('keydown', onKeydown)
@@ -549,7 +550,7 @@ onBeforeUnmount(() => {
 }
 
 .panel-heading {
-  margin: 0 0 0.9rem;
+  margin: 0 0 0.75rem;
   font-family: var(--font-mono);
   font-size: 10.5px;
   letter-spacing: 0.14em;
@@ -582,67 +583,61 @@ onBeforeUnmount(() => {
 
 .mega-inner {
   display: grid;
-  grid-template-columns: 1fr 20rem;
-  gap: 0.5rem;
+  grid-template-columns: minmax(0, 1fr) 21rem;
+  gap: 0.55rem;
 }
 
 .mega-columns {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  padding: 1.6rem 1.8rem;
+  gap: 2.5rem;
+  padding: 1.5rem 1.9rem 1.6rem;
+}
+
+.mega-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 .mega-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.85rem;
-  padding: 0.6rem;
-  margin: 0 -0.6rem;
+  display: block;
+  padding: 0.55rem 0.7rem;
+  margin: 0 -0.7rem;
   border-radius: var(--radius-md);
   transition: background 160ms ease;
 }
 
-.mega-item:hover {
-  background: var(--surface-2);
-}
-
-.mega-icon {
-  display: grid;
-  width: 2.1rem;
-  height: 2.1rem;
-  flex-shrink: 0;
-  place-items: center;
-  border-radius: 0.55rem;
-  background: var(--brand);
-  color: var(--on-brand);
-}
-
-.mega-icon svg {
-  width: 1.05rem;
-  height: 1.05rem;
-}
-
 .mega-item strong {
   display: block;
-  font-size: 14.5px;
+  font-size: 15.5px;
   font-weight: 600;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.012em;
 }
 
 .mega-item em {
   display: block;
-  margin-top: 0.15rem;
+  margin-top: 0.2rem;
+  max-width: 30ch;
   font-size: 12.5px;
   font-style: normal;
   line-height: 1.45;
   color: var(--muted);
 }
 
+.mega-item:hover {
+  background: var(--surface-2);
+}
+
+
+
+
 .mega-feature {
+  position: relative;
   display: flex;
   flex-direction: column;
-  padding: 1.6rem;
+  overflow: hidden;
+  padding: 1.4rem 1.5rem;
   border-radius: var(--radius-lg);
   background: var(--invert-bg);
   color: var(--invert-text);
@@ -657,17 +652,18 @@ onBeforeUnmount(() => {
 }
 
 .mega-feature strong {
-  margin-top: 0.7rem;
-  font-size: 19px;
+  margin-top: 0.55rem;
+  font-size: 18px;
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.15;
 }
 
+
 .mega-feature p {
-  margin: 0.6rem 0 0;
-  font-size: 13px;
-  line-height: 1.55;
+  margin: 0.45rem 0 0;
+  font-size: 12.5px;
+  line-height: 1.5;
   color: var(--invert-muted);
 }
 
@@ -676,11 +672,15 @@ onBeforeUnmount(() => {
   align-items: center;
   gap: 0.5rem;
   margin-top: auto;
-  padding-top: 1.4rem;
+  padding-top: 1rem;
   font-size: 13px;
   font-weight: 600;
   color: var(--brand);
 }
+
+
+
+
 
 .globe-panel {
   position: absolute;

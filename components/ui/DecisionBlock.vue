@@ -1,5 +1,5 @@
 <template>
-  <article class="bg-surface border border-base rounded-isura-xl p-7 lg:p-9">
+  <article class="drift-card bg-surface border border-base rounded-isura-xl p-7 lg:p-9">
     <div class="flex gap-5 items-start">
       <span class="font-code text-brand-deep text-[15px] pt-1 w-8 flex-shrink-0">
         {{ String(index + 1).padStart(2, '0') }}

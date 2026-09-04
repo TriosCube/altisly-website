@@ -7,7 +7,7 @@
         <!-- Logo -->
         <div class="text-center mb-8">
           <NuxtLink to="/" class="inline-block">
-            <img src="~/assets/svg/logo_light.svg" alt="Altisly" class="h-8 w-auto mx-auto" />
+            <IcLogo class="mx-auto" />
           </NuxtLink>
           <p class="text-muted-2 text-sm mt-4">Writing dashboard</p>
         </div>
@@ -39,7 +39,7 @@
               />
             </div>
 
-            <div v-if="loginError" class="mb-4 px-4 py-3 rounded-isura-md bg-red-50 border border-red-200 text-red-700 text-sm">
+            <div v-if="loginError" class="mb-4 px-4 py-3 rounded-isura-md bg-negative-wash border border-negative-line text-negative text-sm">
               {{ loginError }}
             </div>
 
@@ -72,7 +72,7 @@
             <NuxtLink to="/blog" target="_blank" class="text-sm text-muted hover:text-body transition-colors font-medium">
               View blog ↗
             </NuxtLink>
-            <button @click="logout" class="text-sm font-semibold text-red-600 hover:text-red-700 transition-colors px-3 py-1.5 rounded-lg hover:bg-red-50">
+            <button @click="logout" class="text-sm font-semibold text-negative hover:text-negative transition-colors px-3 py-1.5 rounded-lg hover:bg-negative-wash">
               Log out
             </button>
           </div>
@@ -93,7 +93,7 @@
             <h1 class="text-lg font-black text-body">{{ editPost.id ? 'Edit post' : 'New post' }}</h1>
           </div>
 
-          <div v-if="saveError" class="mb-4 px-4 py-3 rounded-isura-md bg-red-50 border border-red-200 text-red-700 text-sm">
+          <div v-if="saveError" class="mb-4 px-4 py-3 rounded-isura-md bg-negative-wash border border-negative-line text-negative text-sm">
             {{ saveError }}
           </div>
 
@@ -141,6 +141,22 @@
                     <option value="Company">Company</option>
                   </select>
                 </div>
+              </div>
+
+              <div>
+                <label class="write-label">Cover image URL</label>
+                <input
+                  v-model="editPost.coverImage"
+                  type="url"
+                  class="write-input"
+                  placeholder="https://… (optional)"
+                />
+                <img
+                  v-if="editPost.coverImage"
+                  :src="editPost.coverImage"
+                  alt=""
+                  class="w-full h-40 object-cover rounded-isura-md border border-base mt-3"
+                />
               </div>
 
               <div>
@@ -290,7 +306,7 @@
               </div>
               <div class="bg-surface rounded-isura-lg border border-base p-4 shadow-sm">
                 <p class="text-xs text-muted-2 mb-1">Published</p>
-                <p class="text-2xl font-black text-green-600">{{ publishedCount }}</p>
+                <p class="text-2xl font-black text-positive">{{ publishedCount }}</p>
               </div>
               <div class="bg-surface rounded-isura-lg border border-base p-4 shadow-sm">
                 <p class="text-xs text-muted-2 mb-1">Drafts</p>
@@ -392,7 +408,7 @@
                           <button
                             @click="deletePost(p.id)"
                             :disabled="deletingId === p.id"
-                            class="px-2.5 py-1 rounded-lg border border-red-200 text-red-600 text-xs font-semibold hover:bg-red-50 transition-colors disabled:opacity-50"
+                            class="px-2.5 py-1 rounded-lg border border-negative-line text-negative text-xs font-semibold hover:bg-negative-wash transition-colors disabled:opacity-50"
                           >
                             {{ deletingId === p.id ? '…' : 'Delete' }}
                           </button>
@@ -471,6 +487,7 @@
 </template>
 
 <script setup lang="ts">
+import IcLogo from '@/components/ui/IcLogo.vue'
 definePageMeta({ layout: false })
 
 useSeoMeta({ title: 'Write | Altisly', robots: 'noindex,nofollow' })
@@ -697,6 +714,14 @@ const formatDate = (iso: string) =>
 </script>
 
 <style scoped>
+.bg-negative-wash {
+  background: color-mix(in srgb, var(--negative) 12%, transparent);
+}
+
+.border-negative-line {
+  border-color: color-mix(in srgb, var(--negative) 34%, transparent);
+}
+
 @reference '~/assets/css/main.css';
 .write-label {
   @apply block text-xs font-bold text-muted uppercase tracking-wider mb-1.5;

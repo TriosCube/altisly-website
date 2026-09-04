@@ -10,7 +10,7 @@
       </template>
     </PageIntro>
 
-    <section class="py-16 border-b border-base">
+    <section class="py-16">
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">Life here</span>
         <h2
@@ -29,7 +29,7 @@
       </div>
     </section>
 
-    <section class="py-16 border-b border-base">
+    <section class="py-16">
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">
           What we look for
@@ -50,7 +50,7 @@
       </div>
     </section>
 
-    <section class="py-16 border-b border-base">
+    <section class="py-16">
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">How we hire</span>
         <h2
@@ -58,23 +58,17 @@
         >
           Four steps, about two weeks.
         </h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-          <article v-for="step in hiringProcess" :key="step.title" class="bento-card">
-            <span
-              class="w-11 h-11 rounded-full bg-brand text-on-brand grid place-items-center font-code font-bold text-[15px] mb-5"
-            >
-              {{ step.number }}
-            </span>
-            <h3 class="text-[19px] font-bold tracking-[-0.02em] leading-[1.15] mb-2.5">
-              {{ step.title }}
-            </h3>
-            <p class="text-muted text-[14px] leading-relaxed">{{ step.body }}</p>
-          </article>
-        </div>
+        <ol class="steps">
+          <li v-for="step in hiringProcess" :key="step.title" class="step">
+            <span class="step-index">{{ step.number }}</span>
+            <h3>{{ step.title }}</h3>
+            <p>{{ step.body }}</p>
+          </li>
+        </ol>
       </div>
     </section>
 
-    <section class="py-16 border-b border-base">
+    <section class="py-16">
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">The set-up</span>
         <h2
@@ -131,7 +125,7 @@
         </div>
 
         <div
-          class="rounded-isura-lg border border-base bg-surface-2 p-6 mt-9 flex flex-wrap items-center justify-between gap-4"
+          class="drift-card rounded-isura-lg border border-base bg-surface-2 p-6 mt-9 flex flex-wrap items-center justify-between gap-4"
         >
           <div>
             <h3 class="font-semibold text-[16px] mb-1.5">Nothing on the list fits?</h3>
@@ -160,3 +154,57 @@ useSeoMeta({
   description: 'Join Altisly. We hire systems architects, Rust engineers and product engineers.',
 })
 </script>
+
+<style scoped>
+/* Four peers, not a timeline, so these stay side by side. The rule above each one carries the
+   sequence instead of a filled badge, which keeps this distinct from the partnerships phases. */
+.steps {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.6rem 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 700px) {
+  .steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .steps {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.step {
+  padding-top: 0.95rem;
+  border-top: 1px solid var(--border-strong);
+}
+
+.step-index {
+  display: block;
+  margin-bottom: 0.7rem;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  color: var(--brand-deep);
+}
+
+.step h3 {
+  margin: 0 0 0.5rem;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.step p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+</style>

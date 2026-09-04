@@ -356,6 +356,20 @@
   padding: 20px;
 }
 
+@layer components {
+  .bento-card,
+  .drift-card {
+    translate: var(--drift-x, 0px) var(--drift-y, 0px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bento-card,
+    .drift-card {
+      translate: none;
+    }
+  }
+}
+
 @utility bento-card {
   background-color: var(--surface);
   border: 1px solid var(--border);

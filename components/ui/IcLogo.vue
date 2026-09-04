@@ -112,17 +112,17 @@ const a11y = computed(() =>
 
 .ic-logo__rule {
   display: block;
-  width: max(1.5px, calc(var(--ic-logo-h) * 0.055));
-  height: calc(var(--ic-logo-h) * 0.86);
+  width: max(1px, calc(var(--ic-logo-h) * 0.04));
+  height: calc(var(--ic-logo-h) * 0.72);
   border-radius: 1px;
   background: currentColor;
 }
 
 .ic-logo__word {
   font-family: var(--font-sans);
-  font-size: calc(var(--ic-logo-h) * 0.62);
-  font-weight: 800;
-  letter-spacing: 0.055em;
+  font-size: calc(var(--ic-logo-h) * 0.6);
+  font-weight: 500;
+  letter-spacing: 0.09em;
   line-height: 1;
   text-transform: uppercase;
   white-space: nowrap;

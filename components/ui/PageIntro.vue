@@ -1,5 +1,5 @@
 <template>
-  <header class="pt-14 pb-12 border-b border-base">
+  <header class="pt-14 pb-12">
     <div class="container-isura">
       <span class="eyebrow-pill">
         <span

@@ -1,5 +1,5 @@
 <template>
-  <footer class="pt-14 pb-9 border-t border-base">
+  <footer class="pt-14 pb-9">
     <div class="container-isura">
       <div class="grid grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr] gap-8">
         <div class="col-span-2 lg:col-span-1">
@@ -63,7 +63,7 @@ const footerLinks = [
     heading: 'Explore',
     links: [
       { label: 'Isura', to: '/isura' },
-      { label: 'The work', to: '/work' },
+      { label: 'Treasury', to: '/work/atreasury' },
       { label: 'Run a diagnostic', to: '/diagnose' },
       { label: 'Contact', to: '/contact' },
     ],
