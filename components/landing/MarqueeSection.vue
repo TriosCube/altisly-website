@@ -1,5 +1,5 @@
 <template>
-  <section class="bg-invert text-invert border-t border-b border-invert overflow-hidden">
+  <section class="strip bg-invert text-invert border-b border-invert overflow-hidden relative z-10">
     <div class="flex items-stretch">
       <div
         class="hidden md:flex items-center flex-shrink-0 px-7 border-r border-invert"
@@ -34,3 +34,9 @@ const items = [
   'Operational bottlenecks',
 ]
 </script>
+
+<style scoped>
+.strip {
+  box-shadow: 0 -22px 44px -30px rgba(15, 20, 16, 0.5);
+}
+</style>

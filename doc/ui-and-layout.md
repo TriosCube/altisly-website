@@ -159,19 +159,32 @@ or `/about`.
 Order in `pages/index.vue`. Every section is full-width; content is constrained by `container-isura`.
 Motion is described in full in section 6.
 
-**1. HeroSection** Two columns at `lg` (`1.05fr 1fr`), stacked below.
-Left: eyebrow pill, huge heading with a lime inline pill on the closing phrase, 18px muted
-paragraph capped at ~32rem, two buttons, then a four column stat band with a top rule per stat,
-mono 26px value over 12.5px muted label. Right: `HeroStage`. **No motion.**
+**1. HeroSection** Two columns at `lg` (`1.02fr 1fr`), stacked below. Eyebrow, headline, lede,
+buttons, then a four-cell capability rail under one continuous rule. **Motion: staggered entrance,
+a lime field wiping in behind the closing phrase, and a scroll recede.**
 
-**2. HeroStage** Decorative, `hidden lg:block`, 580px tall, absolutely positioned cards at fixed
-offsets with small rotations (`rotate-2`, `-rotate-6`, `rotate-[4deg]`), overlapping in z-order, each
-a `stage-card` (surface, `--r-lg`, hairline border, `shadow-2`, 20px padding). One card is dark
-(`--text` ground), one is invert green with a lime sparkline, two are surface. A lime 80px circle
-with a plus sign floats over them. **No motion. The rotations are static CSS.**
+The lime mark is a field behind the text rather than a pill around it: asymmetric radius
+(`4px 20px 6px 22px`), tight vertically, wiping in with `scaleX` from the left at 420ms, with the
+`✦` sitting outside the field's top-right corner.
 
-**3. MarqueeSection** Full-bleed invert band, top and bottom hairline. A fixed mono label behind a
-vertical rule, then friction phrases in mono uppercase separated by lime `✦`.
+The rail is one rule with four cells beneath it, each a lime mono number, a label and one line. Two
+columns below `900px`.
+
+**2. HeroStage** `lg` and above only, 34rem tall. Three cards joined by two fine bezier wires with a
+lime pip at each junction: an approval, an exceptions count, and today's record. **Motion: entrance,
+a running state machine, and pointer parallax.**
+
+The scene runs. Every 2.6s it advances a six-step cycle: the approval ticks prepared, then approved,
+an exception clears and a lime signal travels the wire from the exceptions card to the record card,
+the record lights and reads Reconciled, then it rests and resets. Nothing explains it in copy. The
+illustration simply demonstrates the headline.
+
+Pointer parallax is capped at 6px horizontally and 5px vertically, eased at `0.08` per frame.
+
+**3. MarqueeSection** Full-bleed invert band. A fixed mono label behind a vertical rule, then
+friction phrases in mono uppercase separated by lime `✦`. Sits above the hero in `z-index` with a
+soft upward shadow, so as the hero recedes the strip reads as rising over its bottom edge. This is
+the stacked-takeover language introduced on the first screen.
 **Motion: infinite CSS marquee, 52s.**
 
 **4. JourneySection** Sticky scroll section, `260vh` tall. Four flip cards.
@@ -223,7 +236,18 @@ The pattern in both scroll sections is the same: a tall outer section (`260vh`, 
 `sticky top-0` inner that is one viewport tall. The viewport appears frozen while the page scrolls
 past, and progress drives what happens inside.
 
-### 6.2 Marquee, section 2
+### 6.2 Hero, section 1
+
+Three things, all cheap. An entrance: `is-in` is set on mount and a `--i` custom property staggers
+each block by 110ms, with the lime field wiping in at 420ms and the star arriving at 1000ms.
+
+A scroll recede: one rAF-backed handler sets `--recede`, the hero's own scroll progress, driving
+`translateY(-26px)`, `scale(0.96)` and opacity to `0.65`. The strip beneath has a higher `z-index`,
+so the hero appears to sink under it.
+
+The stage runs its own 2.6s state machine and a pointer-parallax loop. See section 5.
+
+### 6.3 Marquee, section 2
 
 Pure CSS, no JS. The seven-item list is rendered twice into one flex row, and the row translates
 `0 → -50%` over `30s linear infinite` (`@keyframes marquee`, applied by the `animate-marquee`
@@ -233,7 +257,7 @@ Slowed from 30s to 52s so it reads as ambient movement rather than a news ticker
 `prefers-reduced-motion`, which closes the one motion gap this document used to flag. Still never
 pauses off-screen.
 
-### 6.3 Journey flip cards, section 5
+### 6.3b Journey flip cards, section 6
 
 Outer section `min-height: 260vh`, inner `sticky top-0 h-screen`, so the section holds still for
 roughly 1.6 viewports of scrolling.

@@ -6,10 +6,10 @@ export const stats = [
 ]
 
 export const capabilities = [
-  { label: 'Systems', lead: 'Records, ledgers and approvals.' },
-  { label: 'Products', lead: 'Ideas turned into working software.' },
-  { label: 'Automation', lead: 'Repetitive work, removed.' },
-  { label: 'Strategy', lead: 'Direction for hard operating calls.' },
+  { number: '01', label: 'Systems', lead: 'Software the operation needs.' },
+  { number: '02', label: 'Products', lead: 'Ideas turned into software.' },
+  { number: '03', label: 'Automation', lead: 'Repetitive work, removed.' },
+  { number: '04', label: 'Strategy', lead: 'Clarity for hard decisions.' },
 ]
 
 export const stages = [
