@@ -28,7 +28,7 @@
       </div>
     </div>
 
-    <div class="container-isura">
+    <div class="container-isura rail-wrap">
       <div class="reveal rail" style="--i: 3">
         <div v-for="capability in capabilities" :key="capability.label" class="rail-cell">
           <span class="rail-number">{{ capability.number }}</span>
@@ -91,12 +91,25 @@ onBeforeUnmount(() => {
   overflow: hidden;
   background-color: var(--bg);
   background-image:
-    linear-gradient(color-mix(in srgb, var(--text) 4%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--text) 4%, transparent) 1px, transparent 1px);
+    linear-gradient(color-mix(in srgb, var(--text) 2.5%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--text) 2.5%, transparent) 1px, transparent 1px);
   background-size: 46px 46px;
 }
 
+@media (min-width: 1024px) {
+  .hero {
+    background-image: none;
+  }
+}
+
+.rail-wrap {
+  position: relative;
+  z-index: 1;
+}
+
 .hero-viewport {
+  position: relative;
+  z-index: 1;
   display: grid;
   align-items: center;
   min-height: 100svh;

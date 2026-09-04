@@ -6,72 +6,90 @@
     aria-hidden="true"
     :style="{ '--px': `${parallax.x}px`, '--py': `${parallax.y}px` }"
   >
-    <svg class="wires" viewBox="0 0 100 100" preserveAspectRatio="none">
-      <path class="wire" d="M 44 26 C 46 42, 80 36, 80 50" />
-      <path class="wire" d="M 80 58 C 80 74, 40 70, 40 82" />
-      <circle class="pip" cx="44" cy="26" r="0.8" />
-      <circle class="pip" cx="80" cy="50" r="0.8" />
-      <circle class="pip" cx="40" cy="82" r="0.8" />
-    </svg>
+    <span class="halo"></span>
 
-    <span class="signal" :class="{ 'is-firing': firing }"></span>
+    <div class="deck">
+      <article
+        v-for="(card, i) in cards"
+        :key="card.label"
+        class="card"
+        :class="[`slot-${slotOf(i)}`, { 'is-front': slotOf(i) === 0 }]"
+      >
+        <header>
+          <span class="label">{{ card.label }}</span>
+          <span class="meta">{{ card.meta }}</span>
+        </header>
 
-    <article class="card card-approval" style="--i: 0">
-      <span class="card-label">Approval · payment run</span>
-      <span class="card-amount">148 items</span>
-      <div class="row-set">
-        <span class="row">
-          <i class="tick" :class="{ on: step >= 1 }"></i>
-          Prepared by ops
-        </span>
-        <span class="row">
-          <i class="tick" :class="{ on: step >= 2 }"></i>
-          {{ step >= 2 ? 'Approved by finance' : 'Waiting on finance' }}
-        </span>
-      </div>
-    </article>
+        <p class="headline">{{ i === 2 && beat > 1 ? 'Reconciled' : card.headline }}</p>
 
-    <article class="card card-exceptions" style="--i: 1">
-      <span class="card-label">Exceptions</span>
-      <div class="count">
-        <b>{{ exceptions }}</b>
-        <em>open</em>
-      </div>
-      <span class="card-foot">{{ exceptions === 0 ? 'Nothing waiting' : 'One clears itself' }}</span>
-    </article>
+        <div v-if="card.rows" class="rows">
+          <span v-for="(row, r) in card.rows" :key="row" class="row">
+            <i class="tick" :class="{ on: slotOf(i) === 0 && beat > r }"></i>
+            {{ row }}
+          </span>
+        </div>
 
-    <article class="card card-record" style="--i: 2">
-      <span class="card-label">Record · today</span>
-      <div class="record-state" :class="{ 'is-lit': step >= 4 }">
-        <span class="dot"></span>
-        {{ step >= 4 ? 'Reconciled' : 'Posting' }}
-      </div>
-      <svg class="spark" width="86" height="24" viewBox="0 0 86 24">
-        <path
-          d="M2 18 L14 14 L26 16 L38 8 L50 10 L62 4 L84 6"
-          stroke="currentColor"
-          stroke-width="1.4"
-          fill="none"
-          stroke-linecap="round"
-        />
-      </svg>
-    </article>
+        <div v-else-if="card.count !== undefined" class="count">
+          <b>{{ slotOf(i) === 0 && beat > 1 ? card.count - 1 : card.count }}</b>
+          <em>open</em>
+        </div>
+
+        <svg v-else class="spark" viewBox="0 0 120 34" preserveAspectRatio="none">
+          <path
+            d="M2 26 L20 20 L38 23 L56 11 L74 15 L92 5 L118 8"
+            stroke="currentColor"
+            stroke-width="1.6"
+            fill="none"
+            stroke-linecap="round"
+          />
+        </svg>
+
+        <footer>{{ card.foot }}</footer>
+      </article>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 
+const cards = [
+  {
+    label: 'Approval · payment run',
+    meta: '148 items',
+    headline: '₦412,900,000',
+    rows: ['Prepared by ops', 'Approved by finance', 'Released to the bank'],
+    foot: 'Two people signed. Both are on the record.',
+  },
+  {
+    label: 'Exceptions',
+    meta: 'this morning',
+    headline: 'Waiting on nobody',
+    count: 3,
+    foot: 'One clears itself the moment the file lands.',
+  },
+  {
+    label: 'Record · today',
+    meta: 'ledger',
+    headline: 'Posting',
+    foot: 'Closed 16:40. Nothing outstanding.',
+  },
+]
+
 const stageRef = ref<HTMLElement | null>(null)
 const entered = ref(false)
-const step = ref(0)
-const exceptions = ref(3)
-const firing = ref(false)
+const active = ref(0)
+const beat = ref(0)
 const parallax = reactive({ x: 0, y: 0 })
 
 let cycle: ReturnType<typeof setInterval> | undefined
+let beats: ReturnType<typeof setInterval> | undefined
 let raf = 0
 const target = { x: 0, y: 0 }
+
+function slotOf(index: number) {
+  return (index - active.value + cards.length) % cards.length
+}
 
 function onPointerMove(event: PointerEvent) {
   const stage = stageRef.value
@@ -81,44 +99,41 @@ function onPointerMove(event: PointerEvent) {
   const dx = (event.clientX - (rect.left + rect.width / 2)) / rect.width
   const dy = (event.clientY - (rect.top + rect.height / 2)) / rect.height
 
-  target.x = Math.max(-1, Math.min(1, dx)) * 6
-  target.y = Math.max(-1, Math.min(1, dy)) * 5
+  target.x = Math.max(-1, Math.min(1, dx)) * 8
+  target.y = Math.max(-1, Math.min(1, dy)) * 6
 }
 
 function ease() {
-  parallax.x += (target.x - parallax.x) * 0.08
-  parallax.y += (target.y - parallax.y) * 0.08
+  parallax.x += (target.x - parallax.x) * 0.07
+  parallax.y += (target.y - parallax.y) * 0.07
   raf = requestAnimationFrame(ease)
-}
-
-function advance() {
-  step.value = (step.value + 1) % 6
-
-  if (step.value === 3) {
-    exceptions.value = Math.max(exceptions.value - 1, 0)
-    firing.value = true
-    setTimeout(() => (firing.value = false), 1100)
-  }
-
-  if (step.value === 0) exceptions.value = 3
 }
 
 onMounted(() => {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     entered.value = true
-    step.value = 4
-    exceptions.value = 2
+    beat.value = 3
     return
   }
 
   requestAnimationFrame(() => (entered.value = true))
-  cycle = setInterval(advance, 2600)
+
+  beats = setInterval(() => {
+    beat.value = beat.value >= 3 ? 0 : beat.value + 1
+  }, 1500)
+
+  cycle = setInterval(() => {
+    active.value = (active.value + 1) % cards.length
+    beat.value = 0
+  }, 6000)
+
   window.addEventListener('pointermove', onPointerMove, { passive: true })
   raf = requestAnimationFrame(ease)
 })
 
 onBeforeUnmount(() => {
   clearInterval(cycle)
+  clearInterval(beats)
   cancelAnimationFrame(raf)
   window.removeEventListener('pointermove', onPointerMove)
 })
@@ -127,8 +142,8 @@ onBeforeUnmount(() => {
 <style scoped>
 .stage {
   position: relative;
-  min-height: 31rem;
   display: none;
+  min-height: 30rem;
   transform: translate3d(var(--px), var(--py), 0);
 }
 
@@ -138,166 +153,150 @@ onBeforeUnmount(() => {
   }
 }
 
-.wires {
+.halo {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-.wire {
-  fill: none;
-  stroke: var(--border-strong);
-  stroke-width: 1;
-  vector-effect: non-scaling-stroke;
-  stroke-dasharray: 120;
-  stroke-dashoffset: 120;
-  transition: stroke-dashoffset 1100ms cubic-bezier(0.22, 1, 0.36, 1) 700ms;
-}
-
-.is-in .wire {
-  stroke-dashoffset: 0;
-}
-
-.pip {
-  fill: var(--brand-deep);
-  opacity: 0;
-  transition: opacity 500ms ease 1400ms;
-}
-
-.is-in .pip {
-  opacity: 0.9;
-}
-
-.signal {
-  position: absolute;
-  left: 80%;
-  top: 50%;
-  z-index: 6;
-  width: 0.5rem;
-  height: 0.5rem;
-  margin: -0.25rem 0 0 -0.25rem;
+  left: 12%;
+  top: 8%;
+  width: 78%;
+  aspect-ratio: 1.15;
   border-radius: 50%;
-  background: var(--brand);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand) 28%, transparent);
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--brand) 16%, transparent),
+    transparent 68%
+  );
+  filter: blur(60px);
   opacity: 0;
-  transition:
-    left 1000ms cubic-bezier(0.4, 0, 0.4, 1),
-    top 1000ms cubic-bezier(0.4, 0, 0.4, 1),
-    opacity 220ms ease;
+  transition: opacity 1200ms ease 400ms;
 }
 
-.signal.is-firing {
-  left: 40%;
-  top: 82%;
+.is-in .halo {
   opacity: 1;
+}
+
+.deck {
+  position: relative;
+  height: 30rem;
+  perspective: 1400px;
 }
 
 .card {
   position: absolute;
+  left: 0;
+  top: 3rem;
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
-  padding: 1.1rem 1.25rem;
-  border-radius: var(--radius-lg);
+  gap: 0.75rem;
+  width: 23rem;
+  padding: 1.5rem 1.7rem;
+  border-radius: var(--radius-xl);
   background: var(--surface);
   border: 1px solid var(--border);
-  box-shadow: var(--shadow-2);
-  opacity: 0;
-  transform: translateY(1.4rem) scale(0.97);
+  box-shadow: var(--shadow-pop);
   transition:
+    transform 900ms cubic-bezier(0.22, 1, 0.36, 1),
     opacity 700ms ease,
-    transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
-  transition-delay: calc(500ms + var(--i) * 150ms);
+    box-shadow 700ms ease;
+}
+
+.slot-0 {
+  z-index: 4;
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.slot-1 {
+  z-index: 3;
+  opacity: 0.55;
+  transform: translate3d(3.2rem, -2.4rem, 0) scale(0.93);
+  box-shadow: var(--shadow-2);
+}
+
+.slot-2 {
+  z-index: 2;
+  opacity: 0.22;
+  transform: translate3d(6.2rem, -4.6rem, 0) scale(0.87);
+  box-shadow: var(--shadow-2);
+}
+
+.card:not(.is-in) {
+  opacity: 0;
 }
 
 .is-in .card {
-  opacity: 1;
-  transform: none;
+  animation: none;
 }
 
-.card-approval {
-  left: 3%;
-  top: 1%;
-  width: 16rem;
-  z-index: 4;
-  background: var(--invert-bg);
-  border-color: var(--invert-bg);
-  color: var(--invert-text);
-  box-shadow: var(--shadow-pop);
+.stage:not(.is-in) .card {
+  opacity: 0;
+  transform: translate3d(0, 2rem, 0) scale(0.96);
 }
 
-.card-exceptions {
-  right: -1%;
-  top: 35%;
-  width: 12.5rem;
-  z-index: 3;
+.card header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
-.card-record {
-  left: 10%;
-  bottom: 7%;
-  width: 15rem;
-  z-index: 5;
-}
-
-.card-label {
+.label,
+.meta {
   font-family: var(--font-mono);
   font-size: 10.5px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  opacity: 0.6;
+  color: var(--muted);
 }
 
-.card-amount {
-  font-size: 17px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
+.headline {
+  margin: 0.2rem 0 0;
+  font-size: 27px;
+  font-weight: 700;
+  letter-spacing: -0.028em;
+  line-height: 1.05;
 }
 
-.row-set {
+.rows {
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
-  margin-top: 0.2rem;
+  gap: 0.55rem;
+  margin-top: 0.35rem;
 }
 
 .row {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  font-size: 12.5px;
-  opacity: 0.85;
+  gap: 0.7rem;
+  font-size: 13.5px;
+  color: var(--text-2);
 }
 
 .tick {
-  width: 0.85rem;
-  height: 0.85rem;
+  width: 0.95rem;
+  height: 0.95rem;
   border-radius: 50%;
-  border: 1px solid currentColor;
-  opacity: 0.4;
+  border: 1px solid var(--border-strong);
   transition:
-    background 400ms ease,
-    opacity 400ms ease;
+    background 420ms ease,
+    border-color 420ms ease;
 }
 
 .tick.on {
   background: var(--brand);
   border-color: var(--brand);
-  opacity: 1;
 }
 
 .count {
   display: flex;
   align-items: baseline;
-  gap: 0.5rem;
+  gap: 0.6rem;
+  margin-top: 0.3rem;
 }
 
 .count b {
-  font-size: 2rem;
+  font-size: 3.2rem;
   font-weight: 700;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.05em;
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
@@ -306,44 +305,25 @@ onBeforeUnmount(() => {
   font-family: var(--font-mono);
   font-size: 10.5px;
   font-style: normal;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--muted);
 }
 
-.card-foot {
-  font-size: 12px;
-  color: var(--muted);
-}
-
-.record-state {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: -0.015em;
-  transition: color 400ms ease;
-}
-
-.record-state .dot {
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-  background: var(--muted-2);
-  transition:
-    background 400ms ease,
-    box-shadow 400ms ease;
-}
-
-.record-state.is-lit .dot {
-  background: var(--brand-deep);
-  box-shadow: 0 0 0 5px color-mix(in srgb, var(--brand) 26%, transparent);
-}
-
 .spark {
+  width: 100%;
+  height: 2.4rem;
+  margin-top: 0.4rem;
   color: var(--brand-deep);
-  opacity: 0.75;
+}
+
+.card footer {
+  margin-top: auto;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--border);
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--muted);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -352,16 +332,8 @@ onBeforeUnmount(() => {
   }
 
   .card,
-  .wire,
-  .pip {
-    opacity: 1;
-    transform: none;
-    stroke-dashoffset: 0;
+  .halo {
     transition: none;
-  }
-
-  .signal {
-    display: none;
   }
 }
 </style>
