@@ -30,13 +30,18 @@
         </div>
       </div>
 
-        <HeroStage />
+        <HeroStage :capability="railIndex" />
       </div>
     </div>
 
     <div class="container-isura rail-wrap">
       <div class="reveal rail" style="--i: 3">
-        <div v-for="capability in capabilities" :key="capability.label" class="rail-cell">
+        <div
+          v-for="(capability, index) in capabilities"
+          :key="capability.label"
+          class="rail-cell"
+          :class="{ 'is-active': index === railIndex, 'is-visited': index <= railIndex }"
+        >
           <span class="rail-number">{{ capability.number }}</span>
           <span class="rail-label">{{ capability.label }}</span>
         </div>
@@ -55,9 +60,11 @@ const heroRef = ref<HTMLElement | null>(null)
 const entered = ref(false)
 const recede = ref(0)
 const net = reactive({ x: 50, y: 42 })
+const railIndex = ref(0)
 
 let frame = 0
 let ease = 0
+let rail: ReturnType<typeof setInterval> | undefined
 let reduced = false
 const netTarget = { x: 50, y: 42 }
 
@@ -93,16 +100,25 @@ function drift() {
 onMounted(() => {
   reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   entered.value = true
-  if (reduced) return
+  if (reduced) {
+    railIndex.value = capabilities.length - 1
+    return
+  }
 
   update()
   window.addEventListener('scroll', schedule, { passive: true })
   window.addEventListener('resize', schedule)
   window.addEventListener('pointermove', onPointerMove, { passive: true })
   ease = requestAnimationFrame(drift)
+
+  rail = setInterval(() => {
+    if (document.hidden) return
+    railIndex.value = (railIndex.value + 1) % capabilities.length
+  }, 4200)
 })
 
 onBeforeUnmount(() => {
+  clearInterval(rail)
   cancelAnimationFrame(frame)
   cancelAnimationFrame(ease)
   window.removeEventListener('pointermove', onPointerMove)
@@ -115,7 +131,11 @@ onBeforeUnmount(() => {
 .hero {
   position: relative;
   z-index: 0;
-  padding: 0 0 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 0;
+  padding: 0 0 clamp(0.75rem, 1.8svh, 1.5rem);
   overflow: hidden;
   background-color: var(--bg);
 }
@@ -161,10 +181,10 @@ onBeforeUnmount(() => {
 .hero-viewport {
   position: relative;
   z-index: 1;
+  flex: none;
   display: grid;
   align-items: center;
-  min-height: 100svh;
-  padding: 6rem 0 3rem;
+  padding: clamp(1.25rem, 3.6svh, 3.5rem) 0 clamp(0.5rem, 1.2svh, 1rem);
 }
 
 .hero-inner {
@@ -179,7 +199,7 @@ onBeforeUnmount(() => {
 
 @media (min-width: 1024px) {
   .hero-inner {
-    grid-template-columns: minmax(0, 1.34fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
     gap: 3rem;
   }
 }
@@ -211,7 +231,7 @@ onBeforeUnmount(() => {
 .headline {
   margin: 0;
   max-width: 13ch;
-  font-size: clamp(38px, 5.6vw, 80px);
+  font-size: clamp(38px, 6.1vw, 87px);
   font-weight: 800;
   letter-spacing: -0.038em;
   line-height: 0.98;
@@ -274,8 +294,8 @@ onBeforeUnmount(() => {
 .rail {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  border-top: 1px solid var(--border);
-  margin-top: 1rem;
+  gap: 1.4rem 0;
+  margin-top: clamp(2rem, 12svh, 9rem);
 }
 
 @media (min-width: 900px) {
@@ -284,17 +304,46 @@ onBeforeUnmount(() => {
   }
 }
 
+/* Lifted from the diagnose scanner's step trail: each cell owns its rule, the rule goes lime on the
+   active one, and the index walks the row so the strip reads as a sequence rather than four labels. */
 .rail-cell {
+  position: relative;
   display: flex;
   align-items: baseline;
   gap: 0.7rem;
-  padding: 1.15rem 1.6rem 0 0;
+  padding: 0 1.6rem 0.85rem 0;
+}
+
+.rail-cell::before {
+  position: absolute;
+  left: 0;
+  right: 1.6rem;
+  bottom: 0;
+  height: 1px;
+  background: var(--border);
+  content: '';
+  transition:
+    background 260ms ease,
+    opacity 260ms ease;
+}
+
+.rail-cell.is-visited::before {
+  background: var(--border-strong);
+}
+
+.rail-cell.is-active::before {
+  background: var(--brand);
 }
 
 .rail-number {
   font-family: var(--font-mono);
   font-size: 10.5px;
   letter-spacing: 0.16em;
+  color: var(--muted-2);
+  transition: color 200ms ease;
+}
+
+.is-visited .rail-number {
   color: var(--brand-deep);
 }
 
@@ -302,6 +351,33 @@ onBeforeUnmount(() => {
   font-size: 15px;
   font-weight: 600;
   letter-spacing: -0.012em;
+  color: var(--muted);
+  transition: color 200ms ease;
+}
+
+.is-visited .rail-label {
+  color: var(--text-2);
+}
+
+.is-active .rail-label {
+  color: var(--text);
+}
+
+/* Short screens: laptops with toolbars, split windows. The type answers to viewport height as well
+   as width so the hero and the strip still share one screen. The 62px cap keeps the line break
+   intact, verified down to 1024x560. */
+@media (max-height: 760px) {
+  .headline {
+    font-size: clamp(34px, 5vw, 62px);
+  }
+
+  .lede {
+    margin: 1.1rem 0 1.4rem;
+  }
+
+  .rail {
+    margin-top: clamp(1rem, 7svh, 4rem);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -312,6 +388,12 @@ onBeforeUnmount(() => {
   .hero-inner {
     transform: none;
     opacity: 1;
+  }
+
+  .rail-cell::before,
+  .rail-number,
+  .rail-label {
+    transition: none;
   }
 
   .reveal,

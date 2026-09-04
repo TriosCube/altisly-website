@@ -18,7 +18,7 @@
         <article
           v-for="(move, i) in moves"
           :key="move.number"
-          class="journey-card"
+          class="journey-card drift-card"
           :class="{ 'is-card-flipped': isFlipped(i) }"
           :style="{ '--card-index': i }"
         >
@@ -71,7 +71,6 @@ function isFlipped(index: number) {
 .journey {
   --wash: color-mix(in srgb, var(--invert-text) 3%, transparent);
   --hair: color-mix(in srgb, var(--invert-text) 8%, transparent);
-  --ink-dim: color-mix(in srgb, var(--invert-text) 26%, transparent);
   --ink-22: color-mix(in srgb, var(--invert-text) 22%, transparent);
   --ink-18: color-mix(in srgb, var(--invert-text) 18%, transparent);
   --ink-12: color-mix(in srgb, var(--invert-text) 12%, transparent);
@@ -189,7 +188,7 @@ function isFlipped(index: number) {
 
 .journey-heading p {
   margin: 0 0 1rem;
-  color: color-mix(in srgb, var(--invert-text) 20%, transparent);
+  color: var(--invert-text);
   font-family: var(--font-mono);
   font-size: 0.76rem;
   letter-spacing: 0.4rem;
@@ -198,8 +197,8 @@ function isFlipped(index: number) {
 
 .journey-heading h2 {
   margin: 0;
-  color: color-mix(in srgb, var(--invert-text) 82%, transparent);
-  font-size: clamp(1.85rem, 3vw, 2.6rem);
+  color: var(--invert-text);
+  font-size: clamp(34px, 4.6vw, 60px);
   font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 1;
@@ -304,7 +303,7 @@ function isFlipped(index: number) {
 }
 
 .journey-card-index {
-  color: var(--ink-dim);
+  color: var(--invert-text);
   font-family: var(--font-mono);
   font-size: 0.72rem;
   letter-spacing: 0.26rem;
@@ -313,7 +312,7 @@ function isFlipped(index: number) {
 
 .journey-card-face p {
   margin: 0;
-  color: var(--ink-dim);
+  color: var(--invert-text);
   font-family: var(--font-mono);
   font-size: 0.76rem;
   letter-spacing: 0.34rem;
@@ -323,7 +322,7 @@ function isFlipped(index: number) {
 .journey-card-face h3 {
   max-width: 17rem;
   margin: 0;
-  color: color-mix(in srgb, var(--invert-text) 94%, transparent);
+  color: var(--invert-text);
   font-size: clamp(1.2rem, 1.8vw, 1.75rem);
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -432,7 +431,7 @@ function isFlipped(index: number) {
   display: flex;
   gap: 0.8rem;
   margin-top: clamp(2rem, 5svh, 3rem);
-  color: color-mix(in srgb, var(--invert-text) 30%, transparent);
+  color: var(--invert-text);
   font-family: var(--font-mono);
   font-size: 0.72rem;
   letter-spacing: 0.24rem;

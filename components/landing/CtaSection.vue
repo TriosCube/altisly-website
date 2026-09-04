@@ -28,7 +28,7 @@
           </h2>
           <p class="text-invert-muted text-[17px] mt-5 mb-7 max-w-[36ch]">
             Tell us what is not working, what you are trying to build, or where you want to go
-            next. An engineer replies, not a sales team.
+            next.
           </p>
           <div class="flex gap-3 flex-wrap">
             <AppButton variant="lime" size="lg" to="/contact">Talk to us →</AppButton>

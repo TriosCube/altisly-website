@@ -23,35 +23,37 @@
 
     <span class="signal" :class="{ 'is-firing': firing }"></span>
 
-    <article class="card card-approval" style="--i: 0">
-      <span class="card-label">Approval · payment run</span>
-      <span class="card-amount">148 items</span>
-      <div class="row-set">
+    <article class="card drift-card card-approval" style="--i: 0">
+      <span :key="`al${capability}`" class="card-label swap">{{ set.run.label }}</span>
+      <span :key="`am${capability}`" class="card-amount swap">{{ set.run.amount }}</span>
+      <div :key="`ar${capability}`" class="row-set swap">
         <span class="row">
           <i class="tick" :class="{ on: step >= 1 }"></i>
-          Prepared by ops
+          {{ set.run.first }}
         </span>
         <span class="row">
           <i class="tick" :class="{ on: step >= 2 }"></i>
-          {{ step >= 2 ? 'Approved by finance' : 'Waiting on finance' }}
+          {{ step >= 2 ? set.run.secondDone : set.run.second }}
         </span>
       </div>
     </article>
 
-    <article class="card card-exceptions" style="--i: 1">
-      <span class="card-label">Exceptions</span>
+    <article class="card drift-card card-exceptions" style="--i: 1">
+      <span :key="`bl${capability}`" class="card-label swap">{{ set.queue.label }}</span>
       <div class="count">
-        <b>{{ exceptions }}</b>
-        <em>open</em>
+        <b>{{ count }}</b>
+        <em :key="`bu${capability}`" class="swap">{{ set.queue.unit }}</em>
       </div>
-      <span class="card-foot">{{ exceptions === 0 ? 'Nothing waiting' : 'One clears itself' }}</span>
+      <span :key="`bf${capability}-${count}`" class="card-foot swap">
+        {{ count === 0 ? set.queue.footDone : set.queue.foot }}
+      </span>
     </article>
 
-    <article class="card card-record" style="--i: 2">
-      <span class="card-label">Record · today</span>
+    <article class="card drift-card card-record" style="--i: 2">
+      <span :key="`cl${capability}`" class="card-label swap">{{ set.state.label }}</span>
       <div class="record-state" :class="{ 'is-lit': step >= 4 }">
         <span class="dot"></span>
-        {{ step >= 4 ? 'Reconciled' : 'Posting' }}
+        {{ step >= 4 ? set.state.done : set.state.pending }}
       </div>
       <svg class="spark" width="86" height="24" viewBox="0 0 86 24">
         <path
@@ -67,18 +69,72 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, reactive, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
+
+const props = withDefaults(defineProps<{ capability?: number }>(), { capability: 0 })
+
+/* One set per rail capability. The card shapes never change, only what they carry, so the strip
+   underline and the stage read as the same sequence. */
+const sets = [
+  {
+    run: {
+      label: 'Approval · payment run',
+      amount: '148 items',
+      first: 'Prepared by ops',
+      second: 'Waiting on finance',
+      secondDone: 'Approved by finance',
+    },
+    queue: { label: 'Exceptions', from: 3, unit: 'open', foot: 'One clears itself', footDone: 'Nothing waiting' },
+    state: { label: 'Record · today', pending: 'Posting', done: 'Reconciled' },
+  },
+  {
+    run: {
+      label: 'Release · v2.4',
+      amount: '12 changes',
+      first: 'Built and tested',
+      second: 'Waiting on review',
+      secondDone: 'Shipped to users',
+    },
+    queue: { label: 'In review', from: 2, unit: 'open', foot: 'One goes out today', footDone: 'All released' },
+    state: { label: 'Signup · today', pending: 'Onboarding', done: 'Activated' },
+  },
+  {
+    run: {
+      label: 'Run · nightly',
+      amount: '2,400 rows',
+      first: 'Pulled from source',
+      second: 'Waiting to post',
+      secondDone: 'Posted untouched',
+    },
+    queue: { label: 'Manual steps', from: 4, unit: 'left', foot: 'Nobody rekeys this', footDone: 'Nothing left by hand' },
+    state: { label: 'Batch · 02:00', pending: 'Running', done: 'Complete' },
+  },
+  {
+    run: {
+      label: 'Review · architecture',
+      amount: '6 options',
+      first: 'Mapped the operation',
+      second: 'Boundary undecided',
+      secondDone: 'Boundary chosen',
+    },
+    queue: { label: 'Open questions', from: 2, unit: 'left', foot: 'One decision remains', footDone: 'Nothing unresolved' },
+    state: { label: 'Plan · quarter', pending: 'Drafting', done: 'Agreed' },
+  },
+]
 
 const stageRef = ref<HTMLElement | null>(null)
 const entered = ref(false)
 const step = ref(0)
-const exceptions = ref(3)
 const firing = ref(false)
+
+const set = computed(() => sets[props.capability % sets.length])
+const count = ref(sets[0].queue.from)
 const parallax = reactive({ x: 0, y: 0 })
 const glow = reactive({ x: 56, y: 44 })
 
-let cycle: ReturnType<typeof setInterval> | undefined
+let beats: ReturnType<typeof setTimeout>[] = []
 let raf = 0
+let reduced = false
 const target = { x: 0, y: 0 }
 const glowTarget = { x: 56, y: 44 }
 
@@ -105,34 +161,52 @@ function ease() {
   raf = requestAnimationFrame(ease)
 }
 
-function advance() {
-  step.value = (step.value + 1) % 6
+/* Each rail beat replays the same sequence inside the 4200ms the underline sits on an item: the run
+   resolves by 2300ms, then the finished state rests for ~1.9s before the content swaps. */
+function replay() {
+  for (const beat of beats) clearTimeout(beat)
+  beats = []
 
-  if (step.value === 3) {
-    exceptions.value = Math.max(exceptions.value - 1, 0)
-    firing.value = true
-    setTimeout(() => (firing.value = false), 1100)
+  step.value = 0
+  count.value = set.value.queue.from
+
+  if (reduced) {
+    step.value = 4
+    count.value = Math.max(set.value.queue.from - 1, 0)
+    return
   }
 
-  if (step.value === 0) exceptions.value = 3
+  beats.push(setTimeout(() => (step.value = 1), 600))
+  beats.push(setTimeout(() => (step.value = 2), 1300))
+  beats.push(
+    setTimeout(() => {
+      count.value = Math.max(count.value - 1, 0)
+      firing.value = true
+      beats.push(setTimeout(() => (firing.value = false), 1100))
+    }, 1750),
+  )
+  beats.push(setTimeout(() => (step.value = 4), 2300))
 }
 
+watch(() => props.capability, replay)
+
 onMounted(() => {
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  if (reduced) {
     entered.value = true
-    step.value = 4
-    exceptions.value = 2
+    replay()
     return
   }
 
   requestAnimationFrame(() => (entered.value = true))
-  cycle = setInterval(advance, 2600)
+  replay()
   window.addEventListener('pointermove', onPointerMove, { passive: true })
   raf = requestAnimationFrame(ease)
 })
 
 onBeforeUnmount(() => {
-  clearInterval(cycle)
+  for (const beat of beats) clearTimeout(beat)
   cancelAnimationFrame(raf)
   window.removeEventListener('pointermove', onPointerMove)
 })
@@ -141,7 +215,7 @@ onBeforeUnmount(() => {
 <style scoped>
 .stage {
   position: relative;
-  min-height: 31rem;
+  min-height: clamp(19rem, 44svh, 31rem);
   display: none;
   transform: translate3d(var(--px), var(--py), 0);
 }
@@ -299,6 +373,28 @@ html[data-theme='dark'] .halo {
   bottom: 7%;
   width: 15rem;
   z-index: 5;
+}
+
+/* Content swaps on the rail beat; the key change remounts the node and this plays. */
+.swap {
+  animation: swap-in 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes swap-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.35rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .swap {
+    animation: none;
+  }
 }
 
 .card-label {
