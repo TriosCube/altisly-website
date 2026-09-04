@@ -21,7 +21,7 @@
         </div>
       </div>
 
-      <HeroConveyor />
+      <HeroStage />
     </div>
 
     <div class="container-isura">
@@ -38,7 +38,7 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import AppButton from '@/components/ui/AppButton.vue'
-import HeroConveyor from './HeroConveyor.vue'
+import HeroStage from './HeroStage.vue'
 import { capabilities } from '@/data/content'
 
 const heroRef = ref<HTMLElement | null>(null)
@@ -84,7 +84,6 @@ onBeforeUnmount(() => {
   position: relative;
   z-index: 0;
   padding: 4.5rem 0 4rem;
-  overflow: hidden;
 }
 
 .hero-inner {
@@ -92,7 +91,7 @@ onBeforeUnmount(() => {
   grid-template-columns: 1fr;
   gap: 3.5rem;
   align-items: center;
-  min-height: 62vh;
+  min-height: 58vh;
   transform: translateY(calc(var(--recede) * -26px)) scale(calc(1 - var(--recede) * 0.04));
   transform-origin: 50% 0;
   opacity: calc(1 - var(--recede) * 0.35);
@@ -100,8 +99,8 @@ onBeforeUnmount(() => {
 
 @media (min-width: 1024px) {
   .hero-inner {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-    gap: 3.5rem;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.02fr);
+    gap: 3rem;
   }
 }
 
@@ -190,7 +189,7 @@ onBeforeUnmount(() => {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   border-top: 1px solid var(--border);
-  margin-top: 7rem;
+  margin-top: 5.5rem;
 }
 
 @media (min-width: 900px) {
