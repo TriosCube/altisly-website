@@ -110,7 +110,7 @@
             <div>
               <h3 class="font-semibold text-[16px] mb-1">{{ role.title }}</h3>
               <p class="font-code text-[12px] text-muted">
-                {{ role.location }} · {{ role.type }}
+                {{ role.team }} · {{ role.location }} · {{ role.type }}
               </p>
             </div>
             <span

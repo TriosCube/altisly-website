@@ -165,11 +165,17 @@ export const perks = [
 ]
 
 export const openRoles = [
-  { title: 'Systems Architect', location: 'Remote or hybrid', type: 'Full-time' },
-  { title: 'Rust Backend Engineer', location: 'Remote', type: 'Full-time' },
-  { title: 'Product Engineer, Vue', location: 'Remote', type: 'Full-time' },
-  { title: 'Data Strategy Consultant', location: 'Remote', type: 'Full-time' },
-  { title: 'Treasury Systems Engineer', location: 'Remote', type: 'Full-time' },
+  { title: 'Systems Architect', team: 'Engineering', location: 'Remote or hybrid', type: 'Full-time' },
+  { title: 'Rust Backend Engineer', team: 'Engineering', location: 'Remote', type: 'Full-time' },
+  { title: 'Product Engineer, Vue', team: 'Engineering', location: 'Remote', type: 'Full-time' },
+  { title: 'Treasury Systems Engineer', team: 'Engineering', location: 'Remote', type: 'Full-time' },
+  { title: 'Product Manager', team: 'Product', location: 'Remote', type: 'Full-time' },
+  { title: 'Data Strategy Consultant', team: 'Product', location: 'Remote', type: 'Full-time' },
+  { title: 'Technical Support Engineer', team: 'Customer', location: 'Remote', type: 'Full-time' },
+  { title: 'Customer Success Manager', team: 'Customer', location: 'Remote', type: 'Full-time' },
+  { title: 'Marketing Manager', team: 'Growth', location: 'Remote or hybrid', type: 'Full-time' },
+  { title: 'Accountant', team: 'Operations', location: 'Lagos or hybrid', type: 'Full-time' },
+  { title: 'People and Culture Lead', team: 'Operations', location: 'Remote or hybrid', type: 'Full-time' },
 ]
 
 export const engagementStages = [
