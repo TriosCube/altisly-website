@@ -2,15 +2,7 @@
   <header ref="heroRef" class="hero" :class="{ 'is-in': entered }">
     <div class="container-isura hero-inner" :style="{ '--recede': recede }">
       <div>
-        <span class="reveal eyebrow-pill" style="--i: 0">
-          <span
-            class="w-6 h-6 rounded-full bg-brand text-on-brand grid place-items-center text-sm font-bold"
-            >✦</span
-          >
-          Built for work that has to hold up
-        </span>
-
-        <h1 class="reveal headline" style="--i: 1">
+        <h1 class="reveal headline" style="--i: 0">
           We build the systems
           <span class="mark">
             <span class="mark-field"></span>
@@ -19,12 +11,11 @@
           </span>
         </h1>
 
-        <p class="reveal lede" style="--i: 2">
-          Altisly designs and builds the software behind day to day operations: the records,
-          approvals, workflows and systems a business cannot afford to get wrong.
+        <p class="reveal lede" style="--i: 1">
+          The software behind the operations a business cannot afford to get wrong.
         </p>
 
-        <div class="reveal flex gap-3 items-center flex-wrap" style="--i: 3">
+        <div class="reveal flex gap-3 items-center flex-wrap" style="--i: 2">
           <AppButton variant="lime" size="lg" to="/contact">Talk to us →</AppButton>
           <AppButton variant="ghost" size="lg" to="/diagnose">Run a diagnostic</AppButton>
         </div>
@@ -34,11 +25,10 @@
     </div>
 
     <div class="container-isura">
-      <div class="reveal rail" style="--i: 4">
+      <div class="reveal rail" style="--i: 3">
         <div v-for="capability in capabilities" :key="capability.label" class="rail-cell">
           <span class="rail-number">{{ capability.number }}</span>
           <span class="rail-label">{{ capability.label }}</span>
-          <span class="rail-lead">{{ capability.lead }}</span>
         </div>
       </div>
     </div>
@@ -128,7 +118,7 @@ onBeforeUnmount(() => {
 }
 
 .headline {
-  margin: 1.35rem 0 0;
+  margin: 0;
   font-size: clamp(46px, 6.6vw, 96px);
   font-weight: 800;
   letter-spacing: -0.038em;
@@ -181,10 +171,10 @@ onBeforeUnmount(() => {
 }
 
 .lede {
-  max-width: 44ch;
-  margin: 1.6rem 0 2.1rem;
-  font-size: clamp(15px, 1.5vw, 16.5px);
-  line-height: 1.65;
+  max-width: 34ch;
+  margin: 1.7rem 0 2.2rem;
+  font-size: clamp(15.5px, 1.5vw, 17px);
+  line-height: 1.6;
   color: var(--muted);
 }
 
@@ -202,9 +192,10 @@ onBeforeUnmount(() => {
 }
 
 .rail-cell {
-  display: grid;
-  gap: 0.35rem;
-  padding: 1.4rem 1.6rem 0 0;
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  padding: 1.15rem 1.6rem 0 0;
 }
 
 .rail-number {
@@ -218,12 +209,6 @@ onBeforeUnmount(() => {
   font-size: 15px;
   font-weight: 600;
   letter-spacing: -0.012em;
-}
-
-.rail-lead {
-  font-size: 13px;
-  line-height: 1.5;
-  color: var(--muted);
 }
 
 @media (prefers-reduced-motion: reduce) {
