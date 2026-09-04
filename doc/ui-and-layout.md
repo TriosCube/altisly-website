@@ -106,8 +106,23 @@ A large block of utilities (`kpi-*`, `view-tab*`, `dash-btn-*`, `side-buy`, `uti
 
 **NavBar** (`components/layout/NavBar.vue`)
 Sticky pill, `top: 14px`, max-width 1280px, translucent surface at 92% with 14px backdrop blur,
-`rounded-pill`, `shadow-nav`. Left: logo. Centre: Work, About, Partnerships, Careers, Insights
-(hidden below `md`). Right: theme toggle, ghost "Diagnose", lime "Talk to us".
+`rounded-pill`, `shadow-nav`. Left: logo. Centre: two mega-menu triggers (Work, Company) plus plain
+links (Insights, Contact). Right: a Global dropdown, theme toggle, ghost "Diagnose", lime "Talk to
+us", and a burger below `lg`.
+
+**Mega menus.** A panel drops beneath the pill, full width of the container, `--r-xl`, `shadow-pop`,
+laid out `1fr 20rem`: two link columns on the left, a dark feature card on the right. Each link is an
+icon tile in lime, a title and a one-line description. Opens on hover or click, closes on mouseleave
+of the whole nav block, on Escape, and on route change. `aria-expanded` on the triggers; the caret
+rotates when open.
+
+**Global dropdown.** Lists where Altisly operates, taken from the legal pages: Nigeria (Lagos),
+Ghana, United Kingdom. It is a presence indicator, not a locale switcher. There are no country
+sites, so it must never behave like one.
+
+**Mobile.** Below `lg` the burger opens a scrollable sheet under the pill listing every destination
+grouped by menu, the presence list and a theme control. Before this, the nav simply hid its links
+below `md`, so a phone had no navigation at all.
 
 **Footer** (`components/layout/AppFooter.vue`)
 Four columns: brand blurb, The work (first four projects), Company, Legal. Bottom rule with
