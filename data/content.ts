@@ -6,21 +6,28 @@ export const stats = [
 ]
 
 export const capabilities = [
+  { label: 'Systems', lead: 'Records, ledgers and approvals.' },
+  { label: 'Products', lead: 'Ideas turned into working software.' },
+  { label: 'Automation', lead: 'Repetitive work, removed.' },
+  { label: 'Strategy', lead: 'Direction for hard operating calls.' },
+]
+
+export const layers = [
   {
-    label: 'Systems',
-    body: 'The technology the operation runs on: records, ledgers and approvals.',
+    label: 'The operation',
+    body: 'How the work should actually happen, before anyone writes software for it.',
   },
   {
-    label: 'Products',
-    body: 'New ideas turned into working digital products people use daily.',
+    label: 'The system',
+    body: 'The software that makes it repeatable instead of remembered.',
   },
   {
-    label: 'Automation',
-    body: 'Repetitive work removed where it should never have needed a person.',
+    label: 'The data',
+    body: 'A reliable record of what happened, and of what happens next.',
   },
   {
-    label: 'Strategy',
-    body: 'Technical direction for difficult operating decisions.',
+    label: 'The control',
+    body: 'The approvals, the rules and the accountability around it.',
   },
 ]
 

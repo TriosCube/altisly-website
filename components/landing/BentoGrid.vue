@@ -1,5 +1,5 @@
 <template>
-  <section class="py-[60px]" id="what-we-do">
+  <section class="py-[60px]" id="what-we-change">
     <div class="container-isura">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-[240px] gap-4">
         <div
@@ -7,7 +7,7 @@
         >
           <span
             class="chip bg-[rgba(234,239,230,0.12)] text-invert-muted border-invert font-code text-[11.5px]"
-            >What we do</span
+            >What we change</span
           >
           <h3
             class="text-[36px] font-bold tracking-[-0.025em] leading-none mt-[14px] mb-3 max-w-[16ch]"
@@ -15,8 +15,7 @@
             We work across the operation, not just the software.
           </h3>
           <p class="text-invert-muted text-[15px] max-w-[38ch] mb-7">
-            The process, the record and the software have to change together, or the old way
-            quietly wins.
+            Four things have to move together. Change one and the other three fight you.
           </p>
 
           <svg
@@ -115,14 +114,19 @@
               stroke="currentColor"
               stroke-width="2"
             >
-              <rect x="3" y="4" width="18" height="16" rx="2" />
-              <path d="M3 10h18M8 4v16" />
+              <circle cx="6" cy="12" r="2.5" />
+              <circle cx="18" cy="6" r="2.5" />
+              <circle cx="18" cy="18" r="2.5" />
+              <path d="M8.5 11L15.5 7M8.5 13l7 4" />
             </svg>
           </div>
+          <span class="font-code text-[10.5px] tracking-[0.14em] uppercase opacity-70 mb-1.5">
+            01
+          </span>
           <h4 class="text-[22px] font-bold tracking-[-0.02em] leading-[1.1] mb-2">
-            {{ capabilities[0].label }}
+            {{ layers[0].label }}
           </h4>
-          <p class="text-on-brand/80 text-sm">{{ capabilities[0].body }}</p>
+          <p class="text-on-brand/80 text-sm">{{ layers[0].body }}</p>
         </div>
 
         <div class="bento-card">
@@ -137,25 +141,29 @@
               stroke="currentColor"
               stroke-width="2"
             >
-              <rect x="5" y="2" width="14" height="20" rx="2" />
-              <path d="M11 18h2" />
+              <rect x="3" y="4" width="18" height="6" rx="1.5" />
+              <rect x="3" y="14" width="18" height="6" rx="1.5" />
+              <path d="M7 7h.01M7 17h.01" />
             </svg>
           </div>
+          <span class="font-code text-[10.5px] tracking-[0.14em] uppercase text-muted mb-1.5">
+            02
+          </span>
           <h4 class="text-[22px] font-bold tracking-[-0.02em] leading-[1.1] mb-2">
-            {{ capabilities[1].label }}
+            {{ layers[1].label }}
           </h4>
-          <p class="text-muted text-sm">{{ capabilities[1].body }}</p>
+          <p class="text-muted text-sm">{{ layers[1].body }}</p>
         </div>
 
         <div class="bento-card md:col-span-2 bg-invert text-invert border-invert">
           <span
             class="chip bg-[rgba(234,239,230,0.12)] text-invert-muted border-invert font-code text-[11.5px]"
-            >{{ capabilities[2].label }}</span
+            >03</span
           >
           <h4 class="text-[22px] font-bold tracking-[-0.02em] leading-[1.1] mt-4 mb-2">
-            The work moves without someone pushing it.
+            {{ layers[2].label }}
           </h4>
-          <p class="text-invert-muted text-sm max-w-[38ch]">{{ capabilities[2].body }}</p>
+          <p class="text-invert-muted text-sm max-w-[38ch]">{{ layers[2].body }}</p>
 
           <div class="flex items-end gap-1 h-[70px] mt-auto">
             <div
@@ -179,14 +187,17 @@
               stroke="currentColor"
               stroke-width="2"
             >
-              <path d="M3 3v18h18" />
-              <path d="M7 14l4-4 4 3 5-7" />
+              <path d="M12 3l7 3v6c0 4.2-2.9 7.6-7 9-4.1-1.4-7-4.8-7-9V6z" />
+              <path d="M9 12l2 2 4-4" />
             </svg>
           </div>
+          <span class="font-code text-[10.5px] tracking-[0.14em] uppercase text-muted mb-1.5">
+            04
+          </span>
           <h4 class="text-[22px] font-bold tracking-[-0.02em] leading-[1.1] mb-2">
-            {{ capabilities[3].label }}
+            {{ layers[3].label }}
           </h4>
-          <p class="text-muted text-sm">{{ capabilities[3].body }}</p>
+          <p class="text-muted text-sm">{{ layers[3].body }}</p>
         </div>
       </div>
     </div>
@@ -194,7 +205,7 @@
 </template>
 
 <script setup lang="ts">
-import { capabilities } from '@/data/content'
+import { layers } from '@/data/content'
 
 const reportBars = [
   { h: '30%', color: 'rgba(234,239,230,0.15)' },

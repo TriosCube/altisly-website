@@ -371,8 +371,12 @@ LLM call server side.
 4. **Depth lives one click deeper.** Architecture diagrams and decision write-ups belong on
    `/work/[slug]`, not on the landing page.
 5. **Short flows are modals**, not routes.
-6. **No comments in component code.**
-7. Mono is for labels and numbers; sans is for everything a person reads as a sentence.
+6. **The Journey flip cards are protected.** The mechanic is not to be redesigned, simplified,
+   replaced or removed. Content may change; the interaction may not. It is the homepage's one
+   theatrical moment and every other section is deliberately given a different behaviour, so that
+   the reveal stays distinctive rather than becoming the house style.
+7. **No comments in component code.**
+8. Mono is for labels and numbers; sans is for everything a person reads as a sentence.
 
 ---
 
@@ -460,20 +464,25 @@ care who we are at position two.
 
 | # | Section | Component | Change |
 | --- | --- | --- | --- |
-| 1 | Hero | `HeroSection` + `HeroStage` | New copy. **No band under the buttons**, see below. Stage cards unbranded. |
+| 1 | Hero | `HeroSection` + `HeroStage` | New copy. Band carries the four capabilities. Stage cards unbranded. |
 | 2 | Where we work | `MarqueeSection` | Sectors. A bridge rather than a section. Mechanics unchanged. |
 | 3 | When the tools stop fitting the operation | `ProblemsSection` **new** | Four mess-to-replaced pairs, settling on entry. |
-| 4 | What we do | `BentoGrid` | Statement tile carrying the `/work` link, plus Systems, Products, Automation, Strategy. |
+| 4 | What we change | `BentoGrid` | Statement tile carrying the `/work` link, plus the four layers: operation, system, data, control. |
 | 5 | How we work | `JourneySection` | Understand, Design, Build, Embed. Animation untouched. |
 | 6 | Who we are | `WhoWeAre` **new** | Heading, short paragraph, three characteristics. No motion. |
 | 7 | What we stand for | `PrinciplesSection` | Client-facing commitments, not aphorisms. |
 | 8 | Our defining belief | `BeliefSection` | Brand statement and three denials. Quote marks and avatar circle gone. |
 | 9 | Let's talk | `CtaSection` | New copy. Metric rows become what happens next. |
 
-**The hero band was removed rather than redesigned.** It was going to carry the four capabilities,
-but the capabilities now live in the Bento three sections later, and two identical quartets that
-close together read as a pattern rather than a point. Its slot, directly beneath the hero buttons,
-is now the reserved place for a proof strip when there is real evidence to put there.
+**The page carries two quartets, and they answer different questions.** The hero band lists the four
+capabilities: Systems, Products, Automation, Strategy. That is the commercial answer to "what can I
+hire you for". The Bento lists the four layers of the problem: the operation, the system, the data,
+the control. That is the intellectual answer to "why does this not fit a software brief", and it is
+what earns the Who we are line later on. They were briefly the same list, which read as a repeated
+pattern rather than a point, so the Bento moved to the layers and the band kept the capabilities.
+
+The reserved proof slot sits between the band and the marquee. When two or three defensible
+outcomes exist, or customers who can be named, they go there.
 
 **Where the ideas came from.** Breeze: state the mess before the solution, and make a complicated
 company understandable in seconds. SeamlessHR: arrange the page as proposition, trust, offering,
@@ -556,7 +565,14 @@ removed.
 >
 > `Talk to us`  `Run a diagnostic`
 
-No band. The slot beneath the buttons is held for a future proof strip.
+Band, four columns, mono uppercase label over one line:
+
+| Label | Line |
+| --- | --- |
+| SYSTEMS | Records, ledgers and approvals. |
+| PRODUCTS | Ideas turned into working software. |
+| AUTOMATION | Repetitive work, removed. |
+| STRATEGY | Direction for hard operating calls. |
 
 **06 Who we are**
 
@@ -586,27 +602,29 @@ Four rows, the mess on the left in mono, an arrow, what replaces it on the right
 | Three systems, three answers | One number, and the trail behind it |
 | Work that stops when someone is away | A process that runs without heroics |
 
-**04 What we do**
+**04 What we change**
 
-Statement tile: **We work across the operation, not just the software.** The process, the record and
-the software have to change together, or the old way quietly wins. Ends with
-`See what we have built →` linking `/work`.
+Statement tile: **We work across the operation, not just the software.** Four things have to move
+together. Change one and the other three fight you. Ends with `See what we have built →` linking
+`/work`.
 
-Four capability tiles:
+Four numbered layer tiles:
 
 | Tile | Line |
 | --- | --- |
-| Systems | The technology the operation runs on: records, ledgers and approvals. |
-| Products | New ideas turned into working digital products people use daily. |
-| Automation | Repetitive work removed where it should never have needed a person. |
-| Strategy | Technical direction for difficult operating decisions. |
+| 01 The operation | How the work should actually happen, before anyone writes software for it. |
+| 02 The system | The software that makes it repeatable instead of remembered. |
+| 03 The data | A reliable record of what happened, and of what happens next. |
+| 04 The control | The approvals, the rules and the accountability around it. |
 
 **05 How we work**
 
-> 01 **Understand.** We map how the work actually runs before anyone designs a screen.
+The flip-card mechanic is protected. Only the card content changes.
+
+> 01 **Understand.** We get inside the operation before deciding what needs to change.
 > 02 **Design.** We decide what the system should make impossible, not merely discourage.
-> 03 **Build.** Interface, data and automation shipped as one thing, not three.
-> 04 **Embed.** We harden the failure paths and leave your team running it.
+> 03 **Build.** We turn that design into software people can depend on.
+> 04 **Embed.** We put it into operation and leave your team able to run it.
 
 **07 What we stand for**
 
