@@ -7,11 +7,11 @@
     :style="{ '--px': `${parallax.x}px`, '--py': `${parallax.y}px` }"
   >
     <svg class="wires" viewBox="0 0 100 100" preserveAspectRatio="none">
-      <path class="wire" d="M 30 24 C 30 40, 74 34, 74 48" />
-      <path class="wire" d="M 74 56 C 74 72, 34 68, 34 80" />
-      <circle class="pip" cx="30" cy="24" r="0.8" />
-      <circle class="pip" cx="74" cy="48" r="0.8" />
-      <circle class="pip" cx="34" cy="80" r="0.8" />
+      <path class="wire" d="M 44 26 C 46 42, 80 36, 80 50" />
+      <path class="wire" d="M 80 58 C 80 74, 40 70, 40 82" />
+      <circle class="pip" cx="44" cy="26" r="0.8" />
+      <circle class="pip" cx="80" cy="50" r="0.8" />
+      <circle class="pip" cx="40" cy="82" r="0.8" />
     </svg>
 
     <span class="signal" :class="{ 'is-firing': firing }"></span>
@@ -172,8 +172,8 @@ onBeforeUnmount(() => {
 
 .signal {
   position: absolute;
-  left: 74%;
-  top: 48%;
+  left: 80%;
+  top: 50%;
   z-index: 6;
   width: 0.5rem;
   height: 0.5rem;
@@ -189,8 +189,8 @@ onBeforeUnmount(() => {
 }
 
 .signal.is-firing {
-  left: 34%;
-  top: 80%;
+  left: 40%;
+  top: 82%;
   opacity: 1;
 }
 
@@ -218,9 +218,9 @@ onBeforeUnmount(() => {
 }
 
 .card-approval {
-  left: -14%;
-  top: 2%;
-  width: 17.5rem;
+  left: 3%;
+  top: 1%;
+  width: 17rem;
   z-index: 4;
   background: var(--invert-bg);
   border-color: var(--invert-bg);
@@ -229,16 +229,16 @@ onBeforeUnmount(() => {
 }
 
 .card-exceptions {
-  right: 0;
-  top: 34%;
-  width: 13.5rem;
+  right: -1%;
+  top: 35%;
+  width: 13rem;
   z-index: 3;
 }
 
 .card-record {
-  left: 8%;
-  bottom: 6%;
-  width: 16rem;
+  left: 10%;
+  bottom: 7%;
+  width: 15.5rem;
   z-index: 5;
 }
 

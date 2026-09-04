@@ -1,7 +1,7 @@
 <template>
   <header ref="heroRef" class="hero" :class="{ 'is-in': entered }">
     <div class="container-isura hero-inner" :style="{ '--recede': recede }">
-      <div>
+      <div class="hero-copy">
         <h1 class="reveal headline" style="--i: 0">
           We build the systems
           <span class="mark">
@@ -98,9 +98,14 @@ onBeforeUnmount(() => {
 
 @media (min-width: 1024px) {
   .hero-inner {
-    grid-template-columns: 1.02fr 1fr;
-    gap: 2rem;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.02fr);
+    gap: 3rem;
   }
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 2;
 }
 
 .reveal {
@@ -119,7 +124,8 @@ onBeforeUnmount(() => {
 
 .headline {
   margin: 0;
-  font-size: clamp(46px, 6.6vw, 96px);
+  max-width: 12ch;
+  font-size: clamp(46px, 6vw, 88px);
   font-weight: 800;
   letter-spacing: -0.038em;
   line-height: 0.98;
