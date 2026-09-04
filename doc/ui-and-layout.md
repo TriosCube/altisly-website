@@ -122,7 +122,7 @@ copyright and contact.
 
 | Route | Purpose | Layout |
 | --- | --- | --- |
-| `/` | Landing, 8 sections | default |
+| `/` | Landing, 9 sections | default |
 | `/work` | All six builds as cards | default |
 | `/work/[slug]` | Case study | default |
 | `/about` | Story, principles, stats | default |
@@ -139,62 +139,188 @@ or `/about`.
 
 ---
 
-## 5. Landing page, section by section
+## 5. Landing page as built today, section by section
 
 Order in `pages/index.vue`. Every section is full-width; content is constrained by `container-isura`.
+Motion is described in full in section 6.
 
 **1. HeroSection** Two columns at `lg` (`1.05fr 1fr`), stacked below.
 Left: eyebrow pill, huge heading with a lime inline pill on the closing phrase, 18px muted
-paragraph capped at ~32rem, two buttons (lime "Run a diagnostic", ghost "See the work"), then a four
-column stat band with a top rule per stat, mono 26px value over 12.5px muted label.
-Right: `HeroStage`.
+paragraph capped at ~32rem, two buttons, then a four column stat band with a top rule per stat,
+mono 26px value over 12.5px muted label. Right: `HeroStage`. **No motion.**
 
 **2. HeroStage** Decorative, `hidden lg:block`, 580px tall, absolutely positioned cards at fixed
 offsets with small rotations (`rotate-2`, `-rotate-6`, `rotate-[4deg]`), overlapping in z-order, each
 a `stage-card` (surface, `--r-lg`, hairline border, `shadow-2`, 20px padding). One card is dark
 (`--text` ground), one is invert green with a lime sparkline, two are surface. A lime 80px circle
-with a plus sign floats over them. Purely static, no motion.
+with a plus sign floats over them. **No motion. The rotations are static CSS.**
 
 **3. MarqueeSection** Full-bleed invert band, top and bottom hairline. Seven sector words at 22px
-semibold separated by lime `✦`, list duplicated and translated `-50%` over 30s linear infinite.
+semibold separated by lime `✦`. **Motion: infinite CSS marquee.**
 
-**4. JourneySection** `min-height: 260vh` with a sticky `h-screen` inner, so the viewport holds
-still while the page scrolls past. Centre-aligned label and heading (with a 56px lime circle inline).
-Four cards in a row, each 280px, `perspective: 1400px`, rotating on Y as scroll progress passes
-`0.34 + index * 0.13`. Front face: surface card, 56px lime numeral circle, title at the bottom.
-Back face: invert card, mono caption, the sentence at the bottom. A hairline above the row fills
-left to right with `scaleX(progress * 1.4)`. Bottom rule with two mono captions.
+**4. JourneySection** Sticky scroll section, `260vh` tall. Four flip cards.
+**Motion: scroll-progress driven flips plus a filling rule.**
 
-**5. BentoGrid** Three columns, `auto-rows-[240px]`, 16px gap. Six tiles:
-a 2x2 invert tile with a chip, 36px heading, paragraph, a decorative concentric-orbit SVG bleeding
-off the bottom right corner, and three mono stats pinned to the bottom; a lime tile with a circular
-arrow button; a surface tile with a 42px lime icon circle; a 2x1 invert tile ending in a 12-bar
-chart where four bars are lime; a surface tile.
+**5. BentoGrid** Three columns, `auto-rows-[240px]`, 16px gap, six tiles: a 2x2 invert tile with a
+chip, 36px heading, paragraph, a decorative concentric-orbit SVG bleeding off the bottom right
+corner and three mono stats pinned to the bottom; a lime tile with a circular arrow button; a
+surface tile with a 42px lime icon circle; a 2x1 invert tile ending in a 12-bar chart where four
+bars are lime; a surface tile. **No motion.**
 
 **6. PrinciplesSection** Invert band, 90px vertical padding. Heading left, mono count right, then
-four columns each with a top rule, a lime mono numeral and one 18px sentence. Deliberately has no
-body copy.
+four columns each with a top rule, a lime mono numeral and one 18px sentence. **No motion.**
 
-**7. WorkShowcase** Two stacked scroll sections.
-First, `150vh` with a sticky centred title that scales `0.9 → 1.0` and fades in on progress.
-Second, `180vh` with a sticky grid of four cards. On scroll each card flies to its resting place
-from a different edge (left, bottom, right, top by index modulo 4), interpolating translate, a
-`0.52 → 1` scale and a rotation, eased with smoothstep, driven by one rAF loop writing inline
-transforms. Pointer events are off until progress passes 0.9. Honours `prefers-reduced-motion` by
-snapping to final state. Card: mono `alt × Name` lockup, 30px name, category, chips, then a
-`surface-2` footer strip with role, tagline and a lime circular arrow.
+**7. WorkShowcase** Two stacked sticky scroll sections, `150vh` then `180vh`.
+**Motion: scroll-driven title scale, then four cards flying in from four edges.**
 
 **8. TestimonialSection** Full lime block, `--r-xl`, `1fr 2fr` split. Left: 64px circle with `✦`,
 mono label, two small lines. Right: a 26px to 40px blockquote with one phrase highlighted on a
-`--on-brand` chip, then three stats on top rules.
+`--on-brand` chip, then three stats on top rules. **No motion.**
 
 **9. CtaSection** Invert block with a lime radial glow bleeding off the bottom right. Left: heading
 with a lime inline pill, paragraph, two buttons. Right: four label/value rows on rules, values in
-mono 22px, two of them lime.
+mono 22px, two of them lime. **No motion.**
 
 ---
 
-## 6. The diagnose scanner
+## 6. Motion inventory
+
+Read this before proposing any animation change. It is the complete list: everything that moves on
+the site is here, and five of the nine landing sections are deliberately still.
+
+### 6.1 The scroll-progress primitive
+
+`composables/useSectionProgress.ts` is the only scroll abstraction. It returns a ref to attach to a
+tall section and a `0 → 1` progress number:
+
+```
+progress = clamp(-rect.top, 0, section.offsetHeight - window.innerHeight)
+           / max(section.offsetHeight - window.innerHeight, 1)
+```
+
+So progress is `0` while the section's top edge is at or below the viewport top, and reaches `1`
+when its bottom edge arrives at the viewport bottom. It listens to `scroll` (passive) and `resize`,
+recomputes synchronously and writes to a reactive ref. There is no throttle and no
+IntersectionObserver anywhere on the site.
+
+The pattern in both scroll sections is the same: a tall outer section (`260vh`, `180vh`) with a
+`sticky top-0` inner that is one viewport tall. The viewport appears frozen while the page scrolls
+past, and progress drives what happens inside.
+
+### 6.2 Marquee, section 3
+
+Pure CSS, no JS. The seven-item list is rendered twice into one flex row, and the row translates
+`0 → -50%` over `30s linear infinite` (`@keyframes marquee`, applied by the `animate-marquee`
+utility). Because the content is exactly duplicated, the reset at `-50%` is invisible.
+
+Never pauses, never observes visibility, does not honour `prefers-reduced-motion`. This is the one
+motion gap worth closing.
+
+### 6.3 Journey flip cards, section 4
+
+Outer section `min-height: 260vh`, inner `sticky top-0 h-screen`, so the section holds still for
+roughly 1.6 viewports of scrolling.
+
+**Card flips.** Each card is a `perspective: 1400px` box containing a `transform-style: preserve-3d`
+inner with two `backface-visibility: hidden` faces, the back pre-rotated `180deg`. A card flips when
+
+```
+progress > 0.34 + index * 0.13
+```
+
+so thresholds land at `0.34`, `0.47`, `0.60`, `0.73`. The flip itself is a CSS transition,
+`transition-transform duration-700 ease-out`, triggered by a class toggle. Scroll therefore sets the
+trigger point; it does not scrub the rotation. Scrolling back up unflips them.
+
+**The rule.** A hairline above the card row is scaled with `scaleX(min(progress * 1.4, 1))` from a
+left origin, `transition-transform duration-200 ease-out`, so it completes at progress `0.71`,
+roughly as the last card turns. Hidden below `lg`.
+
+### 6.4 Work showcase, section 7
+
+Two sections. The first is the title, the second the cards.
+
+**Title, `150vh`.** Sticky centred block. Inline style bound to progress:
+`transform: scale(0.9 + p * 0.1)` and `opacity: min(0.35 + p * 1.6, 1)`, with
+`transition-all duration-500 ease-out` smoothing the steps. The title therefore arrives at 90% scale
+and 35% opacity and settles at full size by progress `0.41`.
+
+**Cards, `180vh`.** This one does not use the composable. It runs its own rAF loop writing inline
+transforms directly, because a Vue reactive update per scroll event would be too coarse.
+
+Progress is a blend of two measures, so the cards begin moving as the section enters the viewport
+rather than only once it is pinned:
+
+```
+entry    = clamp((innerHeight - rect.top) / innerHeight, 0, 1)
+raw      = clamp(-rect.top, 0, height - innerHeight) / (height - innerHeight)
+mixed    = entry * 0.48 + raw * 0.52
+p        = mixed * mixed * (3 - 2 * mixed)      // smoothstep
+```
+
+Each card is assigned a start position by `index % 4`, computed from its own resting offset so it
+starts fully outside the viewport on that edge, plus an `exitMargin` of `max(28px, viewportWidth * 0.025)`:
+
+| index % 4 | enters from | start rotation |
+| --- | --- | --- |
+| 0 | left | `-7deg` |
+| 1 | bottom | `+4deg` |
+| 2 | right | `+7deg` |
+| 3 | top | `-4deg` |
+
+Each frame writes one composed transform per card:
+
+```
+inverse = 1 - p
+translate3d(startX * inverse, startY * inverse, 0)
+scale(0.52 + p * 0.48)
+rotate(startRotation * inverse)
+```
+
+`pointer-events` stays `none` until `p > 0.9`, so a card cannot be clicked while still flying.
+`prefers-reduced-motion: reduce` short-circuits the whole loop and snaps every card to
+`transform: none`. Cards carry `will-change: transform`.
+
+This is the only section on the site that reads layout (`getBoundingClientRect`, `offsetLeft`,
+`offsetTop`) inside a rAF loop every frame while scrolling.
+
+### 6.5 Diagnose scanner
+
+The heaviest motion on the site, and the only permanent rAF loop. Full description in section 7.
+Summary of the moving parts: 130 pulsing points on staggered delays; two breathing rings on the
+entry button; ten packets riding quadratic spokes inward on SVG `animateMotion` (6.4s, staggered
+0.42s); a 26-hairline fan rotating 360 degrees over 16s; a hub pulsing on a 5.2s cycle; ten nodes
+floating on a 4.5s cycle staggered 0.12s; three agent nodes on a 6.6s roll-call so they hand over
+rather than pulse together; three expanding rings at stage five; a stage machine advancing every
+6.2s until the visitor takes over; a tool roll cycling every 2.1s; a ledger row arriving every 1.5s;
+and a permanent rAF loop easing the whole constellation away from the cursor at `0.08` per frame
+within a 340px radius, up to 36px, composed with a stage-five shrink to `0.78`.
+
+`prefers-reduced-motion` freezes the pointer loop and the named keyframe animations.
+
+### 6.6 Small transitions
+
+- **Brief modal**: Vue `<Transition>`, backdrop 240ms opacity, panel `translateY(1.2rem) scale(.985)`
+  over 280ms `cubic-bezier(.22,1,.36,1)`. Question text re-animates on each step via a `:key` change.
+- **Cookie banner**: Vue `<Transition>`, 220ms opacity and transform.
+- **Nav and buttons**: hover colour and background transitions, 120ms to 200ms. Buttons
+  `active:translate-y-px`.
+- **Skeletons**: `@keyframes skeleton-shimmer`, a 400px background sweep, used on the blog index.
+- **`pulse-dot`**: defined in the stylesheet, currently unused.
+
+### 6.7 Motion rules in force
+
+1. Scroll-driven sections use the sticky pattern: tall outer, `sticky top-0` inner one viewport tall.
+2. Threshold flips use a CSS transition on a class toggle; continuous motion writes inline
+   transforms from rAF. Do not mix the two on one property.
+3. Anything continuous and expensive must check `prefers-reduced-motion`. The work showcase and the
+   scanner do; the marquee does not.
+4. Decorative motion is `aria-hidden`.
+5. No animation library. No GSAP, no Framer, no Lenis, no smooth-scroll hijacking.
+
+---
+
+## 7. The diagnose scanner
 
 `/diagnose` is the one page that breaks the site grid. Full viewport, no nav or footer, its own
 minimal header (back link, two context links, theme toggle). It is theme aware: every ink derives
@@ -210,13 +336,11 @@ Composition:
   spoke inward on `animateMotion` over 6.4s, staggered 0.42s apart.
 - A 26-hairline fan pivoting from the hub, sweeping 360 degrees over 16s. Stage 1 only.
 - A lime hub with a 34rem radial bloom.
-- The whole constellation leans away from the cursor within 340px, up to 36px, eased at 0.08 per
-  frame, in a single rAF loop that also composes a stage-5 shrink to 0.78.
-- Five stages that advance themselves every 6.2s until a manual choice takes over. Stage 2 lights
-  three nodes; stage 3 draws a small window at the hub and rolls department tool names; stage 4
-  materialises three agent nodes on a 6.6s roll-call cycle; stage 5 emits three expanding rings and
-  a ledger of shipped systems.
-- Left rail selects an industry, which swaps all ten node labels and the three agents.
+- The constellation leans away from the cursor within 340px, up to 36px, eased at 0.08 per frame.
+- Five stages advancing every 6.2s until a manual choice takes over. Stage 2 lights three nodes;
+  stage 3 draws a small window at the hub and rolls department tool names; stage 4 materialises
+  three agent nodes; stage 5 emits expanding rings and a ledger of shipped systems.
+- A left rail selects an industry, swapping all ten node labels and the three agents.
 
 **The brief modal** (`DiagnoseModal.vue`) opens over it from the bottom-right CTA. Light surface
 panel on a blurred dark scrim, teleported to body, Escape to close, body scroll locked. It holds the
@@ -226,7 +350,7 @@ LLM call server side.
 
 ---
 
-## 7. Conventions in force
+## 8. Conventions in force
 
 1. **No raw colours in templates.** Token utilities only.
 2. **No em dashes or en dashes in any copy.** Use a colon, a full stop or a comma.
@@ -240,30 +364,116 @@ LLM call server side.
 
 ---
 
-## 8. Known weaknesses, open for redesign
+## 9. Agreed direction: the homepage rewrite
 
-**Content, the largest problem.** The landing copy is written from the engineering team's point of
-view. It leads with input metrics ("700+ commits", "2 Rust services in production", "5 operational
-domains"), publishes internal architecture (the in-house framework name, "schema per tenant",
-"control plane vs runtime plane"), and exposes the business model (four of six featured builds are
-the studio's own ventures). There is no named client, no outcome, no before and after. The four
-principles are unfalsifiable aphorisms a buyer cannot act on. This reads as machine-written and
-should be rewritten around who is served and what changes for them.
+Reviewed and agreed in September 2026. This section records what we decided to build and why, so it
+does not have to be re-argued.
 
-**Responsiveness is uneven.** The landing sections were given breakpoints during the rewrite, but the
-hero stage is simply hidden below `lg`, and the two scroll-driven sections (`260vh` and `180vh`) have
-not been tuned for short viewports or touch. The bento grid collapses to two columns then one, which
-is untested on real devices.
+### 9.1 The diagnosis
 
-**Motion budget is concentrated.** Three sections run scroll listeners and one runs a permanent rAF
-loop with a canvas-free but node-heavy constellation. Nothing is virtualised or paused off-screen.
+The homepage was written from the engineering team's point of view. Three faults:
 
-**Dead CSS.** Roughly a third of the utilities came from an application design system and are unused
-here.
+**It led with input metrics.** "700+ commits across two flagships", "2 Rust services in production",
+"5 operational domains". Commits are effort, not results. No buyer chooses a firm on commit count,
+and reaching for whatever can be counted is the standard tell of machine-written copy.
+
+**It published internals and the business model.** The in-house framework name, "schema per tenant",
+"control plane versus runtime plane", "typed from OpenAPI", plus "venture building" and "Studio
+venture" labels on four of six featured builds. A competitor learned the architecture; a visitor
+learned the company mostly builds for itself.
+
+**It had no client in it.** No named customer, no outcome, no before and after. The four principles
+were unfalsifiable aphorisms. The lime section was an internal engineering opinion set in
+blockquote marks beside an avatar-style circle, so it read as a fabricated testimonial.
+
+### 9.2 Scope
+
+**Only `pages/index.vue` and the components that render its sections**, plus copy in
+`data/content.ts`. Not `/work`, not case studies, not `/about`, `/diagnose`, partnerships, careers,
+blog, legal, or the design system. This is a positioning and content pass, not a redesign. Preserve
+the visual identity, the section mechanics and the animations.
+
+### 9.3 Hard rules
+
+1. No `Rust`, `OpenAPI`, `schema per tenant`, `control plane`, `runtime plane`, the framework name,
+   commit counts, or any other implementation detail.
+2. No explanation of the internal venture or business model.
+3. No invented customers, testimonials, revenue, impact numbers or operational metrics. Rules 1 and
+   3 together remove every number currently on the homepage.
+4. Products may appear as evidence of capability, never as an explanation of how the company earns.
+5. Business and problem language first.
+6. Removing engineering language must not mean replacing it with "innovative solutions that empower
+   businesses". Corporate does not have to mean unspecific.
+7. Keep the terse convention: a heading plus one-line points.
+8. Keep the UI identity and interactions unless a component genuinely cannot carry the new content.
+
+### 9.4 Target narrative
+
+The homepage should answer, in order: who this company is, where it operates, what it does, what
+problems it takes on, how it works, what it stands for, what it believes, and how to start.
+
+| # | Section | Component | Change |
+| --- | --- | --- | --- |
+| 1 | Hero, the company at a glance | `HeroSection` + `HeroStage` | New copy. Stat band becomes four sector columns. Stage cards unbranded. |
+| 2 | Who we are | **new** | New section. Heading, short paragraph, three facts. No motion. |
+| 3 | Where we work | `MarqueeSection` | Sector words only. Mechanics unchanged. |
+| 4 | What we do | `BentoGrid` | Five capability tiles plus one tile linking `/work`. |
+| 5 | Problems we solve | **new** | Numbered rows on rules, page ground, four items. No motion. |
+| 6 | How we work | `JourneySection` | Understand, Design, Build, Embed. Animation untouched. |
+| 7 | What we stand for | `PrinciplesSection` | Commitments, not aphorisms. **Moved after the work link.** |
+| 8 | Our defining belief | `TestimonialSection` | Brand statement. Quote marks and avatar circle removed. |
+| 9 | Let's talk | `CtaSection` | New copy. Metric rows become what happens next. |
+
+**`WorkShowcase.vue` is removed from the homepage and deleted.** It consumed `150vh` for its title
+plus `180vh` for the cards, a third of a kilometre of scroll spent showing projects on a page that
+should be introducing a company. `/work` already renders its own cards. Evidence survives on the
+homepage as a single Bento tile linking to it.
+
+Two new sections, one removed, so the page ends up shorter and better answered.
+
+### 9.5 Consequences for motion
+
+Removing `WorkShowcase` deletes the site's most expensive scroll section: the rAF loop that reads
+layout every frame. After the rewrite the homepage runs one scroll listener (`JourneySection`) and
+one CSS marquee. The scanner keeps the showpiece interactions, which is the right place for them.
+
+The two new sections are deliberately still. The page currently alternates card grid and dark band
+with almost nothing between; static, well-set type is the variation it is missing.
+
+### 9.6 Open decisions
+
+**The company name is unresolved and blocks the hero sentence.** The site says Altisly throughout,
+the domain is altisly.com, and the legal pages name **Altisly Inc.** The company has also been
+referred to as **Altis Platforms Limited**. If that is the legal entity and Altisly is the trading
+brand, the homepage says Altisly and only the legal pages carry the entity. If the company is
+actually renaming, that is a site-wide job touching the footer, legal pages, metadata and the logo,
+and it falls outside the agreed scope.
+
+**The buyer is not yet named.** The copy currently addresses "organisations whose operations carry
+money, records or regulatory risk", which is the widest honest reading. Naming the single buyer most
+wanted would sharpen the hero and let the four sector columns be ordered by commercial priority.
+
+**No real outcome number exists yet.** One real figure, even a single before and after, would be
+worth more than any section on the page and would give the hero band something to hold.
+
+---
+
+## 10. Known weaknesses, open for redesign
+
+**Responsiveness is uneven.** The landing sections have breakpoints, but the hero stage is simply
+hidden below `lg`, and the scroll-driven sections have not been tuned for short viewports or touch,
+where `260vh` behaves differently. The bento collapses three to two to one, untested on real devices.
+
+**Motion is unevenly budgeted.** Five of nine landing sections are completely static while two
+consume multiple viewports. The marquee never pauses and ignores `prefers-reduced-motion`. Nothing
+pauses when off-screen.
+
+**Dead CSS.** Roughly a third of the utilities (`kpi-*`, `view-tab*`, `dash-btn-*`, `side-buy`,
+`util-fill-*`, `sev-*`, `live-chip`) came from an application design system and are unused here.
 
 **Visual monotony.** Almost every section is either a surface card grid or a full-width invert band.
-There is no photography, no illustration and no texture anywhere on the site. The only non-typographic
-elements are three decorative SVGs and the constellation.
+There is no photography, no illustration and no texture anywhere. The only non-typographic elements
+are three decorative SVGs and the constellation.
 
-**Section rhythm.** Vertical padding varies between sections (60px, 90px, 110px, 100px) without a
+**Section rhythm.** Vertical padding varies between sections (60px, 90px, 100px, 110px) with no
 system behind the variation.
