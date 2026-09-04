@@ -160,9 +160,19 @@ or `/about`.
 Order in `pages/index.vue`. Every section is full-width; content is constrained by `container-isura`.
 Motion is described in full in section 6.
 
-**1. HeroSection** Two columns at `lg`, stacked below. Headline, one-line lede, buttons, then the
-capability rail. The inner grid holds `min-height: 58vh` and the rail sits `5.5rem` below it, so the
-first viewport carries the headline and the scene; the rail is found on scroll. **Motion: staggered entrance,
+**1. HeroSection** A `100svh` viewport block holding two columns at `lg`, then the capability rail
+immediately beneath it, so the rail is the first thing found on scroll rather than part of the fold.
+Headline, one-line lede, two buttons, and the scene.
+
+**Ground.** Not a gradient. A sparse lattice of three horizontal and three vertical rules in
+`--border-strong`, lime nodes pulsing at six intersections on staggered 7.4s cycles, and two signals
+travelling the lattice on `animateMotion` at 14s and 19s. One soft lime glow behind the scene
+breathes on a 26s cycle. A 34px dot grid sits under all of it and the whole section fades into the
+page colour at its base.
+
+An aurora-style version with three drifting blurred fields was built and rejected: it read as a
+green wash rather than as a designed surface. The lattice is the same vocabulary as the scanner and
+the model diagram, which is why it belongs here and the gradient did not. **Motion: staggered entrance,
 a lime field wiping in behind the closing phrase, and a scroll recede.**
 
 The lime mark is a field behind the text rather than a pill around it: asymmetric radius
