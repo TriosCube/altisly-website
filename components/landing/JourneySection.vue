@@ -3,6 +3,7 @@
     id="how-we-work"
     ref="sectionRef"
     class="journey"
+    data-nav-tone="dark"
     :class="{ 'is-awake': isAwake, 'is-revealed': isRevealed, 'is-deep': isDeep }"
     aria-label="How Altisly works"
   >

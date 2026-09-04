@@ -227,8 +227,8 @@ onBeforeUnmount(() => {
 }
 
 .halo {
-  --halo-core: color-mix(in srgb, var(--brand-deep) 34%, transparent);
-  --halo-mid: color-mix(in srgb, var(--invert-bg) 13%, transparent);
+  --halo-core: color-mix(in srgb, var(--brand) 62%, transparent);
+  --halo-mid: color-mix(in srgb, var(--brand-soft) 34%, transparent);
   --halo-blur: 58px;
   position: absolute;
   left: var(--gx, 56%);

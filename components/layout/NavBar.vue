@@ -1,14 +1,19 @@
 <template>
-  <div ref="shellRef" class="sticky top-3.5 z-50 px-4 nav-shell" :class="{ 'is-tucked': tucked }">
+  <div
+    ref="shellRef"
+    class="sticky top-3.5 z-50 px-4 nav-shell"
+    :class="{ 'is-tucked': tucked, 'is-on-dark': onDark, 'is-scrolled': scrolled }"
+  >
     <div
       class="max-w-[72rem] mx-auto relative"
       @mouseenter="onShellEnter"
       @mouseleave="onShellLeave"
     >
       <nav
-        class="flex items-center justify-between gap-5 px-4.5 py-1.5 pr-2.5 bg-surface/88 backdrop-saturate-160 backdrop-blur-[14px] rounded-pill border border-base"
+        ref="barRef"
+        class="nav-bar flex items-center justify-between gap-5 px-4.5 py-1.5 pr-2.5 backdrop-saturate-160 backdrop-blur-[14px] rounded-pill border"
       >
-        <IcLogo to="/" />
+        <IcLogo to="/" :tone="onDark ? 'on-dark' : 'auto'" />
 
         <div class="hidden lg:flex items-center gap-0.5">
           <template v-for="menu in menus" :key="menu.key">
@@ -269,7 +274,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import IcLogo from '@/components/ui/IcLogo.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import { presence } from '@/data/site'
@@ -328,6 +333,9 @@ let closeTimer: ReturnType<typeof setTimeout> | null = null
 const mobileOpen = ref(false)
 const themeMode = ref<ThemeMode>('system')
 const tucked = ref(false)
+const onDark = ref(false)
+const scrolled = ref(false)
+const barRef = ref<HTMLElement | null>(null)
 const shellRef = ref<HTMLElement | null>(null)
 
 /* The nav is sticky, so it still takes its height in normal flow. Publish that height so a section
@@ -349,6 +357,7 @@ let lastY = 0
 let ticking = false
 let hovering = false
 let revealTimer: ReturnType<typeof setTimeout> | null = null
+let darkZones: HTMLElement[] = []
 
 const activeMenu = computed(() => menus.find((menu) => menu.key === openMenu.value))
 
@@ -379,6 +388,26 @@ function toggleMenu(key: string) {
 function closeMenus() {
   cancelClose()
   openMenu.value = ''
+}
+
+function collectZones() {
+  darkZones = Array.from(
+    document.querySelectorAll<HTMLElement>('[data-nav-tone="dark"], .bg-invert'),
+  )
+}
+
+function measureTone() {
+  const bar = barRef.value
+  if (!bar) return
+
+  const box = bar.getBoundingClientRect()
+  const line = box.top + box.height / 2
+  const wide = window.innerWidth * 0.55
+
+  onDark.value = darkZones.some((zone) => {
+    const rect = zone.getBoundingClientRect()
+    return rect.width >= wide && rect.top <= line && rect.bottom >= line
+  })
 }
 
 function cancelReveal() {
@@ -420,7 +449,10 @@ function onShellLeave() {
 
 function readScroll() {
   ticking = false
+  measureTone()
+
   const y = window.scrollY
+  scrolled.value = y > TOP_ZONE
   const delta = y - lastY
 
   if (y <= TOP_ZONE) {
@@ -445,6 +477,11 @@ function readScroll() {
   reveal(true)
 }
 
+function onResize() {
+  collectZones()
+  measureTone()
+}
+
 function onScroll() {
   if (ticking) return
   ticking = true
@@ -467,7 +504,12 @@ watch(
     closeMenus()
     mobileOpen.value = false
     lastY = 0
+    scrolled.value = false
     reveal(false)
+    nextTick(() => {
+      collectZones()
+      measureTone()
+    })
   },
 )
 
@@ -481,7 +523,11 @@ onMounted(() => {
   initTheme()
   themeMode.value = getThemeMode()
   lastY = window.scrollY
+  scrolled.value = lastY > TOP_ZONE
+  collectZones()
+  measureTone()
   document.addEventListener('keydown', onKeydown)
+  window.addEventListener('resize', onResize)
   window.addEventListener('scroll', onScroll, { passive: true })
 })
 
@@ -492,10 +538,54 @@ onBeforeUnmount(() => {
   cancelReveal()
   document.removeEventListener('keydown', onKeydown)
   window.removeEventListener('scroll', onScroll)
+  window.removeEventListener('resize', onResize)
 })
 </script>
 
 <style scoped>
+.nav-bar {
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  border-color: var(--border);
+  transition:
+    background 260ms ease,
+    border-color 260ms ease,
+    color 260ms ease;
+}
+
+.is-scrolled .nav-bar {
+  background: var(--surface);
+  box-shadow: var(--shadow-2);
+}
+
+.is-on-dark .nav-bar {
+  background: color-mix(in srgb, var(--invert-bg) 82%, transparent);
+  border-color: var(--invert-border);
+  color: var(--invert-text);
+}
+
+.is-scrolled.is-on-dark .nav-bar {
+  background: var(--invert-bg);
+}
+
+.is-on-dark .nav-link {
+  color: var(--invert-text);
+}
+
+.is-on-dark .nav-link:hover,
+.is-on-dark .nav-link.is-open {
+  background: var(--invert-wash);
+}
+
+.is-on-dark .theme-toggle {
+  background: var(--invert-wash);
+  border-color: var(--invert-hairline);
+  color: var(--invert-text);
+}
+
+.is-on-dark .theme-toggle:hover {
+  background: var(--invert-wash-2);
+}
+
 .nav-shell {
   transition:
     transform 280ms cubic-bezier(0.22, 1, 0.36, 1),

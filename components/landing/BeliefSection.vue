@@ -2,6 +2,7 @@
   <section
     ref="sectionRef"
     class="belief text-invert relative"
+    data-nav-tone="dark"
     :style="{ minHeight: '180vh' }"
     id="belief"
   >

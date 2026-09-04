@@ -18,8 +18,11 @@
         class="stage"
         :style="{ '--z': i + 1, '--recede': recede[i] }"
       >
-        <article class="panel" :class="`tone-${stage.tone}`">
-          <span class="panel-number">{{ stage.number }}</span>
+        <article
+          class="panel"
+          :class="`tone-${stage.tone}`"
+          :data-nav-tone="stage.tone === 'invert' ? 'dark' : null"
+        >
           <h3>{{ stage.title }}</h3>
           <p>{{ stage.body }}</p>
 
@@ -802,15 +805,9 @@ onBeforeUnmount(() => {
   color: var(--on-brand);
 }
 
-.panel-number {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  opacity: 0.55;
-}
 
 .panel h3 {
-  margin: 0.9rem 0 0;
+  margin: 0;
   font-size: clamp(30px, 5.2vw, 74px);
   font-weight: 700;
   letter-spacing: -0.038em;

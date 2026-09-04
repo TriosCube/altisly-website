@@ -6,6 +6,7 @@
     :class="{ 'is-pinned': pinned, 'is-shown': shown }"
   >
     <div class="pin">
+      <span class="mesh" aria-hidden="true"></span>
       <div class="container-isura layout">
         <div class="copy">
           <span class="eyebrow">Problems we solve</span>
@@ -261,12 +262,69 @@ onBeforeUnmount(() => {
 }
 
 .pin {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.pin > * {
+/* Soft mesh ground. Absolutely positioned so it stays out of the flex flow and, once the section
+   pins, stays the size of the sticky viewport rather than stretching over the whole scroll length. */
+.mesh {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      58rem 40rem at 14% 16%,
+      color-mix(in srgb, var(--brand) 20%, transparent),
+      transparent 62%
+    ),
+    radial-gradient(
+      50rem 42rem at 86% 6%,
+      color-mix(in srgb, var(--brand-deep) 14%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      68rem 46rem at 80% 84%,
+      color-mix(in srgb, var(--invert-bg-3) 16%, transparent),
+      transparent 66%
+    ),
+    radial-gradient(
+      44rem 36rem at 26% 94%,
+      color-mix(in srgb, var(--brand) 11%, transparent),
+      transparent 64%
+    );
+}
+
+:root[data-theme='dark'] .mesh {
+  background:
+    radial-gradient(
+      58rem 40rem at 14% 16%,
+      color-mix(in srgb, var(--brand) 9%, transparent),
+      transparent 62%
+    ),
+    radial-gradient(
+      50rem 42rem at 86% 6%,
+      color-mix(in srgb, var(--brand-deep) 8%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      68rem 46rem at 80% 84%,
+      color-mix(in srgb, var(--invert-bg-3) 40%, transparent),
+      transparent 66%
+    ),
+    radial-gradient(
+      44rem 36rem at 26% 94%,
+      color-mix(in srgb, var(--brand) 6%, transparent),
+      transparent 64%
+    );
+}
+
+.pin > *:not(.mesh) {
+  position: relative;
+  z-index: 1;
   width: 100%;
   flex: none;
 }
