@@ -21,7 +21,7 @@
         </div>
       </div>
 
-      <HeroStage />
+      <HeroConveyor />
     </div>
 
     <div class="container-isura">
@@ -38,7 +38,7 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import AppButton from '@/components/ui/AppButton.vue'
-import HeroStage from './HeroStage.vue'
+import HeroConveyor from './HeroConveyor.vue'
 import { capabilities } from '@/data/content'
 
 const heroRef = ref<HTMLElement | null>(null)
@@ -83,7 +83,8 @@ onBeforeUnmount(() => {
 .hero {
   position: relative;
   z-index: 0;
-  padding: 3.5rem 0 5rem;
+  padding: 4.5rem 0 4rem;
+  overflow: hidden;
 }
 
 .hero-inner {
@@ -91,6 +92,7 @@ onBeforeUnmount(() => {
   grid-template-columns: 1fr;
   gap: 3.5rem;
   align-items: center;
+  min-height: 62vh;
   transform: translateY(calc(var(--recede) * -26px)) scale(calc(1 - var(--recede) * 0.04));
   transform-origin: 50% 0;
   opacity: calc(1 - var(--recede) * 0.35);
@@ -98,8 +100,8 @@ onBeforeUnmount(() => {
 
 @media (min-width: 1024px) {
   .hero-inner {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.02fr);
-    gap: 3rem;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: 3.5rem;
   }
 }
 
@@ -125,7 +127,7 @@ onBeforeUnmount(() => {
 .headline {
   margin: 0;
   max-width: 12ch;
-  font-size: clamp(46px, 6vw, 88px);
+  font-size: clamp(46px, 6.2vw, 92px);
   font-weight: 800;
   letter-spacing: -0.038em;
   line-height: 0.98;
@@ -178,7 +180,7 @@ onBeforeUnmount(() => {
 
 .lede {
   max-width: 34ch;
-  margin: 1.7rem 0 2.2rem;
+  margin: 2rem 0 2.4rem;
   font-size: clamp(15.5px, 1.5vw, 17px);
   line-height: 1.6;
   color: var(--muted);
@@ -188,7 +190,7 @@ onBeforeUnmount(() => {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   border-top: 1px solid var(--border);
-  margin-top: 3.5rem;
+  margin-top: 7rem;
 }
 
 @media (min-width: 900px) {

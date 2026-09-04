@@ -105,8 +105,9 @@ A large block of utilities (`kpi-*`, `view-tab*`, `dash-btn-*`, `side-buy`, `uti
 ## 3. Chrome
 
 **NavBar** (`components/layout/NavBar.vue`)
-Sticky pill, `top: 14px`, max-width 1280px, translucent surface at 92% with 14px backdrop blur,
-`rounded-pill`, `shadow-nav`. Left: logo. Centre: two mega-menu triggers (Work, Company) plus plain
+Sticky pill, `top: 14px`, max-width `72rem`, translucent surface at 88% with 14px backdrop blur,
+`rounded-pill`, a hairline border and no shadow. Roughly 18 percent shorter than the first version:
+`py-1.5` on the bar, `0.38rem` on the links, 13.5px labels, `2rem` icon buttons. Left: logo. Centre: two mega-menu triggers (Work, Company) plus plain
 links (Insights, Contact). Right: a Global dropdown, theme toggle, ghost "Diagnose", lime "Talk to
 us", and a burger below `lg`.
 
@@ -159,8 +160,9 @@ or `/about`.
 Order in `pages/index.vue`. Every section is full-width; content is constrained by `container-isura`.
 Motion is described in full in section 6.
 
-**1. HeroSection** Two columns at `lg` (`1.02fr 1fr`), stacked below. Eyebrow, headline, lede,
-buttons, then a four-cell capability rail under one continuous rule. **Motion: staggered entrance,
+**1. HeroSection** Two columns at `lg`, stacked below. Headline, one-line lede, buttons, then the
+capability rail. The inner grid holds `min-height: 62vh` and the rail sits `7rem` below it, so the
+first viewport carries only the headline and the belt; the rail is the first thing found on scroll. **Motion: staggered entrance,
 a lime field wiping in behind the closing phrase, and a scroll recede.**
 
 The lime mark is a field behind the text rather than a pill around it: asymmetric radius
@@ -170,16 +172,18 @@ The lime mark is a field behind the text rather than a pill around it: asymmetri
 The rail is one rule with four cells beneath it, each a lime mono number, a label and one line. Two
 columns below `900px`.
 
-**2. HeroStage** `lg` and above only, 34rem tall. Three cards joined by two fine bezier wires with a
-lime pip at each junction: an approval, an exceptions count, and today's record. **Motion: entrance,
-a running state machine, and pointer parallax.**
+**2. HeroConveyor** `lg` and above only. A single continuous belt of operational snapshots rather
+than floating cards: Approval, Exception, Record, Reconciled, Onboarding, the set duplicated for a
+seamless loop. Panels are `13.5rem` wide, overlap by `-1.6rem`, and sit at five fixed vertical lifts
+between `-2.6rem` and `+2.9rem`, so the belt reads as one system on a slight wave.
 
-The scene runs. Every 2.6s it advances a six-step cycle: the approval ticks prepared, then approved,
-an exception clears and a lime signal travels the wire from the exceptions card to the record card,
-the record lights and reads Reconciled, then it rests and resets. Nothing explains it in copy. The
-illustration simply demonstrates the headline.
+**Motion: a 68s linear translate to `-50%`, paused on hover, plus a scroll counter-shift.** As the
+hero enters the viewport the belt is offset up to `90px` against the scroll direction and eases to
+zero, which gives depth without parallax on every element.
 
-Pointer parallax is capped at 6px horizontally and 5px vertically, eased at `0.08` per frame.
+Only one panel takes the lime: the Reconciled snapshot, which inverts to deep green with a lime
+label. Every other panel stays neutral surface, so the accent marks a state rather than decorating
+the row.
 
 **3. MarqueeSection** Full-bleed invert band. A fixed mono label behind a vertical rule, then
 friction phrases in mono uppercase separated by lime `✦`. Sits above the hero in `z-index` with a
@@ -238,7 +242,7 @@ past, and progress drives what happens inside.
 
 ### 6.2 Hero, section 1
 
-Three things, all cheap. An entrance: `is-in` is set on mount and a `--i` custom property staggers
+Three things, all cheap. The belt is described in section 5. An entrance: `is-in` is set on mount and a `--i` custom property staggers
 each block by 110ms, with the lime field wiping in at 420ms and the star arriving at 1000ms.
 
 A scroll recede: one rAF-backed handler sets `--recede`, the hero's own scroll progress, driving

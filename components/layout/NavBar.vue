@@ -1,8 +1,8 @@
 <template>
   <div class="sticky top-3.5 z-50 px-4">
-    <div class="max-w-7xl mx-auto relative" @mouseleave="closeMenus">
+    <div class="max-w-[72rem] mx-auto relative" @mouseleave="closeMenus">
       <nav
-        class="flex items-center justify-between gap-6 px-5.5 py-2.5 pr-3.5 bg-surface/92 backdrop-saturate-160 backdrop-blur-[14px] rounded-pill shadow-nav"
+        class="flex items-center justify-between gap-5 px-4.5 py-1.5 pr-2.5 bg-surface/88 backdrop-saturate-160 backdrop-blur-[14px] rounded-pill border border-base"
       >
         <IcLogo to="/" />
 
@@ -88,7 +88,7 @@
           </div>
 
           <button
-            class="theme-toggle hidden sm:inline-grid"
+            class="theme-toggle nav-toggle hidden sm:inline-grid"
             :aria-label="`Theme: ${themeMode}, click to change`"
             :title="`Theme: ${themeMode}`"
             @click="onToggleTheme"
@@ -142,7 +142,7 @@
 
           <button
             type="button"
-            class="theme-toggle lg:hidden"
+            class="theme-toggle nav-toggle lg:hidden"
             :aria-label="mobileOpen ? 'Close menu' : 'Open menu'"
             :aria-expanded="mobileOpen"
             @click="mobileOpen = !mobileOpen"
@@ -446,10 +446,10 @@ onBeforeUnmount(() => document.removeEventListener('keydown', onKeydown))
 .nav-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.5rem 0.875rem;
+  gap: 0.35rem;
+  padding: 0.38rem 0.72rem;
   border-radius: 9999px;
-  font-size: 14px;
+  font-size: 13.5px;
   color: var(--text);
   opacity: 0.78;
   transition:
@@ -470,6 +470,11 @@ onBeforeUnmount(() => document.removeEventListener('keydown', onKeydown))
 
 .nav-link.is-open .caret {
   transform: rotate(180deg);
+}
+
+.nav-toggle {
+  width: 2rem;
+  height: 2rem;
 }
 
 .panel-heading {
