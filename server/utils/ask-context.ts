@@ -12,7 +12,7 @@ export function altislyContext() {
   const builds = projects
     .map(
       (project) =>
-        `- ${project.name} (/work/${project.slug}): ${project.tagline} Role: ${project.role}. ${project.period}, ${project.status}. ${project.summary}`,
+        `- ${project.name}: ${project.tagline} Role: ${project.role}. ${project.period}, ${project.status}. ${project.summary}`,
     )
     .join('\n')
 
@@ -50,9 +50,12 @@ export function altislyContext() {
     'Open roles:',
     roles,
     '',
-    'Pages a visitor can be pointed at: / (home), /about, /isura, /work/<slug> for a case study,',
-    '/partnerships, /careers, /blog for insights, /contact, /diagnose to run a diagnostic,',
-    '/legal/privacy, /legal/terms, /legal/notice.',
+    'These are every page on the site. Never point anyone at a path that is not',
+    'on this list, and never invent one: / (home), /about, /partnerships, /careers,',
+    '/blog for insights and /blog/<slug> for one of them, /contact,',
+    '/diagnose to run a diagnostic, /legal/privacy, /legal/terms, /legal/notice.',
+    'There are no case study pages. Describe the builds above in your own words',
+    'and send anyone who wants more to /contact.',
   ].join('\n')
 
   return cached

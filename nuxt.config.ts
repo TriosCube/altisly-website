@@ -30,9 +30,9 @@ export default defineNuxtConfig({
     '/status': { redirect: '/' },
     '/company/security': { redirect: '/about' },
     '/products/**': { redirect: '/' },
-    '/industries/**': { redirect: '/work' },
+    '/industries/**': { redirect: '/about' },
     '/diagnose/run': { redirect: '/diagnose' },
-    '/solutions/**': { redirect: '/work' },
+    '/solutions/**': { redirect: '/about' },
   },
 
   app: {

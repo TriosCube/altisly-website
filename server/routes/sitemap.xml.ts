@@ -1,5 +1,4 @@
 import { getPublishedPosts } from '~/server/utils/postsDb'
-import { projects } from '~/data/projects'
 
 const BASE_URL = 'https://altisly.com'
 
@@ -31,14 +30,6 @@ export default defineEventHandler((event) => {
   </url>`,
   )
 
-  const workEntries = projects.map(
-    (project) => `  <url>
-    <loc>${BASE_URL}/work/${project.slug}</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>`,
-  )
-
   const blogEntries = posts.map(
     (post) => `  <url>
     <loc>${BASE_URL}/blog/${encodeURIComponent(post.slug)}</loc>
@@ -50,7 +41,7 @@ export default defineEventHandler((event) => {
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${[...staticEntries, ...workEntries, ...blogEntries].join('\n')}
+${[...staticEntries,  ...blogEntries].join('\n')}
 </urlset>`
 
   setResponseHeader(event, 'Content-Type', 'application/xml')

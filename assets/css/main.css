@@ -1310,3 +1310,15 @@
     color: var(--negative);
     margin: 2px 0 0;
   }
+
+/* iOS zooms the page in whenever a focused field is smaller than 16px, and it
+   does not zoom back out afterwards: the visitor is left pinching to read the
+   page they were typing on. Touch pointers only, so the tighter sizes these
+   fields are designed at still stand on a desktop. */
+@media (pointer: coarse) {
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
