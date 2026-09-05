@@ -1,9 +1,9 @@
-// Hand-tokenised rather than shipping a highlighter. A syntax library would be
-// a large dependency and a second theme to maintain for four short samples.
-export type Tok = { t: string; c?: 'kw' | 'fn' | 'str' | 'num' | 'com' | 'typ' | 'op' }
+// Hand-tokenised rather than shipping a highlighter: a syntax library would be
+// a large dependency and a second theme to maintain for a handful of samples.
+export type Tok = { t: string; c?: 'kw' | 'fn' | 'str' | 'num' | 'com' | 'typ' }
 
 export type Sample = {
-  lang: string
+  domain: string
   file: string
   note: string
   lines: Tok[][]
@@ -19,66 +19,81 @@ const p = (t: string): Tok => ({ t })
 
 export const samples: Sample[] = [
   {
-    lang: 'Rust',
-    file: 'settlement.rs',
-    note: 'A payment either settles or it does not.',
+    domain: 'Finance',
+    file: 'reconcile.rs',
+    note: 'An unmatched line is an answer, not a failure.',
     lines: [
-      [c('// One transaction. No half-settled state to reconcile later.')],
-      [k('pub async fn '), f('settle'), p('(tx: '), y('Transfer'), p(') -> '), y('Result'), p('<'), y('Settled'), p('> {')],
-      [p('    '), k('let '), p('guard = ledger.'), f('lock'), p('(tx.corridor).'), k('await'), p('?;')],
-      [],
-      [p('    '), k('if '), p('guard.'), f('exposure'), p('() + tx.amount > guard.limit {')],
-      [p('        '), k('return '), y('Err'), p('('), y('Breach'), p('::'), y('Limit'), p(');')],
-      [p('    }')],
-      [],
-      [p('    ledger.'), f('post'), p('(tx).'), k('await'), p('?.'), f('confirm'), p('()')],
+      [c('// Every statement line resolves, or it is named and kept.')],
+      [k('pub fn '), f('reconcile'), p('(stmt: &['), y('Line'), p('], book: &'), y('Ledger'), p(') -> '), y('Report'), p(' {')],
+      [p('    stmt.'), f('iter'), p('().'), f('map'), p('(|line| '), k('match '), p('book.'), f('find'), p('(line.reference) {')],
+      [p('        '), y('Some'), p('(e) '), k('if '), p('e.amount == line.amount => '), y('Matched'), p('(e.id),')],
+      [p('        '), y('Some'), p('(e) => '), y('Disputed'), p(' { by: line.amount - e.amount },')],
+      [p('        '), y('None'), p(' => '), y('Unexplained'), p(' { since: line.value_date },')],
+      [p('    }).'), f('collect'), p('()')],
       [p('}')],
     ],
   },
   {
-    lang: 'TypeScript',
-    file: 'approval.ts',
-    note: 'The person who prepares it cannot approve it.',
+    domain: 'Health',
+    file: 'triage.ts',
+    note: 'The assistant drafts. A clinician decides.',
     lines: [
-      [c('// Separation of duties, enforced in the type, not the review.')],
-      [k('export function '), f('approve'), p('(run: '), y('PaymentRun'), p(', by: '), y('UserId'), p(') {')],
-      [p('  '), k('if '), p('(run.preparedBy === by) {')],
-      [p('    '), k('throw new '), y('SelfApproval'), p('(run.id, by);')],
-      [p('  }')],
+      [c('// The model may summarise a note. It may never sign one.')],
+      [k('export function '), f('draft'), p('(visit: '), y('Encounter'), p(') {')],
+      [p('  '), k('const '), p('summary = assistant.'), f('summarise'), p('(visit.notes);')],
       [],
-      [p('  '), k('return '), p('{ ...run, approvedBy: by, at: '), y('Date'), p('.'), f('now'), p('() };')],
+      [p('  '), k('return '), p('{')],
+      [p('    summary,')],
+      [p('    status: '), s("'awaiting_clinician'"), p(' '), k('as const'), p(',')],
+      [p('    '), c('// no diagnosis field: the model does not get one')],
+      [p('  };')],
       [p('}')],
     ],
   },
   {
-    lang: 'SQL',
-    file: 'exposure.sql',
+    domain: 'Identity',
+    file: 'verify.ts',
+    note: 'Verification is staged against what the action is worth.',
+    lines: [
+      [c('// A password reset and a payout do not deserve the same friction.')],
+      [k('export function '), f('required'), p('(action: '), y('Action'), p('): '), y('Step'), p('[] {')],
+      [p('  '), k('if '), p('(action.value < '), n('50_000'), p(') '), k('return '), p('['), s("'device'"), p('];')],
+      [p('  '), k('if '), p('(action.value < '), n('5_000_000'), p(') '), k('return '), p('['), s("'device'"), p(', '), s("'otp'"), p('];')],
+      [],
+      [p('  '), k('return '), p('['), s("'device'"), p(', '), s("'otp'"), p(', '), s("'liveness'"), p(', '), s("'maker_checker'"), p('];')],
+      [p('}')],
+    ],
+  },
+  {
+    domain: 'Agriculture',
+    file: 'harvest.py',
+    note: 'A yield estimate is a range, never a number.',
+    lines: [
+      [c('# Estimates carry their own uncertainty, or nobody can plan on them.')],
+      [k('def '), f('projected_yield'), p('(plot, rainfall, history):')],
+      [p('    base = plot.hectares * history.'), f('median_per_hectare'), p('()')],
+      [p('    spread = history.'), f('variance'), p('() ** '), n('0.5')],
+      [],
+      [p('    '), k('if '), p('rainfall.'), f('deficit'), p('() > '), n('0.2'), p(':')],
+      [p('        base *= '), n('1'), p(' - rainfall.'), f('deficit'), p('()')],
+      [],
+      [p('    '), k('return '), y('Range'), p('(low=base - spread, high=base + spread)')],
+    ],
+  },
+  {
+    domain: 'Platform',
+    file: 'tenancy.sql',
     note: 'Tenancy is structural, not a WHERE clause.',
     lines: [
-      [c('-- Each tenant owns a schema, so the filter cannot be forgotten.')],
-      [k('SELECT'), p(' corridor, '), f('sum'), p('(amount) '), k('AS'), p(' exposure')],
-      [k('FROM'), p(' tenant_'), p('${id}'), p('.settlement_log')],
-      [k('WHERE'), p(' status '), k('IN'), p(' ('), s("'posted'"), p(', '), s("'in_flight'"), p(')')],
-      [p('  '), k('AND'), p(' value_date <= '), f('current_date'), p(' + '), n('2')],
-      [k('GROUP BY'), p(' corridor')],
-      [k('HAVING'), p(' '), f('sum'), p('(amount) > '), n('0'), p(';')],
-    ],
-  },
-  {
-    lang: 'Python',
-    file: 'reconcile.py',
-    note: 'What did not match, and why.',
-    lines: [
-      [c('# An unmatched line is an answer, not a failure.')],
-      [k('def '), f('reconcile'), p('(statement, ledger):')],
-      [p('    unmatched = []')],
+      [c('-- A schema per tenant, so the filter cannot be left off.')],
+      [k('CREATE SCHEMA '), p('tenant_'), p('${id}'), p(';')],
       [],
-      [p('    '), k('for '), p('line '), k('in '), p('statement:')],
-      [p('        entry = ledger.'), f('find'), p('(line.reference)')],
-      [p('        '), k('if '), p('entry '), k('is None or '), p('entry.amount != line.amount:')],
-      [p('            unmatched.'), f('append'), p('(('), p('line, '), f('reason'), p('(line, entry)))')],
-      [],
-      [p('    '), k('return '), p('unmatched')],
+      [k('CREATE TABLE '), p('tenant_'), p('${id}'), p('.ledger_entry (')],
+      [p('  id           '), y('uuid'), p('     '), k('PRIMARY KEY'), p(',')],
+      [p('  posted_at    '), y('timestamptz'), p(' '), k('NOT NULL'), p(',')],
+      [p('  amount       '), y('numeric'), p('(20,4) '), k('NOT NULL'), p(',')],
+      [p('  '), k('CONSTRAINT'), p(' balanced '), k('CHECK'), p(' (amount <> '), n('0'), p(')')],
+      [p(');')],
     ],
   },
 ]

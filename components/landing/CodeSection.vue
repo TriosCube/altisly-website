@@ -7,8 +7,8 @@
         </span>
         <h2 class="code-title">The system says no before a person has to.</h2>
         <p class="text-muted text-[16.5px] leading-relaxed max-w-[42ch] mt-6 text-pretty">
-          Rules that live in the code cannot be forgotten on a busy afternoon. Whatever the
-          language, the job is the same: make the wrong thing impossible rather than discouraged.
+          Money moving, a clinician signing, a payout clearing, a season planned. Different
+          operations, one job: make the wrong thing impossible rather than merely discouraged.
         </p>
         <p class="font-code text-[12.5px] text-muted mt-8 min-h-[3em]">{{ active.note }}</p>
       </div>
@@ -17,7 +17,7 @@
         <div class="code-tabs" role="tablist">
           <button
             v-for="(s, i) in samples"
-            :key="s.lang"
+            :key="s.domain"
             type="button"
             role="tab"
             class="code-tab"
@@ -25,7 +25,7 @@
             :aria-selected="i === index"
             @click="select(i)"
           >
-            {{ s.lang }}
+            {{ s.domain }}
           </button>
           <span class="code-file font-code">{{ active.file }}</span>
         </div>
@@ -152,7 +152,7 @@ onBeforeUnmount(() => clearInterval(cycle))
 
 .code-body {
   /* Reserved so a shorter sample does not shrink the window mid-fade. */
-  min-height: 21rem;
+  min-height: 22rem;
   padding: 1.4rem 0.5rem 1.6rem;
   overflow-x: auto;
 }
