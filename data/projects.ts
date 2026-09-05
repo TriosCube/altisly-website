@@ -415,8 +415,6 @@ export const projects: Project[] = [
 
 export const getProject = (slug: string) => projects.find(project => project.slug === slug);
 
-export const getFeaturedProjects = () => projects.filter(project => project.featured);
-
 export const getAdjacent = (slug: string) => {
   const index = projects.findIndex(project => project.slug === slug);
   const normalizedIndex = index < 0 ? 0 : index;

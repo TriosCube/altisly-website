@@ -79,11 +79,6 @@ export interface DiagnoseReport {
   concept: DiagnoseConcept
 }
 
-export interface DiagnoseResponse {
-  report?: DiagnoseReport
-  error?: string
-}
-
 export const stageOrder = ['Scan', 'Diagnose', 'Concept', 'Agents', 'Ship'] as const
 
 export function looksLikeEmail(value: string) {
