@@ -292,10 +292,6 @@ onBeforeUnmount(() => {
     grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
     gap: 3rem;
   }
-
-  .headline {
-    --cap: calc((min(1280px, 100vw) - 112px) * 0.0583);
-  }
 }
 
 .hero-copy {
@@ -398,6 +394,17 @@ onBeforeUnmount(() => {
   letter-spacing: -0.038em;
   line-height: 0.98;
   color: var(--text);
+}
+
+/* Beside the stage the column is 1.7 of 2.7 tracks less the gap, not the whole
+   container. This has to come after the rule above rather than with the other
+   desktop rules: both selectors are .headline, so the later one wins, and set
+   earlier it was silently overwritten by the stacked cap and the headline ran
+   at its 87px ceiling straight through the stage. */
+@media (min-width: 1024px) {
+  .headline {
+    --cap: calc((min(1280px, 100vw) - 112px) * 0.0583);
+  }
 }
 
 .mark {
