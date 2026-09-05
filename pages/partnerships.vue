@@ -7,7 +7,7 @@
     >
       <template #actions>
         <AppButton variant="lime" to="/contact">Start a conversation →</AppButton>
-        <AppButton variant="ghost" to="/isura">See a build</AppButton>
+        <AppButton variant="ghost" href="https://isura.altisly.com">See a build</AppButton>
       </template>
     </PageIntro>
 

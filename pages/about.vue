@@ -6,7 +6,7 @@
       lede="Altisly is a tech-enabled consulting and venture building studio in Lagos. We build our own platforms, and we build for teams whose operations have outgrown their tooling."
     >
       <template #actions>
-        <AppButton variant="lime" to="/isura">See a build →</AppButton>
+        <AppButton variant="lime" href="https://isura.altisly.com">See a build →</AppButton>
         <AppButton variant="ghost" to="/contact">Talk to an engineer</AppButton>
       </template>
     </PageIntro>

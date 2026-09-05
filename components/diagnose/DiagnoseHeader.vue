@@ -8,7 +8,7 @@
     <div class="diagnose-right">
       <nav v-if="!trail" aria-label="Diagnose context">
         <NuxtLink to="/about">The studio</NuxtLink>
-        <NuxtLink to="/isura">The systems</NuxtLink>
+        <a href="https://isura.altisly.com">The systems</a>
       </nav>
       <span v-else class="diagnose-trail">{{ trail }}</span>
 

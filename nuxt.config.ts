@@ -24,6 +24,8 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
+    // The page is gone; anything still pointing here lands on the product site.
+    '/isura': { redirect: { to: 'https://isura.altisly.com', statusCode: 301 } },
     '/expertise/**': { redirect: '/about' },
     '/developers/**': { redirect: '/' },
     '/get-started': { redirect: '/contact' },

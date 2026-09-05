@@ -10,7 +10,6 @@ const STATIC_PAGES = [
   { url: '/partnerships', priority: '0.7', changefreq: 'monthly' },
   { url: '/careers', priority: '0.7', changefreq: 'weekly' },
   { url: '/blog', priority: '0.8', changefreq: 'weekly' },
-  { url: '/isura', priority: '0.9', changefreq: 'monthly' },
   { url: '/diagnose', priority: '0.8', changefreq: 'monthly' },
   { url: '/legal/privacy', priority: '0.4', changefreq: 'yearly' },
   { url: '/legal/terms', priority: '0.4', changefreq: 'yearly' },
