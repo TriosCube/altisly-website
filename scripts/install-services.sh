@@ -101,6 +101,34 @@ sudo chmod 0644 /etc/caddy/Caddyfile
 sudo chmod 0644 /etc/caddy/conf.d/*.caddy
 sudo chown -R caddy:caddy /var/lib/caddy
 
+# Health check: alerts on an outage, and its outbound requests keep the
+# instance's network counters off the floor, which is one of the two
+# thresholds Oracle uses to flag an Always Free instance as idle.
+if [ -f "${APP_DIR}/scripts/site-healthcheck.sh" ]; then
+  sudo install -m 0755 "${APP_DIR}/scripts/site-healthcheck.sh" /usr/local/bin/site-healthcheck.sh
+  sudo tee /etc/systemd/system/site-healthcheck.service >/dev/null <<'HCU'
+[Unit]
+Description=Check both sites, restart and alert on failure
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/site-healthcheck.sh
+HCU
+  sudo tee /etc/systemd/system/site-healthcheck.timer >/dev/null <<'HCT'
+[Unit]
+Description=Run the site health check every 5 minutes
+
+[Timer]
+OnBootSec=3min
+OnUnitActiveSec=5min
+AccuracySec=30s
+
+[Install]
+WantedBy=timers.target
+HCT
+  sudo systemctl enable site-healthcheck.timer >/dev/null 2>&1 || true
+fi
+
 sudo systemctl daemon-reload
 sudo systemctl enable "${SITE}" caddy >/dev/null 2>&1 || true
 echo "services installed for ${SITE} (${DOMAIN} -> 127.0.0.1:${PORT})"

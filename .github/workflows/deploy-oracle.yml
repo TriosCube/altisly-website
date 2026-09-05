@@ -91,7 +91,8 @@ jobs:
           # scp rather than rsync, which the host may not have.
           tar -czf /tmp/output.tar.gz -C .output .
           scp -P "$PROD_PORT" -i ~/.ssh/id_deploy /tmp/output.tar.gz "$PROD_USER@$PROD_HOST:/tmp/output.tar.gz"
-          scp -P "$PROD_PORT" -i ~/.ssh/id_deploy scripts/install-services.sh "$PROD_USER@$PROD_HOST:$APP_DIR/scripts/"
+          scp -P "$PROD_PORT" -i ~/.ssh/id_deploy scripts/install-services.sh scripts/site-healthcheck.sh \
+            "$PROD_USER@$PROD_HOST:$APP_DIR/scripts/"
           $SSH_CMD "$PROD_USER@$PROD_HOST" \
             "rm -rf $APP_DIR/build-output/output && mkdir -p $APP_DIR/build-output/output && \
              tar -xzf /tmp/output.tar.gz -C $APP_DIR/build-output/output && rm -f /tmp/output.tar.gz && \
