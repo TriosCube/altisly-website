@@ -579,6 +579,9 @@ onBeforeUnmount(() => {
 /* One glassy pill at every scroll position. The blur does the separation
    work, so the bar no longer has to go solid once the page moves. */
 .nav-bar {
+  /* Matches the Isura bar's height exactly; without this each settles
+     wherever its own contents land and the two drift apart. */
+  min-height: 60px;
   /* One fixed glass, matching the Isura bar exactly. Not a themed surface:
      the same pill in light and dark, over light and dark sections alike. */
   background: #ffffff6c;
@@ -598,6 +601,12 @@ onBeforeUnmount(() => {
   transform: translateY(calc(-100% - 1.5rem));
   opacity: 0;
   pointer-events: none;
+}
+
+@media (max-width: 767px) {
+  .nav-bar {
+    min-height: 54px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
