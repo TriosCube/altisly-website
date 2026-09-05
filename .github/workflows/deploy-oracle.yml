@@ -92,15 +92,15 @@ jobs:
           # Stamp the build so the verify step can prove the running app is this
           # commit, not a stale extraction that reported success.
           echo "${GITHUB_SHA}" > .output/BUILD_SHA
-          tar -czf /tmp/output.tar.gz -C .output .
-          scp -P "$PROD_PORT" -i ~/.ssh/id_deploy /tmp/output.tar.gz "$PROD_USER@$PROD_HOST:/tmp/output.tar.gz"
+          tar -czf /tmp/output-${GITHUB_RUN_ID}.tar.gz -C .output .
+          scp -P "$PROD_PORT" -i ~/.ssh/id_deploy /tmp/output-${GITHUB_RUN_ID}.tar.gz "$PROD_USER@$PROD_HOST:/tmp/output-${GITHUB_RUN_ID}.tar.gz"
           scp -P "$PROD_PORT" -i ~/.ssh/id_deploy scripts/install-services.sh scripts/site-healthcheck.sh \
             "$PROD_USER@$PROD_HOST:$APP_DIR/scripts/"
 
           # Unpack the build. This is what actually replaces the running app.
           $SSH_CMD "$PROD_USER@$PROD_HOST" \
             "rm -rf $APP_DIR/build-output/output && mkdir -p $APP_DIR/build-output/output && \
-             tar -xzf /tmp/output.tar.gz -C $APP_DIR/build-output/output && rm -f /tmp/output.tar.gz && \
+             tar -xzf /tmp/output-${GITHUB_RUN_ID}.tar.gz -C $APP_DIR/build-output/output && rm -f /tmp/output-${GITHUB_RUN_ID}.tar.gz && \
              chmod +x $APP_DIR/scripts/*.sh"
 
           # data/ holds runtime state, so a deploy must not overwrite it. But a
@@ -109,9 +109,9 @@ jobs:
           # runs in a heredoc: quoting a grep through an inline ssh argument
           # mangles it, which silently reported the empty file as populated.
           scp -P "$PROD_PORT" -i ~/.ssh/id_deploy data/posts.json \
-            "$PROD_USER@$PROD_HOST:/tmp/posts.seed.json"
+            "$PROD_USER@$PROD_HOST:/tmp/posts-${GITHUB_RUN_ID}.seed.json"
           ssh -p "$PROD_PORT" -i ~/.ssh/id_deploy "$PROD_USER@$PROD_HOST" \
-            "APP_DIR='$APP_DIR' bash -s" <<'REMOTE'
+            "APP_DIR='$APP_DIR' SEED='/tmp/posts-${GITHUB_RUN_ID}.seed.json' bash -s" <<'REMOTE'
           set -eu
           TARGET="$APP_DIR/data/posts.json"
           # grep -c exits 1 on no match, so a `|| echo 0` fallback appends a
@@ -119,10 +119,10 @@ jobs:
           if grep -q '"id"' "$TARGET" 2>/dev/null; then
             echo "posts.json already holds posts, left alone"
           else
-            cp /tmp/posts.seed.json "$TARGET"
+            cp "$SEED" "$TARGET"
             echo "seeded posts.json"
           fi
-          rm -f /tmp/posts.seed.json
+          rm -f "$SEED"
           REMOTE
 
       - name: Deploy on server
