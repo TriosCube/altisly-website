@@ -2,7 +2,7 @@
   <div
     ref="shellRef"
     class="sticky top-3.5 z-50 px-4 nav-shell"
-    :class="{ 'is-tucked': tucked, 'is-on-dark': onDark }"
+    :class="{ 'is-tucked': tucked }"
   >
     <div
       class="max-w-[72rem] mx-auto relative"
@@ -13,7 +13,7 @@
         ref="barRef"
         class="nav-bar flex items-center justify-between gap-5 px-4.5 py-1.5 pr-2.5 backdrop-saturate-160 backdrop-blur-[14px] rounded-pill"
       >
-        <IcLogo to="/" :tone="onDark ? 'on-dark' : 'auto'" />
+        <IcLogo to="/" tone="auto" />
 
         <div class="hidden lg:flex items-center gap-0.5">
           <template v-for="menu in menus" :key="menu.key">
@@ -571,11 +571,6 @@ onBeforeUnmount(() => {
   background: var(--brand);
 }
 
-.is-on-dark .nav-link.router-link-active::after,
-.is-on-dark .nav-link.is-active::after {
-  background: var(--brand);
-}
-
 .mobile-item.router-link-active {
   font-weight: 600;
   opacity: 1;
@@ -584,34 +579,12 @@ onBeforeUnmount(() => {
 /* One glassy pill at every scroll position. The blur does the separation
    work, so the bar no longer has to go solid once the page moves. */
 .nav-bar {
-  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  /* One fixed glass, matching the Isura bar exactly. Not a themed surface:
+     the same pill in light and dark, over light and dark sections alike. */
+  background: #ffffff6c;
+  color: #10221a;
   box-shadow: var(--shadow-1);
   transition: color 260ms ease;
-}
-
-.is-on-dark .nav-bar {
-  background: color-mix(in srgb, var(--invert-bg) 82%, transparent);
-  border-color: var(--invert-border);
-  color: var(--invert-text);
-}
-
-.is-on-dark .nav-link {
-  color: var(--invert-text);
-}
-
-.is-on-dark .nav-link:hover,
-.is-on-dark .nav-link.is-open {
-  background: var(--invert-wash);
-}
-
-.is-on-dark .theme-toggle {
-  background: var(--invert-wash);
-  border-color: var(--invert-hairline);
-  color: var(--invert-text);
-}
-
-.is-on-dark .theme-toggle:hover {
-  background: var(--invert-wash-2);
 }
 
 .nav-shell {
@@ -634,6 +607,7 @@ onBeforeUnmount(() => {
 }
 
 .nav-link {
+  color: inherit;
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
