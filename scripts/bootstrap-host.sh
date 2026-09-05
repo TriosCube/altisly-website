@@ -24,9 +24,13 @@ https://download.docker.com/linux/ubuntu $VERSION_CODENAME stable" \
   sudo apt-get update -y
   sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 else
-  sudo dnf install -y dnf-utils rsync
+  # OL9 ships dnf-utils as a thin compat package; dnf-plugins-core is what
+  # actually provides config-manager.
+  sudo dnf install -y dnf-plugins-core rsync || sudo dnf install -y dnf-utils rsync
   sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-  sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+  # OL9 ships podman's runc/containerd conflicts; allow replacing them.
+  sudo dnf install -y --allowerasing \
+    docker-ce docker-ce-cli containerd.io docker-compose-plugin
 fi
 
 echo ">>> Enabling Docker..."
