@@ -28,7 +28,7 @@
       </button>
 
       <button
-        v-if="mode !== 'pinned'"
+        v-if="mode !== 'pinned' && !narrow"
         type="button"
         class="ask-icon"
         :aria-label="mode === 'wide' ? 'Shrink the window' : 'Expand the window'"
@@ -44,6 +44,7 @@
       </button>
 
       <button
+        v-if="!narrow"
         type="button"
         class="ask-icon"
         :class="{ 'is-on': mode === 'pinned' }"
@@ -154,6 +155,15 @@ type Mode = 'float' | 'wide' | 'pinned'
 
 const open = ref(false)
 const mode = ref<Mode>('float')
+
+/* On a phone there is one state and it is a modal. Floating and pinned both
+   need a page to sit beside, and there is not one at this width. */
+const narrow = ref(false)
+let narrowQuery: MediaQueryList | undefined
+
+function onNarrow(event: MediaQueryListEvent | MediaQueryList) {
+  narrow.value = event.matches
+}
 const draft = ref('')
 const sending = ref(false)
 const failure = ref('')
@@ -163,10 +173,17 @@ const inputEl = ref<HTMLTextAreaElement | null>(null)
 
 let seq = 0
 
-/* Three states, as in the console: a floating card, the same card expanded, and pinned to the side.
-   Only pinned narrows the page, and it is the only one the layout needs to know about. */
-watch([open, mode], ([isOpen, current]) => {
-  document.documentElement.classList.toggle('ask-open', isOpen && current === 'pinned')
+/* Three states on a desktop, as in the console: a floating card, the same card
+   expanded, and pinned to the side. One on a phone: a modal. Only pinned
+   narrows the page, and pinned does not exist at that width. */
+watch([open, mode, narrow], ([isOpen, current, isNarrow]) => {
+  document.documentElement.classList.toggle(
+    'ask-open',
+    Boolean(isOpen) && current === 'pinned' && !isNarrow,
+  )
+
+  /* A modal that lets the page scroll under it is a page with two scrollbars. */
+  document.body.style.overflow = isOpen && isNarrow ? 'hidden' : ''
   if (isOpen) nextTick(() => inputEl.value?.focus())
 })
 
@@ -192,12 +209,18 @@ onMounted(() => {
     /* nothing saved, or no access to storage. The default stands. */
   }
 
+  narrowQuery = window.matchMedia('(max-width: 640px)')
+  onNarrow(narrowQuery)
+  narrowQuery.addEventListener('change', onNarrow)
+
   document.addEventListener('keydown', onKeydown)
 })
 
 onBeforeUnmount(() => {
   document.removeEventListener('keydown', onKeydown)
+  narrowQuery?.removeEventListener('change', onNarrow)
   document.documentElement.classList.remove('ask-open')
+  document.body.style.overflow = ''
 })
 
 function grow() {
@@ -691,6 +714,7 @@ async function reveal(turn: Turn, reply: string) {
   color: var(--muted-2);
 }
 
+/* One state on a phone: whatever mode was remembered, it presents as a modal. */
 @media (max-width: 640px) {
   .ask,
   .ask.is-float,
@@ -699,9 +723,14 @@ async function reveal(turn: Turn, reply: string) {
     top: 0;
     right: 0;
     bottom: 0;
+    left: 0;
     width: 100vw;
+    height: 100svh;
     border-width: 0;
     border-radius: 0;
+    /* Keeps a flick at the top or bottom of the thread from scrolling the page
+       behind, which the body lock alone does not prevent on iOS. */
+    overscroll-behavior: contain;
   }
 }
 
