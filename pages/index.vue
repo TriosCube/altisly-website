@@ -8,6 +8,7 @@
     <StackSection />
     <WaysInSection />
     <StatementSection />
+    <CodeSection />
     <JourneySection />
     <WhoWeAre />
     <BeliefSection />
@@ -23,6 +24,7 @@ import ProblemsSection from '@/components/landing/ProblemsSection.vue'
 import StackSection from '@/components/landing/StackSection.vue'
 import WaysInSection from '@/components/landing/WaysInSection.vue'
 import StatementSection from '@/components/landing/StatementSection.vue'
+import CodeSection from '@/components/landing/CodeSection.vue'
 import JourneySection from '@/components/landing/JourneySection.vue'
 import WhoWeAre from '@/components/landing/WhoWeAre.vue'
 import InsightsSection from '@/components/landing/InsightsSection.vue'
