@@ -89,6 +89,9 @@ jobs:
           SSH_CMD="ssh -p $PROD_PORT -i ~/.ssh/id_deploy"
           $SSH_CMD "$PROD_USER@$PROD_HOST" "mkdir -p $APP_DIR/build-output/output $APP_DIR/scripts $APP_DIR/data"
           # scp rather than rsync, which the host may not have.
+          # Stamp the build so the verify step can prove the running app is this
+          # commit, not a stale extraction that reported success.
+          echo "${GITHUB_SHA}" > .output/BUILD_SHA
           tar -czf /tmp/output.tar.gz -C .output .
           scp -P "$PROD_PORT" -i ~/.ssh/id_deploy /tmp/output.tar.gz "$PROD_USER@$PROD_HOST:/tmp/output.tar.gz"
           scp -P "$PROD_PORT" -i ~/.ssh/id_deploy scripts/install-services.sh scripts/site-healthcheck.sh \
@@ -174,8 +177,18 @@ jobs:
           PROD_USER: ${{ secrets.PROD_USER }}
         run: |
           set -eu
-          ssh -p "$PROD_PORT" -i ~/.ssh/id_deploy "$PROD_USER@$PROD_HOST" bash -s <<'REMOTE'
+          APP_DIR="/home/$PROD_USER/altisly-website"
+          ssh -p "$PROD_PORT" -i ~/.ssh/id_deploy "$PROD_USER@$PROD_HOST" \
+            "APP_DIR='$APP_DIR' EXPECTED='$GITHUB_SHA' bash -s" <<'REMOTE'
           set -eu
+          DEPLOYED=$(cat "$APP_DIR/build-output/output/BUILD_SHA" 2>/dev/null || echo missing)
+          if [ "$DEPLOYED" != "$EXPECTED" ]; then
+            echo "Deployed build is $DEPLOYED but this run built $EXPECTED" >&2
+            echo "The build was not unpacked; the running app is stale." >&2
+            exit 1
+          fi
+          echo "build matches commit $EXPECTED"
+
           for i in $(seq 1 30); do
             if curl -sf -o /dev/null http://127.0.0.1:3300; then
               echo "app is serving on :3300"
