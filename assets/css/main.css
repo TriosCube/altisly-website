@@ -48,9 +48,9 @@
 
   --on-brand: #11231c;
 
-  --invert-bg: #11231c;
-  --invert-bg-2: #152f23;
-  --invert-bg-3: #1c392b;
+  --invert-bg: #0a1812;
+  --invert-bg-2: #0f2318;
+  --invert-bg-3: #163020;
   --invert-text-rgb: 234 239 230;
   --invert-text: rgb(var(--invert-text-rgb));
   --invert-muted: rgb(var(--invert-text-rgb) / 0.62);
