@@ -11,6 +11,16 @@ echo ">>> Detecting distribution..."
 . /etc/os-release
 echo "    $PRETTY_NAME"
 
+echo ">>> Adding 2G swap FIRST - dnf gets OOM-killed without it..."
+if [ ! -f /swapfile ]; then
+  sudo fallocate -l 2G /swapfile || sudo dd if=/dev/zero of=/swapfile bs=1M count=2048
+  sudo chmod 600 /swapfile
+  sudo mkswap /swapfile
+  sudo swapon /swapfile
+  grep -q '^/swapfile' /etc/fstab || echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab > /dev/null
+fi
+free -h | head -3
+
 if command -v apt-get >/dev/null 2>&1; then
   sudo apt-get update -y
   sudo apt-get install -y ca-certificates curl gnupg rsync
@@ -26,10 +36,13 @@ https://download.docker.com/linux/ubuntu $VERSION_CODENAME stable" \
 else
   # OL9 ships dnf-utils as a thin compat package; dnf-plugins-core is what
   # actually provides config-manager.
-  sudo dnf install -y dnf-plugins-core rsync || sudo dnf install -y dnf-utils rsync
-  sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+  # Ksplice and the OCI repos carry ~200MB of metadata that this box cannot
+  # afford to parse. Skip them; nothing here needs those packages.
+  DNF="sudo dnf --disablerepo=ol9_ksplice --setopt=keepcache=0"
+  $DNF install -y dnf-plugins-core rsync || $DNF install -y dnf-utils rsync
+  $DNF config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
   # OL9 ships podman's runc/containerd conflicts; allow replacing them.
-  sudo dnf install -y --allowerasing \
+  $DNF install -y --allowerasing \
     docker-ce docker-ce-cli containerd.io docker-compose-plugin
 fi
 
@@ -49,16 +62,6 @@ else
   command -v netfilter-persistent >/dev/null 2>&1 && sudo netfilter-persistent save || \
     sudo sh -c 'iptables-save > /etc/iptables/rules.v4' 2>/dev/null || true
 fi
-
-echo ">>> Adding 2G swap (E2.1.Micro only has 1G RAM)..."
-if [ ! -f /swapfile ]; then
-  sudo fallocate -l 2G /swapfile || sudo dd if=/dev/zero of=/swapfile bs=1M count=2048
-  sudo chmod 600 /swapfile
-  sudo mkswap /swapfile
-  sudo swapon /swapfile
-  grep -q '^/swapfile' /etc/fstab || echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab > /dev/null
-fi
-free -h | head -3
 
 echo ">>> Creating the app directory..."
 mkdir -p "$HOME/altisly-website"
