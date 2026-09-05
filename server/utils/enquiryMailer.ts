@@ -52,6 +52,7 @@ const detailsText = (enquiry: EnquiryRecord) => {
     `Use case: ${enquiry.useCase || 'N/A'}`,
     `Role: ${enquiry.role || 'N/A'}`,
     `Portfolio: ${enquiry.portfolio || 'N/A'}`,
+    `CV: ${enquiry.cvName || 'none attached'}`,
     `Newsletter opt-in: ${enquiry.newsletter ? 'Yes' : 'No'}`,
     `Source: ${enquiry.sourcePage}`,
     `Received at: ${enquiry.createdAt}`,
@@ -78,7 +79,9 @@ const detailsHtml = (enquiry: EnquiryRecord) => `
   <pre style="white-space: pre-wrap; font-family: Arial, sans-serif;">${enquiry.message || 'N/A'}</pre>
 `
 
-export const sendEnquiryEmail = async (enquiry: EnquiryRecord) => {
+type Attachment = { filename: string; content: Buffer; contentType: string }
+
+export const sendEnquiryEmail = async (enquiry: EnquiryRecord, attachment?: Attachment) => {
   const config = mailConfig()
   if (!config.pass) {
     throw new Error('SMTP_CONFIG_MISSING')
@@ -101,5 +104,6 @@ export const sendEnquiryEmail = async (enquiry: EnquiryRecord) => {
     subject: `[Altisly Enquiry] ${enquiry.type} from ${enquiry.name || enquiry.email}`,
     text: detailsText(enquiry),
     html: detailsHtml(enquiry),
+    attachments: attachment ? [attachment] : undefined,
   })
 }

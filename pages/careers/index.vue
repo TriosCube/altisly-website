@@ -6,8 +6,8 @@
       lede="We hire systems thinkers and give them the autonomy to architect. The systems you build move money and carry patient records."
     >
       <template #actions>
-        <AppButton variant="lime" to="/careers/apply">Send us your work →</AppButton>
-      </template>
+        <AppButton variant="lime" @click="openApply()">Send us your work →</AppButton>
+</template>
     </PageIntro>
 
     <section v-reveal class="py-16">
@@ -100,10 +100,11 @@
         </h2>
 
         <div class="flex flex-col">
-          <NuxtLink
+          <button
+            type="button"
             v-for="(role, i) in openRoles"
             :key="role.title"
-            :to="`/careers/apply?role=${encodeURIComponent(role.title)}`"
+            @click="openApply(role.title)"
             class="flex items-center justify-between gap-4 py-5 border-t border-base group hover:bg-surface-2 transition-colors px-1"
             :class="{ 'border-b': i === openRoles.length - 1 }"
           >
@@ -121,7 +122,7 @@
                 <path d="M9 7h8v8" />
               </svg>
             </span>
-          </NuxtLink>
+          </button>
         </div>
 
         <div
@@ -134,13 +135,14 @@
               job description.
             </p>
           </div>
-          <AppButton variant="lime" size="sm" to="/careers/apply">Send us your work →</AppButton>
+          <AppButton variant="lime" size="sm" @click="openApply()">Send us your work →</AppButton>
         </div>
       </div>
     </section>
 
     <CtaSection v-reveal />
   </div>
+  <ApplyModal />
 </template>
 
 <script setup lang="ts">
@@ -148,6 +150,10 @@ import PageIntro from '@/components/ui/PageIntro.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import CtaSection from '@/components/landing/CtaSection.vue'
 import { hiringProcess, openRoles, perks, whatWeLookFor, workingHere } from '@/data/content'
+import ApplyModal from '@/components/careers/ApplyModal.vue'
+import { useApply } from '@/composables/useApply'
+
+const { openApply } = useApply()
 
 useSeoMeta({
   title: 'Careers | Altisly',
