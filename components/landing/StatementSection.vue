@@ -1,5 +1,5 @@
 <template>
-  <section ref="sectionRef" class="py-28" id="statement">
+  <section ref="sectionRef" class="statement-section" id="statement">
     <div class="container-isura">
       <div class="max-w-[54rem]" :class="{ 'is-shown': shown }">
         <span class="reveal font-code text-[11px] tracking-[0.14em] uppercase text-muted" style="--i: 0">
@@ -50,6 +50,15 @@ onBeforeUnmount(() => observer?.disconnect())
 </script>
 
 <style scoped>
+/* The note holds a screen on its own so it lands as a beat between the
+   method and the code, rather than sharing a scroll with either. */
+.statement-section {
+  min-height: 100svh;
+  display: grid;
+  align-items: center;
+  padding: 6rem 0;
+}
+
 .reveal {
   display: block;
   opacity: 0;

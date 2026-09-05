@@ -12,7 +12,10 @@
           Money moving, a clinician signing, a parcel changing hands. Different operations,
           one job: make the wrong thing impossible rather than merely discouraged.
         </p>
-        <p class="font-code text-[12.5px] text-muted mt-7 min-h-[3em] max-w-[38ch]">
+        <p class="font-code text-[12.5px] text-muted mt-7 min-h-[3.4em] max-w-[38ch]">
+          <!-- The window runs off the right edge, so the filename would sit
+               off screen if it stayed in the tab bar. -->
+          <span class="code-file">{{ active.file }}</span>
           {{ active.note }}
         </p>
         <AppButton class="mt-2" variant="lime" size="md" to="/about">How we work</AppButton>
@@ -36,7 +39,6 @@
             >
               {{ s.domain }}
             </button>
-            <span class="code-file font-code">{{ active.file }}</span>
           </div>
 
           <div class="code-body">
@@ -91,7 +93,10 @@ onBeforeUnmount(() => clearInterval(cycle))
 <style scoped>
 .code-section {
   position: relative;
-  padding: 8rem 0;
+  min-height: 100svh;
+  display: grid;
+  align-items: center;
+  padding: 5rem 0;
   /* clip, not hidden: this must not become a scroll container. */
   overflow: clip;
 }
@@ -175,10 +180,9 @@ onBeforeUnmount(() => clearInterval(cycle))
 }
 
 .code-file {
-  margin-left: auto;
-  padding-right: 0.5rem;
-  font-size: 11.5px;
-  color: rgb(var(--invert-text-rgb) / 0.32);
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--muted-2);
 }
 
 .code-body {
@@ -254,7 +258,7 @@ onBeforeUnmount(() => clearInterval(cycle))
 
 @media (max-width: 1023px) {
   .code-section {
-    padding: 5rem 0;
+    padding: 4rem 0;
   }
 
   .code-bezel {
@@ -290,6 +294,17 @@ onBeforeUnmount(() => clearInterval(cycle))
   .code-tab {
     flex: none;
     font-size: 12.5px;
+  }
+}
+
+@media (max-height: 820px) and (min-width: 1024px) {
+  .code-body {
+    min-height: 22rem;
+    padding: 1.6rem 0 1.8rem;
+  }
+
+  .code-pre {
+    line-height: 2;
   }
 }
 
