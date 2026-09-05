@@ -29,19 +29,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
 
       - name: Install dependencies
-        # bun.lock is the maintained lockfile here; package-lock.json is stale
-        # and disagrees with package.json on the Tailwind major version.
         run: bun install --frozen-lockfile
 
       - name: Build Nuxt app
@@ -57,11 +50,7 @@ jobs:
           install -m 700 -d ~/.ssh
           printf '%s\n' "$PROD_SSH_KEY" > ~/.ssh/id_deploy
           chmod 600 ~/.ssh/id_deploy
-          cat > ~/.ssh/config <<'SSH_CONFIG'
-          Host *
-            ServerAliveInterval 30
-            ServerAliveCountMax 20
-          SSH_CONFIG
+          printf 'Host *\n  ServerAliveInterval 30\n  ServerAliveCountMax 20\n' > ~/.ssh/config
           chmod 600 ~/.ssh/config
 
       - name: Add server host key
@@ -78,21 +67,18 @@ jobs:
           SHA: ${{ github.sha }}
         run: |
           set -eu
-          # Fetched over HTTPS rather than rsynced, because rsync is one of the
-          # things this installs. Idempotent: a provisioned host exits early.
+          # Fetched over HTTPS rather than rsynced: rsync may not exist yet.
           ssh -p "$PROD_PORT" -i ~/.ssh/id_deploy "$PROD_USER@$PROD_HOST" \
             "SHA='$SHA' bash -s" <<'REMOTE'
           set -eu
-          if command -v podman >/dev/null 2>&1 && command -v podman-compose >/dev/null 2>&1 \
-             && command -v rsync >/dev/null 2>&1; then
-            echo "Host already provisioned; skipping bootstrap."
+          if /opt/node/bin/node --version >/dev/null 2>&1 && command -v caddy >/dev/null 2>&1; then
+            echo "Host already provisioned."
             exit 0
           fi
-          echo "Bare host detected - bootstrapping."
           curl -fsSL "https://raw.githubusercontent.com/TriosCube/altisly-website/$SHA/scripts/bootstrap-host.sh" | bash
           REMOTE
 
-      - name: Sync build artifacts to server
+      - name: Sync build output
         env:
           PROD_HOST: ${{ secrets.PROD_HOST }}
           PROD_PORT: ${{ secrets.PROD_PORT || '22' }}
@@ -100,23 +86,23 @@ jobs:
         run: |
           set -eu
           APP_DIR="/home/$PROD_USER/altisly-website"
-          ssh -p "$PROD_PORT" -i ~/.ssh/id_deploy "$PROD_USER@$PROD_HOST" \
-            "mkdir -p $APP_DIR/build-output/output"
-          rsync -az --delete -e "ssh -p $PROD_PORT -i ~/.ssh/id_deploy" \
-            .output/ "$PROD_USER@$PROD_HOST:$APP_DIR/build-output/output/"
-          rsync -az -e "ssh -p $PROD_PORT -i ~/.ssh/id_deploy" \
-            Dockerfile.runner docker-compose.prod.yml \
-            "$PROD_USER@$PROD_HOST:$APP_DIR/"
-          rsync -az --delete -e "ssh -p $PROD_PORT -i ~/.ssh/id_deploy" \
-            nginx/ "$PROD_USER@$PROD_HOST:$APP_DIR/nginx/"
-          rsync -az -e "ssh -p $PROD_PORT -i ~/.ssh/id_deploy" \
-            scripts/ "$PROD_USER@$PROD_HOST:$APP_DIR/scripts/"
+          SSH_CMD="ssh -p $PROD_PORT -i ~/.ssh/id_deploy"
+          $SSH_CMD "$PROD_USER@$PROD_HOST" "mkdir -p $APP_DIR/build-output/output $APP_DIR/scripts $APP_DIR/data"
+          # scp rather than rsync, which the host may not have.
+          tar -czf /tmp/output.tar.gz -C .output .
+          scp -P "$PROD_PORT" -i ~/.ssh/id_deploy /tmp/output.tar.gz "$PROD_USER@$PROD_HOST:/tmp/output.tar.gz"
+          scp -P "$PROD_PORT" -i ~/.ssh/id_deploy scripts/install-services.sh "$PROD_USER@$PROD_HOST:$APP_DIR/scripts/"
+          $SSH_CMD "$PROD_USER@$PROD_HOST" \
+            "rm -rf $APP_DIR/build-output/output && mkdir -p $APP_DIR/build-output/output && \
+             tar -xzf /tmp/output.tar.gz -C $APP_DIR/build-output/output && rm -f /tmp/output.tar.gz && \
+             chmod +x $APP_DIR/scripts/install-services.sh"
 
       - name: Deploy on server
         env:
           PROD_HOST: ${{ secrets.PROD_HOST }}
           PROD_PORT: ${{ secrets.PROD_PORT || '22' }}
           PROD_USER: ${{ secrets.PROD_USER }}
+          CADDY_EMAIL: ${{ secrets.CERTBOT_EMAIL }}
           BLOG_ADMIN_USERNAME: ${{ secrets.BLOG_ADMIN_USERNAME }}
           BLOG_ADMIN_PASSWORD: ${{ secrets.BLOG_ADMIN_PASSWORD }}
           BLOG_ADMIN_SESSION_SECRET: ${{ secrets.BLOG_ADMIN_SESSION_SECRET }}
@@ -132,9 +118,6 @@ jobs:
         run: |
           set -eu
           APP_DIR="/home/$PROD_USER/altisly-website"
-
-          # Build the env file locally, then ship it base64-encoded so values
-          # containing spaces or shell metacharacters survive the SSH hop.
           {
             for v in BLOG_ADMIN_USERNAME BLOG_ADMIN_PASSWORD BLOG_ADMIN_SESSION_SECRET \
                      DEEPSEEK_API_KEY DEEPSEEK_BASE_URL DEEPSEEK_MODEL \
@@ -144,69 +127,38 @@ jobs:
               printf '%s=%s\n' "$v" "$val"
             done
           } > env.prod.generated
-
           ENV_B64="$(base64 -w0 < env.prod.generated)"
 
           ssh -p "$PROD_PORT" -i ~/.ssh/id_deploy "$PROD_USER@$PROD_HOST" \
-            "APP_DIR='$APP_DIR' ENV_B64='$ENV_B64' bash -s" <<'REMOTE'
+            "APP_DIR='$APP_DIR' ENV_B64='$ENV_B64' CADDY_EMAIL='${CADDY_EMAIL:-admin@altisly.com}' bash -s" <<'REMOTE'
           set -eu
           cd "$APP_DIR"
           umask 077
           printf '%s' "$ENV_B64" | base64 -d > .env.prod
           chmod 600 .env.prod
-          sudo podman build -f Dockerfile.runner -t localhost/altisly-website:latest .
-          if sudo podman volume ls -q | grep -q certbot_conf; then
-            sudo podman-compose -f docker-compose.prod.yml --env-file .env.prod up -d
-          else
-            echo "No certificate volume yet - starting the app only."
-            echo "Run scripts/init-cert.sh on the host to issue TLS, then re-run this workflow."
-            sudo podman-compose -f docker-compose.prod.yml --env-file .env.prod up -d altisly-website
-          fi
-          sudo podman image prune -f
+          CADDY_EMAIL="$CADDY_EMAIL" APP_DIR="$APP_DIR" ./scripts/install-services.sh
+          sudo systemctl restart altisly
+          sudo systemctl restart caddy
           REMOTE
 
-      - name: Ensure TLS certificate
-        # Issuance needs altisly.com resolving to this host. If DNS has not
-        # propagated yet the site still serves over HTTP; re-run to pick it up.
-        continue-on-error: true
-        env:
-          PROD_HOST: ${{ secrets.PROD_HOST }}
-          PROD_PORT: ${{ secrets.PROD_PORT || '22' }}
-          PROD_USER: ${{ secrets.PROD_USER }}
-          CERTBOT_EMAIL: ${{ secrets.CERTBOT_EMAIL }}
-        run: |
-          set -eu
-          if [ -z "${CERTBOT_EMAIL:-}" ]; then
-            echo "CERTBOT_EMAIL secret not set - skipping TLS issuance."
-            echo "The site will serve over HTTP only until it is set."
-            exit 0
-          fi
-          ssh -p "$PROD_PORT" -i ~/.ssh/id_deploy "$PROD_USER@$PROD_HOST" \
-            "APP_DIR='/home/$PROD_USER/altisly-website' CERTBOT_EMAIL='$CERTBOT_EMAIL' bash -s" <<'REMOTE'
-          set -eu
-          cd "$APP_DIR"
-          if sudo podman ps --format '{{.Names}}' 2>/dev/null | grep -qx altisly-nginx; then
-            echo "nginx already running with a certificate."
-            exit 0
-          fi
-          export CERTBOT_EMAIL
-          ./scripts/init-cert.sh
-          REMOTE
-
-      - name: Verify container is serving
+      - name: Verify it is serving
         env:
           PROD_HOST: ${{ secrets.PROD_HOST }}
           PROD_PORT: ${{ secrets.PROD_PORT || '22' }}
           PROD_USER: ${{ secrets.PROD_USER }}
         run: |
           set -eu
-          ssh -p "$PROD_PORT" -i ~/.ssh/id_deploy "$PROD_USER@$PROD_HOST" \
-            'for i in $(seq 1 30); do
-               if sudo podman exec altisly-website node -e "fetch(\"http://127.0.0.1:3300\").then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))" 2>/dev/null; then
-                 echo "altisly-website is serving"; exit 0
-               fi
-               sleep 5
-             done
-             echo "altisly-website did not become healthy" >&2
-             sudo podman logs --tail 50 altisly-website >&2 || true
-             exit 1'
+          ssh -p "$PROD_PORT" -i ~/.ssh/id_deploy "$PROD_USER@$PROD_HOST" bash -s <<'REMOTE'
+          set -eu
+          for i in $(seq 1 30); do
+            if curl -sf -o /dev/null http://127.0.0.1:3300; then
+              echo "app is serving on :3300"
+              systemctl is-active altisly caddy
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "app did not come up" >&2
+          sudo journalctl -u altisly -n 40 --no-pager >&2 || true
+          exit 1
+          REMOTE
