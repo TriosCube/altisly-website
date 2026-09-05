@@ -14,7 +14,7 @@
              The cycle is decoration on top of it, hidden from assistive tech so
              the heading a screen reader announces never changes under it. -->
         <h1 class="reveal headline" style="--i: 0">
-          <span class="sr-only">We build the systems businesses run on.</span>
+          <span class="sr-only">We build the systems you trust.</span>
           <transition name="line">
             <span :key="index" class="headline-line" aria-hidden="true">
               <span v-for="(row, r) in line" :key="r" class="hl">
@@ -71,18 +71,19 @@ import { capabilities } from '@/data/content'
 // The first is the canonical one: it is server rendered and it is what the
 // heading reads as to assistive tech.
 const lines = [
-  // Three explicit lines each, never wrapped: first longest, then shorter,
-  // then shortest, so every headline holds the same tapering shape. The mark
-  // sits wherever that taper allows rather than always on the same line.
+  // Three declared lines each, first longest and third shortest, and short
+  // enough that the longest still fits its grid track. Left to wrap they took
+  // different shapes; made long enough to taper by wrapping they overflowed
+  // the column and squeezed the stage beside them.
   [
-    { text: 'We build the', mark: 'systems' },
-    { text: 'businesses' },
-    { text: 'run on.' },
+    { text: 'We build the' },
+    { mark: 'systems' },
+    { text: 'you trust.' },
   ],
   [
-    { text: 'We work only where' },
-    { mark: 'mistakes', after: 'are' },
-    { text: 'expensive.' },
+    { text: 'We work where' },
+    { mark: 'mistakes' },
+    { text: 'cost.' },
   ],
   [
     { text: 'We build it, and' },
@@ -293,6 +294,7 @@ onBeforeUnmount(() => {
 .hero-copy {
   position: relative;
   z-index: 2;
+  min-width: 0;
 }
 
 .container-isura {
@@ -336,7 +338,6 @@ onBeforeUnmount(() => {
 
 .hl {
   display: block;
-  white-space: nowrap;
 }
 
 /* Both lines share the same box so one dissolves into the other. Nothing
@@ -374,7 +375,7 @@ onBeforeUnmount(() => {
 .headline {
   position: relative;
   margin: 0;
-  max-width: none;
+  max-width: 100%;
   min-height: 3.05em;
   font-size: clamp(38px, calc(6.1*var(--vwu)), 87px);
   font-weight: 800;
