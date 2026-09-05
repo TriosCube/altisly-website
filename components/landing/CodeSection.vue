@@ -1,6 +1,7 @@
 <template>
   <section id="code" class="code-section" v-reveal>
     <span class="code-glow" aria-hidden="true"></span>
+    <span class="code-beam" aria-hidden="true"></span>
 
     <div class="container-isura code-grid">
       <div class="code-copy">
@@ -101,18 +102,51 @@ onBeforeUnmount(() => clearInterval(cycle))
   overflow: clip;
 }
 
+/* Ambient light the beam travels through, so the corner is never flat black. */
 .code-glow {
   position: absolute;
-  top: -14%;
-  right: -6%;
-  width: min(70vw, 900px);
+  top: -16%;
+  right: -8%;
+  width: min(64vw, 820px);
   aspect-ratio: 1;
   pointer-events: none;
   border-radius: 50%;
-  background:
-    radial-gradient(circle at 62% 38%, rgb(200 247 93 / 0.16), transparent 58%),
-    radial-gradient(circle at 46% 54%, rgb(69 119 44 / 0.28), transparent 66%);
-  filter: blur(18px);
+  background: radial-gradient(circle at 55% 45%, rgb(69 119 44 / 0.22), transparent 64%);
+  filter: blur(26px);
+}
+
+/* A shaft of light behind the window, running low left to high right and
+   sliding along its own axis. rotate and translate are separate properties,
+   so animating the slide leaves the angle alone instead of overwriting it. */
+.code-beam {
+  position: absolute;
+  top: 50%;
+  left: 52%;
+  width: 155%;
+  height: 27%;
+  margin: -13.5% 0 0 -77.5%;
+  pointer-events: none;
+  border-radius: 50%;
+  rotate: -42deg;
+  background: radial-gradient(
+    ellipse at center,
+    rgb(200 247 93 / 0.2) 0%,
+    rgb(141 205 78 / 0.12) 26%,
+    rgb(69 119 44 / 0.07) 48%,
+    transparent 70%
+  );
+  filter: blur(44px);
+  animation: beam-travel 17s ease-in-out infinite alternate;
+}
+
+/* 11.7 over 13 is tan(42deg), so the slide runs straight down the beam. */
+@keyframes beam-travel {
+  from {
+    translate: -13vw 11.7vw;
+  }
+  to {
+    translate: 13vw -11.7vw;
+  }
 }
 
 .code-grid {
@@ -312,6 +346,10 @@ onBeforeUnmount(() => clearInterval(cycle))
   .code-enter-active,
   .code-leave-active {
     transition: none;
+  }
+
+  .code-beam {
+    animation: none;
   }
 }
 </style>
