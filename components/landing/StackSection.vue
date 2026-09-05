@@ -781,12 +781,13 @@ onBeforeUnmount(() => {
   isolation: isolate;
 }
 
-/* Film grain: a fine turbulence tile that drifts slowly. The earlier version
-   jumped 4% every 90ms, which reads as a strobe rather than a surface. Fine
-   grain, small offsets and a long cycle make it shimmer instead. */
+/* Film grain that drifts by moving the tile, not the layer. The panel itself
+   is translated, scaled and rotated as it recedes up the stack, so a child
+   transform here composited against a changing scale and shimmered on every
+   scroll frame. background-position leaves the panel's own transform alone. */
 .panel::before {
   position: absolute;
-  inset: -40%;
+  inset: 0;
   content: '';
   z-index: 0;
   pointer-events: none;
@@ -794,40 +795,39 @@ onBeforeUnmount(() => {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.45' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)'/%3E%3C/svg%3E");
   background-size: 260px 260px;
   animation: grain-drift 6s steps(10) infinite;
-  will-change: transform;
 }
 
 @keyframes grain-drift {
   0%,
   100% {
-    transform: translate3d(0, 0, 0);
+    background-position: 0 0;
   }
   10% {
-    transform: translate3d(-1.5%, -1%, 0);
+    background-position: -18px -12px;
   }
   20% {
-    transform: translate3d(1%, 1.5%, 0);
+    background-position: 14px 20px;
   }
   30% {
-    transform: translate3d(-1%, 1%, 0);
+    background-position: -22px 10px;
   }
   40% {
-    transform: translate3d(1.5%, -0.5%, 0);
+    background-position: 20px -16px;
   }
   50% {
-    transform: translate3d(-0.5%, -1.5%, 0);
+    background-position: -10px -22px;
   }
   60% {
-    transform: translate3d(1%, 0.5%, 0);
+    background-position: 16px 8px;
   }
   70% {
-    transform: translate3d(-1.5%, 1%, 0);
+    background-position: -20px 14px;
   }
   80% {
-    transform: translate3d(0.5%, -1%, 0);
+    background-position: 8px -18px;
   }
   90% {
-    transform: translate3d(-1%, -0.5%, 0);
+    background-position: -14px -8px;
   }
 }
 
