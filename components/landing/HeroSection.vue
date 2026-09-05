@@ -15,7 +15,7 @@
              the heading a screen reader announces never changes under it. -->
         <h1 class="reveal headline" style="--i: 0">
           <span class="sr-only">{{ lines[0].before }} {{ lines[0].mark }} {{ lines[0].after }}</span>
-          <transition name="line" mode="out-in">
+          <transition name="line">
             <span :key="index" class="headline-line" aria-hidden="true">
               {{ line.before }}
               <span class="mark">
@@ -71,7 +71,7 @@ import { capabilities } from '@/data/content'
 const lines = [
   { before: 'We build the', mark: 'systems', after: 'businesses run on.' },
   { before: 'We work where', mark: 'mistakes', after: 'are expensive.' },
-  { before: 'We build it, and', mark: 'we finish', after: 'the job.' },
+  { before: 'We build it, and', mark: 'we finish', after: 'what we started.' },
 ]
 
 const index = ref(0)
@@ -317,21 +317,29 @@ onBeforeUnmount(() => {
   display: block;
 }
 
+/* Both lines share the same box so one dissolves into the other. Nothing
+   moves: motion is what makes a swap announce itself. */
+.line-leave-active {
+  position: absolute;
+  inset: 0;
+}
+
 .line-enter-active,
 .line-leave-active {
-  transition:
-    opacity 420ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 900ms ease-in-out;
 }
 
-.line-enter-from {
-  opacity: 0;
-  transform: translateY(14px);
-}
-
+.line-enter-from,
 .line-leave-to {
   opacity: 0;
-  transform: translateY(-14px);
+}
+
+/* The highlight is drawn once on entrance. During a swap it should already be
+   at full width and simply fade with its text, not redraw itself. */
+.line-enter-active .mark-field,
+.line-leave-active .mark-field {
+  transform: scaleX(1);
+  transition: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -342,6 +350,7 @@ onBeforeUnmount(() => {
 }
 
 .headline {
+  position: relative;
   margin: 0;
   max-width: 13ch;
   min-height: 3.05em;
