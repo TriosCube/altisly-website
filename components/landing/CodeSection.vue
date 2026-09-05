@@ -242,15 +242,19 @@ async function copy() {
   align-items: center;
   /* Opaque, or the note underneath shows through the thing covering it. */
   background: var(--bg);
-  /* No hairline along the leading edge: the shadow alone separates the two, so
-     the section arrives as light changing rather than as a panel with a lid. */
-  box-shadow: 0 -40px 90px -40px rgb(3 8 5 / 0.85);
   /* clip, not hidden: this must not become a scroll container. */
   overflow: clip;
 }
 
 .code-grid {
   width: 100%;
+}
+
+/* Dark only. On a light background this same shadow is a grey smudge dragged
+   across the top of the section, not depth. Light mode separates the two with
+   the opaque background alone. */
+[data-theme='dark'] .code-stage {
+  box-shadow: 0 -40px 90px -40px rgb(3 8 5 / 0.85);
 }
 
 /* Ambient light the beam travels through, so the corner is never flat black. */
@@ -545,6 +549,9 @@ async function copy() {
     position: static;
     height: auto;
     padding: 4rem 0;
+  }
+
+  [data-theme='dark'] .code-stage {
     box-shadow: none;
   }
 
