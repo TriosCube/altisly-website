@@ -775,6 +775,10 @@ onBeforeUnmount(() => {
   border-radius: var(--radius-xl);
   overflow: hidden;
   text-align: center;
+  /* The panels are the glass: each one frosts whatever it has slid over, so the stack reads as
+     layered panes. The app window inside stays solid so the UI is never washed out. */
+  backdrop-filter: blur(22px) saturate(1.4);
+  -webkit-backdrop-filter: blur(22px) saturate(1.4);
 }
 
 .panel::after {
@@ -789,19 +793,21 @@ onBeforeUnmount(() => {
 }
 
 .tone-invert {
-  background: var(--invert-bg);
+  background: color-mix(in srgb, var(--invert-bg) 74%, transparent);
   color: var(--invert-text);
+  border: 1px solid rgb(var(--invert-text-rgb) / 0.12);
 }
 
 .tone-surface {
-  background: var(--surface);
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
   color: var(--text);
   border: 1px solid var(--border);
 }
 
 .tone-brand {
-  background: var(--brand);
+  background: color-mix(in srgb, var(--brand) 78%, transparent);
   color: var(--on-brand);
+  border: 1px solid color-mix(in srgb, var(--on-brand) 12%, transparent);
 }
 
 
@@ -836,14 +842,10 @@ onBeforeUnmount(() => {
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
+  border: 1px solid var(--border);
   border-bottom: 0;
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  /* Glass rather than a lifted card: the panel tone reads through the chrome, so the window sits
-     on the colour instead of hovering above it on a shadow. */
-  background: color-mix(in srgb, var(--surface) 82%, transparent);
-  backdrop-filter: blur(18px) saturate(1.3);
-  -webkit-backdrop-filter: blur(18px) saturate(1.3);
+  background: var(--surface);
   color: var(--text);
   text-align: left;
   font-size: 13px;
@@ -861,7 +863,7 @@ onBeforeUnmount(() => {
   flex-shrink: 0;
   padding: 0.6rem 0.85rem;
   border-bottom: 1px solid var(--border);
-  background: color-mix(in srgb, var(--bg) 62%, transparent);
+  background: var(--bg);
 }
 
 .win-mark {
@@ -1525,7 +1527,7 @@ onBeforeUnmount(() => {
   gap: 0.15rem;
   padding: 0.7rem 0.55rem;
   border-right: 1px solid var(--border);
-  background: color-mix(in srgb, var(--bg) 62%, transparent);
+  background: var(--bg);
 }
 
 .ws {
