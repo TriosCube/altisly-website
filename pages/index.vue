@@ -10,7 +10,7 @@
     <JourneySection />
     <WhoWeAre />
     <BeliefSection />
-    <InsightsSection />
+    <InsightsSection :posts="posts || []" />
     <CtaSection />
   </div>
 </template>
@@ -32,6 +32,18 @@ useSeoMeta({
   title: 'Altisly · We build the systems businesses run on',
   description: metaDescriptions.home,
 })
+
+type Post = {
+  slug: string
+  title: string
+  excerpt: string
+  coverImage: string
+  category: string
+  content: string
+  createdAt: string
+}
+
+const { data: posts } = await useFetch<Post[]>('/api/blog', { default: () => [] })
 </script>
 
 <style scoped>

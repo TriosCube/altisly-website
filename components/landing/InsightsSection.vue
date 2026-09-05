@@ -65,12 +65,12 @@ type Post = {
   createdAt: string
 }
 
-// The section hides itself when the blog is empty rather than shipping a hole
-// in the home page, so a fresh host degrades quietly.
-const { data } = await useFetch<Post[]>('/api/blog', { default: () => [] })
+const props = withDefaults(defineProps<{ posts?: Post[] }>(), { posts: () => [] })
 
+// Hides itself when the blog is empty rather than shipping a hole in the home
+// page, so a fresh host degrades quietly.
 const latest = computed(() =>
-  [...(data.value ?? [])]
+  [...(props.posts ?? [])]
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     .slice(0, 3),
 )
