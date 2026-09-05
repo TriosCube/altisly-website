@@ -1,20 +1,28 @@
 <template>
-  <section ref="sectionRef" class="statement-section" id="statement">
-    <div class="container-isura">
-      <div class="max-w-[54rem]" :class="{ 'is-shown': shown }">
-        <span class="reveal font-code text-[11px] tracking-[0.14em] uppercase text-muted" style="--i: 0">
-          A note before the method
-        </span>
-        <p
-          class="reveal text-[clamp(30px,calc(4.4*var(--vwu)),58px)] font-bold tracking-[-0.032em] leading-[1.06] mt-5"
-          style="--i: 1"
-        >
-          Sometimes the software is the easy part.
-        </p>
-        <p class="reveal text-muted text-[17px] leading-relaxed max-w-[46ch] mt-6" style="--i: 2">
-          The harder problem is understanding how the work, the decisions and the information need to
-          move before anything gets built.
-        </p>
+  <section ref="trackRef" class="statement-track" id="statement">
+    <div class="statement-stage">
+      <div class="container-isura">
+        <div class="max-w-[54rem]">
+          <span
+            class="reveal font-code text-[11px] tracking-[0.14em] uppercase text-muted"
+            :style="{ '--shown': shown[0] }"
+          >
+            A note before the method
+          </span>
+          <p
+            class="reveal text-[clamp(30px,calc(4.4*var(--vwu)),58px)] font-bold tracking-[-0.032em] leading-[1.06] mt-5"
+            :style="{ '--shown': shown[1] }"
+          >
+            Sometimes the software is the easy part.
+          </p>
+          <p
+            class="reveal text-muted text-[17px] leading-relaxed max-w-[46ch] mt-6"
+            :style="{ '--shown': shown[2] }"
+          >
+            The harder problem is understanding how the work, the decisions and the information need
+            to move before anything gets built.
+          </p>
+        </div>
       </div>
     </div>
   </section>
@@ -23,62 +31,91 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 
-const sectionRef = ref<HTMLElement | null>(null)
-const shown = ref(false)
+const LINES = 3
 
-let observer: IntersectionObserver | undefined
+const trackRef = ref<HTMLElement | null>(null)
+const shown = ref<number[]>(Array.from({ length: LINES }, () => 0))
+let frame = 0
+
+// Same mechanic as the sections above it: the track is taller than the
+// viewport, the panel inside sticks, and how far the track has travelled
+// decides how much has arrived. The lines land over the first half of the
+// scroll, so the section is whole and holds for a beat before it releases.
+function update() {
+  const track = trackRef.value
+  if (!track) return
+
+  const box = track.getBoundingClientRect()
+  if (box.bottom < 0 || box.top > window.innerHeight) return
+
+  const travel = track.offsetHeight - window.innerHeight
+  const progress = travel > 0 ? Math.min(Math.max(-box.top / travel, 0), 1) : 1
+
+  shown.value = shown.value.map((_, i) => {
+    const start = i * 0.15
+    return Math.min(Math.max((progress - start) / 0.2, 0), 1)
+  })
+}
+
+function schedule() {
+  cancelAnimationFrame(frame)
+  frame = requestAnimationFrame(update)
+}
 
 onMounted(() => {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    shown.value = true
+    shown.value = shown.value.map(() => 1)
     return
   }
 
-  observer = new IntersectionObserver(
-    (entries) => {
-      if (!entries.some((entry) => entry.isIntersecting)) return
-      shown.value = true
-      observer?.disconnect()
-    },
-    { rootMargin: '-18% 0px -18% 0px' },
-  )
-
-  if (sectionRef.value) observer.observe(sectionRef.value)
+  window.addEventListener('scroll', schedule, { passive: true })
+  window.addEventListener('resize', schedule)
+  update()
 })
 
-onBeforeUnmount(() => observer?.disconnect())
+onBeforeUnmount(() => {
+  cancelAnimationFrame(frame)
+  window.removeEventListener('scroll', schedule)
+  window.removeEventListener('resize', schedule)
+})
 </script>
 
 <style scoped>
-/* The note holds a screen on its own so it lands as a beat between the
-   method and the code, rather than sharing a scroll with either. */
-.statement-section {
-  min-height: 100svh;
-  display: grid;
+.statement-track {
+  position: relative;
+  height: 200vh;
+}
+
+.statement-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
   align-items: center;
-  padding: 6rem 0;
 }
 
 .reveal {
   display: block;
-  opacity: 0;
-  transform: translateY(0.9rem);
-  transition:
-    opacity 760ms ease,
-    transform 760ms cubic-bezier(0.22, 1, 0.36, 1);
-  transition-delay: calc(var(--i) * 130ms);
+  opacity: var(--shown, 0);
+  translate: 0 calc((1 - var(--shown, 0)) * 1.1rem);
 }
 
-.is-shown .reveal {
-  opacity: 1;
-  transform: none;
+@media (max-width: 1023px) {
+  .statement-track {
+    height: auto;
+  }
+
+  .statement-stage {
+    position: static;
+    height: auto;
+    padding: 6rem 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .reveal {
     opacity: 1;
-    transform: none;
-    transition: none;
+    translate: none;
   }
 }
 </style>
