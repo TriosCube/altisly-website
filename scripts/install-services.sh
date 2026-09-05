@@ -72,6 +72,12 @@ AmbientCapabilities=CAP_NET_BIND_SERVICE
 WantedBy=multi-user.target
 UNIT
 
+# The deploy step runs under umask 077 so secrets land private; Caddy runs
+# unprivileged and must still be able to read its own config.
+sudo chmod 0755 /etc/caddy
+sudo chmod 0644 /etc/caddy/Caddyfile
+sudo chown -R caddy:caddy /var/lib/caddy
+
 sudo systemctl daemon-reload
 sudo systemctl enable altisly caddy >/dev/null 2>&1 || true
 echo "services installed"
