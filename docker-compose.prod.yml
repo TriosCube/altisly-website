@@ -6,8 +6,8 @@ services:
     security_opt:
       - seccomp=unconfined
       - label=disable
-    ports:
-      - "3300:3300"
+    expose:
+      - "3300"
     volumes:
       - altisly_data:/app/data
     environment:
@@ -43,11 +43,54 @@ services:
           cpus: "0.1"
           memory: 64M
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3300 > /dev/null 2>&1 || exit 1"]
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3300').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 20s
 
+    networks:
+      - altisly-net
+
+  nginx:
+    image: nginx:alpine
+    container_name: altisly-nginx
+    restart: unless-stopped
+    security_opt:
+      - seccomp=unconfined
+      - label=disable
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro,z
+      - certbot_conf:/etc/letsencrypt:ro,z
+      - certbot_www:/var/www/certbot:z
+    depends_on:
+      altisly-website:
+        condition: service_started
+    networks:
+      - altisly-net
+
+  certbot:
+    image: certbot/certbot:latest
+    container_name: altisly-certbot
+    restart: unless-stopped
+    volumes:
+      - certbot_conf:/etc/letsencrypt:z
+      - certbot_www:/var/www/certbot:z
+    entrypoint: >-
+      sh -c "trap exit TERM;
+             while :; do
+               certbot renew --webroot --webroot-path=/var/www/certbot --quiet;
+               sleep 12h & wait $${!};
+             done"
+
+networks:
+  altisly-net:
+    driver: bridge
+
 volumes:
   altisly_data:
+  certbot_conf:
+  certbot_www:
