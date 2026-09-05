@@ -2,7 +2,7 @@
   <div
     ref="shellRef"
     class="sticky top-3.5 z-50 px-4 nav-shell"
-    :class="{ 'is-tucked': tucked, 'is-on-dark': onDark, 'is-scrolled': scrolled }"
+    :class="{ 'is-tucked': tucked, 'is-on-dark': onDark }"
   >
     <div
       class="max-w-[72rem] mx-auto relative"
@@ -11,7 +11,7 @@
     >
       <nav
         ref="barRef"
-        class="nav-bar flex items-center justify-between gap-5 px-4.5 py-1.5 pr-2.5 backdrop-saturate-160 backdrop-blur-[14px] rounded-pill border"
+        class="nav-bar flex items-center justify-between gap-5 px-4.5 py-1.5 pr-2.5 backdrop-saturate-160 backdrop-blur-[14px] rounded-pill"
       >
         <IcLogo to="/" :tone="onDark ? 'on-dark' : 'auto'" />
 
@@ -336,7 +336,6 @@ const mobileOpen = ref(false)
 const themeMode = ref<ThemeMode>('system')
 const tucked = ref(false)
 const onDark = ref(false)
-const scrolled = ref(false)
 const barRef = ref<HTMLElement | null>(null)
 const shellRef = ref<HTMLElement | null>(null)
 
@@ -454,7 +453,6 @@ function readScroll() {
   measureTone()
 
   const y = window.scrollY
-  scrolled.value = y > TOP_ZONE
   const delta = y - lastY
 
   if (y <= TOP_ZONE) {
@@ -506,7 +504,6 @@ watch(
     closeMenus()
     mobileOpen.value = false
     lastY = 0
-    scrolled.value = false
     reveal(false)
     nextTick(() => {
       collectZones()
@@ -525,7 +522,6 @@ onMounted(() => {
   initTheme()
   themeMode.value = getThemeMode()
   lastY = window.scrollY
-  scrolled.value = lastY > TOP_ZONE
   collectZones()
   measureTone()
   document.addEventListener('keydown', onKeydown)
@@ -545,28 +541,18 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+/* One glassy pill at every scroll position. The blur does the separation
+   work, so the bar no longer has to go solid once the page moves. */
 .nav-bar {
-  background: color-mix(in srgb, var(--surface) 88%, transparent);
-  border-color: var(--border);
-  transition:
-    background 260ms ease,
-    border-color 260ms ease,
-    color 260ms ease;
-}
-
-.is-scrolled .nav-bar {
-  background: var(--surface);
-  box-shadow: var(--shadow-2);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  box-shadow: var(--shadow-1);
+  transition: color 260ms ease;
 }
 
 .is-on-dark .nav-bar {
   background: color-mix(in srgb, var(--invert-bg) 82%, transparent);
   border-color: var(--invert-border);
   color: var(--invert-text);
-}
-
-.is-scrolled.is-on-dark .nav-bar {
-  background: var(--invert-bg);
 }
 
 .is-on-dark .nav-link {
