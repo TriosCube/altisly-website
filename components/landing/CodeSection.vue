@@ -257,6 +257,28 @@ async function copy() {
   box-shadow: 0 -40px 90px -40px rgb(3 8 5 / 0.85);
 }
 
+/* Dark only, and taller, because it has a bottom to hide. The code sits in the
+   upper half, so the fade only eats empty surface and the frame around it. */
+[data-theme='dark'] .code-bezel {
+  height: min(72vh, 840px);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 54%,
+    rgb(0 0 0 / 0.55) 78%,
+    rgb(0 0 0 / 0.12) 92%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 54%,
+    rgb(0 0 0 / 0.55) 78%,
+    rgb(0 0 0 / 0.12) 92%,
+    transparent 100%
+  );
+}
+
 /* Ambient light the beam travels through, so the corner is never flat black. */
 .code-glow {
   position: absolute;
@@ -347,30 +369,11 @@ async function copy() {
 .code-bezel {
   min-width: 0;
   display: flex;
-  height: min(72vh, 840px);
-  border: 1px solid var(--invert-border);
-  border-radius: 22px 0 0 22px;
-  padding: 10px 0 10px 10px;
-  background: linear-gradient(150deg, rgb(200 247 93 / 0.07), rgb(3 8 5 / 0.5));
-  /* The window has no bottom edge: it dissolves into the page instead. The code
-     sits in the upper half, so the fade only ever eats empty surface and the
-     frame around it, never a line you were reading. */
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    #000 0%,
-    #000 54%,
-    rgb(0 0 0 / 0.55) 78%,
-    rgb(0 0 0 / 0.12) 92%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    #000 0%,
-    #000 54%,
-    rgb(0 0 0 / 0.55) 78%,
-    rgb(0 0 0 / 0.12) 92%,
-    transparent 100%
-  );
+  /* Light mode keeps a clean edge and sizes to hold the longest sample. The
+     dissolve below is dark only: it works by the window and the page being the
+     same colour, and against a near white page a dark green fading out is just
+     a grey smear. */
+  height: clamp(470px, 58vh, 620px);
   /* Arrives rather than appearing: the window rises into place once the
      section is on screen. */
   opacity: 0;
@@ -568,6 +571,12 @@ async function copy() {
     height: auto;
     opacity: 1;
     translate: none;
+  }
+
+  [data-theme='dark'] .code-bezel {
+    height: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
   }
 
   .code-body {
