@@ -64,13 +64,24 @@ sudo tee /etc/caddy/Caddyfile >/dev/null <<CADDYFILE
 import /etc/caddy/conf.d/*.caddy
 CADDYFILE
 
-if [ "$WWW" = "yes" ]; then HOSTS="${DOMAIN}, www.${DOMAIN}"; else HOSTS="${DOMAIN}"; fi
+# www redirects to the apex rather than serving a second copy: two hosts
+# answering 200 with the same content is one site as far as a crawler is
+# concerned, and the ranking signals split between them.
 sudo tee "/etc/caddy/conf.d/${SITE}.caddy" >/dev/null <<VHOST
-${HOSTS} {
+${DOMAIN} {
 	encode gzip zstd
 	reverse_proxy 127.0.0.1:${PORT}
 }
 VHOST
+
+if [ "$WWW" = "yes" ]; then
+  sudo tee -a "/etc/caddy/conf.d/${SITE}.caddy" >/dev/null <<REDIR
+
+www.${DOMAIN} {
+	redir https://${DOMAIN}{uri} permanent
+}
+REDIR
+fi
 
 sudo tee /etc/systemd/system/caddy.service >/dev/null <<UNIT
 [Unit]
