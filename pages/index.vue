@@ -10,7 +10,6 @@
     <JourneySection />
     <WhoWeAre />
     <BeliefSection />
-    <div :data-posts="posts === null ? 'null' : String(posts?.length ?? 'undef')" hidden></div>
     <InsightsSection :posts="posts || []" />
     <CtaSection />
   </div>
