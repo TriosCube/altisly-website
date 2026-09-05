@@ -242,7 +242,8 @@ async function copy() {
   align-items: center;
   /* Opaque, or the note underneath shows through the thing covering it. */
   background: var(--bg);
-  border-top: 1px solid var(--border);
+  /* No hairline along the leading edge: the shadow alone separates the two, so
+     the section arrives as light changing rather than as a panel with a lid. */
   box-shadow: 0 -40px 90px -40px rgb(3 8 5 / 0.85);
   /* clip, not hidden: this must not become a scroll container. */
   overflow: clip;
@@ -544,7 +545,6 @@ async function copy() {
     position: static;
     height: auto;
     padding: 4rem 0;
-    border-top: 0;
     box-shadow: none;
   }
 
