@@ -10,14 +10,22 @@
     <div class="hero-viewport">
       <div class="container-isura hero-inner" :style="{ '--recede': recede }">
       <div class="hero-copy">
+        <!-- The first line is what the server renders and what a crawler reads.
+             The cycle is decoration on top of it, hidden from assistive tech so
+             the heading a screen reader announces never changes under it. -->
         <h1 class="reveal headline" style="--i: 0">
-          We build the
-          <span class="mark">
-            <span class="mark-field"></span>
-            <span class="mark-text">systems</span>
-            <span class="mark-star">✦</span>
-          </span>
-          businesses run on.
+          <span class="sr-only">{{ lines[0].before }} {{ lines[0].mark }} {{ lines[0].after }}</span>
+          <transition name="line" mode="out-in">
+            <span :key="index" class="headline-line" aria-hidden="true">
+              {{ line.before }}
+              <span class="mark">
+                <span class="mark-field"></span>
+                <span class="mark-text">{{ line.mark }}</span>
+                <span class="mark-star">✦</span>
+              </span>
+              {{ line.after }}
+            </span>
+          </transition>
         </h1>
 
         <p class="reveal lede" style="--i: 1">
@@ -51,10 +59,37 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, reactive, ref } from 'vue'
+
+import { computed, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import HeroStage from './HeroStage.vue'
 import { capabilities } from '@/data/content'
+
+// Three readings of the same promise, drawn from language already on the site.
+// The first is the canonical one: it is server rendered and it is what the
+// heading reads as to assistive tech.
+const lines = [
+  { before: 'We build the', mark: 'systems', after: 'businesses run on.' },
+  { before: 'We work where', mark: 'mistakes', after: 'are expensive.' },
+  { before: 'We build it, and', mark: 'we finish', after: 'the job.' },
+]
+
+const index = ref(0)
+const line = computed(() => lines[index.value])
+
+let cycle: ReturnType<typeof setInterval> | undefined
+
+onMounted(() => {
+  // Movement on the first thing a reader sees is exactly what reduced-motion
+  // is asking us not to do.
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+  cycle = setInterval(() => {
+    index.value = (index.value + 1) % lines.length
+  }, 4200)
+})
+
+onBeforeUnmount(() => clearInterval(cycle))
+
 
 const heroRef = ref<HTMLElement | null>(null)
 const entered = ref(false)
@@ -262,9 +297,54 @@ onBeforeUnmount(() => {
   transform: none;
 }
 
+/* Not defined globally in this project, and without it the stable heading
+   text would render on top of the cycling one. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* The visible line swaps; the heading itself does not. A fixed block keeps the
+   copy below from jumping as lines of different length cycle through. */
+.headline-line {
+  display: block;
+}
+
+.line-enter-active,
+.line-leave-active {
+  transition:
+    opacity 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.line-enter-from {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.line-leave-to {
+  opacity: 0;
+  transform: translateY(-14px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .line-enter-active,
+  .line-leave-active {
+    transition: none;
+  }
+}
+
 .headline {
   margin: 0;
   max-width: 13ch;
+  min-height: 3.05em;
   font-size: clamp(38px, calc(6.1*var(--vwu)), 87px);
   font-weight: 800;
   letter-spacing: -0.038em;
