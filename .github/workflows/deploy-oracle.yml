@@ -105,15 +105,13 @@ jobs:
             "APP_DIR='$APP_DIR' bash -s" <<'REMOTE'
           set -eu
           TARGET="$APP_DIR/data/posts.json"
-          COUNT=0
-          if [ -f "$TARGET" ]; then
-            COUNT=$(grep -c '"id"' "$TARGET" 2>/dev/null || echo 0)
-          fi
-          if [ "$COUNT" -eq 0 ]; then
-            cp /tmp/posts.seed.json "$TARGET"
-            echo "seeded posts.json with $(grep -c '"id"' "$TARGET") posts"
+          # grep -c exits 1 on no match, so a `|| echo 0` fallback appends a
+          # second zero and the comparison breaks. Test for the key instead.
+          if grep -q '"id"' "$TARGET" 2>/dev/null; then
+            echo "posts.json already holds posts, left alone"
           else
-            echo "posts.json already holds $COUNT posts, left alone"
+            cp /tmp/posts.seed.json "$TARGET"
+            echo "seeded posts.json"
           fi
           rm -f /tmp/posts.seed.json
           REMOTE
