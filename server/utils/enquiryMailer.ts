@@ -50,6 +50,7 @@ const detailsText = (enquiry: EnquiryRecord) => {
     `Country: ${enquiry.country || 'N/A'}`,
     `Phone: ${enquiry.phone || 'N/A'}`,
     `Use case: ${enquiry.useCase || 'N/A'}`,
+    `Engagement: ${enquiry.engagement || 'not stated'}`,
     `Role: ${enquiry.role || 'N/A'}`,
     `Portfolio: ${enquiry.portfolio || 'N/A'}`,
     `CV: ${enquiry.cvName || 'none attached'}`,

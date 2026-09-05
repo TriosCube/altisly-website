@@ -18,6 +18,7 @@ export type EnquiryRecord = {
   role: string
   portfolio: string
   cvName: string
+  engagement: string
   newsletter: boolean
   sourcePage: string
   recipient: string

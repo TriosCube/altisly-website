@@ -6,6 +6,7 @@
     </div>
     <ProblemsSection />
     <StackSection />
+    <WaysInSection />
     <StatementSection />
     <JourneySection />
     <WhoWeAre />
@@ -20,6 +21,7 @@ import HeroSection from '@/components/landing/HeroSection.vue'
 import MarqueeSection from '@/components/landing/MarqueeSection.vue'
 import ProblemsSection from '@/components/landing/ProblemsSection.vue'
 import StackSection from '@/components/landing/StackSection.vue'
+import WaysInSection from '@/components/landing/WaysInSection.vue'
 import StatementSection from '@/components/landing/StatementSection.vue'
 import JourneySection from '@/components/landing/JourneySection.vue'
 import WhoWeAre from '@/components/landing/WhoWeAre.vue'

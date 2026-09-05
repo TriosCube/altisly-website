@@ -58,6 +58,7 @@ export default defineEventHandler(async (event) => {
     role: cleanText((body as Record<string, unknown>).role),
     portfolio: cleanText((body as Record<string, unknown>).portfolio),
     cvName: cleanText((body as Record<string, unknown>).cvName),
+    engagement: cleanText((body as Record<string, unknown>).engagement),
     useCase: cleanText((body as Record<string, unknown>).useCase),
     newsletter: Boolean((body as Record<string, unknown>).newsletter),
     sourcePage: cleanText((body as Record<string, unknown>).sourcePage) || event.path,

@@ -64,6 +64,17 @@
             </div>
           </div>
 
+
+          <div>
+            <label class="field-label" for="contact-engagement">How can we help</label>
+            <select id="contact-engagement" v-model="form.engagement" class="field-input">
+              <option value="">Not sure yet</option>
+              <option value="Review">Review — look at what we have</option>
+              <option value="Embed">Embed — join our team</option>
+              <option value="Build">Build — take it end to end</option>
+            </select>
+          </div>
+
           <div>
             <label class="field-label" for="contact-company">Company</label>
             <input
@@ -132,6 +143,7 @@ const form = reactive({
   country: '',
   phone: '',
   company: '',
+  engagement: '',
   message: '',
   newsletter: false,
 })
@@ -161,6 +173,7 @@ async function handleSubmit() {
         country: form.country,
         phone: form.phone,
         company: form.company,
+        engagement: form.engagement,
         message: form.message,
         newsletter: form.newsletter,
       },
