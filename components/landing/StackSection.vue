@@ -775,7 +775,6 @@ onBeforeUnmount(() => {
   border-radius: var(--radius-xl);
   overflow: hidden;
   text-align: center;
-  box-shadow: var(--shadow-pop);
 }
 
 .panel::after {
@@ -837,16 +836,18 @@ onBeforeUnmount(() => {
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-  border: 1px solid var(--border);
+  border: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
   border-bottom: 0;
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  background: var(--surface);
+  /* Glass rather than a lifted card: the panel tone reads through the chrome, so the window sits
+     on the colour instead of hovering above it on a shadow. */
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  backdrop-filter: blur(18px) saturate(1.3);
+  -webkit-backdrop-filter: blur(18px) saturate(1.3);
   color: var(--text);
   text-align: left;
   font-size: 13px;
-  box-shadow:
-    0 -1px 0 rgb(255 255 255 / 0.04) inset,
-    0 24px 60px -24px rgb(3 8 5 / 0.45);
+  box-shadow: 0 -1px 0 rgb(255 255 255 / 0.04) inset;
 }
 
 .tone-surface .win {
@@ -860,7 +861,7 @@ onBeforeUnmount(() => {
   flex-shrink: 0;
   padding: 0.6rem 0.85rem;
   border-bottom: 1px solid var(--border);
-  background: var(--bg);
+  background: color-mix(in srgb, var(--bg) 62%, transparent);
 }
 
 .win-mark {
@@ -1524,7 +1525,7 @@ onBeforeUnmount(() => {
   gap: 0.15rem;
   padding: 0.7rem 0.55rem;
   border-right: 1px solid var(--border);
-  background: var(--bg);
+  background: color-mix(in srgb, var(--bg) 62%, transparent);
 }
 
 .ws {

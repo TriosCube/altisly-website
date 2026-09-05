@@ -70,7 +70,7 @@ import { nextSteps } from '@/data/content'
 }
 
 :root:not([data-theme='dark']) .cta {
-  --invert-bg: var(--surface);
+  --invert-bg: color-mix(in srgb, var(--surface) 78%, transparent);
   --invert-text: var(--text);
   --invert-muted: var(--muted);
   --invert-border: var(--border);
@@ -78,7 +78,8 @@ import { nextSteps } from '@/data/content'
   --invert-wash: var(--surface-2);
   --glow: color-mix(in srgb, var(--brand) 30%, transparent);
   border: 1px solid var(--border);
-  box-shadow: var(--shadow-2);
+  backdrop-filter: blur(20px) saturate(1.25);
+  -webkit-backdrop-filter: blur(20px) saturate(1.25);
 }
 
 :root:not([data-theme='dark']) .cta-num {
