@@ -1,6 +1,8 @@
 <template>
   <section ref="trackRef" class="statement-track" id="statement">
     <div class="statement-stage">
+      <span class="statement-arc" aria-hidden="true" :style="{ '--shown': shown[0] }"></span>
+
       <div class="container-isura">
         <div class="max-w-[54rem]">
           <span
@@ -92,6 +94,42 @@ onBeforeUnmount(() => {
   height: 100vh;
   display: flex;
   align-items: center;
+  /* The arc runs past the right edge; clip so the page gains no sideways scroll. */
+  overflow: clip;
+}
+
+/* A ring of light with most of itself missing. The conic gradient decides which
+   part of the ring is lit, the radial mask carves the ring out of the disc, and
+   the two together leave a crescent. Deliberately static: a blur this wide is
+   cheap to paint once and expensive to paint every frame. */
+.statement-arc {
+  position: absolute;
+  top: 50%;
+  right: -14%;
+  width: min(82vh, 880px);
+  aspect-ratio: 1;
+  translate: 0 -50%;
+  pointer-events: none;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 205deg,
+    transparent 0deg,
+    rgb(69 119 44 / 0.34) 42deg,
+    rgb(141 205 78 / 0.7) 104deg,
+    rgb(200 247 93 / 0.85) 148deg,
+    rgb(141 205 78 / 0.44) 202deg,
+    transparent 262deg
+  );
+  -webkit-mask: radial-gradient(
+    closest-side,
+    transparent 58%,
+    #000 65%,
+    #000 79%,
+    transparent 86%
+  );
+  mask: radial-gradient(closest-side, transparent 58%, #000 65%, #000 79%, transparent 86%);
+  filter: blur(30px);
+  opacity: calc(var(--shown, 0) * 0.62);
 }
 
 .reveal {
@@ -109,6 +147,12 @@ onBeforeUnmount(() => {
     position: static;
     height: auto;
     padding: 6rem 0;
+  }
+
+  .statement-arc {
+    right: -42%;
+    width: min(96vw, 640px);
+    opacity: calc(var(--shown, 0) * 0.4);
   }
 }
 
