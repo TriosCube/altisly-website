@@ -6,7 +6,7 @@
     <div class="container-isura code-grid">
       <div class="code-copy">
         <span class="font-code text-[11px] tracking-[0.14em] uppercase text-muted">
-          { the work } _
+          { the work } <span class="caret" aria-hidden="true">_</span>
         </span>
         <h2 class="code-title">The system says no before a person has to.</h2>
         <p class="text-muted text-[16.5px] leading-relaxed max-w-[40ch] mt-6 text-pretty">
@@ -111,8 +111,7 @@ onBeforeUnmount(() => clearInterval(cycle))
   aspect-ratio: 1;
   pointer-events: none;
   border-radius: 50%;
-  background: radial-gradient(circle at 55% 45%, rgb(69 119 44 / 0.22), transparent 64%);
-  filter: blur(26px);
+  background: radial-gradient(circle at 55% 45%, rgb(69 119 44 / 0.22), transparent 66%);
 }
 
 /* A shaft of light behind the window, running low left to high right and
@@ -130,13 +129,30 @@ onBeforeUnmount(() => clearInterval(cycle))
   rotate: -42deg;
   background: radial-gradient(
     ellipse at center,
-    rgb(200 247 93 / 0.2) 0%,
-    rgb(141 205 78 / 0.12) 26%,
-    rgb(69 119 44 / 0.07) 48%,
-    transparent 70%
+    rgb(200 247 93 / 0.18) 0%,
+    rgb(141 205 78 / 0.11) 22%,
+    rgb(69 119 44 / 0.06) 46%,
+    transparent 74%
   );
-  filter: blur(44px);
+  /* Rasterise once and composite, rather than repainting a huge soft shape
+     on every frame while the pointer is trying to get through. */
+  will-change: translate;
   animation: beam-travel 17s ease-in-out infinite alternate;
+}
+
+.caret {
+  animation: caret-blink 1.15s steps(1) infinite;
+}
+
+@keyframes caret-blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
 }
 
 /* 11.7 over 13 is tan(42deg), so the slide runs straight down the beam. */
@@ -348,7 +364,8 @@ onBeforeUnmount(() => clearInterval(cycle))
     transition: none;
   }
 
-  .code-beam {
+  .code-beam,
+  .caret {
     animation: none;
   }
 }
