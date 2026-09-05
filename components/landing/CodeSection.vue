@@ -1,5 +1,5 @@
 <template>
-  <section id="code" class="section-shell" v-reveal>
+  <section id="code" class="py-28" v-reveal>
     <div class="container-isura code-grid">
       <div class="code-copy">
         <span class="font-code text-[11px] tracking-[0.14em] uppercase text-muted">

@@ -1,5 +1,5 @@
 <template>
-  <section v-if="latest.length" class="section-shell" v-reveal>
+  <section v-if="latest.length" class="pt-32 pb-28" v-reveal>
     <div class="container-isura">
       <div class="flex flex-wrap items-end justify-between gap-6 mb-10">
         <div>
