@@ -14,7 +14,7 @@
              The cycle is decoration on top of it, hidden from assistive tech so
              the heading a screen reader announces never changes under it. -->
         <h1 class="reveal headline" style="--i: 0">
-          <span class="sr-only">We build the systems you trust.</span>
+          <span class="sr-only">We build what a business runs on.</span>
           <transition name="line">
             <span :key="index" class="headline-line" aria-hidden="true">
               <span v-for="(row, r) in line" :key="r" class="hl">
@@ -71,19 +71,19 @@ import { capabilities } from '@/data/content'
 // The first is the canonical one: it is server rendered and it is what the
 // heading reads as to assistive tech.
 const lines = [
-  // Three declared lines each, first longest and third shortest, and short
-  // enough that the longest still fits its grid track. Left to wrap they took
-  // different shapes; made long enough to taper by wrapping they overflowed
-  // the column and squeezed the stage beside them.
+  // Measured, not guessed. Each headline opens at the same width, drops to
+  // about three quarters on the mark, and lands at about half. Guessing by
+  // character count does not work: the highlight adds padding and the font is
+  // proportional, so two lines of equal length can render very differently.
   [
-    { text: 'We build the' },
-    { mark: 'systems' },
-    { text: 'you trust.' },
+    { text: 'We build what a' },
+    { mark: 'business' },
+    { text: 'runs on.' },
   ],
   [
     { text: 'We work where' },
     { mark: 'mistakes' },
-    { text: 'cost.' },
+    { text: 'cost us.' },
   ],
   [
     { text: 'We build it, and' },
