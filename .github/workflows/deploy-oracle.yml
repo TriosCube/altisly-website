@@ -96,18 +96,27 @@ jobs:
 
           # data/ holds runtime state, so a deploy must not overwrite it. But a
           # fresh host starts with an empty posts.json and the blog reads empty,
-          # so seed it once when nothing has been written there yet.
+          # so seed it once when nothing has been written there yet. The check
+          # runs in a heredoc: quoting a grep through an inline ssh argument
+          # mangles it, which silently reported the empty file as populated.
           scp -P "$PROD_PORT" -i ~/.ssh/id_deploy data/posts.json \
             "$PROD_USER@$PROD_HOST:/tmp/posts.seed.json"
-          $SSH_CMD "$PROD_USER@$PROD_HOST" \
-            "if [ ! -s $APP_DIR/data/posts.json ] || [ \"\$(grep -c '\"id\"' $APP_DIR/data/posts.json 2>/dev/null || echo 0)\" = 0 ]; then \
-               cp /tmp/posts.seed.json $APP_DIR/data/posts.json && echo 'seeded posts.json'; \
-             else echo 'posts.json already has content, left alone'; fi; \
-             rm -f /tmp/posts.seed.json"
-          $SSH_CMD "$PROD_USER@$PROD_HOST" \
-            "rm -rf $APP_DIR/build-output/output && mkdir -p $APP_DIR/build-output/output && \
-             tar -xzf /tmp/output.tar.gz -C $APP_DIR/build-output/output && rm -f /tmp/output.tar.gz && \
-             chmod +x $APP_DIR/scripts/install-services.sh"
+          ssh -p "$PROD_PORT" -i ~/.ssh/id_deploy "$PROD_USER@$PROD_HOST" \
+            "APP_DIR='$APP_DIR' bash -s" <<'REMOTE'
+          set -eu
+          TARGET="$APP_DIR/data/posts.json"
+          COUNT=0
+          if [ -f "$TARGET" ]; then
+            COUNT=$(grep -c '"id"' "$TARGET" 2>/dev/null || echo 0)
+          fi
+          if [ "$COUNT" -eq 0 ]; then
+            cp /tmp/posts.seed.json "$TARGET"
+            echo "seeded posts.json with $(grep -c '"id"' "$TARGET") posts"
+          else
+            echo "posts.json already holds $COUNT posts, left alone"
+          fi
+          rm -f /tmp/posts.seed.json
+          REMOTE
 
       - name: Deploy on server
         env:
