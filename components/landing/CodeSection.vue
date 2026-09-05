@@ -589,6 +589,13 @@ async function copy() {
     border-radius: 12px;
   }
 
+  /* Same as the note above: the light is large, mostly off screen at this
+     width, and not worth what a phone pays to paint it. */
+  .code-glow,
+  .code-beam {
+    display: none;
+  }
+
   .code-bezel {
     height: auto;
     opacity: 1;

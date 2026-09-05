@@ -184,15 +184,11 @@ onBeforeUnmount(() => {
     height: 100svh;
   }
 
+  /* Gone on a phone. It is a very large gradient layer for an effect that is
+     mostly off screen at this width, and the frames cost more here than
+     anywhere. */
   .statement-arc {
-    right: -42%;
-    width: min(96vw, 640px);
-    opacity: calc(var(--shown, 0) * 0.4);
-  }
-
-  /* Nothing to look at behind stacked text, and every frame of it is spent. */
-  .statement-arc {
-    animation: none;
+    display: none;
   }
 }
 
