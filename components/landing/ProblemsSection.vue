@@ -6,7 +6,6 @@
     :class="{ 'is-pinned': pinned, 'is-shown': shown }"
   >
     <div class="pin">
-      <span class="mesh" aria-hidden="true"></span>
       <div class="container-isura layout">
         <div class="copy">
           <span class="eyebrow">Problems we solve</span>
@@ -262,69 +261,49 @@ onBeforeUnmount(() => {
 }
 
 .pin {
-  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background: var(--bg);
+  background-repeat: no-repeat;
+  background-position:
+    8% 6%,
+    96% 12%,
+    22% 96%,
+    88% 92%,
+    54% 48%;
+  background-size: 200% 200%;
+  animation: mesh-drift 52s ease-in-out infinite alternate;
 }
 
-/* Soft mesh ground. Absolutely positioned so it stays out of the flex flow and, once the section
-   pins, stays the size of the sticky viewport rather than stretching over the whole scroll length. */
-.mesh {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
+@keyframes mesh-drift {
+  to {
+    background-position:
+      26% 24%,
+      74% 2%,
+      6% 78%,
+      100% 70%,
+      38% 62%;
+  }
+}
+
+:root[data-theme='dark'] .pin {
   background:
-    radial-gradient(
-      58rem 40rem at 14% 16%,
-      color-mix(in srgb, var(--brand) 20%, transparent),
-      transparent 62%
-    ),
-    radial-gradient(
-      50rem 42rem at 86% 6%,
-      color-mix(in srgb, var(--brand-deep) 14%, transparent),
-      transparent 60%
-    ),
-    radial-gradient(
-      68rem 46rem at 80% 84%,
-      color-mix(in srgb, var(--invert-bg-3) 16%, transparent),
-      transparent 66%
-    ),
-    radial-gradient(
-      44rem 36rem at 26% 94%,
-      color-mix(in srgb, var(--brand) 11%, transparent),
-      transparent 64%
-    );
+    radial-gradient(120vmax 96vmax at 8% 6%, color-mix(in srgb, var(--invert-bg-3) 34%, transparent), transparent 58%),
+    radial-gradient(110vmax 92vmax at 96% 12%, color-mix(in srgb, var(--brand-deep) 16%, transparent), transparent 56%),
+    radial-gradient(104vmax 88vmax at 22% 96%, color-mix(in srgb, var(--positive) 12%, transparent), transparent 58%),
+    radial-gradient(118vmax 94vmax at 88% 92%, color-mix(in srgb, var(--brand) 7%, transparent), transparent 60%),
+    radial-gradient(96vmax 80vmax at 54% 48%, color-mix(in srgb, var(--invert-bg-2) 30%, transparent), transparent 62%),
+    var(--bg);
 }
 
-:root[data-theme='dark'] .mesh {
-  background:
-    radial-gradient(
-      58rem 40rem at 14% 16%,
-      color-mix(in srgb, var(--brand) 9%, transparent),
-      transparent 62%
-    ),
-    radial-gradient(
-      50rem 42rem at 86% 6%,
-      color-mix(in srgb, var(--brand-deep) 8%, transparent),
-      transparent 60%
-    ),
-    radial-gradient(
-      68rem 46rem at 80% 84%,
-      color-mix(in srgb, var(--invert-bg-3) 40%, transparent),
-      transparent 66%
-    ),
-    radial-gradient(
-      44rem 36rem at 26% 94%,
-      color-mix(in srgb, var(--brand) 6%, transparent),
-      transparent 64%
-    );
+@media (prefers-reduced-motion: reduce) {
+  .pin {
+    animation: none;
+  }
 }
 
-.pin > *:not(.mesh) {
-  position: relative;
-  z-index: 1;
+.pin > * {
   width: 100%;
   flex: none;
 }
@@ -378,10 +357,15 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
   padding: 1.05rem 1.15rem;
-  border: 1px solid var(--border);
+  /* On a mesh the ground sits in the same luminance band as --surface, so contrast alone cannot
+     separate the card. It reads as glass instead: translucent fill, blurred backdrop and a real
+     drop shadow, which is what lets it sit on the gradient rather than compete with it. */
+  border: 1px solid var(--border-strong);
   border-radius: var(--radius-lg);
-  background: var(--surface);
-  box-shadow: var(--shadow-2);
+  background: color-mix(in srgb, var(--surface) 76%, transparent);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  box-shadow: var(--shadow-pop);
   opacity: 0;
   translate: 0 1.4rem;
   transform: translate(var(--ox, 0px), var(--oy, 0px))
