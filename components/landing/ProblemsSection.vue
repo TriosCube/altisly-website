@@ -526,6 +526,13 @@ onBeforeUnmount(() => {
 }
 
 @media (max-width: 1023px) {
+  /* Stacked, this section starts straight after the marquee strip and 5.5rem
+     was not enough to read as a new section, particularly now it carries its
+     own background. */
+  .problems {
+    padding-top: 7.5rem;
+  }
+
   /* Four artefacts stacked is a long scroll on a phone, and each one is a separate thought anyway.
      They become a rail instead: one card a screen, snapping as you swipe, bleeding to both edges so
      the next one is always visible at the margin. */

@@ -34,7 +34,7 @@
           The software behind the operations a business cannot afford to get wrong.
         </p>
 
-        <div class="reveal flex gap-3 items-center flex-wrap" style="--i: 2">
+        <div class="reveal hero-actions flex gap-3 items-center flex-wrap" style="--i: 2">
           <AppButton variant="lime" size="lg" to="/contact">Talk to us →</AppButton>
           <AppButton variant="ghost" size="lg" to="/diagnose">Run a diagnostic</AppButton>
         </div>
@@ -575,6 +575,32 @@ onBeforeUnmount(() => {
   .mark-field {
     transform: scaleX(1);
     transition: none;
+  }
+}
+
+/* Phones. The two buttons come out, which buys the headline the room it needs
+   to be read rather than scanned; both destinations are still one tap away in
+   the nav. */
+@media (max-width: 640px) {
+  .hero-actions {
+    display: none;
+  }
+}
+
+/* Three unbroken lines is a desktop rule. At this width there is no room for
+   it and holding to it kept the headline at about 30px, which is a caption.
+   The lines wrap here and the type is sized as a fraction of the column
+   instead: 0.112 is above the point where every first line wraps and below the
+   point where any second line does, so all three headlines land on four lines
+   at every width from 320 to 480 and none of them jumps as they cycle. */
+@media (max-width: 480px) {
+  .hl {
+    white-space: normal;
+  }
+
+  .headline {
+    font-size: calc((100vw - 64px) * 0.112);
+    min-height: 4.1em;
   }
 }
 </style>
