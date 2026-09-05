@@ -55,6 +55,7 @@ if [ -f "${APP_DIR}/.env.prod" ]; then
   sudo restorecon -F "/etc/${SITE}/env" 2>/dev/null || true
 fi
 
+sudo install -d -m 0755 -o caddy -g caddy /var/log/caddy
 sudo mkdir -p /etc/caddy/conf.d
 sudo tee /etc/caddy/Caddyfile >/dev/null <<CADDYFILE
 {
@@ -70,11 +71,19 @@ CADDYFILE
 sudo tee "/etc/caddy/conf.d/${SITE}.caddy" >/dev/null <<VHOST
 ${DOMAIN} {
 	encode gzip zstd
+	log {
+		output file /var/log/caddy/${SITE}.log {
+			roll_size 10MiB
+			roll_keep 5
+		}
+		format json
+	}
 	header {
 		# One year of HTTPS-only, including subdomains, so isura is covered too.
 		Strict-Transport-Security "max-age=31536000; includeSubDomains"
 		# Stop the browser guessing a type the server did not declare.
 		X-Content-Type-Options "nosniff"
+		Content-Security-Policy "default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; frame-ancestors 'none'; script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.googletagservices.com https://*.doubleclick.net https://*.google.com https://*.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com; frame-src https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com; media-src 'self' data:; worker-src 'self' blob:; upgrade-insecure-requests"
 		# Nothing here should ever be framed: clickjacking has no upside for a
 		# site with a login and a file upload.
 		X-Frame-Options "DENY"
