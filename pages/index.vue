@@ -10,6 +10,7 @@
     <JourneySection />
     <WhoWeAre />
     <BeliefSection />
+    <!-- probe posts={{ posts === null ? 'null' : (posts?.length ?? 'undef') }} -->
     <InsightsSection :posts="posts || []" />
     <CtaSection />
   </div>
