@@ -7,8 +7,8 @@
     :style="{
       '--px': `${parallax.x}px`,
       '--py': `${parallax.y}px`,
-      '--gx': `${glow.x}%`,
-      '--gy': `${glow.y}%`,
+      '--gx': `${glow.x}px`,
+      '--gy': `${glow.y}px`,
     }"
   >
     <span class="halo"></span>
@@ -130,17 +130,20 @@ const firing = ref(false)
 const set = computed(() => sets[props.capability % sets.length])
 const count = ref(sets[0].queue.from)
 const parallax = reactive({ x: 0, y: 0 })
-const glow = reactive({ x: 56, y: 44 })
+const glow = reactive({ x: 0, y: 0 })
 
 let beats: ReturnType<typeof setTimeout>[] = []
 let raf = 0
 let reduced = false
+let easing = false
+let inView = true
+let watcher: IntersectionObserver | null = null
 const target = { x: 0, y: 0 }
-const glowTarget = { x: 56, y: 44 }
+const glowTarget = { x: 0, y: 0 }
 
 function onPointerMove(event: PointerEvent) {
   const stage = stageRef.value
-  if (!stage) return
+  if (!stage || !inView) return
 
   const rect = stage.getBoundingClientRect()
   const dx = (event.clientX - (rect.left + rect.width / 2)) / rect.width
@@ -149,15 +152,49 @@ function onPointerMove(event: PointerEvent) {
   target.x = Math.max(-1, Math.min(1, dx)) * 6
   target.y = Math.max(-1, Math.min(1, dy)) * 5
 
-  glowTarget.x = Math.max(-25, Math.min(125, ((event.clientX - rect.left) / rect.width) * 100))
-  glowTarget.y = Math.max(-25, Math.min(125, ((event.clientY - rect.top) / rect.height) * 100))
+  glowTarget.x = Math.max(-rect.width * 0.25, Math.min(rect.width * 1.25, event.clientX - rect.left))
+  glowTarget.y = Math.max(-rect.height * 0.25, Math.min(rect.height * 1.25, event.clientY - rect.top))
+  wake()
 }
 
+/* The halo is a blurred layer, so it is moved with translate rather than left and top: the browser
+   keeps the rasterised blur and shifts it. The loop parks once everything has landed, and stays
+   parked while the stage is off screen. */
 function ease() {
-  parallax.x += (target.x - parallax.x) * 0.08
-  parallax.y += (target.y - parallax.y) * 0.08
-  glow.x += (glowTarget.x - glow.x) * 0.05
-  glow.y += (glowTarget.y - glow.y) * 0.05
+  const deltas = [
+    target.x - parallax.x,
+    target.y - parallax.y,
+    glowTarget.x - glow.x,
+    glowTarget.y - glow.y,
+  ]
+
+  parallax.x += deltas[0] * 0.08
+  parallax.y += deltas[1] * 0.08
+  glow.x += deltas[2] * 0.05
+  glow.y += deltas[3] * 0.05
+
+  if (!inView || Math.max(...deltas.map(Math.abs)) < 0.06) {
+    easing = false
+    return
+  }
+
+  raf = requestAnimationFrame(ease)
+}
+
+/* The halo rests just off centre until the pointer arrives. In pixels that has to come from the
+   stage itself, so it is seeded on mount rather than written as a percentage default. */
+function seedGlow() {
+  const stage = stageRef.value
+  if (!stage) return
+
+  const rect = stage.getBoundingClientRect()
+  glow.x = glowTarget.x = rect.width * 0.56
+  glow.y = glowTarget.y = rect.height * 0.44
+}
+
+function wake() {
+  if (easing || reduced || !inView) return
+  easing = true
   raf = requestAnimationFrame(ease)
 }
 
@@ -193,6 +230,8 @@ watch(() => props.capability, replay)
 onMounted(() => {
   reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
+  seedGlow()
+
   if (reduced) {
     entered.value = true
     replay()
@@ -202,11 +241,22 @@ onMounted(() => {
   requestAnimationFrame(() => (entered.value = true))
   replay()
   window.addEventListener('pointermove', onPointerMove, { passive: true })
-  raf = requestAnimationFrame(ease)
+
+  if (stageRef.value && 'IntersectionObserver' in window) {
+    watcher = new IntersectionObserver(
+      ([entry]) => {
+        inView = entry.isIntersecting
+        if (inView) wake()
+      },
+      { threshold: 0 },
+    )
+    watcher.observe(stageRef.value)
+  }
 })
 
 onBeforeUnmount(() => {
   for (const beat of beats) clearTimeout(beat)
+  watcher?.disconnect()
   cancelAnimationFrame(raf)
   window.removeEventListener('pointermove', onPointerMove)
 })
@@ -231,8 +281,8 @@ onBeforeUnmount(() => {
   --halo-mid: color-mix(in srgb, var(--muted-2) 15%, transparent);
   --halo-blur: 58px;
   position: absolute;
-  left: var(--gx, 56%);
-  top: var(--gy, 44%);
+  left: 0;
+  top: 0;
   z-index: 0;
   width: 32rem;
   aspect-ratio: 1;
@@ -246,7 +296,8 @@ onBeforeUnmount(() => {
   );
   filter: blur(var(--halo-blur));
   opacity: 0;
-  transform: translate(-50%, -50%);
+  translate: calc(var(--gx, 50%) - 50%) calc(var(--gy, 42%) - 50%);
+  will-change: translate;
   transition: opacity 1200ms ease 300ms;
   animation: halo-breathe 9s ease-in-out infinite;
 }

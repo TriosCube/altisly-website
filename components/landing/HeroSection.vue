@@ -66,6 +66,9 @@ let frame = 0
 let ease = 0
 let rail: ReturnType<typeof setInterval> | undefined
 let reduced = false
+let drifting = false
+let inView = true
+let watcher: IntersectionObserver | null = null
 const netTarget = { x: 50, y: 42 }
 
 function update() {
@@ -84,16 +87,34 @@ function schedule() {
 
 function onPointerMove(event: PointerEvent) {
   const hero = heroRef.value
-  if (!hero) return
+  if (!hero || !inView) return
 
   const rect = hero.getBoundingClientRect()
   netTarget.x = ((event.clientX - rect.left) / rect.width) * 100
   netTarget.y = ((event.clientY - rect.top) / rect.height) * 100
+  wake()
 }
 
+/* The mask this drives is a full width repaint, so the loop only runs while the light is still
+   travelling and only while the hero is on screen. Once it lands, it parks until the pointer moves. */
 function drift() {
-  net.x += (netTarget.x - net.x) * 0.07
-  net.y += (netTarget.y - net.y) * 0.07
+  const dx = netTarget.x - net.x
+  const dy = netTarget.y - net.y
+
+  net.x += dx * 0.07
+  net.y += dy * 0.07
+
+  if (!inView || (Math.abs(dx) < 0.04 && Math.abs(dy) < 0.04)) {
+    drifting = false
+    return
+  }
+
+  ease = requestAnimationFrame(drift)
+}
+
+function wake() {
+  if (drifting || reduced || !inView) return
+  drifting = true
   ease = requestAnimationFrame(drift)
 }
 
@@ -109,7 +130,19 @@ onMounted(() => {
   window.addEventListener('scroll', schedule, { passive: true })
   window.addEventListener('resize', schedule)
   window.addEventListener('pointermove', onPointerMove, { passive: true })
-  ease = requestAnimationFrame(drift)
+
+  if (heroRef.value && 'IntersectionObserver' in window) {
+    watcher = new IntersectionObserver(
+      ([entry]) => {
+        inView = entry.isIntersecting
+        if (inView) wake()
+      },
+      { threshold: 0 },
+    )
+    watcher.observe(heroRef.value)
+  }
+
+  wake()
 
   rail = setInterval(() => {
     if (document.hidden) return
@@ -119,6 +152,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   clearInterval(rail)
+  watcher?.disconnect()
   cancelAnimationFrame(frame)
   cancelAnimationFrame(ease)
   window.removeEventListener('pointermove', onPointerMove)

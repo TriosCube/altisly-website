@@ -297,6 +297,12 @@ onBeforeUnmount(() => {
     var(--bg);
 }
 
+/* The drift only has pools to move in dark. Light sits on a flat ground, where the same animation
+   would repaint the field every frame for no visible change. */
+:root:not([data-theme='dark']) .pin {
+  animation: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .pin {
     animation: none;

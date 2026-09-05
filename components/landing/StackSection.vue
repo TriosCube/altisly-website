@@ -333,11 +333,11 @@ function update() {
   const stack = stackRef.value
   if (!stack || reduced.value) return
 
+  const box = stack.getBoundingClientRect()
+  if (box.bottom < 0 || box.top > window.innerHeight) return
+
   const step = stack.offsetHeight / stages.length
-  const travelled = Math.min(
-    Math.max(-stack.getBoundingClientRect().top, 0),
-    stack.offsetHeight,
-  )
+  const travelled = Math.min(Math.max(-box.top, 0), stack.offsetHeight)
   const head = travelled / step
 
   recede.value = stages.map((_, i) => Math.min(Math.max(head - i, 0), 1))
