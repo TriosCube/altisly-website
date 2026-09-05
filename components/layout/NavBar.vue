@@ -42,9 +42,7 @@
 
           <NuxtLink to="/blog" class="nav-link" @mouseenter="closeMenus">Insights</NuxtLink>
           <NuxtLink to="/contact" class="nav-link" @mouseenter="closeMenus">Contact</NuxtLink>
-          <NuxtLink to="/work/atreasury" class="nav-link" @mouseenter="closeMenus">
-            Treasury
-          </NuxtLink>
+          <a href="https://isura.altisly.com" class="nav-link" @mouseenter="closeMenus"> Treasury </a>
         </div>
 
         <div class="flex items-center gap-2">
@@ -250,9 +248,7 @@
             <NuxtLink to="/contact" class="mobile-item" @click="mobileOpen = false">
               Contact
             </NuxtLink>
-            <NuxtLink to="/work/atreasury" class="mobile-item" @click="mobileOpen = false">
-              Treasury
-            </NuxtLink>
+            <a href="https://isura.altisly.com" class="mobile-item" @click="mobileOpen = false"> Treasury </a>
           </div>
 
           <div class="mobile-group">

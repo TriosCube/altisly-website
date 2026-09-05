@@ -1,21 +1,28 @@
 #!/usr/bin/env bash
-# Installs the systemd units and Caddy config. Idempotent.
+# Installs the systemd unit and Caddy vhost for one site. Idempotent.
 #
-#   CADDY_EMAIL=hello@altisly.com ./scripts/install-services.sh
+#   SITE=altisly DOMAIN=altisly.com PORT=3300 CADDY_EMAIL=you@example.com \
+#     ./scripts/install-services.sh
+#
+# Several sites share this host, so the Caddy config is split: one file per
+# site under conf.d, and deploying one never rewrites another's vhost.
 set -euo pipefail
 
-APP_DIR="${APP_DIR:-$HOME/altisly-website}"
+SITE="${SITE:-altisly}"
+DOMAIN="${DOMAIN:-altisly.com}"
+PORT="${PORT:-3300}"
+APP_DIR="${APP_DIR:-$HOME/$SITE-website}"
 APP_USER="${APP_USER:-$(id -un)}"
 EMAIL="${CADDY_EMAIL:-}"
-DOMAIN="${DOMAIN:-altisly.com}"
+WWW="${WWW:-yes}"
 
 [ -n "$EMAIL" ] || { echo "Set CADDY_EMAIL" >&2; exit 1; }
 
-# process.cwd() must be APP_DIR, not the build output: postsDb and enquiriesDb
-# resolve their storage as cwd/data, and that has to survive a redeploy.
-sudo tee /etc/systemd/system/altisly.service >/dev/null <<UNIT
+# WorkingDirectory is the app root, not the build output: postsDb and
+# enquiriesDb resolve storage as cwd/data, which must survive a redeploy.
+sudo tee "/etc/systemd/system/${SITE}.service" >/dev/null <<UNIT
 [Unit]
-Description=altisly-website (Nuxt)
+Description=${SITE} (Nuxt)
 After=network-online.target
 Wants=network-online.target
 
@@ -26,9 +33,9 @@ WorkingDirectory=${APP_DIR}
 EnvironmentFile=-${APP_DIR}/.env.prod
 Environment=NODE_ENV=production
 Environment=HOST=127.0.0.1
-Environment=PORT=3300
+Environment=PORT=${PORT}
 Environment=NITRO_HOST=127.0.0.1
-Environment=NITRO_PORT=3300
+Environment=NITRO_PORT=${PORT}
 ExecStart=/opt/node/bin/node ${APP_DIR}/build-output/output/server/index.mjs
 Restart=always
 RestartSec=3
@@ -39,16 +46,22 @@ StandardError=journal
 WantedBy=multi-user.target
 UNIT
 
+sudo mkdir -p /etc/caddy/conf.d
 sudo tee /etc/caddy/Caddyfile >/dev/null <<CADDYFILE
 {
 	email ${EMAIL}
 }
 
-${DOMAIN}, www.${DOMAIN} {
-	encode gzip zstd
-	reverse_proxy 127.0.0.1:3300
-}
+import /etc/caddy/conf.d/*.caddy
 CADDYFILE
+
+if [ "$WWW" = "yes" ]; then HOSTS="${DOMAIN}, www.${DOMAIN}"; else HOSTS="${DOMAIN}"; fi
+sudo tee "/etc/caddy/conf.d/${SITE}.caddy" >/dev/null <<VHOST
+${HOSTS} {
+	encode gzip zstd
+	reverse_proxy 127.0.0.1:${PORT}
+}
+VHOST
 
 sudo tee /etc/systemd/system/caddy.service >/dev/null <<UNIT
 [Unit]
@@ -72,12 +85,13 @@ AmbientCapabilities=CAP_NET_BIND_SERVICE
 WantedBy=multi-user.target
 UNIT
 
-# The deploy step runs under umask 077 so secrets land private; Caddy runs
-# unprivileged and must still be able to read its own config.
-sudo chmod 0755 /etc/caddy
+# The deploy step runs under umask 077 so the env file lands private; Caddy
+# runs unprivileged and must still be able to read its own config.
+sudo chmod 0755 /etc/caddy /etc/caddy/conf.d
 sudo chmod 0644 /etc/caddy/Caddyfile
+sudo chmod 0644 /etc/caddy/conf.d/*.caddy
 sudo chown -R caddy:caddy /var/lib/caddy
 
 sudo systemctl daemon-reload
-sudo systemctl enable altisly caddy >/dev/null 2>&1 || true
-echo "services installed"
+sudo systemctl enable "${SITE}" caddy >/dev/null 2>&1 || true
+echo "services installed for ${SITE} (${DOMAIN} -> 127.0.0.1:${PORT})"

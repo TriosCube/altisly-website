@@ -63,7 +63,7 @@ const footerLinks = [
     heading: 'Explore',
     links: [
       { label: 'Isura', to: '/isura' },
-      { label: 'Treasury', to: '/work/atreasury' },
+      { label: 'Treasury', to: 'https://isura.altisly.com' },
       { label: 'Run a diagnostic', to: '/diagnose' },
       { label: 'Contact', to: '/contact' },
     ],
