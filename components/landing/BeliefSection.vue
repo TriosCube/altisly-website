@@ -142,16 +142,17 @@ const tailOpacity = computed(() => {
   }
 }
 
-/* The lines are split by hand, so the type is sized against the column that holds them rather than
-   the window. Narrow the page, with the panel docked or otherwise, and the statement scales to fit
-   instead of wrapping into orphans or running past the edge. */
+/* This column is wider than the site's default so the hand split lines have room to hold at their
+   intended size. The type is sized in --vwu, which is the viewport normally and the shell's share of
+   it while the panel is docked, so the longest line stays inside the column either way. */
 .statement-box {
-  container-type: inline-size;
+  max-width: 1600px;
 }
 
 .statement {
   margin: 1.6rem 0 0;
-  font-size: clamp(28px, 5.4cqi, 82px);
+  max-width: 100%;
+  font-size: clamp(30px, calc(4.7*var(--vwu)), 94px);
   font-weight: 700;
   letter-spacing: -0.038em;
   line-height: 1.02;
