@@ -781,18 +781,59 @@ onBeforeUnmount(() => {
   isolation: isolate;
 }
 
-/* Untuned-set static: one turbulence tile, jumped a few pixels per frame so it
-   crawls the way analogue noise did, held low enough to read as texture. */
+/* Film grain: a fine turbulence tile that drifts slowly. The earlier version
+   jumped 4% every 90ms, which reads as a strobe rather than a surface. Fine
+   grain, small offsets and a long cycle make it shimmer instead. */
 .panel::before {
   position: absolute;
-  inset: -120%;
+  inset: -40%;
   content: '';
   z-index: 0;
   pointer-events: none;
-  opacity: 0.055;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
-  animation: static-crawl 0.7s steps(8) infinite;
+  opacity: 0.1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)'/%3E%3C/svg%3E");
+  animation: grain-drift 6s steps(10) infinite;
+  will-change: transform;
+}
+
+@keyframes grain-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  10% {
+    transform: translate3d(-1.5%, -1%, 0);
+  }
+  20% {
+    transform: translate3d(1%, 1.5%, 0);
+  }
+  30% {
+    transform: translate3d(-1%, 1%, 0);
+  }
+  40% {
+    transform: translate3d(1.5%, -0.5%, 0);
+  }
+  50% {
+    transform: translate3d(-0.5%, -1.5%, 0);
+  }
+  60% {
+    transform: translate3d(1%, 0.5%, 0);
+  }
+  70% {
+    transform: translate3d(-1.5%, 1%, 0);
+  }
+  80% {
+    transform: translate3d(0.5%, -1%, 0);
+  }
+  90% {
+    transform: translate3d(-1%, -0.5%, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel::before {
+    animation: none;
+  }
 }
 
 /* The copy and the shot sit above the grain, so the noise is behind them and
@@ -800,18 +841,6 @@ onBeforeUnmount(() => {
 .panel > * {
   position: relative;
   z-index: 1;
-}
-
-@keyframes static-crawl {
-  0% { transform: translate3d(0, 0, 0); }
-  12.5% { transform: translate3d(-3%, 2%, 0); }
-  25% { transform: translate3d(2%, -4%, 0); }
-  37.5% { transform: translate3d(-4%, -2%, 0); }
-  50% { transform: translate3d(3%, 3%, 0); }
-  62.5% { transform: translate3d(-2%, 4%, 0); }
-  75% { transform: translate3d(4%, -3%, 0); }
-  87.5% { transform: translate3d(-3%, -4%, 0); }
-  100% { transform: translate3d(0, 0, 0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
