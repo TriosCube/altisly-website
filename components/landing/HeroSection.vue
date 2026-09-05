@@ -14,7 +14,7 @@
              The cycle is decoration on top of it, hidden from assistive tech so
              the heading a screen reader announces never changes under it. -->
         <h1 class="reveal headline" style="--i: 0">
-          <span class="sr-only">We build what a business runs on.</span>
+          <span class="sr-only">We build the things a business cannot run without.</span>
           <transition name="line">
             <span :key="index" class="headline-line" aria-hidden="true">
               <span v-for="(row, r) in line" :key="r" class="hl">
@@ -71,23 +71,26 @@ import { capabilities } from '@/data/content'
 // The first is the canonical one: it is server rendered and it is what the
 // heading reads as to assistive tech.
 const lines = [
-  // Measured, not guessed. Each headline opens at the same width, drops to
-  // about three quarters on the mark, and lands at about half. Guessing by
-  // character count does not work: the highlight adds padding and the font is
-  // proportional, so two lines of equal length can render very differently.
+  // Measured against Onest ExtraBold at the headline's own weight, tracking and
+  // highlight padding, because guessing by character count does not survive a
+  // proportional face. Each headline drops by an even step, so the right edges
+  // of the three lines sit on one straight line rather than a ragged one:
+  //   1005 -> 802 -> 610   (step 203, 192)
+  //   1005 -> 774 -> 557   (step 231, 217)
+  //    952 -> 668 -> 398   (step 284, 270)
   [
-    { text: 'We build what a' },
-    { mark: 'business' },
-    { text: 'runs on.' },
+    { text: 'We build the things a' },
+    { mark: 'business', after: 'cannot' },
+    { text: 'run without.' },
   ],
   [
-    { text: 'We work where' },
-    { mark: 'mistakes' },
-    { text: 'cost us.' },
+    { text: 'We work in the places' },
+    { text: 'a', mark: 'mistake', after: 'costs' },
+    { text: 'real money.' },
   ],
   [
-    { text: 'We build it, and' },
-    { mark: 'we finish' },
+    { text: 'We take the work on,' },
+    { text: 'and', mark: 'we finish' },
     { text: 'the job.' },
   ],
 ]
