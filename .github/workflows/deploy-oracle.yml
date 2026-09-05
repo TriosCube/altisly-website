@@ -76,7 +76,8 @@ jobs:
           ssh -p "$PROD_PORT" -i ~/.ssh/id_deploy "$PROD_USER@$PROD_HOST" \
             "SHA='$SHA' bash -s" <<'REMOTE'
           set -eu
-          if command -v docker >/dev/null 2>&1 && command -v rsync >/dev/null 2>&1; then
+          if command -v podman >/dev/null 2>&1 && command -v podman-compose >/dev/null 2>&1 \
+             && command -v rsync >/dev/null 2>&1; then
             echo "Host already provisioned; skipping bootstrap."
             exit 0
           fi
@@ -146,15 +147,15 @@ jobs:
           umask 077
           printf '%s' "$ENV_B64" | base64 -d > .env.prod
           chmod 600 .env.prod
-          sudo docker build -f Dockerfile.runner -t localhost/altisly-website:latest .
-          if sudo docker volume ls -q | grep -q altisly.*certbot_conf; then
-            sudo docker compose -f docker-compose.prod.yml --env-file .env.prod up -d
+          sudo podman build -f Dockerfile.runner -t localhost/altisly-website:latest .
+          if sudo podman volume ls -q | grep -q certbot_conf; then
+            sudo podman-compose -f docker-compose.prod.yml --env-file .env.prod up -d
           else
             echo "No certificate volume yet - starting the app only."
             echo "Run scripts/init-cert.sh on the host to issue TLS, then re-run this workflow."
-            sudo docker compose -f docker-compose.prod.yml --env-file .env.prod up -d altisly-website
+            sudo podman-compose -f docker-compose.prod.yml --env-file .env.prod up -d altisly-website
           fi
-          sudo docker image prune -f
+          sudo podman image prune -f
           REMOTE
 
       - name: Ensure TLS certificate
@@ -174,7 +175,7 @@ jobs:
             "APP_DIR='/home/$PROD_USER/altisly-website' CERTBOT_EMAIL='$CERTBOT_EMAIL' bash -s" <<'REMOTE'
           set -eu
           cd "$APP_DIR"
-          if sudo docker compose -f docker-compose.prod.yml ps nginx 2>/dev/null | grep -q Up; then
+          if sudo podman ps --format '{{.Names}}' 2>/dev/null | grep -qx altisly-nginx; then
             echo "nginx already running with a certificate."
             exit 0
           fi
@@ -191,11 +192,11 @@ jobs:
           set -eu
           ssh -p "$PROD_PORT" -i ~/.ssh/id_deploy "$PROD_USER@$PROD_HOST" \
             'for i in $(seq 1 30); do
-               if sudo docker exec altisly-website node -e "fetch(\"http://127.0.0.1:3300\").then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))" 2>/dev/null; then
+               if sudo podman exec altisly-website node -e "fetch(\"http://127.0.0.1:3300\").then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))" 2>/dev/null; then
                  echo "altisly-website is serving"; exit 0
                fi
                sleep 5
              done
              echo "altisly-website did not become healthy" >&2
-             sudo docker logs --tail 50 altisly-website >&2 || true
+             sudo podman logs --tail 50 altisly-website >&2 || true
              exit 1'

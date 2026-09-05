@@ -11,7 +11,7 @@ set -euo pipefail
 
 DOMAIN="altisly.com"
 EMAIL="${CERTBOT_EMAIL:-}"
-COMPOSE="sudo docker compose -f docker-compose.prod.yml"
+COMPOSE="sudo podman-compose -f docker-compose.prod.yml"
 
 [ -n "$EMAIL" ] || { echo "Set CERTBOT_EMAIL first: export CERTBOT_EMAIL=you@example.com" >&2; exit 1; }
 
@@ -41,7 +41,7 @@ $COMPOSE run --rm --entrypoint sh certbot -c "
 "
 
 echo ">>> Reloading nginx with the real cert..."
-$COMPOSE exec nginx nginx -s reload
+sudo podman exec altisly-nginx nginx -s reload
 
 echo ">>> Bringing up the renewal loop..."
 $COMPOSE up -d certbot

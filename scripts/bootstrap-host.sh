@@ -1,17 +1,19 @@
 #!/usr/bin/env bash
 # Prepares a fresh Oracle instance to run altisly-website.
-# Run this once, on the new box, before the first deploy.
 #
 #   curl -fsSL https://raw.githubusercontent.com/TriosCube/altisly-website/main/scripts/bootstrap-host.sh | bash
 #
-# Works on Ubuntu 22.04/24.04 and Oracle Linux 8/9.
+# Uses podman rather than docker: it is the native runtime on Oracle Linux,
+# needs no daemon, and matters on a shape with under 512 MB of usable RAM.
 set -euo pipefail
 
 echo ">>> Detecting distribution..."
 . /etc/os-release
 echo "    $PRETTY_NAME"
 
-echo ">>> Adding 2G swap FIRST - dnf gets OOM-killed without it..."
+# Swap must exist before any package work. dnf gets OOM-killed parsing repo
+# metadata on this shape otherwise.
+echo ">>> Ensuring 2G swap..."
 if [ ! -f /swapfile ]; then
   sudo fallocate -l 2G /swapfile || sudo dd if=/dev/zero of=/swapfile bs=1M count=2048
   sudo chmod 600 /swapfile
@@ -19,40 +21,38 @@ if [ ! -f /swapfile ]; then
   sudo swapon /swapfile
   grep -q '^/swapfile' /etc/fstab || echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab > /dev/null
 fi
-free -h | head -3
+free -h | awk '/Swap/{print "    swap: "$2}'
 
 if command -v apt-get >/dev/null 2>&1; then
   sudo apt-get update -y
-  sudo apt-get install -y ca-certificates curl gnupg rsync
-  sudo install -m 0755 -d /etc/apt/keyrings
-  curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
-    | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-  sudo chmod a+r /etc/apt/keyrings/docker.gpg
-  echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
-https://download.docker.com/linux/ubuntu $VERSION_CODENAME stable" \
-    | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-  sudo apt-get update -y
-  sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+  sudo apt-get install -y podman podman-docker rsync curl
+  PIP=python3-pip
+  sudo apt-get install -y "$PIP"
 else
-  # OL9 ships dnf-utils as a thin compat package; dnf-plugins-core is what
-  # actually provides config-manager.
-  # Ksplice and the OCI repos carry ~200MB of metadata that this box cannot
-  # afford to parse. Skip them; nothing here needs those packages.
+  # Ksplice and the OCI repos carry ~200MB of metadata this box cannot afford.
   DNF="sudo dnf --disablerepo=ol9_ksplice --setopt=keepcache=0"
-  $DNF install -y dnf-plugins-core rsync || $DNF install -y dnf-utils rsync
-  $DNF config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-  # OL9 ships podman's runc/containerd conflicts; allow replacing them.
-  $DNF install -y --allowerasing \
-    docker-ce docker-ce-cli containerd.io docker-compose-plugin
+  # docker-ce and podman cannot coexist; drop it if a previous run installed it.
+  if rpm -q docker-ce >/dev/null 2>&1; then
+    echo ">>> Removing docker-ce in favour of podman..."
+    $DNF remove -y docker-ce docker-ce-cli containerd.io docker-compose-plugin || true
+  fi
+  $DNF install -y podman podman-docker rsync python3-pip
 fi
 
-echo ">>> Enabling Docker..."
-sudo systemctl enable --now docker
+echo ">>> Installing a compose provider..."
+if ! command -v podman-compose >/dev/null 2>&1; then
+  sudo python3 -m pip install --quiet podman-compose || {
+    echo "pip install failed; trying the distro package" >&2
+    sudo dnf install -y podman-compose || true
+  }
+fi
+
+echo ">>> Enabling the podman socket (docker-compatible API)..."
+sudo systemctl enable --now podman.socket 2>/dev/null || true
 
 echo ">>> Opening ports 80 and 443 on the host firewall..."
-# Oracle images ship with the instance firewall closed to everything but 22.
-# The VCN security list must ALSO be opened in the console; this is only the host side.
-if command -v firewall-cmd >/dev/null 2>&1; then
+# The VCN security list must ALSO allow these; this is only the host side.
+if command -v firewall-cmd >/dev/null 2>&1 && sudo firewall-cmd --state >/dev/null 2>&1; then
   sudo firewall-cmd --permanent --add-service=http
   sudo firewall-cmd --permanent --add-service=https
   sudo firewall-cmd --reload
@@ -63,14 +63,12 @@ else
     sudo sh -c 'iptables-save > /etc/iptables/rules.v4' 2>/dev/null || true
 fi
 
-echo ">>> Creating the app directory..."
+# Rootful podman binds 80/443 directly, so no unprivileged-port tuning needed.
 mkdir -p "$HOME/altisly-website"
 
 echo
 echo "== READY =="
-echo "  docker:  $(sudo docker --version)"
-echo "  compose: $(sudo docker compose version --short 2>/dev/null || echo 'plugin installed')"
-echo "  app dir: $HOME/altisly-website"
+echo "  podman:  $(sudo podman --version 2>/dev/null || echo MISSING)"
+echo "  compose: $(podman-compose --version 2>/dev/null | head -1 || echo MISSING)"
 echo "  swap:    $(free -h | awk '/Swap/{print $2}')"
-echo
-echo "Next: re-run the Deploy Oracle workflow, then scripts/init-cert.sh"
+echo "  ports:   $(sudo firewall-cmd --list-services 2>/dev/null || echo 'iptables')"
