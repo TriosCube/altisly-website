@@ -34,7 +34,7 @@
               class="word"
               :class="{ 'is-lime': line.lime && wordAmount(word.index) > 0.55 }"
               :style="{ opacity: 0.2 + wordAmount(word.index) * 0.8 }"
-              >{{ word.text }}&nbsp;</span
+              >{{ `${word.text} ` }}</span
             >
           </span>
         </p>
@@ -151,12 +151,18 @@ const tailOpacity = computed(() => {
   line-height: 1.02;
 }
 
+/* The lines are split by hand for a full width window. When the page narrows, under the docked
+   panel, they have to be free to wrap rather than run past the edge. */
 .line {
   display: block;
+  overflow-wrap: break-word;
 }
 
 .word {
   display: inline;
+  /* The trailing space is part of the interpolated text, so it survives the compiler. Preserving it
+     is what gives the line somewhere to break; a non-breaking space gave it none. */
+  white-space: pre-wrap;
   color: var(--invert-text);
   transition: color 260ms ease;
   will-change: opacity;
