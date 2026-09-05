@@ -7,8 +7,8 @@
     :style="{
       '--px': `${parallax.x}px`,
       '--py': `${parallax.y}px`,
-      '--gx': `${glow.x}px`,
-      '--gy': `${glow.y}px`,
+      '--gx': `${glow.x}%`,
+      '--gy': `${glow.y}%`,
     }"
   >
     <span class="halo"></span>
@@ -130,7 +130,7 @@ const firing = ref(false)
 const set = computed(() => sets[props.capability % sets.length])
 const count = ref(sets[0].queue.from)
 const parallax = reactive({ x: 0, y: 0 })
-const glow = reactive({ x: 0, y: 0 })
+const glow = reactive({ x: 56, y: 44 })
 
 let beats: ReturnType<typeof setTimeout>[] = []
 let raf = 0
@@ -139,7 +139,7 @@ let easing = false
 let inView = true
 let watcher: IntersectionObserver | null = null
 const target = { x: 0, y: 0 }
-const glowTarget = { x: 0, y: 0 }
+const glowTarget = { x: 56, y: 44 }
 
 function onPointerMove(event: PointerEvent) {
   const stage = stageRef.value
@@ -152,14 +152,12 @@ function onPointerMove(event: PointerEvent) {
   target.x = Math.max(-1, Math.min(1, dx)) * 6
   target.y = Math.max(-1, Math.min(1, dy)) * 5
 
-  glowTarget.x = Math.max(-rect.width * 0.25, Math.min(rect.width * 1.25, event.clientX - rect.left))
-  glowTarget.y = Math.max(-rect.height * 0.25, Math.min(rect.height * 1.25, event.clientY - rect.top))
+  glowTarget.x = Math.max(-25, Math.min(125, ((event.clientX - rect.left) / rect.width) * 100))
+  glowTarget.y = Math.max(-25, Math.min(125, ((event.clientY - rect.top) / rect.height) * 100))
   wake()
 }
 
-/* The halo is a blurred layer, so it is moved with translate rather than left and top: the browser
-   keeps the rasterised blur and shifts it. The loop parks once everything has landed, and stays
-   parked while the stage is off screen. */
+/* The loop parks once everything has landed, and stays parked while the stage is off screen. */
 function ease() {
   const deltas = [
     target.x - parallax.x,
@@ -179,17 +177,6 @@ function ease() {
   }
 
   raf = requestAnimationFrame(ease)
-}
-
-/* The halo rests just off centre until the pointer arrives. In pixels that has to come from the
-   stage itself, so it is seeded on mount rather than written as a percentage default. */
-function seedGlow() {
-  const stage = stageRef.value
-  if (!stage) return
-
-  const rect = stage.getBoundingClientRect()
-  glow.x = glowTarget.x = rect.width * 0.56
-  glow.y = glowTarget.y = rect.height * 0.44
 }
 
 function wake() {
@@ -229,8 +216,6 @@ watch(() => props.capability, replay)
 
 onMounted(() => {
   reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
-  seedGlow()
 
   if (reduced) {
     entered.value = true
@@ -281,8 +266,8 @@ onBeforeUnmount(() => {
   --halo-mid: color-mix(in srgb, var(--muted-2) 15%, transparent);
   --halo-blur: 58px;
   position: absolute;
-  left: 0;
-  top: 0;
+  left: var(--gx, 56%);
+  top: var(--gy, 44%);
   z-index: 0;
   width: 32rem;
   aspect-ratio: 1;
@@ -296,8 +281,7 @@ onBeforeUnmount(() => {
   );
   filter: blur(var(--halo-blur));
   opacity: 0;
-  translate: calc(var(--gx, 50%) - 50%) calc(var(--gy, 42%) - 50%);
-  will-change: translate;
+  transform: translate(-50%, -50%);
   transition: opacity 1200ms ease 300ms;
   animation: halo-breathe 9s ease-in-out infinite;
 }
