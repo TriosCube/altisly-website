@@ -20,7 +20,7 @@
             <button
               type="button"
               class="nav-link"
-              :class="{ 'is-open': openMenu === menu.key }"
+              :class="{ 'is-open': openMenu === menu.key, 'is-active': menuOwnsRoute(menu) }"
               :aria-expanded="openMenu === menu.key"
               @mouseenter="openNow(menu.key)"
               @click="toggleMenu(menu.key)"
@@ -283,6 +283,15 @@ import { presence } from '@/data/site'
 import { cycleTheme, getThemeMode, initTheme } from '@/utils/helpers'
 import type { ThemeMode } from '@/utils/types'
 
+// A dropdown has no route of its own, so it takes the highlight when the
+// reader is on any page it links to.
+function menuOwnsRoute(menu: { columns?: Array<{ items?: Array<{ to?: string }> }> }) {
+  const path = route.path
+  return (menu.columns ?? []).some((col) =>
+    (col.items ?? []).some((item) => item.to && (path === item.to || path.startsWith(item.to + '/'))),
+  )
+}
+
 const menus = [
   {
     key: 'company',
@@ -541,6 +550,37 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+/* NuxtLink sets router-link-active itself; the dropdown triggers get is-active
+   from the route check. Both read as position, not as a stuck hover. */
+.nav-link.router-link-active,
+.nav-link.is-active {
+  opacity: 1;
+  font-weight: 600;
+  position: relative;
+}
+
+.nav-link.router-link-active::after,
+.nav-link.is-active::after {
+  content: '';
+  position: absolute;
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: 0.25rem;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--brand);
+}
+
+.is-on-dark .nav-link.router-link-active::after,
+.is-on-dark .nav-link.is-active::after {
+  background: var(--brand);
+}
+
+.mobile-item.router-link-active {
+  font-weight: 600;
+  opacity: 1;
+}
+
 /* One glassy pill at every scroll position. The blur does the separation
    work, so the bar no longer has to go solid once the page moves. */
 .nav-bar {
