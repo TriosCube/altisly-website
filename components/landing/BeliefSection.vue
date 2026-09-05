@@ -198,4 +198,12 @@ const tailOpacity = computed(() => {
     padding: 6rem 0;
   }
 }
+
+/* Deeper ground for this section alone in light theme: the tokens are redefined on the root here
+   rather than globally, so nothing else that paints from them moves. */
+:root:not([data-theme='dark']) .belief {
+  --invert-bg: #0a1812;
+  --invert-bg-2: #0f2318;
+  --invert-bg-3: #163020;
+}
 </style>

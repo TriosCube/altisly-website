@@ -2,20 +2,9 @@
   <section class="py-25 pb-35">
     <div class="container-isura">
       <div
-        class="bg-invert text-invert rounded-isura-xl p-18 px-14 grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-12 items-center relative overflow-hidden"
+        class="cta bg-invert text-invert rounded-isura-xl p-18 px-14 grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-12 items-center relative overflow-hidden"
       >
-        
-        <div
-          class="absolute -right-50 -bottom-50 w-125 h-125 rounded-full"
-          style="
-            background: radial-gradient(
-              closest-side,
-              color-mix(in srgb, var(--brand) 50%, transparent),
-              transparent 75%
-            );
-            pointer-events: none;
-          "
-        ></div>
+        <div class="cta-glow absolute -right-50 -bottom-50 w-125 h-125 rounded-full"></div>
 
         <div class="relative z-10">
           <h2
@@ -48,7 +37,7 @@
             class="flex items-start gap-4 py-4 border-t border-invert"
             :class="{ 'border-b': i === nextSteps.length - 1, 'mt-4': i === 0 }"
           >
-            <span class="font-code text-[12px] text-brand pt-1 w-6 flex-shrink-0">
+            <span class="cta-num font-code text-[12px] pt-1 w-6 flex-shrink-0">
               {{ String(i + 1).padStart(2, '0') }}
             </span>
             <span class="text-[14.5px] leading-relaxed text-invert">{{ step }}</span>
@@ -63,3 +52,36 @@
 import AppButton from '@/components/ui/AppButton.vue'
 import { nextSteps } from '@/data/content'
 </script>
+
+<style scoped>
+/* The card and everything inside it, the ghost button included, paints from the invert tokens. In
+   light theme those are redefined here so the whole block lands on paper without touching markup. */
+.cta {
+  --glow: color-mix(in srgb, var(--brand) 50%, transparent);
+}
+
+.cta-glow {
+  background: radial-gradient(closest-side, var(--glow), transparent 75%);
+  pointer-events: none;
+}
+
+.cta-num {
+  color: var(--brand);
+}
+
+:root:not([data-theme='dark']) .cta {
+  --invert-bg: var(--surface);
+  --invert-text: var(--text);
+  --invert-muted: var(--muted);
+  --invert-border: var(--border);
+  --invert-hairline: var(--border-strong);
+  --invert-wash: var(--surface-2);
+  --glow: color-mix(in srgb, var(--brand) 30%, transparent);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-2);
+}
+
+:root:not([data-theme='dark']) .cta-num {
+  color: var(--brand-deep);
+}
+</style>
