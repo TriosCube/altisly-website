@@ -159,6 +159,9 @@ jobs:
           REMOTE
 
       - name: Ensure TLS certificate
+        # Issuance needs altisly.com resolving to this host. If DNS has not
+        # propagated yet the site still serves over HTTP; re-run to pick it up.
+        continue-on-error: true
         env:
           PROD_HOST: ${{ secrets.PROD_HOST }}
           PROD_PORT: ${{ secrets.PROD_PORT || '22' }}
