@@ -1049,3 +1049,249 @@
     transition-delay: 0ms;
   }
 }
+
+/* Ported with IcSelect from the Isura core library, so the dropdown looks the
+   same on both sites. These three sizings are core's; the rest of the tokens
+   the rules reference already exist here. */
+:root {
+  --fs-meta: 12.5px;
+  --fs-caps: 11.5px;
+  --fs-body: 14px;
+  --ic-control-h: 40px;
+  --brand-ink: var(--on-brand);
+}
+
+.ic-dropdown-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    font: inherit;
+    color: var(--text);
+    background: var(--surface);
+    cursor: pointer;
+    transition:
+      border-color 0.12s,
+      background 0.12s,
+      box-shadow 0.12s;
+    white-space: nowrap;
+  }
+
+.ic-dropdown-trigger:focus-visible {
+    outline: none;
+    border-color: var(--brand-ink);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 16%, transparent);
+  }
+
+.ic-dropdown-trigger[data-disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+.ic-dropdown-trigger.is-full {
+    width: 100%;
+  }
+
+.ic-dropdown-trigger.is-error {
+    border-color: var(--negative);
+  }
+
+.ic-dropdown-trigger.is-error:focus-visible {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--negative) 18%, transparent);
+  }
+
+.ic-dropdown-trigger.is-filter {
+    height: 30px;
+    padding: 0 12px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-meta);
+  }
+
+.ic-dropdown-trigger.is-filter:hover {
+    border-color: var(--muted);
+  }
+
+.ic-dropdown-trigger.is-pill {
+    height: 34px;
+    padding: 0 14px;
+    border: 1px solid var(--border);
+    border-radius: 9999px;
+    font-size: var(--fs-meta);
+  }
+
+.ic-dropdown-trigger.is-input {
+    height: var(--ic-control-h);
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 12px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    font-size: var(--fs-body);
+  }
+
+.ic-dropdown-chevron {
+    color: var(--muted);
+    transition:
+      transform 0.18s ease,
+      color 0.12s;
+    flex-shrink: 0;
+  }
+
+.ic-dropdown-trigger[data-state='open'] .ic-dropdown-chevron {
+    transform: rotate(180deg);
+    color: var(--text);
+  }
+
+.ic-dropdown-content {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-pop);
+    padding: 4px;
+    min-width: var(--reka-select-trigger-width, var(--reka-combobox-trigger-width));
+    /* Hard cap: never taller than 320px, even when the viewport offers more room —
+       long option lists (countries…) scroll inside the viewport instead. */
+    max-height: min(
+      320px,
+      var(
+        --reka-select-content-available-height,
+        var(--reka-combobox-content-available-height, 320px)
+      )
+    );
+    z-index: 3000;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+.ic-dropdown-viewport {
+    padding: 2px;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+  }
+
+.ic-dropdown-search {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 9px;
+    margin: 0 0 2px;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+    flex-shrink: 0;
+  }
+
+.ic-dropdown-search-icon {
+    flex-shrink: 0;
+  }
+
+.ic-dropdown-search-input {
+    flex: 1;
+    border: 0;
+    outline: none;
+    background: transparent;
+    font: inherit;
+    font-size: var(--fs-meta);
+    color: var(--text);
+    min-width: 0;
+  }
+
+.ic-dropdown-search-input::placeholder {
+    color: var(--muted-2);
+  }
+
+.ic-dropdown-empty {
+    padding: 16px 10px;
+    text-align: center;
+    font-size: var(--fs-meta);
+    color: var(--muted);
+  }
+
+.ic-dropdown-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    min-height: 32px;
+    padding: 6px 10px;
+    font-size: var(--fs-meta);
+    color: var(--text);
+    border-radius: 6px;
+    cursor: pointer;
+    outline: none;
+    -webkit-user-select: none;
+    user-select: none;
+    transition: background 0.1s;
+  }
+
+.ic-dropdown-item:hover {
+    background: var(--surface-2);
+  }
+
+.ic-dropdown-item[data-state='checked'] {
+    background: var(--surface-2);
+    font-weight: 600;
+  }
+
+.ic-dropdown-item[data-disabled] {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+.ic-dropdown-item-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+
+.ic-dropdown-item-hint {
+    color: var(--muted);
+    font-size: var(--fs-caps);
+    margin-left: 6px;
+  }
+
+.ic-dropdown-indicator {
+    display: inline-flex;
+    align-items: center;
+    color: var(--brand-ink);
+  }
+
+.ic-dropdown-separator {
+    height: 1px;
+    background: var(--border);
+    margin: 4px 0;
+  }
+
+.ic-dropdown-label {
+    font-size: var(--fs-caps);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--muted);
+    padding: 8px 10px 4px;
+    font-weight: 600;
+  }
+
+.ic-action-menu-item--danger .ic-dropdown-item-label {
+    color: var(--negative);
+  }
+
+.cv-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+.cv-field-label {
+    font-size: var(--fs-meta);
+    font-weight: 500;
+    color: var(--text-2);
+  }
+
+.cv-field-error {
+    font-size: var(--fs-caps);
+    color: var(--negative);
+    margin: 2px 0 0;
+  }

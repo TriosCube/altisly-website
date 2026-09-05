@@ -25,15 +25,15 @@
           </div>
 
           <form v-else class="apply-body" @submit.prevent="submit">
-            <label class="fld">
-              <span>Role</span>
-              <select v-model="form.role">
-                <option value="">Open application</option>
-                <option v-for="r in openRoles" :key="r.title" :value="r.title">
-                  {{ r.title }} · {{ r.team }}
-                </option>
-              </select>
-            </label>
+            <div class="fld">
+              <IcSelect
+                v-model="form.role"
+                label="Role"
+                variant="form"
+                placeholder="Open application"
+                :options="roleOptions"
+              />
+            </div>
 
             <div class="fld-row">
               <label class="fld">
@@ -82,6 +82,7 @@
 <script setup lang="ts">
 import { reactive, ref, watch, onBeforeUnmount } from 'vue'
 import AppButton from '@/components/ui/AppButton.vue'
+import IcSelect from '@/lib/ui/IcSelect.vue'
 import { openRoles } from '@/data/content'
 import { useApply, CV_ACCEPT, CV_MAX_BYTES, CV_TYPES } from '@/composables/useApply'
 
@@ -94,6 +95,8 @@ const sent = ref(false)
 const error = ref('')
 
 const form = reactive({ role: '', name: '', email: '', portfolio: '', message: '' })
+
+const roleOptions = openRoles.map((r) => ({ value: r.title, label: `${r.title} · ${r.team}` }))
 
 function kb(bytes: number) {
   return `${Math.max(1, Math.round(bytes / 1024))} KB`
