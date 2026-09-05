@@ -221,7 +221,25 @@ onBeforeUnmount(() => clearInterval(cycle))
   border-radius: 22px 0 0 22px;
   padding: 10px 0 10px 10px;
   background: linear-gradient(150deg, rgb(200 247 93 / 0.07), rgb(3 8 5 / 0.5));
-  box-shadow: var(--shadow-pop);
+  /* The window has no bottom edge: it dissolves into the page instead. The code
+     sits in the upper half, so the fade only ever eats empty surface and the
+     frame around it, never a line you were reading. */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 54%,
+    rgb(0 0 0 / 0.55) 78%,
+    rgb(0 0 0 / 0.12) 92%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 54%,
+    rgb(0 0 0 / 0.55) 78%,
+    rgb(0 0 0 / 0.12) 92%,
+    transparent 100%
+  );
   /* Arrives rather than appearing: the window rises into place once the
      section is on screen. */
   opacity: 0;
