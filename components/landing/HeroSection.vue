@@ -292,15 +292,16 @@ onBeforeUnmount(() => {
     grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
     gap: 3rem;
   }
+
+  .headline {
+    --cap: calc((min(1280px, 100vw) - 112px) * 0.0583);
+  }
 }
 
 .hero-copy {
   position: relative;
   z-index: 2;
   min-width: 0;
-  /* The headline is sized against this column, not the viewport, so the three
-     lines hold at every width instead of wrapping into four. */
-  container-type: inline-size;
 }
 
 .container-isura {
@@ -385,7 +386,14 @@ onBeforeUnmount(() => {
   margin: 0;
   max-width: 100%;
   min-height: 3.05em;
-  font-size: min(clamp(38px, calc(6.1 * var(--vwu)), 87px), 9.2cqw);
+  /* The cap keeps the three lines unbroken. The copy column is a known
+     fraction of the container, so its width is arithmetic rather than
+     something that has to be measured: the widest line renders at 10.05x the
+     font size, and the coefficient carries 7% headroom for the fallback face
+     while Onest is still swapping in. Stacked, the column is the container
+     less its padding; beside the stage it is 1.7 of 2.7 tracks less the gap. */
+  --cap: calc((min(1280px, 100vw) - 64px) * 0.0925);
+  font-size: min(clamp(38px, calc(6.1 * var(--vwu)), 87px), var(--cap));
   font-weight: 800;
   letter-spacing: -0.038em;
   line-height: 0.98;
@@ -522,7 +530,7 @@ onBeforeUnmount(() => {
    intact, verified down to 1024x560. */
 @media (max-height: 760px) {
   .headline {
-    font-size: min(clamp(34px, calc(5 * var(--vwu)), 62px), 9.2cqw);
+    font-size: min(clamp(34px, calc(5 * var(--vwu)), 62px), var(--cap));
   }
 
   .lede {
