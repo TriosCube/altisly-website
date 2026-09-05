@@ -347,11 +347,12 @@
 /* Two sections that follow each other must never share a white: in light mode
    the join between them disappears and the pair reads as one slab. There are
    two whites for this and they alternate down the page. The page background is
-   the lighter of them and this is the deeper one, a small step down rather than
-   up: pure white is a glare, not a background. Dark mode stays on the page
+   the lighter of them and this is the deeper one, a step down rather than up:
+   pure white is a glare, not a background. Deep enough to actually see, about
+   seven points of luminance; three was different only on paper. Dark mode stays on the page
    background throughout, where sections are near black and already separated. */
 .band-alt {
-  background: var(--surface-2);
+  background: var(--surface-3);
 }
 
 [data-theme='dark'] .band-alt {

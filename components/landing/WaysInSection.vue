@@ -1,5 +1,5 @@
 <template>
-  <section id="ways-in" ref="trackRef" class="ways-track">
+  <section id="ways-in" ref="trackRef" class="ways-track band-alt">
     <div class="ways-stage">
       <div class="container-isura ways-inner">
         <div class="ways-head">
