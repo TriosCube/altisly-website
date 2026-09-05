@@ -1,31 +1,36 @@
 <template>
-  <section ref="sectionRef" class="py-28" id="who-we-are">
-    <div class="container-isura" :class="{ 'is-shown': shown }">
-      <h2
-        class="reveal text-[clamp(34px,calc(4.6*var(--vwu)),60px)] font-bold tracking-[-0.036em] leading-[1] max-w-[16ch]"
-        style="--i: 0"
-      >
-        Some problems do not fit a software brief.
-      </h2>
-
-      <p class="reveal text-muted text-[17px] leading-relaxed max-w-[46ch] mt-8" style="--i: 1">
-        Altisly works inside the operation, not beside it. We take on problems where the process, the
-        data and the software all have to change together, and we build until the new way of working
-        can stand on its own.
-      </p>
-
-      <div class="mt-16 flex flex-col">
-        <div
-          v-for="(item, i) in whoWeAre"
-          :key="item.title"
-          class="reveal trait"
-          :style="{ '--i': i + 2 }"
+  <section ref="trackRef" class="who-track" id="who-we-are">
+    <div class="who-stage">
+      <div class="container-isura">
+        <h2
+          class="reveal text-[clamp(34px,calc(4.6*var(--vwu)),60px)] font-bold tracking-[-0.036em] leading-[1] max-w-[16ch]"
+          :style="{ '--shown': shown[0] }"
         >
-          <span class="font-code text-[12px] text-brand-deep w-9 flex-shrink-0">
-            {{ String(i + 1).padStart(2, '0') }}
-          </span>
-          <h3>{{ item.title }}</h3>
-          <p>{{ item.body }}</p>
+          Some problems do not fit a software brief.
+        </h2>
+
+        <p
+          class="reveal text-muted text-[17px] leading-relaxed max-w-[46ch] mt-8"
+          :style="{ '--shown': shown[1] }"
+        >
+          Altisly works inside the operation, not beside it. We take on problems where the process,
+          the data and the software all have to change together, and we build until the new way of
+          working can stand on its own.
+        </p>
+
+        <div class="mt-16 flex flex-col">
+          <div
+            v-for="(item, i) in whoWeAre"
+            :key="item.title"
+            class="reveal trait"
+            :style="{ '--shown': shown[i + 2] }"
+          >
+            <span class="font-code text-[12px] text-brand-deep w-9 flex-shrink-0">
+              {{ String(i + 1).padStart(2, '0') }}
+            </span>
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.body }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -36,45 +41,95 @@
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { whoWeAre } from '@/data/content'
 
-const sectionRef = ref<HTMLElement | null>(null)
-const shown = ref(false)
+const STOPS = 5
 
-let observer: IntersectionObserver | undefined
+const trackRef = ref<HTMLElement | null>(null)
+const shown = ref<number[]>(Array.from({ length: STOPS }, () => 0))
+let frame = 0
+// offsetHeight forces layout, and the track is sized in vh, so it only changes
+// when the viewport does.
+let trackHeight = 0
+
+function measure() {
+  trackHeight = trackRef.value?.offsetHeight ?? 0
+}
+
+function clamp(value: number) {
+  return Math.min(Math.max(value, 0), 1)
+}
+
+// Pinned, the scroll through the track is the reveal. Stacked, there is no
+// track to scroll through, so the section's own pass up the screen drives it
+// instead and the lines still arrive one at a time rather than all at once.
+function update() {
+  const track = trackRef.value
+  if (!track) return
+
+  const box = track.getBoundingClientRect()
+  if (box.bottom < 0 || box.top > window.innerHeight) return
+
+  const travel = trackHeight - window.innerHeight
+  const progress =
+    travel > 0
+      ? clamp(-box.top / travel)
+      : clamp((window.innerHeight * 0.85 - box.top) / (window.innerHeight * 0.6))
+
+  // Everything has landed by a little under halfway, which leaves the back of
+  // the track as a beat where the section is whole and still on screen.
+  shown.value = shown.value.map((_, i) => clamp((progress - i * 0.075) / 0.11))
+}
+
+function schedule() {
+  cancelAnimationFrame(frame)
+  frame = requestAnimationFrame(update)
+}
+
+function remeasure() {
+  measure()
+  schedule()
+}
 
 onMounted(() => {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    shown.value = true
+    shown.value = shown.value.map(() => 1)
     return
   }
 
-  observer = new IntersectionObserver(
-    (entries) => {
-      if (!entries.some((entry) => entry.isIntersecting)) return
-      shown.value = true
-      observer?.disconnect()
-    },
-    { rootMargin: '-15% 0px -15% 0px' },
-  )
-
-  if (sectionRef.value) observer.observe(sectionRef.value)
+  measure()
+  window.addEventListener('scroll', schedule, { passive: true })
+  window.addEventListener('resize', remeasure)
+  update()
 })
 
-onBeforeUnmount(() => observer?.disconnect())
+onBeforeUnmount(() => {
+  cancelAnimationFrame(frame)
+  window.removeEventListener('scroll', schedule)
+  window.removeEventListener('resize', remeasure)
+})
 </script>
 
 <style scoped>
-.reveal {
-  opacity: 0;
-  transform: translateY(1rem);
-  transition:
-    opacity 720ms ease,
-    transform 720ms cubic-bezier(0.22, 1, 0.36, 1);
-  transition-delay: calc(var(--i) * 120ms);
+/* The track is taller than the screen and the panel inside it sticks, so the
+   section holds while it assembles rather than passing at scroll speed. */
+.who-track {
+  position: relative;
+  height: 260vh;
 }
 
-.is-shown .reveal {
-  opacity: 1;
-  transform: none;
+.who-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: clip;
+}
+
+/* Driven by a value per line rather than a transition on an observer, so it
+   tracks the scroll both ways instead of firing once. */
+.reveal {
+  opacity: var(--shown, 0);
+  translate: 0 calc((1 - var(--shown, 0)) * 1rem);
 }
 
 .trait {
@@ -117,11 +172,24 @@ onBeforeUnmount(() => observer?.disconnect())
   }
 }
 
+/* Seven blocks do not fit a pinned screen on a phone, so it returns to normal
+   flow there and the reveal runs off the section's own pass up the screen. */
+@media (max-width: 1023px) {
+  .who-track {
+    height: auto;
+  }
+
+  .who-stage {
+    position: static;
+    height: auto;
+    padding: 6rem 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal {
     opacity: 1;
-    transform: none;
-    transition: none;
+    translate: none;
   }
 }
 </style>
