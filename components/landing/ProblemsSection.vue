@@ -91,6 +91,8 @@ type Card = { el: HTMLElement; seat: number; t: number; x: number; y: number; tx
 let cards: Card[] = []
 let observer: IntersectionObserver | undefined
 let raf = 0
+let bound = false
+let wideQuery: MediaQueryList | null = null
 let running = false
 let reduced = false
 let wide = false
@@ -224,7 +226,9 @@ onMounted(() => {
 
   if (reduced) {
     shown.value = true
-  } else if (!pinned.value) {
+  } else {
+    /* Always watched, whatever the width: the pinned rules override opacity on their own, and the
+       stacked layout has nothing else to reveal it if the viewport narrows after load. */
     observer = new IntersectionObserver(
       (entries) => {
         if (!entries.some((entry) => entry.isIntersecting)) return
@@ -237,17 +241,58 @@ onMounted(() => {
     if (sectionRef.value) observer.observe(sectionRef.value)
   }
 
-  if (reduced || !wide) return
+  if (reduced) return
 
+  wideQuery = window.matchMedia('(min-width: 1024px)')
+  wideQuery.addEventListener('change', onWidthChange)
+  if (wide) bindPinned()
+})
+
+function bindPinned() {
+  if (bound) return
+  bound = true
   measureOrder()
   window.addEventListener('scroll', onScroll, { passive: true })
   window.addEventListener('resize', onScroll)
   window.addEventListener('pointermove', onPointerMove, { passive: true })
-})
+}
+
+function unbindPinned() {
+  if (!bound) return
+  bound = false
+  cancelAnimationFrame(raf)
+  running = false
+  window.removeEventListener('scroll', onScroll)
+  window.removeEventListener('resize', onScroll)
+  window.removeEventListener('pointermove', onPointerMove)
+}
+
+/* The stack swaps between a pinned scroll composition and a plain stacked list at 1024px, so the
+   mode has to follow the viewport rather than whatever it happened to be on mount. */
+function onWidthChange(event: MediaQueryListEvent) {
+  wide = event.matches
+  pinned.value = wide && !reduced
+
+  if (wide) {
+    bindPinned()
+    return
+  }
+
+  unbindPinned()
+  shown.value = true
+
+  for (const card of cards) {
+    card.tx = card.ty = card.x = card.y = 0
+    card.el.style.removeProperty('--ox')
+    card.el.style.removeProperty('--oy')
+    card.el.style.removeProperty('--t')
+  }
+}
 
 onBeforeUnmount(() => {
   cancelAnimationFrame(raf)
   observer?.disconnect()
+  wideQuery?.removeEventListener('change', onWidthChange)
   window.removeEventListener('scroll', onScroll)
   window.removeEventListener('resize', onScroll)
   window.removeEventListener('pointermove', onPointerMove)
