@@ -10,6 +10,7 @@
     <JourneySection />
     <WhoWeAre />
     <BeliefSection />
+    <InsightsSection />
     <CtaSection />
   </div>
 </template>
@@ -22,6 +23,7 @@ import StackSection from '@/components/landing/StackSection.vue'
 import StatementSection from '@/components/landing/StatementSection.vue'
 import JourneySection from '@/components/landing/JourneySection.vue'
 import WhoWeAre from '@/components/landing/WhoWeAre.vue'
+import InsightsSection from '@/components/landing/InsightsSection.vue'
 import BeliefSection from '@/components/landing/BeliefSection.vue'
 import CtaSection from '@/components/landing/CtaSection.vue'
 import { metaDescriptions } from '@/data/site'
