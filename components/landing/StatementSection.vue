@@ -1,7 +1,11 @@
 <template>
   <section ref="trackRef" class="statement-track" id="statement">
     <div class="statement-stage">
-      <span class="statement-arc" aria-hidden="true" :style="{ '--shown': shown[0] }"></span>
+      <!-- The mask carves the ring and never moves; only the lit part of it
+           turns. Splitting them keeps the mask off the animated element. -->
+      <span class="statement-arc" aria-hidden="true" :style="{ '--shown': shown[0] }">
+        <span class="statement-arc-spin"></span>
+      </span>
 
       <div class="container-isura">
         <div class="max-w-[54rem]">
@@ -38,6 +42,13 @@ const LINES = 3
 const trackRef = ref<HTMLElement | null>(null)
 const shown = ref<number[]>(Array.from({ length: LINES }, () => 0))
 let frame = 0
+// Cached: offsetHeight forces layout, and the track is sized in vh so it only
+// changes when the viewport does.
+let trackHeight = 0
+
+function measure() {
+  trackHeight = trackRef.value?.offsetHeight ?? 0
+}
 
 // Same mechanic as the sections above it: the track is taller than the
 // viewport, the panel inside sticks, and how far the track has travelled
@@ -50,7 +61,7 @@ function update() {
   const box = track.getBoundingClientRect()
   if (box.bottom < 0 || box.top > window.innerHeight) return
 
-  const travel = track.offsetHeight - window.innerHeight
+  const travel = trackHeight - window.innerHeight
   const progress = travel > 0 ? Math.min(Math.max(-box.top / travel, 0), 1) : 1
 
   // The lines are done by a fifth of the way through, which on a 300vh track
@@ -67,21 +78,27 @@ function schedule() {
   frame = requestAnimationFrame(update)
 }
 
+function remeasure() {
+  measure()
+  schedule()
+}
+
 onMounted(() => {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     shown.value = shown.value.map(() => 1)
     return
   }
 
+  measure()
   window.addEventListener('scroll', schedule, { passive: true })
-  window.addEventListener('resize', schedule)
+  window.addEventListener('resize', remeasure)
   update()
 })
 
 onBeforeUnmount(() => {
   cancelAnimationFrame(frame)
   window.removeEventListener('scroll', schedule)
-  window.removeEventListener('resize', schedule)
+  window.removeEventListener('resize', remeasure)
 })
 </script>
 
@@ -115,20 +132,15 @@ onBeforeUnmount(() => {
   position: absolute;
   top: 50%;
   right: -14%;
-  width: min(82vh, 880px);
+  width: min(78vh, 820px);
   aspect-ratio: 1;
   translate: 0 -50%;
   pointer-events: none;
-  border-radius: 50%;
-  background: conic-gradient(
-    from 205deg,
-    transparent 0deg,
-    rgb(69 119 44 / 0.34) 42deg,
-    rgb(141 205 78 / 0.7) 104deg,
-    rgb(200 247 93 / 0.85) 148deg,
-    rgb(141 205 78 / 0.44) 202deg,
-    transparent 262deg
-  );
+  opacity: calc(var(--shown, 0) * 0.62);
+  /* The mask lives here, on the element that never moves. A mask on a rotating
+     element is re-rasterised every frame and takes the main thread with it;
+     this one is radially symmetric, so turning it would look identical anyway.
+     Softness is in the fade zones rather than a filter, for the same reason. */
   -webkit-mask: radial-gradient(
     closest-side,
     transparent 40%,
@@ -147,14 +159,27 @@ onBeforeUnmount(() => {
     rgb(0 0 0 / 0.35) 88%,
     transparent 100%
   );
-  opacity: calc(var(--shown, 0) * 0.62);
-  /* Rasterise once, then only turn the finished layer. */
+}
+
+/* Only this turns, and it is a plain gradient with nothing on it, so the
+   compositor paints it once and then just rotates the layer. */
+.statement-arc-spin {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 205deg,
+    transparent 0deg,
+    rgb(69 119 44 / 0.34) 42deg,
+    rgb(141 205 78 / 0.7) 104deg,
+    rgb(200 247 93 / 0.85) 148deg,
+    rgb(141 205 78 / 0.44) 202deg,
+    transparent 262deg
+  );
   will-change: rotate;
   animation: arc-sweep 19s linear infinite;
 }
 
-/* translate holds the vertical centring, and rotate is its own property, so
-   the sweep cannot overwrite the position the way a combined transform would. */
 @keyframes arc-sweep {
   from {
     rotate: 0deg;
@@ -186,6 +211,11 @@ onBeforeUnmount(() => {
     width: min(96vw, 640px);
     opacity: calc(var(--shown, 0) * 0.4);
   }
+
+  /* Nothing to look at behind stacked text, and every frame of it is spent. */
+  .statement-arc-spin {
+    animation: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -194,7 +224,7 @@ onBeforeUnmount(() => {
     translate: none;
   }
 
-  .statement-arc {
+  .statement-arc-spin {
     animation: none;
   }
 }

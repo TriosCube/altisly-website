@@ -89,6 +89,13 @@ const active = computed(() => samples[index.value])
 
 let cycle: ReturnType<typeof setInterval> | undefined
 let frame = 0
+// Cached: offsetHeight forces layout, and the track is sized in vh so it only
+// changes when the viewport does.
+let trackHeight = 0
+
+function measure() {
+  trackHeight = trackRef.value?.offsetHeight ?? 0
+}
 
 // The section pins for a screen and a bit, so the scroll through it is what
 // moves between samples: five domains across the travel, about one per fifth
@@ -97,7 +104,7 @@ function update() {
   const track = trackRef.value
   if (!track) return
 
-  const travel = track.offsetHeight - window.innerHeight
+  const travel = trackHeight - window.innerHeight
   if (travel <= 0) return
 
   const box = track.getBoundingClientRect()
@@ -110,6 +117,11 @@ function update() {
 function schedule() {
   cancelAnimationFrame(frame)
   frame = requestAnimationFrame(update)
+}
+
+function remeasure() {
+  measure()
+  schedule()
 }
 
 // Stacked, there is no track to scroll through and nothing to drive it, so
@@ -131,8 +143,9 @@ function select(i: number) {
 
 onMounted(() => {
   if (window.matchMedia('(min-width: 1024px)').matches) {
-    window.addEventListener('scroll', schedule, { passive: true })
-    window.addEventListener('resize', schedule)
+    measure()
+  window.addEventListener('scroll', schedule, { passive: true })
+    window.addEventListener('resize', remeasure)
     update()
     return
   }
@@ -147,7 +160,7 @@ onBeforeUnmount(() => {
   clearInterval(cycle)
   clearTimeout(copiedTimer)
   window.removeEventListener('scroll', schedule)
-  window.removeEventListener('resize', schedule)
+  window.removeEventListener('resize', remeasure)
 })
 
 // The disc chases the pointer rather than being pinned to it: it is a weight

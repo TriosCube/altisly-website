@@ -68,6 +68,13 @@ const trackRef = ref<HTMLElement | null>(null)
 const shown = ref<number[]>(ways.map(() => 0))
 const reduced = ref(false)
 let frame = 0
+// Cached: offsetHeight forces layout, and the track is sized in vh so it only
+// changes when the viewport does.
+let trackHeight = 0
+
+function measure() {
+  trackHeight = trackRef.value?.offsetHeight ?? 0
+}
 
 // Same mechanic as the stack above: the section is taller than the viewport,
 // the inner panel sticks, and how far the track has travelled decides how many
@@ -79,7 +86,7 @@ function update() {
   const box = track.getBoundingClientRect()
   if (box.bottom < 0 || box.top > window.innerHeight) return
 
-  const travel = track.offsetHeight - window.innerHeight
+  const travel = trackHeight - window.innerHeight
   const progress = travel > 0 ? Math.min(Math.max(-box.top / travel, 0), 1) : 1
 
   // The first card is already there when the section arrives; the rest follow
@@ -95,21 +102,27 @@ function schedule() {
   frame = requestAnimationFrame(update)
 }
 
+function remeasure() {
+  measure()
+  schedule()
+}
+
 onMounted(() => {
   reduced.value = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   if (reduced.value) {
     shown.value = ways.map(() => 1)
     return
   }
+  measure()
   window.addEventListener('scroll', schedule, { passive: true })
-  window.addEventListener('resize', schedule)
+  window.addEventListener('resize', remeasure)
   update()
 })
 
 onBeforeUnmount(() => {
   cancelAnimationFrame(frame)
   window.removeEventListener('scroll', schedule)
-  window.removeEventListener('resize', schedule)
+  window.removeEventListener('resize', remeasure)
 })
 </script>
 
