@@ -70,6 +70,20 @@ CADDYFILE
 sudo tee "/etc/caddy/conf.d/${SITE}.caddy" >/dev/null <<VHOST
 ${DOMAIN} {
 	encode gzip zstd
+	header {
+		# One year of HTTPS-only, including subdomains, so isura is covered too.
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		# Stop the browser guessing a type the server did not declare.
+		X-Content-Type-Options "nosniff"
+		# Nothing here should ever be framed: clickjacking has no upside for a
+		# site with a login and a file upload.
+		X-Frame-Options "DENY"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+		# Do not advertise the stack.
+		-X-Powered-By
+		-Server
+	}
 	reverse_proxy 127.0.0.1:${PORT}
 }
 VHOST

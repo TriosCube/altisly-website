@@ -8,8 +8,6 @@ export default defineNuxtConfig({
 
   ssr: true,
 
-  modules: ['@vercel/analytics/nuxt'],
-
   css: ['~/assets/css/main.css'],
 
   vite: {
