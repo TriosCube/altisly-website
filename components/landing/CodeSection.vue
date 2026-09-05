@@ -96,10 +96,16 @@ onBeforeUnmount(() => clearInterval(cycle))
 <style scoped>
 /* The track is taller than the screen and the stage inside it sticks, so the
    section holds for a beat instead of passing at scroll speed. Long enough to
-   let the samples cycle while you are on it. */
+   let the samples cycle while you are on it.
+
+   It also starts a screen early, so while the note above is still pinned this
+   one is already climbing over it. By the time the note would have released,
+   this has covered it and taken the top for itself. */
 .code-track {
   position: relative;
+  z-index: 2;
   height: 210vh;
+  margin-top: -100vh;
 }
 
 .code-stage {
@@ -108,6 +114,10 @@ onBeforeUnmount(() => clearInterval(cycle))
   height: 100vh;
   display: flex;
   align-items: center;
+  /* Opaque, or the note underneath shows through the thing covering it. */
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  box-shadow: 0 -40px 90px -40px rgb(3 8 5 / 0.85);
   /* clip, not hidden: this must not become a scroll container. */
   overflow: clip;
 }
@@ -343,12 +353,15 @@ onBeforeUnmount(() => clearInterval(cycle))
 @media (max-width: 1023px) {
   .code-track {
     height: auto;
+    margin-top: 0;
   }
 
   .code-stage {
     position: static;
     height: auto;
     padding: 4rem 0;
+    border-top: 0;
+    box-shadow: none;
   }
 
   .code-bezel {

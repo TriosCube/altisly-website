@@ -85,6 +85,7 @@ onBeforeUnmount(() => {
 <style scoped>
 .statement-track {
   position: relative;
+  z-index: 1;
   height: 200vh;
 }
 
