@@ -4,7 +4,7 @@ export const site = {
   email: 'hello@altisly.com',
   phone: '+234 813 780 3031',
   location: 'Lagos, Nigeria',
-  url: 'https://www.altisly.com',
+  url: 'https://altisly.com',
 } as const
 
 export const presence = [

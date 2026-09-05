@@ -1,7 +1,7 @@
 import { getPublishedPosts } from '~/server/utils/postsDb'
 import { projects } from '~/data/projects'
 
-const BASE_URL = 'https://www.altisly.com'
+const BASE_URL = 'https://altisly.com'
 
 const STATIC_PAGES = [
   { url: '/', priority: '1.0', changefreq: 'weekly' },

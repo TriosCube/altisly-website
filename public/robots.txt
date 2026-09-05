@@ -5,4 +5,4 @@ Disallow: /write
 Disallow: /write/
 Disallow: /api/
 
-Sitemap: https://www.altisly.com/sitemap.xml
+Sitemap: https://altisly.com/sitemap.xml
