@@ -527,16 +527,38 @@ onBeforeUnmount(() => {
 }
 
 @media (max-width: 1023px) {
+  /* Four artefacts stacked is a long scroll on a phone, and each one is a separate thought anyway.
+     They become a rail instead: one card a screen, snapping as you swipe, bleeding to both edges so
+     the next one is always visible at the margin. */
   .stage {
     display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-top: 0.5rem;
+    flex-wrap: nowrap;
+    gap: 0.85rem;
+    margin: 0.5rem -2rem 0;
+    padding: 0.25rem 2rem 1rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 2rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .stage::-webkit-scrollbar {
+    display: none;
   }
 
   .artefact {
-    width: 100%;
-    max-width: 17rem;
+    flex: 0 0 min(21rem, 82vw);
+    width: auto;
+    max-width: none;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .artefact-note,
+  .artefact-ask {
+    text-wrap: pretty;
   }
 }
 
