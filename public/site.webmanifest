@@ -1,11 +1,19 @@
 {
-  "name": "Isura — Treasury OS",
-  "short_name": "Isura",
+  "name": "Altisly \u2014 We build the systems businesses run on",
+  "short_name": "Altisly",
   "icons": [
-    { "src": "/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" }
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
   ],
-  "theme_color": "#0E2D22",
+  "theme_color": "#11231C",
   "background_color": "#F4F6F2",
   "display": "standalone"
 }
