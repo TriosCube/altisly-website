@@ -274,21 +274,26 @@ async function copy() {
    upper half, so the fade only eats empty surface and the frame around it. */
 [data-theme='dark'] .code-bezel {
   height: min(72vh, 840px);
-  -webkit-mask-image: linear-gradient(
+}
+
+/* An overlay rather than a mask. The bezel travels with the stage while the
+   section climbs over the note, and a mask is reapplied on every frame the
+   thing under it moves; a gradient is painted into the layer once and travels
+   with it. The inset overshoots by 2px so it covers the border too, which is
+   the edge the fade exists to remove. */
+[data-theme='dark'] .code-bezel::after {
+  content: '';
+  position: absolute;
+  inset: auto -2px -2px -2px;
+  height: 48%;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: 0 0 0 22px;
+  background: linear-gradient(
     to bottom,
-    #000 0%,
-    #000 54%,
-    rgb(0 0 0 / 0.55) 78%,
-    rgb(0 0 0 / 0.12) 92%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    #000 0%,
-    #000 54%,
-    rgb(0 0 0 / 0.55) 78%,
-    rgb(0 0 0 / 0.12) 92%,
-    transparent 100%
+    transparent 0%,
+    color-mix(in srgb, var(--bg) 55%, transparent) 46%,
+    var(--bg) 82%
   );
 }
 
@@ -380,6 +385,7 @@ async function copy() {
 }
 
 .code-bezel {
+  position: relative;
   min-width: 0;
   display: flex;
   /* Light mode keeps a clean edge and sizes to hold the longest sample. The
@@ -556,9 +562,12 @@ async function copy() {
 }
 
 @media (max-width: 1023px) {
+  /* The stage stays in normal flow here: the copy and the window together are
+     taller than a phone screen and would not fit a pinned one. The track still
+     climbs, so it slides over the pinned note exactly as it does on desktop. */
   .code-track {
     height: auto;
-    margin-top: 0;
+    margin-top: -100svh;
   }
 
   .code-stage {
@@ -588,8 +597,10 @@ async function copy() {
 
   [data-theme='dark'] .code-bezel {
     height: auto;
-    -webkit-mask-image: none;
-    mask-image: none;
+  }
+
+  [data-theme='dark'] .code-bezel::after {
+    display: none;
   }
 
   .code-body {

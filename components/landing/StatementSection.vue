@@ -1,11 +1,7 @@
 <template>
   <section ref="trackRef" class="statement-track" id="statement">
     <div class="statement-stage">
-      <!-- The mask carves the ring and never moves; only the lit part of it
-           turns. Splitting them keeps the mask off the animated element. -->
-      <span class="statement-arc" aria-hidden="true" :style="{ '--shown': shown[0] }">
-        <span class="statement-arc-spin"></span>
-      </span>
+      <span class="statement-arc" aria-hidden="true" :style="{ '--shown': shown[0] }"></span>
 
       <div class="container-isura">
         <div class="max-w-[54rem]">
@@ -122,12 +118,14 @@ onBeforeUnmount(() => {
   overflow: clip;
 }
 
-/* A ring of light with most of itself missing, turning. The conic gradient
-   decides which part of the ring is lit, the radial mask carves the ring out of
-   the disc, and the two together leave a crescent that sweeps as it rotates.
-   The softness lives in the mask's fade zones rather than in a filter: a blur
-   on a moving element is repainted every frame, which is what stalled the
-   pointer when the beam had one. */
+/* No mask and no filter anywhere on this. Both are applied when the layer is
+   composited, so both are paid again on every frame of the rotation, which is
+   what kept taking the page down. Backgrounds are different: they are painted
+   into the layer once, and after that the compositor only turns it.
+
+   The ring is made by painting the section's own colour back over the middle
+   and over the outside, leaving the lit arc showing through a band between
+   them. The section is on the page background, so that is the colour used. */
 .statement-arc {
   position: absolute;
   top: 50%;
@@ -136,46 +134,26 @@ onBeforeUnmount(() => {
   aspect-ratio: 1;
   translate: 0 -50%;
   pointer-events: none;
-  opacity: calc(var(--shown, 0) * 0.62);
-  /* The mask lives here, on the element that never moves. A mask on a rotating
-     element is re-rasterised every frame and takes the main thread with it;
-     this one is radially symmetric, so turning it would look identical anyway.
-     Softness is in the fade zones rather than a filter, for the same reason. */
-  -webkit-mask: radial-gradient(
-    closest-side,
-    transparent 40%,
-    rgb(0 0 0 / 0.4) 58%,
-    #000 69%,
-    #000 76%,
-    rgb(0 0 0 / 0.35) 88%,
-    transparent 100%
-  );
-  mask: radial-gradient(
-    closest-side,
-    transparent 40%,
-    rgb(0 0 0 / 0.4) 58%,
-    #000 69%,
-    #000 76%,
-    rgb(0 0 0 / 0.35) 88%,
-    transparent 100%
-  );
-}
-
-/* Only this turns, and it is a plain gradient with nothing on it, so the
-   compositor paints it once and then just rotates the layer. */
-.statement-arc-spin {
-  position: absolute;
-  inset: 0;
   border-radius: 50%;
-  background: conic-gradient(
-    from 205deg,
-    transparent 0deg,
-    rgb(69 119 44 / 0.34) 42deg,
-    rgb(141 205 78 / 0.7) 104deg,
-    rgb(200 247 93 / 0.85) 148deg,
-    rgb(141 205 78 / 0.44) 202deg,
-    transparent 262deg
-  );
+  opacity: calc(var(--shown, 0) * 0.62);
+  background-image:
+    radial-gradient(
+      closest-side,
+      var(--bg) 0%,
+      var(--bg) 52%,
+      transparent 68%,
+      transparent 78%,
+      var(--bg) 94%
+    ),
+    conic-gradient(
+      from 205deg,
+      transparent 0deg,
+      rgb(69 119 44 / 0.34) 42deg,
+      rgb(141 205 78 / 0.7) 104deg,
+      rgb(200 247 93 / 0.85) 148deg,
+      rgb(141 205 78 / 0.44) 202deg,
+      transparent 262deg
+    );
   will-change: rotate;
   animation: arc-sweep 19s linear infinite;
 }
@@ -196,14 +174,14 @@ onBeforeUnmount(() => {
 }
 
 @media (max-width: 1023px) {
+  /* The pin stays on a phone, shorter and in svh so the browser chrome does
+     not eat the dwell. The note is three short lines here, so it fits. */
   .statement-track {
-    height: auto;
+    height: 260svh;
   }
 
   .statement-stage {
-    position: static;
-    height: auto;
-    padding: 6rem 0;
+    height: 100svh;
   }
 
   .statement-arc {
@@ -213,7 +191,7 @@ onBeforeUnmount(() => {
   }
 
   /* Nothing to look at behind stacked text, and every frame of it is spent. */
-  .statement-arc-spin {
+  .statement-arc {
     animation: none;
   }
 }
@@ -224,7 +202,7 @@ onBeforeUnmount(() => {
     translate: none;
   }
 
-  .statement-arc-spin {
+  .statement-arc {
     animation: none;
   }
 }
