@@ -133,25 +133,26 @@ onBeforeUnmount(() => clearInterval(cycle))
    so animating the slide leaves the angle alone instead of overwriting it. */
 .code-beam {
   position: absolute;
-  top: 50%;
-  left: 52%;
-  width: 155%;
-  height: 27%;
-  margin: -13.5% 0 0 -77.5%;
+  top: 4%;
+  left: 26%;
+  width: 96%;
+  height: 62%;
   pointer-events: none;
   border-radius: 50%;
-  rotate: -42deg;
+  /* Hung from its top right corner, so rotating it swings the far end the way
+     a pendulum swings: fast through the middle, slow at each extreme. */
+  transform-origin: 100% 0%;
   background: radial-gradient(
-    ellipse at center,
-    rgb(200 247 93 / 0.18) 0%,
-    rgb(141 205 78 / 0.11) 22%,
-    rgb(69 119 44 / 0.06) 46%,
-    transparent 74%
+    ellipse at 88% 12%,
+    rgb(200 247 93 / 0.2) 0%,
+    rgb(141 205 78 / 0.12) 24%,
+    rgb(69 119 44 / 0.06) 48%,
+    transparent 76%
   );
   /* Rasterise once and composite, rather than repainting a huge soft shape
      on every frame while the pointer is trying to get through. */
-  will-change: translate;
-  animation: beam-travel 17s ease-in-out infinite alternate;
+  will-change: rotate;
+  animation: beam-swing 8.5s ease-in-out infinite alternate;
 }
 
 .caret {
@@ -169,13 +170,14 @@ onBeforeUnmount(() => clearInterval(cycle))
   }
 }
 
-/* 11.7 over 13 is tan(42deg), so the slide runs straight down the beam. */
-@keyframes beam-travel {
+/* ease-in-out is what makes it read as a pendulum rather than a wiper: it
+   slows into each extreme and accelerates back through the middle. */
+@keyframes beam-swing {
   from {
-    translate: -13vw 11.7vw;
+    rotate: 6deg;
   }
   to {
-    translate: 13vw -11.7vw;
+    rotate: 38deg;
   }
 }
 
@@ -203,15 +205,32 @@ onBeforeUnmount(() => clearInterval(cycle))
 
 .code-bezel {
   min-width: 0;
+  display: flex;
+  height: min(72vh, 840px);
   border: 1px solid var(--invert-border);
   border-radius: 22px 0 0 22px;
   padding: 10px 0 10px 10px;
   background: linear-gradient(150deg, rgb(200 247 93 / 0.07), rgb(3 8 5 / 0.5));
   box-shadow: var(--shadow-pop);
+  /* Arrives rather than appearing: the window rises into place once the
+     section is on screen. */
+  opacity: 0;
+  translate: 0 2.6rem;
+  transition:
+    opacity 900ms ease,
+    translate 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.is-in .code-bezel {
+  opacity: 1;
+  translate: none;
 }
 
 .code-window {
+  flex: 1;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
   border-radius: 14px 0 0 14px;
   background: var(--invert-bg);
   color: var(--invert-text);
@@ -250,10 +269,10 @@ onBeforeUnmount(() => clearInterval(cycle))
 }
 
 .code-body {
-  /* Reserved so a shorter sample does not shrink the window mid-fade. */
-  min-height: 27rem;
+  flex: 1;
+  min-height: 0;
   padding: 2.2rem 0 2.6rem;
-  overflow-x: auto;
+  overflow: auto;
 }
 
 .code-pre {
@@ -312,6 +331,7 @@ onBeforeUnmount(() => clearInterval(cycle))
   .code-grid {
     grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
     gap: 4.5rem;
+    align-items: start;
   }
 
   /* Reach the viewport edge from inside the container, then keep going. */
@@ -338,6 +358,12 @@ onBeforeUnmount(() => clearInterval(cycle))
 
   .code-window {
     border-radius: 12px;
+  }
+
+  .code-bezel {
+    height: auto;
+    opacity: 1;
+    translate: none;
   }
 
   .code-body {
@@ -369,7 +395,6 @@ onBeforeUnmount(() => clearInterval(cycle))
 
 @media (max-height: 820px) and (min-width: 1024px) {
   .code-body {
-    min-height: 22rem;
     padding: 1.6rem 0 1.8rem;
   }
 
