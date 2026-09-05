@@ -19,6 +19,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       treasuryUrl: 'https://treasury.altisly.com',
+      adsenseArticleSlot: process.env.ADSENSE_ARTICLE_SLOT || '',
     },
   },
 
@@ -54,6 +55,7 @@ export default defineNuxtConfig({
         { rel: 'icon', type: 'image/png', href: '/favicon-16x16.png', sizes: '16x16' },
         { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
         { rel: 'manifest', href: '/site.webmanifest' },
+        { rel: 'preconnect', href: 'https://pagead2.googlesyndication.com' },
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         {
@@ -61,7 +63,15 @@ export default defineNuxtConfig({
           href: 'https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap',
         },
       ],
-      script: [{ innerHTML: themeInit, tagPosition: 'head' }],
+      script: [
+        { innerHTML: themeInit, tagPosition: 'head' },
+        {
+          src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4228173539269709',
+          async: true,
+          crossorigin: 'anonymous',
+          tagPosition: 'head',
+        },
+      ],
     },
   },
 })

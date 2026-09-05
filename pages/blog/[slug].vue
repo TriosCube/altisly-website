@@ -182,6 +182,8 @@
         </div>
       </section>
 
+      <AdSlot :slot="config.public.adsenseArticleSlot" />
+
       <CtaSection v-reveal />
     </template>
   </div>
@@ -192,7 +194,9 @@ import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
 import PageIntro from '@/components/ui/PageIntro.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import CtaSection from '@/components/landing/CtaSection.vue'
+import AdSlot from '@/components/ui/AdSlot.vue'
 
+const config = useRuntimeConfig()
 const route = useRoute()
 const { render } = useMarkdown()
 
