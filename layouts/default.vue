@@ -30,7 +30,7 @@ import AskPanel from '@/components/ui/AskPanel.vue'
 
 @media (min-width: 641px) {
   html.ask-open .shell {
-    padding-right: var(--ask-w);
+    padding-right: calc(var(--ask-w) + 2rem);
   }
 }
 

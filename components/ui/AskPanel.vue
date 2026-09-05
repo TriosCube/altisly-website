@@ -316,15 +316,15 @@ async function reveal(turn: Turn, reply: string) {
   transform: translateY(0.8rem);
 }
 
-/* Pinned: docked to the edge, full height, and the page makes room for it. */
+/* Pinned: docked to the right, but sitting under the header and inside the page margin rather than
+   flush to the glass, and the page makes room for it. */
 .ask.is-pinned {
-  top: 0;
-  right: 0;
-  bottom: 0;
+  top: 5.5rem;
+  right: 1rem;
+  bottom: 1rem;
   width: var(--ask-w, 24rem);
-  border-width: 0 0 0 1px;
-  border-radius: 0;
-  transform: translateX(100%);
+  border-radius: var(--radius-lg);
+  transform: translateX(calc(100% + 1rem));
 }
 
 .ask.is-open.is-float,
