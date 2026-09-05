@@ -32,6 +32,12 @@ import AskPanel from '@/components/ui/AskPanel.vue'
   html.ask-open .shell {
     padding-right: calc(var(--ask-w) + 2rem);
   }
+
+  /* Anything fixed to the viewport has to keep clear of the dock as well, or it ends up behind it
+     while the rest of the page has already moved. */
+  html.ask-open .cookie-banner {
+    left: calc(50% - (var(--ask-w) + 2rem) / 2);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

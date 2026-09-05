@@ -122,8 +122,10 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, ref, watch } from 'vue'
+import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { site } from '@/data/site'
+
+const MODE_KEY = 'altisly-ask-mode'
 
 const spark = 'M12 3l1.9 5.3L19 10l-5.1 1.7L12 17l-1.9-5.3L5 10l5.1-1.7zM18.5 15l.7 1.9 1.8.6-1.8.6-.7 1.9-.7-1.9-1.8-.6 1.8-.6z'
 
@@ -158,6 +160,36 @@ let seq = 0
 watch([open, mode], ([isOpen, current]) => {
   document.documentElement.classList.toggle('ask-open', isOpen && current === 'pinned')
   if (isOpen) nextTick(() => inputEl.value?.focus())
+})
+
+/* Where someone put the panel is a preference, not a session detail, so it survives a reload. What
+   is not remembered is whether it was open: every visit starts with the page to itself. */
+watch(mode, (current) => {
+  try {
+    localStorage.setItem(MODE_KEY, current)
+  } catch {
+    /* private mode, or storage is full. The panel still works, it just forgets. */
+  }
+})
+
+function onKeydown(event: KeyboardEvent) {
+  if (event.key === 'Escape' && open.value) open.value = false
+}
+
+onMounted(() => {
+  try {
+    const saved = localStorage.getItem(MODE_KEY)
+    if (saved === 'float' || saved === 'wide' || saved === 'pinned') mode.value = saved
+  } catch {
+    /* nothing saved, or no access to storage. The default stands. */
+  }
+
+  document.addEventListener('keydown', onKeydown)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('keydown', onKeydown)
+  document.documentElement.classList.remove('ask-open')
 })
 
 function grow() {
