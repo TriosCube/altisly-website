@@ -596,6 +596,11 @@ onBeforeUnmount(() => {
 @media (max-width: 480px) {
   .hl {
     white-space: normal;
+    /* Filling greedily leaves the last word or two stranded on a line of their
+       own: "We work in the / places", "We take the work / on,". Balancing
+       shortens the longest line instead, which keeps those fragments whole:
+       "We work in / the places", "We take the / work on,". */
+    text-wrap: balance;
   }
 
   .headline {
