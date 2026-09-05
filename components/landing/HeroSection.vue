@@ -298,6 +298,9 @@ onBeforeUnmount(() => {
   position: relative;
   z-index: 2;
   min-width: 0;
+  /* The headline is sized against this column, not the viewport, so the three
+     lines hold at every width instead of wrapping into four. */
+  container-type: inline-size;
 }
 
 .container-isura {
@@ -341,6 +344,8 @@ onBeforeUnmount(() => {
 
 .hl {
   display: block;
+  /* Three lines is the rule. A line may never break itself into two. */
+  white-space: nowrap;
 }
 
 /* Both lines share the same box so one dissolves into the other. Nothing
@@ -380,7 +385,7 @@ onBeforeUnmount(() => {
   margin: 0;
   max-width: 100%;
   min-height: 3.05em;
-  font-size: clamp(38px, calc(6.1*var(--vwu)), 87px);
+  font-size: min(clamp(38px, calc(6.1 * var(--vwu)), 87px), 9.2cqw);
   font-weight: 800;
   letter-spacing: -0.038em;
   line-height: 0.98;
@@ -517,7 +522,7 @@ onBeforeUnmount(() => {
    intact, verified down to 1024x560. */
 @media (max-height: 760px) {
   .headline {
-    font-size: clamp(34px, calc(5*var(--vwu)), 62px);
+    font-size: min(clamp(34px, calc(5 * var(--vwu)), 62px), 9.2cqw);
   }
 
   .lede {
