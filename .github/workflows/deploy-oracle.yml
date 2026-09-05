@@ -1,0 +1,143 @@
+name: Deploy Oracle
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: altisly-oracle-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate required secrets
+        env:
+          PROD_HOST: ${{ secrets.PROD_HOST }}
+          PROD_USER: ${{ secrets.PROD_USER }}
+          PROD_SSH_KEY: ${{ secrets.PROD_SSH_KEY }}
+        run: |
+          set -eu
+          for v in PROD_HOST PROD_USER PROD_SSH_KEY; do
+            eval "val=\${$v}"
+            [ -n "$val" ] || { echo "Missing required secret: $v" >&2; exit 1; }
+          done
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Nuxt app
+        env:
+          NODE_ENV: production
+        run: npx nuxi build
+
+      - name: Configure SSH
+        env:
+          PROD_SSH_KEY: ${{ secrets.PROD_SSH_KEY }}
+        run: |
+          set -eu
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$PROD_SSH_KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          cat > ~/.ssh/config <<'SSH_CONFIG'
+          Host *
+            ServerAliveInterval 30
+            ServerAliveCountMax 20
+          SSH_CONFIG
+          chmod 600 ~/.ssh/config
+
+      - name: Add server host key
+        env:
+          PROD_HOST: ${{ secrets.PROD_HOST }}
+          PROD_PORT: ${{ secrets.PROD_PORT || '22' }}
+        run: ssh-keyscan -p "$PROD_PORT" -H "$PROD_HOST" >> ~/.ssh/known_hosts
+
+      - name: Sync build artifacts to server
+        env:
+          PROD_HOST: ${{ secrets.PROD_HOST }}
+          PROD_PORT: ${{ secrets.PROD_PORT || '22' }}
+          PROD_USER: ${{ secrets.PROD_USER }}
+        run: |
+          set -eu
+          APP_DIR="/home/$PROD_USER/altisly-website"
+          ssh -p "$PROD_PORT" -i ~/.ssh/id_deploy "$PROD_USER@$PROD_HOST" \
+            "mkdir -p $APP_DIR/build-output/output"
+          rsync -az --delete -e "ssh -p $PROD_PORT -i ~/.ssh/id_deploy" \
+            .output/ "$PROD_USER@$PROD_HOST:$APP_DIR/build-output/output/"
+          rsync -az -e "ssh -p $PROD_PORT -i ~/.ssh/id_deploy" \
+            Dockerfile.runner docker-compose.prod.yml \
+            "$PROD_USER@$PROD_HOST:$APP_DIR/"
+
+      - name: Deploy on server
+        env:
+          PROD_HOST: ${{ secrets.PROD_HOST }}
+          PROD_PORT: ${{ secrets.PROD_PORT || '22' }}
+          PROD_USER: ${{ secrets.PROD_USER }}
+          BLOG_ADMIN_USERNAME: ${{ secrets.BLOG_ADMIN_USERNAME }}
+          BLOG_ADMIN_PASSWORD: ${{ secrets.BLOG_ADMIN_PASSWORD }}
+          BLOG_ADMIN_SESSION_SECRET: ${{ secrets.BLOG_ADMIN_SESSION_SECRET }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          DEEPSEEK_BASE_URL: ${{ secrets.DEEPSEEK_BASE_URL }}
+          DEEPSEEK_MODEL: ${{ secrets.DEEPSEEK_MODEL }}
+          ENQUIRY_SMTP_HOST: ${{ secrets.ENQUIRY_SMTP_HOST }}
+          ENQUIRY_SMTP_PORT: ${{ secrets.ENQUIRY_SMTP_PORT }}
+          ENQUIRY_SMTP_SECURE: ${{ secrets.ENQUIRY_SMTP_SECURE }}
+          ENQUIRY_SMTP_USER: ${{ secrets.ENQUIRY_SMTP_USER }}
+          ENQUIRY_SMTP_PASS: ${{ secrets.ENQUIRY_SMTP_PASS }}
+          ENQUIRY_SMTP_FROM: ${{ secrets.ENQUIRY_SMTP_FROM }}
+        run: |
+          set -eu
+          APP_DIR="/home/$PROD_USER/altisly-website"
+
+          # Build the env file locally, then ship it base64-encoded so values
+          # containing spaces or shell metacharacters survive the SSH hop.
+          {
+            for v in BLOG_ADMIN_USERNAME BLOG_ADMIN_PASSWORD BLOG_ADMIN_SESSION_SECRET \
+                     DEEPSEEK_API_KEY DEEPSEEK_BASE_URL DEEPSEEK_MODEL \
+                     ENQUIRY_SMTP_HOST ENQUIRY_SMTP_PORT ENQUIRY_SMTP_SECURE \
+                     ENQUIRY_SMTP_USER ENQUIRY_SMTP_PASS ENQUIRY_SMTP_FROM; do
+              eval "val=\${$v:-}"
+              printf '%s=%s\n' "$v" "$val"
+            done
+          } > env.prod.generated
+
+          ENV_B64="$(base64 -w0 < env.prod.generated)"
+
+          ssh -p "$PROD_PORT" -i ~/.ssh/id_deploy "$PROD_USER@$PROD_HOST" \
+            "APP_DIR='$APP_DIR' ENV_B64='$ENV_B64' bash -s" <<'REMOTE'
+          set -eu
+          cd "$APP_DIR"
+          umask 077
+          printf '%s' "$ENV_B64" | base64 -d > .env.prod
+          chmod 600 .env.prod
+          sudo docker build -f Dockerfile.runner -t localhost/altisly-website:latest .
+          sudo docker compose -f docker-compose.prod.yml --env-file .env.prod up -d
+          sudo docker image prune -f
+          REMOTE
+
+      - name: Verify container is serving
+        env:
+          PROD_HOST: ${{ secrets.PROD_HOST }}
+          PROD_PORT: ${{ secrets.PROD_PORT || '22' }}
+          PROD_USER: ${{ secrets.PROD_USER }}
+        run: |
+          set -eu
+          ssh -p "$PROD_PORT" -i ~/.ssh/id_deploy "$PROD_USER@$PROD_HOST" \
+            'for i in $(seq 1 30); do
+               if curl -sf -o /dev/null http://127.0.0.1:3300; then echo "altisly-website is serving"; exit 0; fi
+               sleep 5
+             done
+             echo "altisly-website did not become healthy" >&2
+             sudo docker logs --tail 50 altisly-website >&2 || true
+             exit 1'

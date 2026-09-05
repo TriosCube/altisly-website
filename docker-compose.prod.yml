@@ -1,0 +1,53 @@
+services:
+  altisly-website:
+    image: localhost/altisly-website:latest
+    container_name: altisly-website
+    restart: unless-stopped
+    security_opt:
+      - seccomp=unconfined
+      - label=disable
+    ports:
+      - "3300:3300"
+    volumes:
+      - altisly_data:/app/data
+    environment:
+      NODE_ENV: production
+      HOST: "0.0.0.0"
+      PORT: "3300"
+      NITRO_HOST: "0.0.0.0"
+      NITRO_PORT: "3300"
+      BLOG_ADMIN_USERNAME: ${BLOG_ADMIN_USERNAME:-}
+      BLOG_ADMIN_PASSWORD: ${BLOG_ADMIN_PASSWORD:-}
+      BLOG_ADMIN_SESSION_SECRET: ${BLOG_ADMIN_SESSION_SECRET:-}
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+      DEEPSEEK_BASE_URL: ${DEEPSEEK_BASE_URL:-}
+      DEEPSEEK_MODEL: ${DEEPSEEK_MODEL:-}
+      ENQUIRY_SMTP_HOST: ${ENQUIRY_SMTP_HOST:-}
+      ENQUIRY_SMTP_PORT: ${ENQUIRY_SMTP_PORT:-}
+      ENQUIRY_SMTP_SECURE: ${ENQUIRY_SMTP_SECURE:-false}
+      ENQUIRY_SMTP_USER: ${ENQUIRY_SMTP_USER:-}
+      ENQUIRY_SMTP_PASS: ${ENQUIRY_SMTP_PASS:-}
+      ENQUIRY_SMTP_FROM: ${ENQUIRY_SMTP_FROM:-}
+      MAIL_HOST: ${MAIL_HOST:-}
+      MAIL_PORT: ${MAIL_PORT:-}
+      MAIL_SECURE: ${MAIL_SECURE:-false}
+      MAIL_USER: ${MAIL_USER:-}
+      MAIL_PASSWORD: ${MAIL_PASSWORD:-}
+      MAIL_FROM: ${MAIL_FROM:-}
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 300M
+        reservations:
+          cpus: "0.1"
+          memory: 64M
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3300 > /dev/null 2>&1 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+volumes:
+  altisly_data:
