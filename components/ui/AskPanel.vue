@@ -3,23 +3,23 @@
     type="button"
     class="ask-fab"
     :class="{ 'is-hidden': open }"
-    aria-label="Ask Altisly"
+    aria-label="Ask Altis"
     @click="open = true"
   >
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
       <path :d="spark" />
     </svg>
-    <span>Ask Altisly</span>
+    <span>Ask Altis</span>
   </button>
 
-  <aside class="ask" :class="[`is-${mode}`, { 'is-open': open }]" aria-label="Ask Altisly">
+  <aside class="ask" :class="[`is-${mode}`, { 'is-open': open }]" aria-label="Ask Altis">
     <header class="ask-bar">
       <span class="ask-mark">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
           <path :d="spark" />
         </svg>
       </span>
-      <span class="ask-name">Ask Altisly <sup>beta</sup></span>
+      <span class="ask-name">Ask Altis <sup>beta</sup></span>
 
       <button type="button" class="ask-icon" aria-label="Clear this conversation" @click="reset">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
