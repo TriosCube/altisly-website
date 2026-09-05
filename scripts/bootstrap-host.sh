@@ -46,6 +46,16 @@ else
     sudo sh -c 'iptables-save > /etc/iptables/rules.v4' 2>/dev/null || true
 fi
 
+echo ">>> Adding 2G swap (E2.1.Micro only has 1G RAM)..."
+if [ ! -f /swapfile ]; then
+  sudo fallocate -l 2G /swapfile || sudo dd if=/dev/zero of=/swapfile bs=1M count=2048
+  sudo chmod 600 /swapfile
+  sudo mkswap /swapfile
+  sudo swapon /swapfile
+  grep -q '^/swapfile' /etc/fstab || echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab > /dev/null
+fi
+free -h | head -3
+
 echo ">>> Creating the app directory..."
 mkdir -p "$HOME/altisly-website"
 
@@ -54,5 +64,6 @@ echo "== READY =="
 echo "  docker:  $(sudo docker --version)"
 echo "  compose: $(sudo docker compose version --short 2>/dev/null || echo 'plugin installed')"
 echo "  app dir: $HOME/altisly-website"
+echo "  swap:    $(free -h | awk '/Swap/{print $2}')"
 echo
 echo "Next: re-run the Deploy Oracle workflow, then scripts/init-cert.sh"
