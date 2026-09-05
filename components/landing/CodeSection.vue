@@ -27,7 +27,7 @@
              inside the column, so the code reads as a surface the page is resting
              on. The stage clips it, so the page itself never scrolls sideways. -->
         <div class="code-bezel">
-          <div class="code-window">
+          <div ref="windowRef" class="code-window">
             <div class="code-tabs" role="tablist">
               <button
                 v-for="(s, i) in samples"
@@ -43,7 +43,13 @@
               </button>
             </div>
 
-            <div class="code-body">
+            <div
+              class="code-body"
+              @pointerenter="enter"
+              @pointermove="track"
+              @pointerleave="leave"
+              @click="copy"
+            >
               <transition name="code" mode="out-in">
                 <pre :key="index" class="code-pre"><code><span
                   v-for="(line, li) in active.lines"
@@ -56,6 +62,15 @@
                 >{{ tok.t }}</span></span></code></pre>
               </transition>
             </div>
+
+            <span
+              class="code-cursor"
+              :class="{ 'is-on': near }"
+              :style="{ '--cx': `${dot.x}px`, '--cy': `${dot.y}px` }"
+              aria-hidden="true"
+            >
+              {{ copied ? 'Copied' : 'Try it' }}
+            </span>
           </div>
         </div>
       </div>
@@ -64,7 +79,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import { samples } from '@/data/code-samples'
 
@@ -128,10 +143,80 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   cancelAnimationFrame(frame)
+  cancelAnimationFrame(dotFrame)
   clearInterval(cycle)
+  clearTimeout(copiedTimer)
   window.removeEventListener('scroll', schedule)
   window.removeEventListener('resize', schedule)
 })
+
+// The disc chases the pointer rather than being pinned to it: it is a weight
+// being dragged along, which is what stops it reading as a badly drawn cursor.
+const windowRef = ref<HTMLElement | null>(null)
+const near = ref(false)
+const copied = ref(false)
+const dot = reactive({ x: 0, y: 0 })
+const aim = { x: 0, y: 0 }
+let dotFrame = 0
+let copiedTimer: ReturnType<typeof setTimeout> | undefined
+
+function chase() {
+  dot.x += (aim.x - dot.x) * 0.18
+  dot.y += (aim.y - dot.y) * 0.18
+
+  if (Math.abs(aim.x - dot.x) < 0.4 && Math.abs(aim.y - dot.y) < 0.4) {
+    dot.x = aim.x
+    dot.y = aim.y
+    dotFrame = 0
+    return
+  }
+
+  dotFrame = requestAnimationFrame(chase)
+}
+
+function point(event: PointerEvent) {
+  const box = windowRef.value?.getBoundingClientRect()
+  if (!box) return
+  aim.x = event.clientX - box.left
+  aim.y = event.clientY - box.top
+}
+
+function enter(event: PointerEvent) {
+  if (event.pointerType !== 'mouse') return
+  point(event)
+  // Start it where the pointer is, so it grows in place instead of flying in.
+  dot.x = aim.x
+  dot.y = aim.y
+  near.value = true
+}
+
+function track(event: PointerEvent) {
+  if (!near.value) return
+  point(event)
+  if (!dotFrame) dotFrame = requestAnimationFrame(chase)
+}
+
+function leave() {
+  near.value = false
+  copied.value = false
+}
+
+async function copy() {
+  const text = active.value.lines
+    .map((line) => line.map((tok) => tok.t).join(''))
+    .join('\n')
+
+  try {
+    await navigator.clipboard.writeText(text)
+  } catch {
+    // Denied clipboard permission is not worth telling anyone about.
+    return
+  }
+
+  copied.value = true
+  clearTimeout(copiedTimer)
+  copiedTimer = setTimeout(() => (copied.value = false), 1400)
+}
 </script>
 
 <style scoped>
@@ -296,6 +381,7 @@ onBeforeUnmount(() => {
 }
 
 .code-window {
+  position: relative;
   flex: 1;
   min-width: 0;
   display: flex;
@@ -342,6 +428,45 @@ onBeforeUnmount(() => {
   min-height: 0;
   padding: 2.2rem 0 2.6rem;
   overflow: auto;
+}
+
+.code-cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 132px;
+  height: 132px;
+  margin: -66px 0 0 -66px;
+  border-radius: 50%;
+  background: #fbfdf7;
+  color: #0f1410;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  pointer-events: none;
+  /* translate carries the position and scale carries the arrival, as separate
+     properties, so following the pointer cannot undo growing in. */
+  translate: var(--cx, 0) var(--cy, 0);
+  scale: 0.35;
+  opacity: 0;
+  transition:
+    opacity 200ms ease,
+    scale 340ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.code-cursor.is-on {
+  scale: 1;
+  opacity: 1;
+}
+
+/* Only where there is a real pointer to replace. */
+@media (hover: hover) and (pointer: fine) {
+  .code-body {
+    cursor: none;
+  }
 }
 
 .code-pre {
@@ -484,6 +609,10 @@ onBeforeUnmount(() => {
   .code-beam,
   .caret {
     animation: none;
+  }
+
+  .code-cursor {
+    transition: none;
   }
 }
 </style>
