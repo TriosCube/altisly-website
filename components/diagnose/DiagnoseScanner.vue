@@ -1237,6 +1237,34 @@ onBeforeUnmount(() => {
     width: 96vw;
     height: 54svh;
   }
+
+  /* The call to action and the step list were both pinned to the same bottom
+     edge, and at this width the step list runs nearly the full width, so they
+     sat on top of each other. It floats clear of the stage instead.
+
+     Fixed is safe here: this page is the scanner and nothing else, no header
+     and no footer, so there is nothing for it to follow. Bottom left, because
+     the chat sits bottom right on every page that has it. */
+  .diagnose-cta {
+    position: fixed;
+    right: auto;
+    left: 1.1rem;
+    bottom: 1.1rem;
+    z-index: 60;
+    padding: 0.72rem 1.15rem;
+    border: 1px solid color-mix(in srgb, var(--scan-ink) 20%, transparent);
+    border-radius: var(--radius-pill);
+    /* A solid ground rather than a shadow, which would be a smudge in light. */
+    background: var(--surface);
+    color: color-mix(in srgb, var(--scan-ink) 82%, transparent);
+    font-size: 0.62rem;
+    letter-spacing: 0.14rem;
+  }
+
+  /* Room for it, so the last step is never sitting underneath. */
+  .diagnose-bottom-copy {
+    bottom: calc(clamp(1.6rem, 3.2svh, 2.6rem) + 3.2rem);
+  }
 }
 
 @keyframes diagnose-breathe {
