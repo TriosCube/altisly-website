@@ -98,10 +98,12 @@ onBeforeUnmount(() => {
   overflow: clip;
 }
 
-/* A ring of light with most of itself missing. The conic gradient decides which
-   part of the ring is lit, the radial mask carves the ring out of the disc, and
-   the two together leave a crescent. Deliberately static: a blur this wide is
-   cheap to paint once and expensive to paint every frame. */
+/* A ring of light with most of itself missing, turning. The conic gradient
+   decides which part of the ring is lit, the radial mask carves the ring out of
+   the disc, and the two together leave a crescent that sweeps as it rotates.
+   The softness lives in the mask's fade zones rather than in a filter: a blur
+   on a moving element is repainted every frame, which is what stalled the
+   pointer when the beam had one. */
 .statement-arc {
   position: absolute;
   top: 50%;
@@ -122,14 +124,37 @@ onBeforeUnmount(() => {
   );
   -webkit-mask: radial-gradient(
     closest-side,
-    transparent 58%,
-    #000 65%,
-    #000 79%,
-    transparent 86%
+    transparent 40%,
+    rgb(0 0 0 / 0.4) 58%,
+    #000 69%,
+    #000 76%,
+    rgb(0 0 0 / 0.35) 88%,
+    transparent 100%
   );
-  mask: radial-gradient(closest-side, transparent 58%, #000 65%, #000 79%, transparent 86%);
-  filter: blur(30px);
+  mask: radial-gradient(
+    closest-side,
+    transparent 40%,
+    rgb(0 0 0 / 0.4) 58%,
+    #000 69%,
+    #000 76%,
+    rgb(0 0 0 / 0.35) 88%,
+    transparent 100%
+  );
   opacity: calc(var(--shown, 0) * 0.62);
+  /* Rasterise once, then only turn the finished layer. */
+  will-change: rotate;
+  animation: arc-sweep 19s linear infinite;
+}
+
+/* translate holds the vertical centring, and rotate is its own property, so
+   the sweep cannot overwrite the position the way a combined transform would. */
+@keyframes arc-sweep {
+  from {
+    rotate: 0deg;
+  }
+  to {
+    rotate: 360deg;
+  }
 }
 
 .reveal {
@@ -160,6 +185,10 @@ onBeforeUnmount(() => {
   .reveal {
     opacity: 1;
     translate: none;
+  }
+
+  .statement-arc {
+    animation: none;
   }
 }
 </style>
