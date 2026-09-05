@@ -117,13 +117,12 @@
         </svg>
       </button>
     </form>
-    <p class="ask-foot">Answers cover Altisly only. For anything live, write to {{ site.email }}.</p>
+    <p class="ask-foot">Altis can make mistakes. Check anything that matters.</p>
   </aside>
 </template>
 
 <script setup lang="ts">
 import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { site } from '@/data/site'
 
 const MODE_KEY = 'altisly-ask-mode'
 
