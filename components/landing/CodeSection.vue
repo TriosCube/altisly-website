@@ -1,59 +1,61 @@
 <template>
-  <section id="code" class="code-section" v-reveal>
-    <span class="code-glow" aria-hidden="true"></span>
-    <span class="code-beam" aria-hidden="true"></span>
+  <section id="code" class="code-track" v-reveal>
+    <div class="code-stage">
+      <span class="code-glow" aria-hidden="true"></span>
+      <span class="code-beam" aria-hidden="true"></span>
 
-    <div class="container-isura code-grid">
-      <div class="code-copy">
-        <span class="font-code text-[11px] tracking-[0.14em] uppercase text-muted">
-          { the work } <span class="caret" aria-hidden="true">_</span>
-        </span>
-        <h2 class="code-title">The system says no before a person has to.</h2>
-        <p class="text-muted text-[16.5px] leading-relaxed max-w-[40ch] mt-6 text-pretty">
-          Money moving, a clinician signing, a parcel changing hands. Different operations,
-          one job: make the wrong thing impossible rather than merely discouraged.
-        </p>
-        <p class="font-code text-[12.5px] text-muted mt-7 min-h-[3.4em] max-w-[38ch]">
-          <!-- The window runs off the right edge, so the filename would sit
-               off screen if it stayed in the tab bar. -->
-          <span class="code-file">{{ active.file }}</span>
-          {{ active.note }}
-        </p>
-        <AppButton class="mt-2" variant="lime" size="md" to="/about">How we work</AppButton>
-      </div>
+      <div class="container-isura code-grid">
+        <div class="code-copy">
+          <span class="font-code text-[11px] tracking-[0.14em] uppercase text-muted">
+            { the work } <span class="caret" aria-hidden="true">_</span>
+          </span>
+          <h2 class="code-title">The system says no before a person has to.</h2>
+          <p class="text-muted text-[16.5px] leading-relaxed max-w-[40ch] mt-6 text-pretty">
+            Money moving, a clinician signing, a parcel changing hands. Different operations,
+            one job: make the wrong thing impossible rather than merely discouraged.
+          </p>
+          <p class="font-code text-[12.5px] text-muted mt-7 min-h-[3.4em] max-w-[38ch]">
+            <!-- The window runs off the right edge, so the filename would sit
+                 off screen if it stayed in the tab bar. -->
+            <span class="code-file">{{ active.file }}</span>
+            {{ active.note }}
+          </p>
+          <AppButton class="mt-2" variant="lime" size="md" to="/about">How we work</AppButton>
+        </div>
 
-      <!-- The window runs past the right edge of the viewport rather than sitting
-           inside the column, so the code reads as a surface the page is resting
-           on. The section clips it, so the page itself never scrolls sideways. -->
-      <div class="code-bezel">
-        <div class="code-window">
-          <div class="code-tabs" role="tablist">
-            <button
-              v-for="(s, i) in samples"
-              :key="s.domain"
-              type="button"
-              role="tab"
-              class="code-tab"
-              :class="{ 'is-on': i === index }"
-              :aria-selected="i === index"
-              @click="select(i)"
-            >
-              {{ s.domain }}
-            </button>
-          </div>
+        <!-- The window runs past the right edge of the viewport rather than sitting
+             inside the column, so the code reads as a surface the page is resting
+             on. The stage clips it, so the page itself never scrolls sideways. -->
+        <div class="code-bezel">
+          <div class="code-window">
+            <div class="code-tabs" role="tablist">
+              <button
+                v-for="(s, i) in samples"
+                :key="s.domain"
+                type="button"
+                role="tab"
+                class="code-tab"
+                :class="{ 'is-on': i === index }"
+                :aria-selected="i === index"
+                @click="select(i)"
+              >
+                {{ s.domain }}
+              </button>
+            </div>
 
-          <div class="code-body">
-            <transition name="code" mode="out-in">
-              <pre :key="index" class="code-pre"><code><span
-                v-for="(line, li) in active.lines"
-                :key="li"
-                class="code-line"
-              ><span class="code-num">{{ li + 1 }}</span><span
-                v-for="(tok, ti) in line"
-                :key="ti"
-                :class="tok.c ? `tk-${tok.c}` : undefined"
-              >{{ tok.t }}</span></span></code></pre>
-            </transition>
+            <div class="code-body">
+              <transition name="code" mode="out-in">
+                <pre :key="index" class="code-pre"><code><span
+                  v-for="(line, li) in active.lines"
+                  :key="li"
+                  class="code-line"
+                ><span class="code-num">{{ li + 1 }}</span><span
+                  v-for="(tok, ti) in line"
+                  :key="ti"
+                  :class="tok.c ? `tk-${tok.c}` : undefined"
+                >{{ tok.t }}</span></span></code></pre>
+              </transition>
+            </div>
           </div>
         </div>
       </div>
@@ -92,14 +94,26 @@ onBeforeUnmount(() => clearInterval(cycle))
 </script>
 
 <style scoped>
-.code-section {
+/* The track is taller than the screen and the stage inside it sticks, so the
+   section holds for a beat instead of passing at scroll speed. Long enough to
+   let the samples cycle while you are on it. */
+.code-track {
   position: relative;
-  min-height: 100svh;
-  display: grid;
+  height: 210vh;
+}
+
+.code-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
   align-items: center;
-  padding: 5rem 0;
   /* clip, not hidden: this must not become a scroll container. */
   overflow: clip;
+}
+
+.code-grid {
+  width: 100%;
 }
 
 /* Ambient light the beam travels through, so the corner is never flat black. */
@@ -307,7 +321,13 @@ onBeforeUnmount(() => clearInterval(cycle))
 }
 
 @media (max-width: 1023px) {
-  .code-section {
+  .code-track {
+    height: auto;
+  }
+
+  .code-stage {
+    position: static;
+    height: auto;
     padding: 4rem 0;
   }
 
