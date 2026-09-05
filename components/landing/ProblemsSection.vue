@@ -1,7 +1,7 @@
 <template>
   <section
     ref="sectionRef"
-    class="problems"
+    class="problems band-alt"
     id="problems"
     :class="{ 'is-pinned': pinned, 'is-shown': shown }"
   >
@@ -309,7 +309,6 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: var(--bg);
   background-repeat: no-repeat;
   background-position:
     8% 6%,

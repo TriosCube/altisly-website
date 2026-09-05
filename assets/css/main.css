@@ -344,6 +344,20 @@
   font-size: 12.5px;
 }
 
+/* Two sections that follow each other must never share a white: in light mode
+   the join between them disappears and the pair reads as one slab. There are
+   two whites for this and they alternate down the page. The page background is
+   the lighter of them and this is the deeper one, a small step down rather than
+   up: pure white is a glare, not a background. Dark mode stays on the page
+   background throughout, where sections are near black and already separated. */
+.band-alt {
+  background: var(--surface-2);
+}
+
+[data-theme='dark'] .band-alt {
+  background: var(--bg);
+}
+
 @utility container-isura {
   max-width: 1280px;
   margin: 0 auto;

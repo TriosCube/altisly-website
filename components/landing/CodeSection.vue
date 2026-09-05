@@ -1,6 +1,6 @@
 <template>
   <section id="code" ref="trackRef" class="code-track" v-reveal>
-    <div class="code-stage">
+    <div class="code-stage band-alt">
       <span class="code-glow" aria-hidden="true"></span>
       <span class="code-beam" aria-hidden="true"></span>
 
@@ -240,8 +240,8 @@ async function copy() {
   height: 100vh;
   display: flex;
   align-items: center;
-  /* Opaque, or the note underneath shows through the thing covering it. */
-  background: var(--bg);
+  /* Opaque via band-alt, or the note underneath shows through the thing
+     covering it, and a shade off the note so the join is visible in light. */
   /* clip, not hidden: this must not become a scroll container. */
   overflow: clip;
 }
