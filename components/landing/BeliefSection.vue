@@ -21,7 +21,7 @@
         ></span>
       </div>
 
-      <div class="container-isura relative z-10">
+      <div class="container-isura statement-box relative z-10">
         <span class="font-code text-[11px] tracking-[0.14em] uppercase text-invert-muted">
           What we believe
         </span>
@@ -142,10 +142,16 @@ const tailOpacity = computed(() => {
   }
 }
 
+/* The lines are split by hand, so the type is sized against the column that holds them rather than
+   the window. Narrow the page, with the panel docked or otherwise, and the statement scales to fit
+   instead of wrapping into orphans or running past the edge. */
+.statement-box {
+  container-type: inline-size;
+}
+
 .statement {
   margin: 1.6rem 0 0;
-  max-width: 20ch;
-  font-size: clamp(38px, calc(7*var(--vwu)), 104px);
+  font-size: clamp(28px, 5.4cqi, 82px);
   font-weight: 700;
   letter-spacing: -0.038em;
   line-height: 1.02;
