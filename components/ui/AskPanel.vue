@@ -12,7 +12,7 @@
     <span>Ask Altisly</span>
   </button>
 
-  <aside class="ask" :class="{ 'is-open': open }" aria-label="Ask Altisly">
+  <aside class="ask" :class="[`is-${mode}`, { 'is-open': open }]" aria-label="Ask Altisly">
     <header class="ask-bar">
       <span class="ask-mark">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
@@ -20,11 +20,44 @@
         </svg>
       </span>
       <span class="ask-name">Ask Altisly <sup>beta</sup></span>
+
       <button type="button" class="ask-icon" aria-label="Clear this conversation" @click="reset">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
           <path d="M4 7h16M9 7V5h6v2M6 7l1 13h10l1-13M10 11v6M14 11v6" />
         </svg>
       </button>
+
+      <button
+        v-if="mode !== 'pinned'"
+        type="button"
+        class="ask-icon"
+        :aria-label="mode === 'wide' ? 'Shrink the window' : 'Expand the window'"
+        :title="mode === 'wide' ? 'Shrink' : 'Expand'"
+        @click="mode = mode === 'wide' ? 'float' : 'wide'"
+      >
+        <svg v-if="mode === 'wide'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M9 4v5H4M15 20v-5h5M15 4v5h5M9 20v-5H4" />
+        </svg>
+        <svg v-else viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M4 9V4h5M20 15v5h-5M20 9V4h-5M4 15v5h5" />
+        </svg>
+      </button>
+
+      <button
+        type="button"
+        class="ask-icon"
+        :class="{ 'is-on': mode === 'pinned' }"
+        :aria-label="mode === 'pinned' ? 'Unpin and float' : 'Pin to the side'"
+        :aria-pressed="mode === 'pinned'"
+        :title="mode === 'pinned' ? 'Unpin (float)' : 'Pin to the side'"
+        @click="mode = mode === 'pinned' ? 'float' : 'pinned'"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M15 3l6 6-3 1-4 4-1 5-3-3-5 5 5-5-3-3 5-1 4-4z" />
+          <path v-if="mode === 'pinned'" d="M4 20L20 4" stroke-width="1.6" />
+        </svg>
+      </button>
+
       <button type="button" class="ask-icon" aria-label="Close" @click="open = false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M6 6l12 12M18 6L6 18" />
@@ -107,7 +140,10 @@ interface Turn {
   text: string
 }
 
+type Mode = 'float' | 'wide' | 'pinned'
+
 const open = ref(false)
+const mode = ref<Mode>('float')
 const draft = ref('')
 const sending = ref(false)
 const failure = ref('')
@@ -117,10 +153,10 @@ const inputEl = ref<HTMLTextAreaElement | null>(null)
 
 let seq = 0
 
-/* The page is pushed rather than covered, so the width the layout reads lives on the root element
-   and the panel is the only thing that sets it. */
-watch(open, (isOpen) => {
-  document.documentElement.classList.toggle('ask-open', isOpen)
+/* Three states, as in the console: a floating card, the same card expanded, and pinned to the side.
+   Only pinned narrows the page, and it is the only one the layout needs to know about. */
+watch([open, mode], ([isOpen, current]) => {
+  document.documentElement.classList.toggle('ask-open', isOpen && current === 'pinned')
   if (isOpen) nextTick(() => inputEl.value?.focus())
 })
 
@@ -235,22 +271,68 @@ async function reveal(turn: Turn, reply: string) {
 
 .ask {
   position: fixed;
-  top: 0;
-  right: 0;
   z-index: 70;
   display: flex;
   flex-direction: column;
-  width: var(--ask-w, 24rem);
-  height: 100svh;
-  border-left: 1px solid var(--border);
+  overflow: hidden;
+  border: 1px solid var(--border);
   background: color-mix(in srgb, var(--surface) 88%, transparent);
   backdrop-filter: blur(18px) saturate(1.3);
   -webkit-backdrop-filter: blur(18px) saturate(1.3);
-  transform: translateX(100%);
-  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    top 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    right 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    bottom 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    width 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-radius 300ms ease,
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 200ms ease;
 }
 
 .ask.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Floating: a card in the corner, clear of the nav. */
+.ask.is-float {
+  top: 5.5rem;
+  right: 1.4rem;
+  bottom: 1.4rem;
+  width: min(25rem, calc(100vw - 2.8rem));
+  border-radius: var(--radius-lg);
+  transform: translateY(0.8rem);
+}
+
+/* Expanded: the same card, centred and wide. */
+.ask.is-wide {
+  top: 5.5rem;
+  right: max(1.4rem, calc((100vw - min(56rem, calc(100vw - 2.8rem))) / 2));
+  bottom: 1.4rem;
+  width: min(56rem, calc(100vw - 2.8rem));
+  border-radius: var(--radius-lg);
+  transform: translateY(0.8rem);
+}
+
+/* Pinned: docked to the edge, full height, and the page makes room for it. */
+.ask.is-pinned {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: var(--ask-w, 24rem);
+  border-width: 0 0 0 1px;
+  border-radius: 0;
+  transform: translateX(100%);
+}
+
+.ask.is-open.is-float,
+.ask.is-open.is-wide {
+  transform: none;
+}
+
+.ask.is-open.is-pinned {
   transform: none;
 }
 
@@ -315,6 +397,10 @@ async function reveal(turn: Turn, reply: string) {
 .ask-icon:hover {
   background: var(--surface-2);
   color: var(--text);
+}
+
+.ask-icon.is-on {
+  color: var(--brand-deep);
 }
 
 .ask-thread {
@@ -567,8 +653,16 @@ async function reveal(turn: Turn, reply: string) {
 }
 
 @media (max-width: 640px) {
-  .ask {
+  .ask,
+  .ask.is-float,
+  .ask.is-wide,
+  .ask.is-pinned {
+    top: 0;
+    right: 0;
+    bottom: 0;
     width: 100vw;
+    border-width: 0;
+    border-radius: 0;
   }
 }
 
