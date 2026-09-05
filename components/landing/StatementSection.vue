@@ -53,9 +53,12 @@ function update() {
   const travel = track.offsetHeight - window.innerHeight
   const progress = travel > 0 ? Math.min(Math.max(-box.top / travel, 0), 1) : 1
 
+  // The lines are done by a fifth of the way through, which on a 300vh track
+  // is 42vh of scroll. Nothing covers this section until 100vh, so it gets
+  // most of a screen of being finished and alone before anything arrives.
   shown.value = shown.value.map((_, i) => {
-    const start = i * 0.15
-    return Math.min(Math.max((progress - start) / 0.2, 0), 1)
+    const start = i * 0.06
+    return Math.min(Math.max((progress - start) / 0.09, 0), 1)
   })
 }
 
@@ -86,7 +89,10 @@ onBeforeUnmount(() => {
 .statement-track {
   position: relative;
   z-index: 1;
-  height: 200vh;
+  /* 300, not 200. At 200 the section covering this one began climbing at the
+     very first pixel of scroll, so the paragraph was still fading up while it
+     was already being pushed off. The extra screen is the room to finish. */
+  height: 300vh;
 }
 
 .statement-stage {
