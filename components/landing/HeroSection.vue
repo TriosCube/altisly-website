@@ -14,16 +14,18 @@
              The cycle is decoration on top of it, hidden from assistive tech so
              the heading a screen reader announces never changes under it. -->
         <h1 class="reveal headline" style="--i: 0">
-          <span class="sr-only">{{ lines[0].before }} {{ lines[0].mark }} {{ lines[0].after }}</span>
+          <span class="sr-only">We build the systems businesses run on.</span>
           <transition name="line">
             <span :key="index" class="headline-line" aria-hidden="true">
-              {{ line.before }}
-              <span class="mark">
-                <span class="mark-field"></span>
-                <span class="mark-text">{{ line.mark }}</span>
-                <span class="mark-star">✦</span>
+              <span v-for="(row, r) in line" :key="r" class="hl">
+                <template v-if="row.text">{{ row.text }} </template>
+                <span v-if="row.mark" class="mark">
+                  <span class="mark-field"></span>
+                  <span class="mark-text">{{ row.mark }}</span>
+                  <span class="mark-star">✦</span>
+                </span>
+                <template v-if="row.after"> {{ row.after }}</template>
               </span>
-              {{ line.after }}
             </span>
           </transition>
         </h1>
@@ -69,9 +71,24 @@ import { capabilities } from '@/data/content'
 // The first is the canonical one: it is server rendered and it is what the
 // heading reads as to assistive tech.
 const lines = [
-  { before: 'We build the', mark: 'systems', after: 'businesses run on.' },
-  { before: 'We work where', mark: 'mistakes', after: 'are expensive.' },
-  { before: 'We build it, and', mark: 'we finish', after: 'what we started.' },
+  // Three explicit lines each, never wrapped: first longest, then shorter,
+  // then shortest, so every headline holds the same tapering shape. The mark
+  // sits wherever that taper allows rather than always on the same line.
+  [
+    { text: 'We build the', mark: 'systems' },
+    { text: 'businesses' },
+    { text: 'run on.' },
+  ],
+  [
+    { text: 'We work only where' },
+    { mark: 'mistakes', after: 'are' },
+    { text: 'expensive.' },
+  ],
+  [
+    { text: 'We build it, and' },
+    { mark: 'we finish' },
+    { text: 'the job.' },
+  ],
 ]
 
 const index = ref(0)
@@ -317,6 +334,11 @@ onBeforeUnmount(() => {
   display: block;
 }
 
+.hl {
+  display: block;
+  white-space: nowrap;
+}
+
 /* Both lines share the same box so one dissolves into the other. Nothing
    moves: motion is what makes a swap announce itself. */
 .line-leave-active {
@@ -352,7 +374,7 @@ onBeforeUnmount(() => {
 .headline {
   position: relative;
   margin: 0;
-  max-width: 13ch;
+  max-width: none;
   min-height: 3.05em;
   font-size: clamp(38px, calc(6.1*var(--vwu)), 87px);
   font-weight: 800;
