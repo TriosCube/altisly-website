@@ -1,80 +1,31 @@
 <template>
-  <div>
-    <AppHeader />
-    <main>
-      <!-- Hero -->
-      <section class="pt-32 pb-12 md:pt-44 md:pb-16 bg-white border-b border-gray-100">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex items-center gap-2 text-xs text-gray-400 font-medium mb-4">
-            <NuxtLink to="/" class="hover:text-gray-600 transition-colors">Altisly</NuxtLink>
-            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            <span>Legal</span>
-            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            <span class="text-gray-600">Terms of Service</span>
-          </div>
-          <h1 class="text-3xl md:text-4xl font-black text-navy-900 mb-4">Terms of Service</h1>
-          <p class="text-gray-500 text-sm">Last updated: 1 May 2026 · Effective: 1 May 2026</p>
-          <div class="flex flex-wrap gap-3 mt-6">
-            <NuxtLink to="/legal/privacy" class="text-xs font-semibold text-gray-500 hover:text-[#15c411] transition-colors px-3 py-1.5 rounded-lg bg-gray-50 border border-gray-200 hover:border-[#15c411]">Privacy Policy</NuxtLink>
-            <NuxtLink to="/legal/notice" class="text-xs font-semibold text-gray-500 hover:text-[#15c411] transition-colors px-3 py-1.5 rounded-lg bg-gray-50 border border-gray-200 hover:border-[#15c411]">Legal Notice</NuxtLink>
-          </div>
-        </div>
-      </section>
+  <LegalPage
+    title="Terms of Service"
+    updated="Last updated 1 May 2026. Effective 1 May 2026."
+    :toc="toc"
+    :sections="sections"
+  >
+    <template #intro>
+      These Terms of Service govern your access to and use of the websites, platforms and services
+      operated by <strong>Altisly Inc.</strong> By accessing or using any Altisly service you agree
+      to be bound by these Terms. If you do not agree, do not use the services.
+    </template>
 
-      <!-- Content -->
-      <section class="py-16 bg-white">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex flex-col lg:flex-row gap-12">
-
-            <!-- TOC sidebar -->
-            <aside class="lg:w-56 flex-shrink-0">
-              <div class="sticky top-28">
-                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Contents</p>
-                <nav class="space-y-1">
-                  <a v-for="section in toc" :key="section.id" :href="`#${section.id}`" class="block text-sm text-gray-500 hover:text-[#15c411] transition-colors py-1 border-l-2 border-transparent hover:border-[#15c411] pl-3 leading-tight">
-                    {{ section.label }}
-                  </a>
-                </nav>
-              </div>
-            </aside>
-
-            <!-- Body -->
-            <article class="flex-1 prose-legal">
-              <div class="bg-[#ebfaeb] border border-[#15c411]/20 rounded-xl p-5 mb-10">
-                <p class="text-sm text-gray-700 leading-relaxed">These Terms of Service ("Terms") govern your access to and use of the websites, platforms, and services operated by <strong>Altisly Inc.</strong> ("Altisly", "we", "us", or "our"). By accessing or using any Altisly service you agree to be bound by these Terms. If you do not agree, do not use the services.</p>
-              </div>
-
-              <div v-for="section in sections" :key="section.id" :id="section.id" class="mb-12">
-                <h2 class="text-xl font-bold text-navy-900 mb-4 pb-3 border-b border-gray-100">{{ section.title }}</h2>
-                <div class="space-y-4">
-                  <p v-for="para in section.body" :key="para" class="text-sm text-gray-600 leading-relaxed">{{ para }}</p>
-                  <ul v-if="section.list" class="space-y-2 mt-4">
-                    <li v-for="item in section.list" :key="item" class="flex items-start gap-3 text-sm text-gray-600">
-                      <div class="w-1.5 h-1.5 rounded-full bg-[#15c411] flex-shrink-0 mt-2"></div>
-                      {{ item }}
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              <div class="bg-gray-50 rounded-xl border border-gray-200 p-6 mt-10">
-                <h3 class="font-bold text-navy-900 mb-2">Questions about these Terms?</h3>
-                <p class="text-sm text-gray-600 mb-4">If you have questions about these Terms, please contact our legal team.</p>
-                <NuxtLink to="/contact" class="inline-flex items-center gap-2 text-sm font-semibold text-[#15c411] hover:underline">
-                  Contact us
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                </NuxtLink>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-    </main>
-    <AppFooter />
-  </div>
+    <template #after>
+      <div class="rounded-isura-lg border border-base bg-surface-2 p-6 mt-10">
+        <h3 class="font-semibold text-[16px] mb-2">Questions about these Terms?</h3>
+        <p class="text-[14px] text-muted mb-5">
+          If you have questions about these Terms, please contact our legal team.
+        </p>
+        <AppButton variant="lime" size="sm" to="/contact">Contact us →</AppButton>
+      </div>
+    </template>
+  </LegalPage>
 </template>
 
 <script setup lang="ts">
+import LegalPage from '@/components/legal/LegalPage.vue'
+import AppButton from '@/components/ui/AppButton.vue'
 useSeoMeta({
   title: 'Terms of Service | Altisly',
   description: 'Read the Terms of Service governing your use of Altisly products and services.',
@@ -210,7 +161,7 @@ const sections = [
     id: 'contact',
     title: '13. Contact',
     body: [
-      'If you have any questions about these Terms of Service, please contact Altisly Inc. at: legal@altisly.comm — or by writing to our registered address. We will respond to all legal enquiries within 5 business days.',
+      'If you have any questions about these Terms of Service, please contact Altisly Inc. at: legal@altisly.com, or by writing to our registered address. We will respond to all legal enquiries within 5 business days.',
     ],
   },
 ]

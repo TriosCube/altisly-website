@@ -1,97 +1,240 @@
 <template>
   <div>
-    <AppHeader />
-    <main>
-      <PageHero
-        tag="Partnerships"
-        title="Build the future with Altisly"
-        description="Join our global network of system architects, venture builders, and strategic partners. We offer co-building, advisory, and technology integration programmes."
-        parent-label="Company"
-        parent-href="/about"
-      >
-        <template #cta>
-          <NuxtLink to="/contact" class="btn-primary text-base px-8 py-4">Apply to partner</NuxtLink>
-          <NuxtLink to="/about" class="btn-outline text-base px-8 py-4">Learn about us</NuxtLink>
-        </template>
-      </PageHero>
+    <PageIntro
+      eyebrow="Partnerships"
+      title="Three ways we work together."
+      lede="We co-build with institutions, founders and platform teams who need systems that hold up under regulation."
+    >
+      <template #actions>
+        <AppButton variant="lime" to="/contact">Start a conversation →</AppButton>
+        <AppButton variant="ghost" to="/isura">See a build</AppButton>
+      </template>
+    </PageIntro>
 
-      <!-- Partner types -->
-      <section class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="text-center mb-14">
-            <p class="section-label">Partnership programmes</p>
-            <h2 class="section-title mb-5">Find the right programme for you</h2>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div v-for="program in programs" :key="program.title" class="card hover:shadow-lg hover:border-brand-400 transition-all">
-              <div class="text-4xl mb-4">{{ program.emoji }}</div>
-              <h3 class="text-xl font-bold text-navy-900 mb-3">{{ program.title }}</h3>
-              <p class="text-gray-600 text-sm leading-relaxed mb-5">{{ program.description }}</p>
-              <ul class="space-y-2 mb-6">
-                <li v-for="benefit in program.benefits" :key="benefit" class="flex items-start gap-2 text-sm text-gray-600">
-                  <svg class="w-4 h-4 text-brand-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                  </svg>
-                  {{ benefit }}
-                </li>
-              </ul>
-              <NuxtLink to="/contact" class="btn-primary w-full text-center text-sm">Apply now</NuxtLink>
-            </div>
-          </div>
+    <section v-reveal class="py-16">
+      <div class="container-isura">
+        <div data-reveal-flow class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <article v-for="(program, i) in partnerPrograms" :key="program.title" class="bento-card" v-reveal>
+            <h3 class="text-[24px] font-bold tracking-[-0.022em] leading-[1.1] mb-3">
+              {{ program.title }}
+            </h3>
+            <p class="text-muted text-[14.5px] leading-relaxed mb-7">{{ program.description }}</p>
+            <ul class="flex flex-col gap-2.5 mt-auto">
+              <li
+                v-for="benefit in program.benefits"
+                :key="benefit"
+                class="text-[13.5px] flex items-start gap-2.5"
+              >
+                <span class="w-1.5 h-1.5 rounded-full bg-brand-deep mt-2 flex-shrink-0"></span>
+                {{ benefit }}
+              </li>
+            </ul>
+          </article>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <CtaBanner
-        title="Ready to partner with Altisly?"
-        subtitle="Get in touch and our strategic advisory team will reach out within 48 hours."
-      />
-    </main>
-    <AppFooter />
+    <section v-reveal class="py-16">
+      <div class="container-isura">
+        <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">
+          The engagement
+        </span>
+        <h2
+          class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8 max-w-[16ch]"
+        >
+          How the work actually runs.
+        </h2>
+
+        <ol class="phases">
+          <li v-for="stage in engagementStages" :key="stage.title" class="phase">
+            <span class="phase-index">{{ stage.number }}</span>
+            <span class="phase-span">{{ stage.duration }}</span>
+            <div class="phase-body">
+              <h3>{{ stage.title }}</h3>
+              <p>{{ stage.body }}</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section v-reveal class="py-16">
+      <div class="container-isura">
+        <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">The fit</span>
+        <h2
+          class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8 max-w-[18ch]"
+        >
+          Where we help, and where we do not.
+        </h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <article class="bento-card">
+            <h3 class="text-[17px] font-bold tracking-[-0.018em] mb-5">This is our work</h3>
+            <ul class="flex flex-col gap-3.5">
+              <li
+                v-for="item in engagementFit.yes"
+                :key="item"
+                class="flex items-start gap-3 text-[14.5px] leading-relaxed"
+              >
+                <span
+                  class="w-5 h-5 rounded-full bg-brand text-on-brand grid place-items-center flex-shrink-0 mt-0.5"
+                >
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <path d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                {{ item }}
+              </li>
+            </ul>
+          </article>
+
+          <article class="bento-card">
+            <h3 class="text-[17px] font-bold tracking-[-0.018em] mb-5">This is not</h3>
+            <ul class="flex flex-col gap-3.5">
+              <li
+                v-for="item in engagementFit.no"
+                :key="item"
+                class="flex items-start gap-3 text-[14.5px] leading-relaxed text-muted"
+              >
+                <span
+                  class="w-5 h-5 rounded-full bg-surface-2 text-muted grid place-items-center flex-shrink-0 mt-0.5"
+                >
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <path d="M6 6l12 12M18 6L6 18" />
+                  </svg>
+                </span>
+                {{ item }}
+              </li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section v-reveal class="py-16">
+      <div class="container-isura">
+        <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">Commercials</span>
+        <h2
+          class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8 max-w-[16ch]"
+        >
+          How the money is arranged.
+        </h2>
+
+        <dl class="bg-surface border border-base rounded-isura-xl p-7 lg:p-9 flex flex-col">
+          <div
+            v-for="(row, i) in commercialModels"
+            :key="row.model"
+            class="grid grid-cols-1 md:grid-cols-[200px_240px_1fr] gap-2 md:gap-6 py-4 border-t border-base"
+            :class="{ 'border-t-0 pt-0': i === 0 }"
+          >
+            <dt class="font-semibold text-[15px]">{{ row.model }}</dt>
+            <dd class="font-code text-[13px] text-muted m-0">{{ row.shape }}</dd>
+            <dd class="text-muted text-[14.5px] leading-relaxed m-0">{{ row.suits }}</dd>
+          </div>
+        </dl>
+
+        <p class="text-muted text-[14px] mt-5 max-w-[62ch]">
+          Every arrangement is written down before the first commit: scope, ownership, what happens
+          if we stop, and who runs it afterwards.
+        </p>
+      </div>
+    </section>
+
+    <section v-reveal class="py-16">
+      <div class="container-isura">
+        <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">Questions</span>
+        <h2
+          class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8"
+        >
+          Asked before every build.
+        </h2>
+
+        <div data-reveal-flow class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <article v-for="(faq, i) in partnerFaqs" :key="faq.q" class="bento-card" v-reveal>
+            <h3 class="text-[16px] font-semibold tracking-[-0.015em] mb-2.5">{{ faq.q }}</h3>
+            <p class="text-muted text-[14.5px] leading-relaxed">{{ faq.a }}</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <CtaSection v-reveal />
   </div>
 </template>
 
 <script setup lang="ts">
+import PageIntro from '@/components/ui/PageIntro.vue'
+import AppButton from '@/components/ui/AppButton.vue'
+import CtaSection from '@/components/landing/CtaSection.vue'
+import {
+  commercialModels,
+  engagementFit,
+  engagementStages,
+  partnerFaqs,
+  partnerPrograms,
+} from '@/data/content'
+
 useSeoMeta({
   title: 'Partnerships | Altisly',
-  description: 'Join the Altisly partner ecosystem. Strategic advisory, venture co-building, and technology integration programmes available.',
+  description:
+    'Venture co-build, systems rebuild and platform partnership. Three ways to work with the Altisly studio.',
 })
-
-const programs = [
-  {
-    emoji: '🤝',
-    title: 'Strategic Advisory Partner',
-    description: 'Collaborate with Altisly on large-scale digital transformation and enterprise system deployments.',
-    benefits: [
-      'Joint go-to-market strategy',
-      'Co-selling on enterprise accounts',
-      'Shared advisory resources',
-      'Executive-level networking',
-      'Dedicated partner success manager',
-    ],
-  },
-  {
-    emoji: '🏗️',
-    title: 'Venture Co-Building Partner',
-    description: 'Partner with us to build and scale new tech-enabled ventures from zero to one.',
-    benefits: [
-      'Shared technical resources',
-      'Equity and rev-share models',
-      'Access to our engineering talent',
-      'Architectural blueprints',
-      'Operational scaling support',
-    ],
-  },
-  {
-    emoji: '🔧',
-    title: 'Technology Partner',
-    description: 'Integrate your core platforms with our systems to deliver end-to-end data and financial solutions.',
-    benefits: [
-      'API & data integration support',
-      'Joint implementation frameworks',
-      'Listed in our partner directory',
-      'Technical architecture design',
-      'Co-branded case studies',
-    ],
-  },
-]
 </script>
+
+<style scoped>
+/* The engagement is a sequence over time, not four peers, so it reads as a run of phases with the
+   duration carried on the rule rather than four identical cards. */
+.phases {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border);
+}
+
+.phase {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.35rem 2rem;
+  padding: 1.6rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+@media (min-width: 900px) {
+  .phase {
+    grid-template-columns: 4rem 11rem minmax(0, 1fr);
+    align-items: baseline;
+    gap: 0 2rem;
+    padding: 1.9rem 0;
+  }
+}
+
+.phase-index {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  color: var(--brand-deep);
+}
+
+.phase-span {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.phase-body h3 {
+  margin: 0 0 0.45rem;
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: -0.022em;
+  line-height: 1.15;
+}
+
+.phase-body p {
+  margin: 0;
+  max-width: 62ch;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+</style>

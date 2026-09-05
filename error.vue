@@ -1,23 +1,26 @@
 <template>
-  <div>
-    <AppHeader />
-    <main class="min-h-screen bg-brand-50 flex items-center justify-center px-4">
-      <div class="text-center max-w-lg">
-        <div class="text-8xl font-black text-brand-100 mb-4 leading-none">
+  <div class="bg-page min-h-screen flex flex-col">
+    <NavBar />
+    <main class="flex-1 grid place-items-center px-4 py-24">
+      <div class="text-center max-w-[46ch]">
+        <div
+          class="font-code text-[clamp(72px,12vw,140px)] font-bold tracking-[-0.04em] leading-none text-brand-deep"
+        >
           {{ error?.statusCode || 404 }}
         </div>
-        <h1 class="text-3xl font-bold text-navy-900 mb-4">
-          {{ error?.statusCode === 500 ? 'Something went wrong' : 'Page not found' }}
+        <h1 class="text-[clamp(28px,3.4vw,44px)] font-bold tracking-[-0.03em] leading-[1.05] mt-4 mb-4">
+          {{ error?.statusCode === 500 ? 'Something went wrong.' : 'Page not found.' }}
         </h1>
-        <p class="text-gray-600 mb-8 leading-relaxed">
-          {{ error?.statusCode === 500
-            ? 'We\'re looking into it. Please try again in a few minutes.'
-            : 'The page you\'re looking for doesn\'t exist or has been moved.'
+        <p class="text-muted text-[16px] leading-relaxed mb-8">
+          {{
+            error?.statusCode === 500
+              ? 'We are looking into it. Try again in a few minutes.'
+              : 'That page does not exist or has moved.'
           }}
         </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <NuxtLink to="/" class="btn-primary text-base px-8 py-4">Go home</NuxtLink>
-          <NuxtLink to="/contact" class="btn-outline text-base px-8 py-4">Contact support</NuxtLink>
+        <div class="flex gap-3 justify-center flex-wrap">
+          <AppButton variant="lime" size="lg" to="/">Go home</AppButton>
+          <AppButton variant="ghost" size="lg" to="/blog">Read the blog</AppButton>
         </div>
       </div>
     </main>
@@ -26,6 +29,10 @@
 </template>
 
 <script setup lang="ts">
+import NavBar from '@/components/layout/NavBar.vue'
+import AppFooter from '@/components/layout/AppFooter.vue'
+import AppButton from '@/components/ui/AppButton.vue'
+
 defineProps<{
   error?: { statusCode?: number; message?: string }
 }>()

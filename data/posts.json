@@ -1,13 +1,107 @@
 [
   {
+    "id": "post-004",
+    "title": "We Deleted the WHERE Clause",
+    "slug": "we-deleted-the-where-clause",
+    "excerpt": "Row level tenancy asks every developer to remember a filter, forever. Schema per tenant removes the thing they would have forgotten.",
+    "coverImage": "/images/blog/where-clause.jpg",
+    "category": "Engineering",
+    "tags": [
+      "Architecture",
+      "Multi tenancy",
+      "PostgreSQL"
+    ],
+    "author": "Altisly Engineering",
+    "status": "published",
+    "createdAt": "2026-08-20T09:00:00.000Z",
+    "updatedAt": "2026-08-20T09:00:00.000Z",
+    "content": "## The mistake nobody plans to make\n\nAsk any team running a multi tenant product how isolation works and you will usually hear the same sentence: every query filters on tenant_id. It is true. It is also a promise about human behaviour, renewed on every pull request, forever.\n\nThe failure mode is boring. Nobody breaks in. A developer adds a reporting endpoint on a Thursday evening, copies a query that already worked, and drops one clause during the copy. The tests pass, because the test database has one tenant in it. The bug ships. Six weeks later a customer sees a row that belongs to somebody else, and the conversation you are now having is not an engineering conversation.\n\n## What we did instead\n\nOn Isura, each tenant gets its own PostgreSQL schema. There is no shared table with a tenant_id column, so there is no filter to forget. The tenant identity comes from a signed claim on the request, the connection resolves to that tenant's schema, and a query written carelessly returns the careless answer inside the correct boundary.\n\nThat is the whole trick. We did not make developers more careful. We removed the object their carelessness would have acted on.\n\n## What it costs\n\nThis is not free, and anyone selling it as free has not run it.\n\nMigrations fan out. A schema change is not one ALTER, it is one ALTER per tenant, applied through a runner that tracks which schemas are at which version and can resume when the fiftieth one fails. You need that runner on day one, not on the day you have fifty tenants.\n\nCross tenant reporting gets harder on purpose. Aggregate questions, the ones an operator asks about the whole estate, now need a deliberate path rather than a convenient one. We think that is the right friction. The queries that cross the boundary should be the ones you had to sit down and write.\n\nConnection pooling needs thought. So does the moment of provisioning, which becomes a real piece of software rather than an INSERT.\n\n## When it is the wrong call\n\nIf your tenants number in the hundreds of thousands and each one holds a handful of rows, this is a bad trade. Schema per tenant suits estates where tenants are few, heavy and consequential: businesses, clinics, desks, institutions. It suits products where somebody will eventually ask you to prove isolation rather than describe it.\n\nThat proof is the quiet benefit. When a regulator or a security reviewer asks how tenant data is separated, the answer is not a code review of every query path written since launch. The answer is the schema boundary, and it is the same answer next year.\n\n## The general shape\n\nThe specific decision matters less than the pattern behind it. Every system carries rules that depend on people remembering, and every one of those rules is a liability with a slow fuse. The work is finding which of them can be turned into structure, so that the mistake stops being possible rather than merely discouraged.\n\nStructure beats discipline. Not because engineers are careless, but because they are human, and the system will outlive their attention."
+  },
+  {
+    "id": "post-005",
+    "title": "Two Planes, Two Products",
+    "slug": "two-planes-two-products",
+    "excerpt": "Becoming a customer and running your workspace are different jobs, with different users and different risks. Bolting one onto the other as an admin tab blurs both, permanently.",
+    "coverImage": "/images/blog/two-planes.jpg",
+    "category": "Product",
+    "tags": [
+      "Architecture",
+      "Product",
+      "SaaS"
+    ],
+    "author": "Altisly Studio",
+    "status": "published",
+    "createdAt": "2026-08-05T09:00:00.000Z",
+    "updatedAt": "2026-08-05T09:00:00.000Z",
+    "content": "## The admin tab problem\n\nMost SaaS products start with one application. Then somebody at the company needs to approve a signup, or suspend an account, or see how many workspaces exist. So an admin section appears behind a role check, and for a while that is fine.\n\nIt stops being fine quietly. The admin section starts holding data the customer application has no business touching. Its screens speak a different language: applications, provisioning, suspension, arrears. Its worst case is different too. A bug in a customer feature affects one workspace. A bug in the operator view affects the estate.\n\nBy the time this is obvious, the two products share a router, a state store, a session model and a deployment. Separating them is now a migration rather than a decision.\n\n## Drawing the line early\n\nWe split Isura into a control plane and a runtime plane before either had much in it.\n\nThe control plane is about becoming and remaining a customer. Applications get reviewed, tenants get provisioned, subscriptions get switched, lifecycles get recorded. Operators live here. The vocabulary is ours.\n\nThe runtime plane is the workspace itself. Users, roles, work, records, the day to day. Customers live here. The vocabulary is theirs, and it should never leak an implementation detail from our side of the boundary.\n\nTwo applications, two services, two audiences. A user is in one or the other, never in an ambiguous middle where the interface has to guess which product it currently is.\n\n## What the split buys\n\nOwnership gets simple. When a question arrives about who owns a feature, the answer is the plane the user is standing in. That sounds small. It removes an argument that otherwise recurs monthly.\n\nBlast radius shrinks. An operator surface can be down for an hour without a single customer noticing. The reverse should also be true, and with separate services it is.\n\nCopy gets honest. The tenant application never has to explain a platform concept, because it does not have one. Nothing in it says provisioning, because provisioning is something that happened to the tenant, not something the tenant does.\n\nAnd the tenant data boundary holds. Tenant users live in the tenant service. The platform side never holds them, which means the most sensitive records in the system are structurally out of reach of the surface that operators use.\n\n## The cost, honestly\n\nYou build two of some things. Two shells, two session flows, two deployment pipelines. A shared UI library absorbs most of that, but not all, and pretending otherwise would be dishonest.\n\nYou also have to decide, for every new capability, which plane owns it. That decision is occasionally hard. It is also the decision you were previously avoiding by putting everything in one application and letting a role check pretend to be an architecture.\n\n## The test\n\nHere is the question worth asking about any admin section you currently maintain. If you handed it to a new engineer with no context, would they be able to tell from the interface alone which company the user works for?\n\nIf the answer is no, you are running two products in one codebase, and only one of them is being designed."
+  },
+  {
+    "id": "post-006",
+    "title": "Onboarding Is a Saga, Not a Form",
+    "slug": "onboarding-is-a-saga-not-a-form",
+    "excerpt": "Provisioning a customer touches five systems and can fail in the middle of any of them. Treating it as a durable transaction is the difference between a stalled signup and a support ticket.",
+    "coverImage": "/images/blog/onboarding-saga.jpg",
+    "category": "Engineering",
+    "tags": [
+      "Engineering",
+      "Reliability",
+      "Onboarding"
+    ],
+    "author": "Altisly Engineering",
+    "status": "published",
+    "createdAt": "2026-07-16T09:00:00.000Z",
+    "updatedAt": "2026-07-16T09:00:00.000Z",
+    "content": "## What actually happens when somebody signs up\n\nOn paper it is one action. In practice, approving a tenant means creating a schema, running every migration against it, seeding catalogues and defaults, writing the subscription and its entitlements, applying branding, creating the first administrator, sending an invitation, and recording that all of it happened.\n\nThat is eight things, across at least three systems, any of which can fail. The interesting question is not how to make them succeed. It is what the system looks like when number six fails at three in the morning.\n\n## The version everybody builds first\n\nThe first version is a request handler. It does the eight things in order, wrapped in whatever transaction it can reach, and returns success.\n\nWhen step six fails, you get a tenant that exists in the database, has a schema, has no administrator, and cannot be signed into. The customer has been told they are approved. Nobody on your side knows the state is broken until they write in. The fix is an engineer with a database console and a good memory.\n\nAnd the retry is worse than the failure. Run it again and you have two subscription rows, or a second invitation, or a migration applied twice.\n\n## Making it durable\n\nWe rebuilt provisioning as a saga. Each step is recorded before it runs and marked when it completes. The whole thing is resumable, and every step is idempotent: running it twice produces the same state as running it once.\n\nThat changes the failure conversation entirely. Step six failing at three in the morning is now a row that says step six failed at three in the morning. The run resumes from there, either automatically or when an operator presses a button, and it does not redo the five steps that already landed.\n\nTwo axes matter here. What the tenant is (their lifecycle state) and how far provisioning has got (the run state) are different facts, and conflating them is how you end up with a tenant that looks active and is not usable.\n\n## Idempotency is the real work\n\nMost of the effort is not the state machine. It is making each step safe to repeat.\n\nCreating a schema becomes create if absent. Seeding becomes upsert against a stable key. Sending an invitation becomes send unless one is already outstanding, which means invitations need identity of their own rather than being a side effect. Every one of those is a small design decision that only looks necessary once you have accepted that steps will be retried.\n\n## What it gives back\n\nOperators stop being a recovery mechanism. When something stalls, the platform surface shows exactly which step, with the error, and a resume that is safe to press.\n\nSupport conversations change shape. Instead of asking a customer to describe symptoms, you look at the run.\n\nAnd the customer experience holds. Onboarding either completes or resumes. It does not silently strand somebody in a half created workspace with a login that does not work.\n\n## The wider point\n\nAny process that crosses more than two systems and gets triggered by a human decision deserves this treatment. Approvals. Cancellations. Bulk imports. Anywhere the middle of the process is a real place a system can be, the middle needs to be a state you can see and act on, not an accident."
+  },
+  {
+    "id": "post-007",
+    "title": "What We Refused to Automate",
+    "slug": "what-we-refused-to-automate",
+    "excerpt": "The value in treasury automation was never the model. It was getting the exclusion rules and column mappings out of one person's head and into an artefact.",
+    "coverImage": "/images/blog/refused-to-automate.jpg",
+    "category": "Product",
+    "tags": [
+      "Treasury",
+      "Automation",
+      "AI"
+    ],
+    "author": "Altisly Strategy Team",
+    "status": "published",
+    "createdAt": "2026-06-25T09:00:00.000Z",
+    "updatedAt": "2026-06-25T09:00:00.000Z",
+    "content": "## The desk before\n\nA treasury analyst opens seven bank portals, downloads seven files in five formats, and reconciles them against the blotter. Two hours, every morning, before anyone can say what the position is.\n\nThe obvious move is to automate the download and the match. That part is mechanical, and it is the part every vendor demonstrates.\n\nThe part that matters is underneath it. When the analyst finds a line that does not match, they know that this counterparty books value date one day late, that this account posts fees separately, and that anything under a certain size from that corridor is a rounding artefact and should be excluded. None of that is written down. It is judgement, held by one person, and it is the actual product.\n\n## Encoding judgement, not replacing it\n\nSo the first thing we built was not a matching engine. It was a place to put the rules.\n\nColumn mappings per source, because every bank exports differently and the mapping is knowledge, not configuration. Exclusion rules with a reason attached, because a rule without its reason is unmaintainable within a quarter. Tolerance bands per corridor. Value date adjustments per counterparty.\n\nOnce those existed as an artefact, the matching engine was almost boring to write. It is a loop over rules somebody deliberately stated.\n\n## Where we stopped\n\nWe did not automate the decision to break a match. A line that fails every rule surfaces to a human with the full trail: what was compared, which rule excluded what, why the engine could not close it. The human decides.\n\nWe did not let a model infer the rules from history. It could probably approximate them. But an approximated rule cannot be defended to an auditor, and cannot be corrected by the analyst who knows the real one. A rule you cannot read is a rule you cannot own.\n\nWe did not automate the sign off. Somebody puts their name on the position each morning. That is not inefficiency, that is accountability, and removing it would have made the system worse while making the demo better.\n\n## What actually changed\n\nThe two hours became about fifteen minutes, most of it spent on the handful of lines that genuinely need a person.\n\nBut the outcome that mattered more was this. When the analyst took two weeks of leave, the desk kept running. Not because a model had learned to be them, but because the thing that lived only in their head was now a file in a repository, reviewed like anything else, with the reasoning attached.\n\n## The rule we now apply\n\nBefore automating any operational process, ask where the judgement lives. If it lives in a person, the first deliverable is the artefact that holds it, not the engine that runs it.\n\nAutomation applied to undocumented judgement just moves the fragility somewhere harder to see."
+  },
+  {
+    "id": "post-008",
+    "title": "Six Platforms, Small Team",
+    "slug": "six-platforms-small-team",
+    "excerpt": "AI leverage in a studio does not show up as typing faster. It shows up as holding architectural context across a build large enough that a small team would previously have lost the thread.",
+    "coverImage": "/images/blog/six-platforms.jpg",
+    "category": "Market",
+    "tags": [
+      "AI",
+      "Studio",
+      "Strategy"
+    ],
+    "author": "Altisly Studio",
+    "status": "published",
+    "createdAt": "2026-06-04T09:00:00.000Z",
+    "updatedAt": "2026-06-04T09:00:00.000Z",
+    "content": "## The question we set out to answer\n\nAltisly started as an experiment with a narrow question attached: how much serious software can a small, AI equipped studio actually ship?\n\nSix platforms later, across treasury, payments, identity and healthcare, we have an answer that is more specific than the one we expected.\n\n## Where the leverage is not\n\nIt is not in typing. Code generation speeds up the part of the job that was never the bottleneck. A team that could not previously agree on a data model does not ship faster because the boilerplate arrives quicker. It ships a larger amount of the wrong thing.\n\nIt is not in the first eighty percent of a feature either. That part was always tractable. The last ten percent, the part where an operation can actually depend on the software, is the part that decides whether the build was worth doing, and it is stubbornly resistant to speed.\n\n## Where it actually is\n\nThe leverage is in holding context.\n\nA build with five frontend applications, two services and a shared framework has a coherence problem long before it has a capacity problem. The naming drifts. The error envelope is one shape here and another shape there. A convention agreed in March is quietly abandoned in June because nobody was holding it.\n\nA small team with AI leverage can keep that thread. Conventions get applied consistently because they can be restated, checked and enforced across a codebase larger than one person can hold. Architectural decisions stay written down, because writing them down stopped being expensive. The framework underneath stays coherent because drift gets caught while it is still cheap.\n\nThat is what let a small team carry six platforms without any of them turning into the one nobody wants to open.\n\n## What has to be true first\n\nThis only compounds on top of things that were already made explicit.\n\nYou need decisions written down, with what was rejected and why. You need conventions stated rather than absorbed. You need contracts generated from a single source rather than maintained in two places by agreement.\n\nA studio that has none of those gets a faster version of its existing incoherence.\n\n## What this means commercially\n\nThe traditional split had strategy on one side, producing a document, and execution on the other, producing software, with a translation loss in the middle that nobody owned.\n\nA small team that can architect and build removes the translation. When we advise on a compliance bottleneck, the deliverable is the engine that encodes the rule, not the manual describing it. When we work with a founder, we hold the ledger design rather than reviewing somebody else's.\n\nThat is only viable at a small size if the team can carry more system per person than it used to. Which is exactly the thing this experiment was testing.\n\n## Where we are now\n\nStill compounding. The domains look scattered from outside, and they are not: every one of them is operations heavy, and in every one the workflow is the product.\n\nThe honest caveat is that leverage magnifies whatever architecture it is pointed at. Point it at a system whose boundaries were never decided and it will help you build the mess faster, and larger, and with better test coverage."
+  },
+  {
     "id": "post-001",
     "title": "Why System > Person is the Only Way to Scale",
     "slug": "why-system-greater-than-person-is-the-only-way-to-scale",
     "excerpt": "Key-man risk is the silent killer of growing enterprises. Here is how we engineer systems that institutionalize knowledge and ensure zero operational disruption.",
-    "coverImage": "",
+    "coverImage": "/images/blog/system-over-person.jpg",
     "category": "Engineering",
-    "tags": ["Engineering", "Architecture", "Systems"],
-    "author": "Felix Chima",
+    "tags": [
+      "Engineering",
+      "Architecture",
+      "Systems"
+    ],
+    "author": "Altisly Engineering",
     "status": "published",
     "createdAt": "2026-05-01T09:00:00.000Z",
     "updatedAt": "2026-05-01T09:00:00.000Z",
@@ -18,9 +112,13 @@
     "title": "Architecting the Treasury of the Future",
     "slug": "architecting-the-treasury-of-the-future",
     "excerpt": "How modern corporate treasuries are moving from spreadsheets to automated Cash Positioning.",
-    "coverImage": "",
+    "coverImage": "/images/blog/treasury-future.jpg",
     "category": "Product",
-    "tags": ["Treasury", "Fintech", "Data"],
+    "tags": [
+      "Treasury",
+      "Fintech",
+      "Data"
+    ],
     "author": "Altisly Strategy Team",
     "status": "published",
     "createdAt": "2026-04-15T09:00:00.000Z",
@@ -32,10 +130,14 @@
     "title": "The Rise of Tech-Enabled Consulting",
     "slug": "the-rise-of-tech-enabled-consulting",
     "excerpt": "Why traditional consulting firms are struggling to execute, and why the future belongs to systems architects who can both strategize and build.",
-    "coverImage": "",
+    "coverImage": "/images/blog/tech-enabled-consulting.jpg",
     "category": "Market",
-    "tags": ["Consulting", "Venture Building", "Strategy"],
-    "author": "Felix Chima",
+    "tags": [
+      "Consulting",
+      "Venture Building",
+      "Strategy"
+    ],
+    "author": "Altisly Strategy Team",
     "status": "published",
     "createdAt": "2026-03-10T09:00:00.000Z",
     "updatedAt": "2026-03-10T09:00:00.000Z",

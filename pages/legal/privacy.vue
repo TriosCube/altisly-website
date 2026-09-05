@@ -1,86 +1,29 @@
 <template>
-  <div>
-    <AppHeader />
-    <main>
-      <section class="pt-32 pb-12 md:pt-44 md:pb-16 bg-white border-b border-gray-100">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex items-center gap-2 text-xs text-gray-400 font-medium mb-4">
-            <NuxtLink to="/" class="hover:text-gray-600 transition-colors">Altisly</NuxtLink>
-            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            <span>Legal</span>
-            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            <span class="text-gray-600">Privacy Policy</span>
-          </div>
-          <h1 class="text-3xl md:text-4xl font-black text-navy-900 mb-4">Privacy Policy</h1>
-          <p class="text-gray-500 text-sm">Last updated: 1 May 2026 · Effective: 1 May 2026</p>
-          <div class="flex flex-wrap gap-3 mt-6">
-            <NuxtLink to="/legal/terms" class="text-xs font-semibold text-gray-500 hover:text-[#15c411] transition-colors px-3 py-1.5 rounded-lg bg-gray-50 border border-gray-200 hover:border-[#15c411]">Terms of Service</NuxtLink>
-            <NuxtLink to="/legal/notice" class="text-xs font-semibold text-gray-500 hover:text-[#15c411] transition-colors px-3 py-1.5 rounded-lg bg-gray-50 border border-gray-200 hover:border-[#15c411]">Legal Notice</NuxtLink>
-          </div>
-        </div>
-      </section>
-
-      <section class="py-16 bg-white">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex flex-col lg:flex-row gap-12">
-            <aside class="lg:w-56 flex-shrink-0">
-              <div class="sticky top-28">
-                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Contents</p>
-                <nav class="space-y-1">
-                  <a v-for="section in toc" :key="section.id" :href="`#${section.id}`" class="block text-sm text-gray-500 hover:text-[#15c411] transition-colors py-1 border-l-2 border-transparent hover:border-[#15c411] pl-3 leading-tight">
-                    {{ section.label }}
-                  </a>
-                </nav>
-              </div>
-            </aside>
-
-            <article class="flex-1">
-              <div class="bg-[#ebfaeb] border border-[#15c411]/20 rounded-xl p-5 mb-10">
-                <p class="text-sm text-gray-700 leading-relaxed">Altisly Inc. is committed to protecting your privacy. This Privacy Policy explains how we collect, use, share, and protect information about you when you use our services. We are transparent about our practices and your rights.</p>
-              </div>
-
-              <div v-for="section in sections" :key="section.id" :id="section.id" class="mb-12">
-                <h2 class="text-xl font-bold text-navy-900 mb-4 pb-3 border-b border-gray-100">{{ section.title }}</h2>
-                <div class="space-y-4">
-                  <p v-for="para in section.body" :key="para" class="text-sm text-gray-600 leading-relaxed">{{ para }}</p>
-                  <div v-if="section.subsections">
-                    <div v-for="sub in section.subsections" :key="sub.title" class="mt-5">
-                      <h3 class="font-bold text-navy-900 text-sm mb-2">{{ sub.title }}</h3>
-                      <ul class="space-y-2">
-                        <li v-for="item in sub.items" :key="item" class="flex items-start gap-3 text-sm text-gray-600">
-                          <div class="w-1.5 h-1.5 rounded-full bg-[#15c411] flex-shrink-0 mt-2"></div>
-                          {{ item }}
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <ul v-if="section.list" class="space-y-2 mt-2">
-                    <li v-for="item in section.list" :key="item" class="flex items-start gap-3 text-sm text-gray-600">
-                      <div class="w-1.5 h-1.5 rounded-full bg-[#15c411] flex-shrink-0 mt-2"></div>
-                      {{ item }}
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              <div class="bg-gray-50 rounded-xl border border-gray-200 p-6 mt-10">
-                <h3 class="font-bold text-navy-900 mb-2">Exercise your privacy rights</h3>
-                <p class="text-sm text-gray-600 mb-4">To make a data access, correction, or deletion request, or to withdraw consent, contact our Data Protection Officer.</p>
-                <a href="mailto:privacy@altisly.com" class="inline-flex items-center gap-2 text-sm font-semibold text-[#15c411] hover:underline">
-                  privacy@altisly.com
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                </a>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-    </main>
-    <AppFooter />
-  </div>
+  <LegalPage
+    title="Privacy Policy"
+    updated="Last updated 1 May 2026. Effective 1 May 2026."
+    :toc="toc"
+    :sections="sections"
+    intro="Altisly Inc. is committed to protecting your privacy. This Privacy Policy explains how we collect, use, share and protect information about you when you use our services."
+  >
+    <template #after>
+      <div class="rounded-isura-lg border border-base bg-surface-2 p-6 mt-10">
+        <h3 class="font-semibold text-[16px] mb-2">Exercise your privacy rights</h3>
+        <p class="text-[14px] text-muted mb-5">
+          To make a data access, correction or deletion request, or to withdraw consent, contact our
+          Data Protection Officer.
+        </p>
+        <AppButton variant="lime" size="sm" href="mailto:privacy@altisly.com">
+          privacy@altisly.com →
+        </AppButton>
+      </div>
+    </template>
+  </LegalPage>
 </template>
 
 <script setup lang="ts">
+import LegalPage from '@/components/legal/LegalPage.vue'
+import AppButton from '@/components/ui/AppButton.vue'
 useSeoMeta({
   title: 'Privacy Policy | Altisly',
   description: 'Learn how Altisly collects, uses, and protects your information across all our products and services.',
