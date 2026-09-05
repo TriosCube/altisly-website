@@ -34,13 +34,20 @@ jobs:
         with:
           node-version: 22
 
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
       - name: Install dependencies
-        run: npm ci
+        # bun.lock is the maintained lockfile here; package-lock.json is stale
+        # and disagrees with package.json on the Tailwind major version.
+        run: bun install --frozen-lockfile
 
       - name: Build Nuxt app
         env:
           NODE_ENV: production
-        run: npx nuxi build
+        run: bunx nuxi build
 
       - name: Configure SSH
         env:
