@@ -87,8 +87,17 @@
       <div v-for="turn in turns" :key="turn.id" class="ask-row" :class="`is-${turn.role}`">
         <span v-if="turn.role === 'user'" class="ask-avatar is-you">You</span>
         <span v-else class="ask-avatar is-bot">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-            <path :d="spark" />
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M12 8V4H8" />
+            <rect width="16" height="12" x="4" y="8" rx="2" />
+            <path d="M2 14h2M20 14h2M15 13v2M9 13v2" />
           </svg>
         </span>
         <div class="ask-bubble">
