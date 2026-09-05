@@ -579,6 +579,13 @@ onBeforeUnmount(() => {
     position: sticky;
     top: 0;
     height: 100svh;
+    /* The section itself cannot carry padding: its height is the sticky track
+       and padding would push the whole composition out of step. The room goes
+       inside the panel instead, where border-box keeps it within the 100svh
+       and simply gives the content less of it. Without this the heading sits
+       hard against the top of the band, which is visible now the section has
+       a background of its own. */
+    padding-block: clamp(2.5rem, 8svh, 6rem);
   }
 
   .is-pinned .artefact {

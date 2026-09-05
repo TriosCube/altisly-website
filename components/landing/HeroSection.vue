@@ -592,8 +592,12 @@ onBeforeUnmount(() => {
    The lines wrap here and the type is sized as a fraction of the column
    instead: 0.112 is above the point where every first line wraps and below the
    point where any second line does, so all three headlines land on four lines
-   at every width from 320 to 480 and none of them jumps as they cycle. The
-   band runs to 0.124, so this takes the top of it with a little left over. */
+   at every width from 320 to 480 and none of them jumps as they cycle.
+
+   There are three such bands: 0.090 to 0.098 gives three lines, 0.106 to 0.124
+   gives four, and 0.150 to 0.162 gives five. Between them the three headlines
+   disagree and the block changes height as it cycles, so only a band will do.
+   This takes the five line band, which is the biggest type a phone will hold. */
 @media (max-width: 480px) {
   .hl {
     white-space: normal;
@@ -605,8 +609,8 @@ onBeforeUnmount(() => {
   }
 
   .headline {
-    font-size: calc((100vw - 64px) * 0.12);
-    min-height: 4.1em;
+    font-size: calc((100vw - 64px) * 0.154);
+    min-height: 5.1em;
   }
 }
 
@@ -618,6 +622,16 @@ onBeforeUnmount(() => {
 @media (min-width: 481px) and (max-width: 1023px) {
   .headline {
     font-size: min(calc((100vw - 64px) * 0.092), 72px);
+  }
+}
+
+/* Short phones. Five lines at that size overruns a 568px screen by a hair, so
+   these drop back a band to four. It is the same rule as above, one band down,
+   which is why the lines still agree with each other. */
+@media (max-width: 480px) and (max-height: 700px) {
+  .headline {
+    font-size: calc((100vw - 64px) * 0.12);
+    min-height: 4.1em;
   }
 }
 </style>
