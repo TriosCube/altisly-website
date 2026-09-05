@@ -17,7 +17,11 @@ export default defineNuxtPlugin(() => {
       { property: 'og:site_name', content: site.name },
       { property: 'og:type', content: 'website' },
       { property: 'og:url', content: () => `${site.url}${route.path === '/' ? '' : route.path}` },
+      { property: 'og:image', content: `${site.url}/og.png` },
+      { property: 'og:image:width', content: '1200' },
+      { property: 'og:image:height', content: '630' },
       { name: 'twitter:card', content: 'summary_large_image' },
+      { name: 'twitter:image', content: `${site.url}/og.png` },
     ],
     script: [
       {
