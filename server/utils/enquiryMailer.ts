@@ -50,6 +50,8 @@ const detailsText = (enquiry: EnquiryRecord) => {
     `Country: ${enquiry.country || 'N/A'}`,
     `Phone: ${enquiry.phone || 'N/A'}`,
     `Use case: ${enquiry.useCase || 'N/A'}`,
+    `Role: ${enquiry.role || 'N/A'}`,
+    `Portfolio: ${enquiry.portfolio || 'N/A'}`,
     `Newsletter opt-in: ${enquiry.newsletter ? 'Yes' : 'No'}`,
     `Source: ${enquiry.sourcePage}`,
     `Received at: ${enquiry.createdAt}`,

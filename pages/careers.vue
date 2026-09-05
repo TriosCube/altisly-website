@@ -6,7 +6,7 @@
       lede="We hire systems thinkers and give them the autonomy to architect. The systems you build move money and carry patient records."
     >
       <template #actions>
-        <AppButton variant="lime" to="/contact">Send us your work →</AppButton>
+        <AppButton variant="lime" to="/careers/apply">Send us your work →</AppButton>
       </template>
     </PageIntro>
 
@@ -103,7 +103,7 @@
           <NuxtLink
             v-for="(role, i) in openRoles"
             :key="role.title"
-            to="/contact"
+            :to="`/careers/apply?role=${encodeURIComponent(role.title)}`"
             class="flex items-center justify-between gap-4 py-5 border-t border-base group hover:bg-surface-2 transition-colors px-1"
             :class="{ 'border-b': i === openRoles.length - 1 }"
           >
@@ -134,7 +134,7 @@
               job description.
             </p>
           </div>
-          <AppButton variant="lime" size="sm" to="/contact">Send us your work →</AppButton>
+          <AppButton variant="lime" size="sm" to="/careers/apply">Send us your work →</AppButton>
         </div>
       </div>
     </section>

@@ -3,7 +3,7 @@ import { join } from 'path'
 
 export const ENQUIRY_RECIPIENT = 'hello@altisly.com'
 
-export type EnquiryType = 'contact' | 'api-keys' | 'newsletter'
+export type EnquiryType = 'contact' | 'api-keys' | 'newsletter' | 'application'
 
 export type EnquiryRecord = {
   id: string
@@ -15,6 +15,8 @@ export type EnquiryRecord = {
   phone: string
   message: string
   useCase: string
+  role: string
+  portfolio: string
   newsletter: boolean
   sourcePage: string
   recipient: string

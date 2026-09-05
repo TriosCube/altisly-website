@@ -4,7 +4,7 @@ import { addEnquiry, ENQUIRY_RECIPIENT, type EnquiryRecord, type EnquiryType } f
 import { sendEnquiryEmail } from '~/server/utils/enquiryMailer'
 
 const parseType = (value: unknown): EnquiryType =>
-  value === 'api-keys' || value === 'newsletter' ? value : 'contact'
+  value === 'api-keys' || value === 'newsletter' || value === 'application' ? value : 'contact'
 
 const cleanText = (value: unknown) => (typeof value === 'string' ? value.trim() : '')
 
@@ -28,6 +28,8 @@ export default defineEventHandler(async (event) => {
     country: cleanText((body as Record<string, unknown>).country),
     phone: cleanText((body as Record<string, unknown>).phone),
     message: cleanText((body as Record<string, unknown>).message),
+    role: cleanText((body as Record<string, unknown>).role),
+    portfolio: cleanText((body as Record<string, unknown>).portfolio),
     useCase: cleanText((body as Record<string, unknown>).useCase),
     newsletter: Boolean((body as Record<string, unknown>).newsletter),
     sourcePage: cleanText((body as Record<string, unknown>).sourcePage) || event.path,
