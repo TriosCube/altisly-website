@@ -775,10 +775,49 @@ onBeforeUnmount(() => {
   border-radius: var(--radius-xl);
   overflow: hidden;
   text-align: center;
-  /* The panels are the glass: each one frosts whatever it has slid over, so the stack reads as
-     layered panes. The app window inside stays solid so the UI is never washed out. */
-  backdrop-filter: blur(22px) saturate(1.4);
-  -webkit-backdrop-filter: blur(22px) saturate(1.4);
+  /* Solid panels. Frosting them washed the copy out: text sat on whatever had
+     slid underneath rather than on its own colour. The grain below gives the
+     surface life instead. */
+  isolation: isolate;
+}
+
+/* Untuned-set static: one turbulence tile, jumped a few pixels per frame so it
+   crawls the way analogue noise did, held low enough to read as texture. */
+.panel::before {
+  position: absolute;
+  inset: -120%;
+  content: '';
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.055;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: static-crawl 0.7s steps(8) infinite;
+}
+
+/* The copy and the shot sit above the grain, so the noise is behind them and
+   never lands on the text. */
+.panel > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes static-crawl {
+  0% { transform: translate3d(0, 0, 0); }
+  12.5% { transform: translate3d(-3%, 2%, 0); }
+  25% { transform: translate3d(2%, -4%, 0); }
+  37.5% { transform: translate3d(-4%, -2%, 0); }
+  50% { transform: translate3d(3%, 3%, 0); }
+  62.5% { transform: translate3d(-2%, 4%, 0); }
+  75% { transform: translate3d(4%, -3%, 0); }
+  87.5% { transform: translate3d(-3%, -4%, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel::before {
+    animation: none;
+  }
 }
 
 .panel::after {
@@ -793,19 +832,19 @@ onBeforeUnmount(() => {
 }
 
 .tone-invert {
-  background: color-mix(in srgb, var(--invert-bg) 74%, transparent);
+  background: var(--invert-bg);
   color: var(--invert-text);
   border: 1px solid rgb(var(--invert-text-rgb) / 0.12);
 }
 
 .tone-surface {
-  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  background: var(--surface);
   color: var(--text);
   border: 1px solid var(--border);
 }
 
 .tone-brand {
-  background: color-mix(in srgb, var(--brand) 78%, transparent);
+  background: var(--brand);
   color: var(--on-brand);
   border: 1px solid color-mix(in srgb, var(--on-brand) 12%, transparent);
 }
