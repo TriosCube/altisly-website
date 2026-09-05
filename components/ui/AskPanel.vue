@@ -714,6 +714,16 @@ async function reveal(turn: Turn, reply: string) {
   color: var(--muted-2);
 }
 
+/* 16px, or iOS zooms the page in on focus and never zooms back out. The rule
+   has to sit here rather than in the global sheet: a bare textarea selector
+   loses to this component's own .ask-compose textarea, so the global one was
+   being overridden and the field stayed at 13px. */
+@media (pointer: coarse) {
+  .ask-compose textarea {
+    font-size: 16px;
+  }
+}
+
 /* One state on a phone: whatever mode was remembered, it presents as a modal. */
 @media (max-width: 640px) {
   .ask,
@@ -725,7 +735,10 @@ async function reveal(turn: Turn, reply: string) {
     bottom: 0;
     left: 0;
     width: 100vw;
-    height: 100svh;
+    /* dvh, not svh: this shares the screen with a keyboard, and it should give
+       the panel back the height the keyboard takes rather than stay full and
+       push the composer behind it. */
+    height: 100dvh;
     border-width: 0;
     border-radius: 0;
     /* Keeps a flick at the top or bottom of the thread from scrolling the page
