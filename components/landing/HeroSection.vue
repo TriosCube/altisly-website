@@ -592,7 +592,8 @@ onBeforeUnmount(() => {
    The lines wrap here and the type is sized as a fraction of the column
    instead: 0.112 is above the point where every first line wraps and below the
    point where any second line does, so all three headlines land on four lines
-   at every width from 320 to 480 and none of them jumps as they cycle. */
+   at every width from 320 to 480 and none of them jumps as they cycle. The
+   band runs to 0.124, so this takes the top of it with a little left over. */
 @media (max-width: 480px) {
   .hl {
     white-space: normal;
@@ -604,8 +605,19 @@ onBeforeUnmount(() => {
   }
 
   .headline {
-    font-size: calc((100vw - 64px) * 0.112);
+    font-size: calc((100vw - 64px) * 0.12);
     min-height: 4.1em;
+  }
+}
+
+/* Tablets. These were being sized by the clamp, not by the cap, so raising the
+   cap did nothing: 6.1vw is 46.8px at 768 while the column would carry 65. The
+   size comes off the column here too. 0.092 stays under the point where the
+   widest line wraps, so these keep the three unbroken lines, they are just no
+   longer sized as though the screen were a phone. */
+@media (min-width: 481px) and (max-width: 1023px) {
+  .headline {
+    font-size: min(calc((100vw - 64px) * 0.092), 72px);
   }
 }
 </style>
