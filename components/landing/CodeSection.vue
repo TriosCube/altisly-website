@@ -1,5 +1,5 @@
 <template>
-  <section id="code" class="code-track" v-reveal>
+  <section id="code" ref="trackRef" class="code-track" v-reveal>
     <div class="code-stage">
       <span class="code-glow" aria-hidden="true"></span>
       <span class="code-beam" aria-hidden="true"></span>
@@ -68,29 +68,70 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import { samples } from '@/data/code-samples'
 
+const trackRef = ref<HTMLElement | null>(null)
 const index = ref(0)
 const active = computed(() => samples[index.value])
-let cycle: ReturnType<typeof setInterval> | undefined
 
-function start() {
+let cycle: ReturnType<typeof setInterval> | undefined
+let frame = 0
+
+// The section pins for a screen and a bit, so the scroll through it is what
+// moves between samples: five domains across the travel, about one per fifth
+// of the way down.
+function update() {
+  const track = trackRef.value
+  if (!track) return
+
+  const travel = track.offsetHeight - window.innerHeight
+  if (travel <= 0) return
+
+  const box = track.getBoundingClientRect()
+  if (box.bottom < 0 || box.top > window.innerHeight) return
+
+  const progress = Math.min(Math.max(-box.top / travel, 0), 1)
+  index.value = Math.min(Math.floor(progress * samples.length), samples.length - 1)
+}
+
+function schedule() {
+  cancelAnimationFrame(frame)
+  frame = requestAnimationFrame(update)
+}
+
+// Stacked, there is no track to scroll through and nothing to drive it, so
+// that layout falls back to a timer.
+function startTimer() {
   cycle = setInterval(() => {
     index.value = (index.value + 1) % samples.length
   }, 5200)
 }
 
-// Clicking a tab is a choice; the carousel should not immediately override it.
+// Clicking a tab is a choice. Scrolling on will take it back, which is the
+// right way round: the scroll position is the thing being read.
 function select(i: number) {
   index.value = i
+  if (!cycle) return
   clearInterval(cycle)
-  start()
+  startTimer()
 }
 
 onMounted(() => {
+  if (window.matchMedia('(min-width: 1024px)').matches) {
+    window.addEventListener('scroll', schedule, { passive: true })
+    window.addEventListener('resize', schedule)
+    update()
+    return
+  }
+
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-  start()
+  startTimer()
 })
 
-onBeforeUnmount(() => clearInterval(cycle))
+onBeforeUnmount(() => {
+  cancelAnimationFrame(frame)
+  clearInterval(cycle)
+  window.removeEventListener('scroll', schedule)
+  window.removeEventListener('resize', schedule)
+})
 </script>
 
 <style scoped>
@@ -279,7 +320,7 @@ onBeforeUnmount(() => clearInterval(cycle))
   font-size: 13.5px;
   font-weight: 600;
   color: rgb(var(--invert-text-rgb) / 0.38);
-  transition: color 200ms ease;
+  transition: color 150ms ease;
 }
 
 .code-tab:hover {
@@ -347,7 +388,7 @@ onBeforeUnmount(() => clearInterval(cycle))
 
 .code-enter-active,
 .code-leave-active {
-  transition: opacity 320ms ease;
+  transition: opacity 150ms ease;
 }
 
 .code-enter-from,
