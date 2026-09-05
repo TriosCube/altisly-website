@@ -136,7 +136,7 @@ jobs:
           umask 077
           printf '%s' "$ENV_B64" | base64 -d > .env.prod
           chmod 600 .env.prod
-          SITE=altisly DOMAIN=altisly.com PORT=3300 \
+          SITE=altisly DOMAIN=altisly.com PORT=3300 APP_USER="$(id -un)" \
             CADDY_EMAIL="$CADDY_EMAIL" APP_DIR="$APP_DIR" ./scripts/install-services.sh
           sudo systemctl restart altisly
           sudo systemctl restart caddy

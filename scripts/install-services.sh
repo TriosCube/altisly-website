@@ -30,7 +30,7 @@ Wants=network-online.target
 Type=simple
 User=${APP_USER}
 WorkingDirectory=${APP_DIR}
-EnvironmentFile=-${APP_DIR}/.env.prod
+EnvironmentFile=-/etc/${SITE}/env
 Environment=NODE_ENV=production
 Environment=HOST=127.0.0.1
 Environment=PORT=${PORT}
@@ -45,6 +45,15 @@ StandardError=journal
 [Install]
 WantedBy=multi-user.target
 UNIT
+
+# SELinux blocks systemd from reading an EnvironmentFile labelled user_home_t,
+# and the leading - on the directive makes that failure silent. Keeping the
+# file under /etc gives it etc_t, which systemd can actually read.
+sudo install -d -m 0755 "/etc/${SITE}"
+if [ -f "${APP_DIR}/.env.prod" ]; then
+  sudo install -m 0640 -o root -g "${APP_USER}" "${APP_DIR}/.env.prod" "/etc/${SITE}/env"
+  sudo restorecon -F "/etc/${SITE}/env" 2>/dev/null || true
+fi
 
 sudo mkdir -p /etc/caddy/conf.d
 sudo tee /etc/caddy/Caddyfile >/dev/null <<CADDYFILE
