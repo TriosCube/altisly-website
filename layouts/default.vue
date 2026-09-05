@@ -29,6 +29,12 @@ import AskPanel from '@/components/ui/AskPanel.vue'
 }
 
 @media (min-width: 641px) {
+  /* Display type is sized in --vwu, so narrowing the page narrows the headlines with it rather than
+     letting them run on behind the panel. */
+  html.ask-open {
+    --vwu: calc((100vw - var(--ask-w)) / 100);
+  }
+
   html.ask-open .shell {
     padding-right: var(--ask-w);
   }

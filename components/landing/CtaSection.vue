@@ -10,7 +10,7 @@
 
         <div class="relative z-10">
           <h2
-            class="text-[clamp(40px,4.8vw,64px)] font-bold tracking-[-0.032em] leading-[0.98] max-w-[12ch]"
+            class="text-[clamp(40px,calc(4.8*var(--vwu)),64px)] font-bold tracking-[-0.032em] leading-[0.98] max-w-[12ch]"
           >
             Have a problem
             <span class="inline-flex items-center bg-brand text-on-brand px-5.5 pb-1 rounded-full"

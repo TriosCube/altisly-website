@@ -132,7 +132,7 @@ const mailtoHref = computed(() => {
 .report {
   display: flex;
   flex-direction: column;
-  padding: clamp(1.6rem, 3.4vw, 2.6rem);
+  padding: clamp(1.6rem, calc(3.4*var(--vwu)), 2.6rem);
   gap: 2.4rem;
 }
 
@@ -151,7 +151,7 @@ const mailtoHref = computed(() => {
 
 .report-lede {
   margin: 0.8rem 0 0;
-  font-size: clamp(1.25rem, 2.4vw, 1.7rem);
+  font-size: clamp(1.25rem, calc(2.4*var(--vwu)), 1.7rem);
   font-weight: 700;
   letter-spacing: -0.026em;
   line-height: 1.18;
@@ -226,7 +226,7 @@ const mailtoHref = computed(() => {
 
 .report-blind > p {
   margin: 0.7rem 0 0;
-  font-size: clamp(1rem, 1.9vw, 1.2rem);
+  font-size: clamp(1rem, calc(1.9*var(--vwu)), 1.2rem);
   font-weight: 600;
   letter-spacing: -0.018em;
   line-height: 1.35;
@@ -248,7 +248,7 @@ const mailtoHref = computed(() => {
 
 .report-title {
   margin: 0.7rem 0 0;
-  font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+  font-size: clamp(1.4rem, calc(2.6*var(--vwu)), 1.9rem);
   font-weight: 700;
   letter-spacing: -0.028em;
   line-height: 1.06;

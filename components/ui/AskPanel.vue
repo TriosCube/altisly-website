@@ -376,7 +376,6 @@ async function reveal(turn: Turn, reply: string) {
   flex-shrink: 0;
   height: 3.5rem;
   padding: 0 0.7rem 0 1rem;
-  border-bottom: 1px solid var(--border);
 }
 
 .ask-mark {
@@ -630,7 +629,6 @@ async function reveal(turn: Turn, reply: string) {
   gap: 0.5rem;
   flex-shrink: 0;
   padding: 0.7rem 0.8rem 0.5rem;
-  border-top: 1px solid var(--border);
 }
 
 .ask-compose textarea {

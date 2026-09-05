@@ -532,7 +532,7 @@ onBeforeUnmount(() => {
 
 .diagnose-copy h1 {
   margin: 0;
-  font-size: clamp(1.9rem, 4.2vw, 3.4rem);
+  font-size: clamp(1.9rem, calc(4.2*var(--vwu)), 3.4rem);
   font-weight: 700;
   letter-spacing: -0.032em;
   line-height: 1.05;
@@ -543,7 +543,7 @@ onBeforeUnmount(() => {
   margin: 1rem 0 0;
   color: color-mix(in srgb, var(--scan-ink) 40%, transparent);
   font-family: var(--font-mono);
-  font-size: clamp(0.55rem, 0.8vw, 0.7rem);
+  font-size: clamp(0.55rem, calc(0.8*var(--vwu)), 0.7rem);
   letter-spacing: 0.28rem;
   line-height: 1.6;
   text-transform: uppercase;
@@ -607,7 +607,7 @@ onBeforeUnmount(() => {
 
 .diagnose-system-list {
   position: absolute;
-  left: clamp(1.2rem, 3vw, 3.4rem);
+  left: clamp(1.2rem, calc(3*var(--vwu)), 3.4rem);
   top: 50%;
   z-index: 5;
   display: grid;
@@ -620,7 +620,7 @@ onBeforeUnmount(() => {
   margin: 0 0 0.6rem;
   color: color-mix(in srgb, var(--scan-ink) 24%, transparent);
   font-family: var(--font-mono);
-  font-size: clamp(0.5rem, 0.66vw, 0.62rem);
+  font-size: clamp(0.5rem, calc(0.66*var(--vwu)), 0.62rem);
   letter-spacing: 0.18rem;
   text-transform: uppercase;
 }
@@ -635,7 +635,7 @@ onBeforeUnmount(() => {
   background: transparent;
   color: color-mix(in srgb, var(--scan-ink) 34%, transparent);
   font-family: var(--font-mono);
-  font-size: clamp(0.55rem, 0.75vw, 0.68rem);
+  font-size: clamp(0.55rem, calc(0.75*var(--vwu)), 0.68rem);
   letter-spacing: 0.14rem;
   text-align: left;
   text-transform: uppercase;
@@ -696,7 +696,7 @@ onBeforeUnmount(() => {
   margin: 0;
   color: color-mix(in srgb, var(--scan-ink) 30%, transparent);
   font-family: var(--font-mono);
-  font-size: clamp(0.5rem, 0.66vw, 0.62rem);
+  font-size: clamp(0.5rem, calc(0.66*var(--vwu)), 0.62rem);
   letter-spacing: 0.2rem;
   text-transform: uppercase;
   transform: translateX(-50%);
@@ -712,7 +712,7 @@ onBeforeUnmount(() => {
   position: absolute;
   color: color-mix(in srgb, var(--scan-ink) 22%, transparent);
   font-family: var(--font-mono);
-  font-size: clamp(0.5rem, 0.66vw, 0.62rem);
+  font-size: clamp(0.5rem, calc(0.66*var(--vwu)), 0.62rem);
   letter-spacing: 0.14rem;
   text-transform: uppercase;
   transform: translate(-50%, -50%);
@@ -721,13 +721,13 @@ onBeforeUnmount(() => {
 
 .diagnose-roll {
   position: absolute;
-  left: clamp(1.2rem, 3vw, 3.4rem);
+  left: clamp(1.2rem, calc(3*var(--vwu)), 3.4rem);
   bottom: clamp(5rem, 12svh, 8rem);
   z-index: 3;
   display: grid;
   gap: 0.35rem;
   font-family: var(--font-mono);
-  font-size: clamp(0.5rem, 0.66vw, 0.62rem);
+  font-size: clamp(0.5rem, calc(0.66*var(--vwu)), 0.62rem);
   letter-spacing: 0.14rem;
   text-transform: uppercase;
 }
@@ -764,7 +764,7 @@ onBeforeUnmount(() => {
 
 .diagnose-forge {
   position: absolute;
-  right: clamp(1.2rem, 3vw, 3.4rem);
+  right: clamp(1.2rem, calc(3*var(--vwu)), 3.4rem);
   top: 45%;
   z-index: 3;
   display: grid;
@@ -785,7 +785,7 @@ onBeforeUnmount(() => {
   margin: 0 0 0.35rem;
   color: color-mix(in srgb, var(--scan-ink) 24%, transparent);
   font-family: var(--font-mono);
-  font-size: clamp(0.5rem, 0.66vw, 0.62rem);
+  font-size: clamp(0.5rem, calc(0.66*var(--vwu)), 0.62rem);
   letter-spacing: 0.18rem;
   text-transform: uppercase;
 }
@@ -830,14 +830,14 @@ onBeforeUnmount(() => {
   position: absolute;
   border: 0;
   background: transparent;
-  right: clamp(1.2rem, 4vw, 3.4rem);
+  right: clamp(1.2rem, calc(4*var(--vwu)), 3.4rem);
   bottom: clamp(1.6rem, 3.2svh, 2.6rem);
   z-index: 4;
   padding-bottom: 0.4rem;
   border-bottom: 1px solid color-mix(in srgb, var(--scan-ink) 16%, transparent);
   color: color-mix(in srgb, var(--scan-ink) 44%, transparent);
   font-family: var(--font-mono);
-  font-size: clamp(0.52rem, 0.7vw, 0.66rem);
+  font-size: clamp(0.52rem, calc(0.7*var(--vwu)), 0.66rem);
   letter-spacing: 0.18rem;
   text-transform: uppercase;
   transition:
@@ -973,7 +973,7 @@ onBeforeUnmount(() => {
   gap: 0.55rem;
   justify-items: center;
   color: color-mix(in srgb, var(--scan-ink) 46%, transparent);
-  font-size: clamp(0.72rem, 0.95vw, 0.92rem);
+  font-size: clamp(0.72rem, calc(0.95*var(--vwu)), 0.92rem);
   line-height: 1;
   text-transform: lowercase;
   transform: translate(-50%, -50%);
@@ -1149,7 +1149,7 @@ onBeforeUnmount(() => {
   max-width: 40ch;
   margin-top: 0.7rem;
   color: var(--scan-ink);
-  font-size: clamp(0.85rem, 1.05vw, 1rem);
+  font-size: clamp(0.85rem, calc(1.05*var(--vwu)), 1rem);
   font-weight: 400;
   line-height: 1.38;
 }
@@ -1157,7 +1157,7 @@ onBeforeUnmount(() => {
 .diagnose-bottom-copy div {
   display: flex;
   flex-wrap: wrap;
-  gap: clamp(1rem, 2.4vw, 2.2rem);
+  gap: clamp(1rem, calc(2.4*var(--vwu)), 2.2rem);
   justify-content: center;
   margin-top: 1.25rem;
 }
@@ -1168,7 +1168,7 @@ onBeforeUnmount(() => {
   background: transparent;
   color: color-mix(in srgb, var(--scan-ink) 30%, transparent);
   font-family: var(--font-mono);
-  font-size: clamp(0.52rem, 0.7vw, 0.66rem);
+  font-size: clamp(0.52rem, calc(0.7*var(--vwu)), 0.66rem);
   letter-spacing: 0.18rem;
   padding: 0.55rem 0 0;
   text-transform: uppercase;

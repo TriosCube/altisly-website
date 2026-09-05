@@ -11,7 +11,7 @@
 
       <h1
         v-reveal
-        class="font-extrabold text-[clamp(40px,5.4vw,76px)] leading-[1] tracking-[-0.035em] mt-5 mb-4 max-w-[18ch]"
+        class="font-extrabold text-[clamp(40px,calc(5.4*var(--vwu)),76px)] leading-[1] tracking-[-0.035em] mt-5 mb-4 max-w-[18ch]"
       >
         {{ title }}
       </h1>

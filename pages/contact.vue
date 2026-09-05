@@ -19,7 +19,7 @@
             Before you write
           </span>
           <h2
-            class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 max-w-[14ch]"
+            class="text-[clamp(32px,calc(3.8*var(--vwu)),52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 max-w-[14ch]"
           >
             What makes a first message useful.
           </h2>
@@ -49,7 +49,7 @@
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">Questions</span>
         <h2
-          class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8"
+          class="text-[clamp(32px,calc(3.8*var(--vwu)),52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8"
         >
           What happens after you send it.
         </h2>

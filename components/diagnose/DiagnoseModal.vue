@@ -321,7 +321,7 @@ onBeforeUnmount(() => {
   z-index: 300;
   display: grid;
   place-items: center;
-  padding: clamp(1rem, 4vw, 2.6rem);
+  padding: clamp(1rem, calc(4*var(--vwu)), 2.6rem);
   background: var(--scrim);
   backdrop-filter: blur(10px) saturate(1.1);
 }
@@ -401,7 +401,7 @@ onBeforeUnmount(() => {
   display: grid;
   align-content: center;
   justify-items: center;
-  padding: clamp(2.2rem, 5vw, 3.6rem);
+  padding: clamp(2.2rem, calc(5*var(--vwu)), 3.6rem);
   text-align: center;
 }
 
@@ -423,7 +423,7 @@ onBeforeUnmount(() => {
 
 .sheet-ask {
   margin: 1.1rem 0 0;
-  font-size: clamp(1.5rem, 3.2vw, 2.3rem);
+  font-size: clamp(1.5rem, calc(3.2*var(--vwu)), 2.3rem);
   font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 1.08;
@@ -452,7 +452,7 @@ onBeforeUnmount(() => {
   background: transparent;
   color: var(--text);
   font: inherit;
-  font-size: clamp(1rem, 1.8vw, 1.25rem);
+  font-size: clamp(1rem, calc(1.8*var(--vwu)), 1.25rem);
   letter-spacing: -0.012em;
   text-align: center;
   resize: none;
@@ -482,7 +482,7 @@ onBeforeUnmount(() => {
 .sheet-actions {
   display: flex;
   align-items: center;
-  gap: clamp(1.2rem, 3vw, 2rem);
+  gap: clamp(1.2rem, calc(3*var(--vwu)), 2rem);
   margin-top: 2.2rem;
 }
 
@@ -555,7 +555,7 @@ onBeforeUnmount(() => {
 .sheet-stages {
   display: flex;
   flex-wrap: wrap;
-  gap: clamp(0.9rem, 2.4vw, 1.9rem);
+  gap: clamp(0.9rem, calc(2.4*var(--vwu)), 1.9rem);
   justify-content: center;
   margin-top: 2.4rem;
 }

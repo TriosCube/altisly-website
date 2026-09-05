@@ -4,7 +4,7 @@
       <div>
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">What we do</span>
         <h2
-          class="text-[clamp(34px,4.6vw,60px)] font-bold tracking-[-0.032em] leading-[1.02] mt-3 max-w-[16ch]"
+          class="text-[clamp(34px,calc(4.6*var(--vwu)),60px)] font-bold tracking-[-0.032em] leading-[1.02] mt-3 max-w-[16ch]"
         >
           We work on more than the software.
         </h2>
@@ -759,7 +759,7 @@ onBeforeUnmount(() => {
   top: 4vh;
   height: 92vh;
   z-index: var(--z);
-  padding: 0 clamp(0.75rem, 1.6vw, 1.6rem);
+  padding: 0 clamp(0.75rem, calc(1.6*var(--vwu)), 1.6rem);
   transform: translateY(calc(var(--recede) * -22px)) scale(calc(1 - var(--recede) * 0.038))
     rotate(calc(var(--recede) * -0.7deg));
   transform-origin: 50% 0;
@@ -771,7 +771,7 @@ onBeforeUnmount(() => {
   flex-direction: column;
   align-items: center;
   height: 92vh;
-  padding: clamp(2.4rem, 6vh, 4.5rem) clamp(1.2rem, 4vw, 3.5rem) 0;
+  padding: clamp(2.4rem, 6vh, 4.5rem) clamp(1.2rem, calc(4*var(--vwu)), 3.5rem) 0;
   border-radius: var(--radius-xl);
   overflow: hidden;
   text-align: center;
@@ -813,7 +813,7 @@ onBeforeUnmount(() => {
 
 .panel h3 {
   margin: 0;
-  font-size: clamp(30px, 5.2vw, 74px);
+  font-size: clamp(30px, calc(5.2*var(--vwu)), 74px);
   font-weight: 700;
   letter-spacing: -0.038em;
   line-height: 0.98;
@@ -824,7 +824,7 @@ onBeforeUnmount(() => {
   margin: 1rem 0 0;
   max-width: 62ch;
   font-family: var(--font-mono);
-  font-size: clamp(12px, 1.15vw, 14px);
+  font-size: clamp(12px, calc(1.15*var(--vwu)), 14px);
   line-height: 1.6;
   opacity: 0.7;
 }

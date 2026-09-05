@@ -89,14 +89,14 @@ function onToggleTheme() {
   min-height: 4.5rem;
   align-items: center;
   justify-content: space-between;
-  padding: 0 clamp(1.2rem, 4vw, 3.2rem);
+  padding: 0 clamp(1.2rem, calc(4*var(--vwu)), 3.2rem);
 }
 
 .diagnose-brand,
 .diagnose-header nav,
 .diagnose-trail {
   font-family: var(--font-mono);
-  font-size: clamp(0.52rem, 0.7vw, 0.66rem);
+  font-size: clamp(0.52rem, calc(0.7*var(--vwu)), 0.66rem);
   letter-spacing: 0.18rem;
   text-transform: uppercase;
 }
@@ -118,7 +118,7 @@ function onToggleTheme() {
 
 .diagnose-header nav {
   display: inline-flex;
-  gap: clamp(1rem, 2.4vw, 2.2rem);
+  gap: clamp(1rem, calc(2.4*var(--vwu)), 2.2rem);
 }
 
 .diagnose-header nav a {
@@ -133,7 +133,7 @@ function onToggleTheme() {
 .diagnose-right {
   display: inline-flex;
   align-items: center;
-  gap: clamp(1rem, 2.4vw, 2rem);
+  gap: clamp(1rem, calc(2.4*var(--vwu)), 2rem);
 }
 
 .diagnose-theme {

@@ -2,7 +2,7 @@
   <section ref="sectionRef" class="py-28" id="who-we-are">
     <div class="container-isura" :class="{ 'is-shown': shown }">
       <h2
-        class="reveal text-[clamp(34px,4.6vw,60px)] font-bold tracking-[-0.036em] leading-[1] max-w-[16ch]"
+        class="reveal text-[clamp(34px,calc(4.6*var(--vwu)),60px)] font-bold tracking-[-0.036em] leading-[1] max-w-[16ch]"
         style="--i: 0"
       >
         Some problems do not fit a software brief.
@@ -91,7 +91,7 @@ onBeforeUnmount(() => observer?.disconnect())
 
 .trait h3 {
   margin: 0;
-  font-size: clamp(19px, 2.2vw, 26px);
+  font-size: clamp(19px, calc(2.2*var(--vwu)), 26px);
   font-weight: 600;
   letter-spacing: -0.022em;
   line-height: 1.15;

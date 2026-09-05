@@ -78,7 +78,7 @@
                   {{ readTime(filteredPosts[0].content) }}
                 </p>
                 <h2
-                  class="text-[clamp(24px,2.6vw,34px)] font-bold tracking-[-0.026em] leading-[1.1] mb-4"
+                  class="text-[clamp(24px,calc(2.6*var(--vwu)),34px)] font-bold tracking-[-0.026em] leading-[1.1] mb-4"
                 >
                   {{ filteredPosts[0].title }}
                 </h2>

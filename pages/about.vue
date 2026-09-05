@@ -16,7 +16,7 @@
         <div>
           <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">The story</span>
           <h2
-            class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 max-w-[14ch]"
+            class="text-[clamp(32px,calc(3.8*var(--vwu)),52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 max-w-[14ch]"
           >
             How we got here.
           </h2>
@@ -35,7 +35,7 @@
           >The principles</span
         >
         <h2
-          class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8"
+          class="text-[clamp(32px,calc(3.8*var(--vwu)),52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8"
         >
           What every build answers to.
         </h2>

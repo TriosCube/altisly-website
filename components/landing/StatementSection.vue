@@ -6,7 +6,7 @@
           A note before the method
         </span>
         <p
-          class="reveal text-[clamp(30px,4.4vw,58px)] font-bold tracking-[-0.032em] leading-[1.06] mt-5"
+          class="reveal text-[clamp(30px,calc(4.4*var(--vwu)),58px)] font-bold tracking-[-0.032em] leading-[1.06] mt-5"
           style="--i: 1"
         >
           Sometimes the software is the easy part.

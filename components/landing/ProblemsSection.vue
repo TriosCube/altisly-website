@@ -374,7 +374,7 @@ onBeforeUnmount(() => {
 
 .headline {
   margin: 0.85rem 0 0;
-  font-size: clamp(34px, 4.6vw, 60px);
+  font-size: clamp(34px, calc(4.6*var(--vwu)), 60px);
   font-weight: 700;
   letter-spacing: -0.032em;
   line-height: 1.03;

@@ -14,7 +14,7 @@
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">Life here</span>
         <h2
-          class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8"
+          class="text-[clamp(32px,calc(3.8*var(--vwu)),52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8"
         >
           What you get.
         </h2>
@@ -35,7 +35,7 @@
           What we look for
         </span>
         <h2
-          class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8 max-w-[16ch]"
+          class="text-[clamp(32px,calc(3.8*var(--vwu)),52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8 max-w-[16ch]"
         >
           The four things we read for.
         </h2>
@@ -54,7 +54,7 @@
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">How we hire</span>
         <h2
-          class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8 max-w-[16ch]"
+          class="text-[clamp(32px,calc(3.8*var(--vwu)),52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8 max-w-[16ch]"
         >
           Four steps, about two weeks.
         </h2>
@@ -72,7 +72,7 @@
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">The set-up</span>
         <h2
-          class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8 max-w-[16ch]"
+          class="text-[clamp(32px,calc(3.8*var(--vwu)),52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8 max-w-[16ch]"
         >
           How the week is shaped.
         </h2>
@@ -94,7 +94,7 @@
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">Open roles</span>
         <h2
-          class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8"
+          class="text-[clamp(32px,calc(3.8*var(--vwu)),52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8"
         >
           Where we need people.
         </h2>

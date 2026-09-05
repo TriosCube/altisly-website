@@ -24,7 +24,7 @@
           The foundation
         </span>
         <h2
-          class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8 max-w-[18ch]"
+          class="text-[clamp(32px,calc(3.8*var(--vwu)),52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8 max-w-[18ch]"
         >
           Four decisions everything else rests on.
         </h2>
@@ -51,7 +51,7 @@
           The architecture
         </span>
         <h2
-          class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8"
+          class="text-[clamp(32px,calc(3.8*var(--vwu)),52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8"
         >
           How the pieces sit.
         </h2>
@@ -63,7 +63,7 @@
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">The surfaces</span>
         <h2
-          class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8 max-w-[16ch]"
+          class="text-[clamp(32px,calc(3.8*var(--vwu)),52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8 max-w-[16ch]"
         >
           One platform, four audiences.
         </h2>
@@ -88,7 +88,7 @@
           What it carries
         </span>
         <h2
-          class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8 max-w-[16ch]"
+          class="text-[clamp(32px,calc(3.8*var(--vwu)),52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8 max-w-[16ch]"
         >
           The parts a tenant actually uses.
         </h2>
@@ -126,7 +126,7 @@
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">Questions</span>
         <h2
-          class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8"
+          class="text-[clamp(32px,calc(3.8*var(--vwu)),52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8"
         >
           The ones we get asked.
         </h2>

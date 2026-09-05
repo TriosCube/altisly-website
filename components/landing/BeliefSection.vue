@@ -145,7 +145,7 @@ const tailOpacity = computed(() => {
 .statement {
   margin: 1.6rem 0 0;
   max-width: 20ch;
-  font-size: clamp(38px, 7vw, 104px);
+  font-size: clamp(38px, calc(7*var(--vwu)), 104px);
   font-weight: 700;
   letter-spacing: -0.038em;
   line-height: 1.02;
@@ -176,7 +176,7 @@ const tailOpacity = computed(() => {
 
 .principles span {
   font-family: var(--font-mono);
-  font-size: clamp(9.5px, 1.1vw, 11px);
+  font-size: clamp(9.5px, calc(1.1*var(--vwu)), 11px);
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--invert-muted);

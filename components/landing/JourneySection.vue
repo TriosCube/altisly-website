@@ -199,7 +199,7 @@ function isFlipped(index: number) {
 .journey-heading h2 {
   margin: 0;
   color: var(--invert-text);
-  font-size: clamp(34px, 4.6vw, 60px);
+  font-size: clamp(34px, calc(4.6*var(--vwu)), 60px);
   font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 1;
@@ -211,7 +211,7 @@ function isFlipped(index: number) {
   display: grid;
   width: min(100%, 1240px);
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(1rem, 2vw, 1.6rem);
+  gap: clamp(1rem, calc(2*var(--vwu)), 1.6rem);
   perspective: 1600px;
 }
 
@@ -258,7 +258,7 @@ function isFlipped(index: number) {
   min-height: inherit;
   align-content: space-between;
   overflow: hidden;
-  padding: clamp(1.25rem, 2vw, 1.7rem);
+  padding: clamp(1.25rem, calc(2*var(--vwu)), 1.7rem);
   border: 1px solid var(--hair);
   border-radius: 0.75rem;
   background:
@@ -324,7 +324,7 @@ function isFlipped(index: number) {
   max-width: 17rem;
   margin: 0;
   color: var(--invert-text);
-  font-size: clamp(1.2rem, 1.8vw, 1.75rem);
+  font-size: clamp(1.2rem, calc(1.8*var(--vwu)), 1.75rem);
   font-weight: 600;
   letter-spacing: -0.02em;
   line-height: 1.14;

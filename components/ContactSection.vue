@@ -4,7 +4,7 @@
       <div>
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">Get in touch</span>
         <h2
-          class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-5 max-w-[14ch]"
+          class="text-[clamp(32px,calc(3.8*var(--vwu)),52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-5 max-w-[14ch]"
         >
           Tell us what you are building.
         </h2>

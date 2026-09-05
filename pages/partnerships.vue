@@ -40,7 +40,7 @@
           The engagement
         </span>
         <h2
-          class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8 max-w-[16ch]"
+          class="text-[clamp(32px,calc(3.8*var(--vwu)),52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8 max-w-[16ch]"
         >
           How the work actually runs.
         </h2>
@@ -62,7 +62,7 @@
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">The fit</span>
         <h2
-          class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8 max-w-[18ch]"
+          class="text-[clamp(32px,calc(3.8*var(--vwu)),52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8 max-w-[18ch]"
         >
           Where we help, and where we do not.
         </h2>
@@ -115,7 +115,7 @@
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">Commercials</span>
         <h2
-          class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8 max-w-[16ch]"
+          class="text-[clamp(32px,calc(3.8*var(--vwu)),52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8 max-w-[16ch]"
         >
           How the money is arranged.
         </h2>
@@ -144,7 +144,7 @@
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">Questions</span>
         <h2
-          class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8"
+          class="text-[clamp(32px,calc(3.8*var(--vwu)),52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8"
         >
           Asked before every build.
         </h2>

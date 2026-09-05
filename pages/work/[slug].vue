@@ -25,7 +25,7 @@
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">The problem</span>
         <h2
-          class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-7"
+          class="text-[clamp(32px,calc(3.8*var(--vwu)),52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-7"
         >
           What was actually at stake.
         </h2>
@@ -43,7 +43,7 @@
           >The decisions</span
         >
         <h2
-          class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8"
+          class="text-[clamp(32px,calc(3.8*var(--vwu)),52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8"
         >
           The calls that shaped it.
         </h2>
@@ -64,7 +64,7 @@
           >The architecture</span
         >
         <h2
-          class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8"
+          class="text-[clamp(32px,calc(3.8*var(--vwu)),52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8"
         >
           How the pieces sit.
         </h2>
@@ -76,7 +76,7 @@
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">The build</span>
         <h2
-          class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8"
+          class="text-[clamp(32px,calc(3.8*var(--vwu)),52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-8"
         >
           What shipped.
         </h2>
@@ -98,7 +98,7 @@
       <div class="container-isura">
         <span class="font-code text-[11px] tracking-[0.1em] uppercase text-muted">The outcome</span>
         <h2
-          class="text-[clamp(32px,3.8vw,52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-7"
+          class="text-[clamp(32px,calc(3.8*var(--vwu)),52px)] font-bold tracking-[-0.03em] leading-[1.05] mt-3 mb-7"
         >
           Where it landed.
         </h2>

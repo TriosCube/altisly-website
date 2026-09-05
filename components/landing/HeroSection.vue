@@ -265,7 +265,7 @@ onBeforeUnmount(() => {
 .headline {
   margin: 0;
   max-width: 13ch;
-  font-size: clamp(38px, 6.1vw, 87px);
+  font-size: clamp(38px, calc(6.1*var(--vwu)), 87px);
   font-weight: 800;
   letter-spacing: -0.038em;
   line-height: 0.98;
@@ -320,7 +320,7 @@ onBeforeUnmount(() => {
 .lede {
   max-width: 36ch;
   margin: 1.6rem 0 2.1rem;
-  font-size: clamp(15px, 1.3vw, 16px);
+  font-size: clamp(15px, calc(1.3*var(--vwu)), 16px);
   line-height: 1.6;
   color: var(--muted);
 }
@@ -402,7 +402,7 @@ onBeforeUnmount(() => {
    intact, verified down to 1024x560. */
 @media (max-height: 760px) {
   .headline {
-    font-size: clamp(34px, 5vw, 62px);
+    font-size: clamp(34px, calc(5*var(--vwu)), 62px);
   }
 
   .lede {
