@@ -1,10 +1,10 @@
 <template>
   <LegalPage
     title="Privacy Policy"
-    updated="Last updated 1 May 2026. Effective 1 May 2026."
+    updated="Last updated 6 September 2026. Effective 6 September 2026."
     :toc="toc"
     :sections="sections"
-    intro="Altisly Inc. is committed to protecting your privacy. This Privacy Policy explains how we collect, use, share and protect information about you when you use our services."
+    intro="Altis Platforms Limited is committed to protecting your privacy. This Privacy Policy explains how we collect, use, share and protect information about you when you use our services."
   >
     <template #after>
       <div class="rounded-isura-lg border border-base bg-surface-2 p-6 mt-10">
@@ -49,8 +49,8 @@ const sections = [
     id: 'who-we-are',
     title: '1. Who We Are',
     body: [
-      'Altisly Inc. is a technology company incorporated in Nigeria (RC: XXXXXXXX), with operations in Nigeria, Ghana, and the United Kingdom. We operate treasury management, AI, health informatics, and educational technology platforms.',
-      'For the purposes of data protection law, Altisly Inc. is the data controller for personal information collected through our websites and platforms. For enterprise customers, Altisly acts as a data processor for the personal data of your users, as governed by the applicable Data Processing Agreement.',
+      'Altis Platforms Limited is a technology company incorporated in Nigeria (RC 9597173), with operations in Nigeria, Ghana, and the United Kingdom. We operate treasury management, AI, health informatics, and educational technology platforms.',
+      'For the purposes of data protection law, Altis Platforms Limited is the data controller for personal information collected through our websites and platforms. For enterprise customers, Altisly acts as a data processor for the personal data of your users, as governed by the applicable Data Processing Agreement.',
     ],
   },
   {
@@ -183,7 +183,7 @@ const sections = [
     id: 'contact',
     title: '12. Contact & Data Protection Officer',
     body: [
-      'For privacy-related enquiries, data subject requests, or to contact our Data Protection Officer, please write to: privacy@altisly.com — or by post to Altisly Inc., [Registered Address], Lagos, Nigeria.',
+      'For privacy-related enquiries, data subject requests, or to contact our Data Protection Officer, please write to: privacy@altisly.com — or by post to Altis Platforms Limited, Lagos, Nigeria.',
       'For UK-related data protection matters, please contact: uk-privacy@altisly.com. We aim to respond to all privacy requests within 30 days.',
     ],
   },

@@ -1,13 +1,13 @@
 <template>
   <LegalPage
     title="Terms of Service"
-    updated="Last updated 1 May 2026. Effective 1 May 2026."
+    updated="Last updated 6 September 2026. Effective 6 September 2026."
     :toc="toc"
     :sections="sections"
   >
     <template #intro>
       These Terms of Service govern your access to and use of the websites, platforms and services
-      operated by <strong>Altisly Inc.</strong> By accessing or using any Altisly service you agree
+      operated by <strong>Altis Platforms Limited</strong> By accessing or using any Altisly service you agree
       to be bound by these Terms. If you do not agree, do not use the services.
     </template>
 
@@ -52,7 +52,7 @@ const sections = [
     id: 'acceptance',
     title: '1. Acceptance of Terms',
     body: [
-      'By creating an account, accessing, or using any product or service offered by Altisly Inc. (including Atreasury, Altis AI, Altis Health, Altis Learn, and any related APIs or platforms), you confirm that you have read, understood, and agree to be bound by these Terms of Service and our Privacy Policy.',
+      'By creating an account, accessing, or using any product or service offered by Altis Platforms Limited (including Atreasury, Altis AI, Altis Health, Altis Learn, and any related APIs or platforms), you confirm that you have read, understood, and agree to be bound by these Terms of Service and our Privacy Policy.',
       'If you are accepting these Terms on behalf of a company or other legal entity, you represent that you have the authority to bind that entity to these Terms. In that case, "you" refers to that entity.',
     ],
   },
@@ -161,7 +161,7 @@ const sections = [
     id: 'contact',
     title: '13. Contact',
     body: [
-      'If you have any questions about these Terms of Service, please contact Altisly Inc. at: legal@altisly.com, or by writing to our registered address. We will respond to all legal enquiries within 5 business days.',
+      'If you have any questions about these Terms of Service, please contact Altis Platforms Limited at: legal@altisly.com, or by writing to our registered address. We will respond to all legal enquiries within 5 business days.',
     ],
   },
 ]

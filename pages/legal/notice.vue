@@ -1,7 +1,7 @@
 <template>
   <LegalPage
     title="Legal Notice"
-    updated="Last updated 1 May 2026."
+    updated="Last updated 6 September 2026."
     :toc="toc"
     :sections="sections"
   >
@@ -48,7 +48,7 @@
 import LegalPage from '@/components/legal/LegalPage.vue'
 useSeoMeta({
   title: 'Legal Notice | Altisly',
-  description: 'Legal notice, company information, regulatory disclosures, and contact information for Altisly Inc.',
+  description: 'Legal notice, company information, regulatory disclosures, and contact information for Altis Platforms Limited',
 })
 
 const toc = [
@@ -64,10 +64,12 @@ const toc = [
 ]
 
 const companyDetails = [
-  { label: 'Legal Name', value: 'Altisly Inc.' },
+  { label: 'Legal Name', value: 'Altis Platforms Limited' },
   { label: 'Company Type', value: 'Private Limited Company' },
   { label: 'Incorporated In', value: 'Federal Republic of Nigeria' },
-  { label: 'RC Number', value: 'RC-XXXXXXXX' },
+  { label: 'RC Number', value: 'RC 9597173' },
+  { label: 'Date of Registration', value: '7 June 2026' },
+  { label: 'Registry Status', value: 'Active' },
   { label: 'Registered Address', value: 'Lagos, Nigeria' },
   { label: 'UK Operations', value: 'London, United Kingdom' },
   { label: 'General Enquiries', value: 'hello@altisly.com' },
@@ -79,7 +81,7 @@ const sections = [
     id: 'website',
     title: '1. Website & Platform Notice',
     body: [
-      'This Legal Notice applies to all websites, web applications, mobile applications, APIs, and platforms operated by Altisly Inc., including altisly.co and all subdomains, as well as the Atreasury, Altis AI, Altis Health, and Altis Learn platforms.',
+      'This Legal Notice applies to all websites, web applications, mobile applications, APIs, and platforms operated by Altis Platforms Limited, including altisly.com and all subdomains, as well as the Atreasury, Altis AI, Altis Health, and Altis Learn platforms.',
       'The content on our websites and platforms is provided for informational and commercial purposes. While we take care to ensure accuracy, we make no warranties about the completeness, accuracy, or fitness for a particular purpose of any information published.',
     ],
   },
@@ -109,8 +111,8 @@ const sections = [
     id: 'trademarks',
     title: '4. Trademarks & Branding',
     body: [
-      '"Altisly", "Atreasury", "Altis AI", "Altis Health", "Altis Learn", and associated logos and product names are trademarks or registered trademarks of Altisly Inc. Unauthorised use of any Altisly trademark, logo, or brand element is prohibited.',
-      'Third-party trademarks, product names, and company names mentioned on this website are the property of their respective owners. Their appearance on Altisly platforms does not imply any endorsement, sponsorship, or affiliation between those parties and Altisly Inc., unless expressly stated.',
+      '"Altisly", "Atreasury", "Altis AI", "Altis Health", "Altis Learn", and associated logos and product names are trademarks or registered trademarks of Altis Platforms Limited Unauthorised use of any Altisly trademark, logo, or brand element is prohibited.',
+      'Third-party trademarks, product names, and company names mentioned on this website are the property of their respective owners. Their appearance on Altisly platforms does not imply any endorsement, sponsorship, or affiliation between those parties and Altis Platforms Limited, unless expressly stated.',
     ],
   },
   {
@@ -126,7 +128,7 @@ const sections = [
     title: '6. Service Availability',
     body: [
       'We aim to keep our platforms and websites available at all times, but we do not guarantee uninterrupted access. Planned maintenance, infrastructure updates, or circumstances beyond our control (including force majeure events) may affect availability.',
-      'Real-time service status is published at altisly.co/status. Customers with SLA requirements should refer to their applicable service agreement for uptime commitments and remedies.',
+      'Customers with SLA requirements should refer to their applicable service agreement for uptime commitments and remedies.',
     ],
   },
   {
@@ -141,7 +143,7 @@ const sections = [
     id: 'contact',
     title: '8. Contact Information',
     body: [
-      'For any legal enquiries, regulatory matters, or notices that need to be served on Altisly Inc., please use the contact details below. We aim to acknowledge all legal correspondence within 2 business days.',
+      'For any legal enquiries, regulatory matters, or notices that need to be served on Altis Platforms Limited, please use the contact details below. We aim to acknowledge all legal correspondence within 2 business days.',
     ],
   },
 ]
