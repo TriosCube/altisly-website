@@ -2,7 +2,7 @@ export const site = {
   name: 'Altisly',
   role: 'Tech-enabled consulting and venture building',
   email: 'hello@altisly.com',
-  phone: '+234 813 780 3031',
+  phone: '+234 913 295 0224',
   location: 'Lagos, Nigeria',
   url: 'https://altisly.com',
 } as const
