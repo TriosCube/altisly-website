@@ -65,7 +65,7 @@ const sections = [
           'Identity verification documents (for regulated product access): government-issued ID, business registration certificates',
           'Payment and billing information: card details are processed by our payment providers and not stored on our servers',
           'Communications: support tickets, emails, chat messages, feedback forms',
-          'Content uploaded to our platforms: documents, transaction data, clinical records (for Altis Health)',
+          'Content uploaded to our platforms: documents, transaction data, and any records you or your users submit',
         ],
       },
       {
@@ -80,7 +80,7 @@ const sections = [
       {
         title: 'Information from third parties',
         items: [
-          'Banking data (for Atreasury): transaction data, balance data received via bank API integrations you authorise',
+          'Banking data: transaction and balance data received via bank API integrations you authorise',
           'Identity verification data from KYC providers we use for compliance purposes',
           'Business intelligence data from public sources for fraud and compliance screening',
         ],
@@ -92,14 +92,14 @@ const sections = [
     title: '3. How We Use Your Data',
     body: ['We use the information we collect for the following purposes, each with an identified lawful basis under applicable data protection law:'],
     list: [
-      'Providing and improving our services — performance of contract / legitimate interests',
-      'Account management and authentication — performance of contract',
-      'Processing payments and billing — performance of contract / legal obligation',
-      'Customer support and communications — legitimate interests',
-      'Security monitoring, fraud detection, and platform integrity — legitimate interests / legal obligation',
-      'Regulatory compliance and audit obligations — legal obligation',
-      'Product analytics and improvement (using anonymised/aggregated data) — legitimate interests',
-      'Marketing communications (only with your consent or where permitted by law) — consent / legitimate interests',
+      'Providing and improving our services: performance of contract / legitimate interests',
+      'Account management and authentication: performance of contract',
+      'Processing payments and billing: performance of contract / legal obligation',
+      'Customer support and communications: legitimate interests',
+      'Security monitoring, fraud detection, and platform integrity: legitimate interests / legal obligation',
+      'Regulatory compliance and audit obligations: legal obligation',
+      'Product analytics and improvement (using anonymised/aggregated data): legitimate interests',
+      'Marketing communications (only with your consent or where permitted by law): consent / legitimate interests',
     ],
   },
   {
@@ -110,8 +110,8 @@ const sections = [
     ],
     list: [
       'Service providers: We share data with carefully vetted third-party providers who assist us in operating the services (cloud infrastructure, payment processors, email providers, KYC vendors). These providers are bound by data processing agreements.',
-      'Banking partners: For Atreasury, we share data with the banking partners you explicitly connect via the platform.',
-      'Legal obligations: We disclose data when required by law, court order, or regulatory authority — including financial regulators such as CBN, FCA, and relevant tax authorities.',
+      'Banking partners: where a product connects to a bank, we share data with the banking partners you explicitly connect via the platform.',
+      'Legal obligations: We disclose data when required by law, court order, or regulatory authority, including financial regulators such as CBN, FCA, and relevant tax authorities.',
       'Business transfers: In the event of a merger, acquisition, or sale of assets, personal data may be transferred as part of that transaction, with appropriate notice to affected users.',
       'With your consent: We share data in other circumstances only with your explicit consent.',
     ],
@@ -120,7 +120,7 @@ const sections = [
     id: 'retention',
     title: '5. Data Retention',
     body: [
-      'We retain personal data for as long as necessary to provide the services and as required by applicable law. For regulated products (Atreasury, Altis Health), certain records must be retained for a minimum period prescribed by financial or health regulations — typically 5–7 years.',
+      'We retain personal data for as long as necessary to provide the services and as required by applicable law. Where a product supports a regulated activity, certain records must be retained for a minimum period prescribed by the regulations that apply to it, typically five to seven years.',
       'When data is no longer required, we delete it or anonymise it in a secure manner. You may request earlier deletion of your personal data subject to any legal retention obligations.',
     ],
   },
@@ -161,7 +161,7 @@ const sections = [
     id: 'children',
     title: '9. Children\'s Privacy',
     body: [
-      'Our services are not directed to children under the age of 16 (or 13 in jurisdictions where that is the applicable minimum). We do not knowingly collect personal information from children. Altis Learn programs for educational institutions are delivered through the institution as the responsible party, and institutions are responsible for appropriate consent and data protection for their students.',
+      'Our services are not directed to children under the age of 16 (or 13 in jurisdictions where that is the applicable minimum). We do not knowingly collect personal information from children. Where a service is delivered to an institution rather than to an individual, the institution is the responsible party and is responsible for appropriate consent and data protection for the people it enrols.',
       'If you believe we have inadvertently collected data about a child, please contact privacy@altisly.com immediately.',
     ],
   },
@@ -169,7 +169,7 @@ const sections = [
     id: 'international',
     title: '10. International Data Transfers',
     body: [
-      'Altisly operates across Nigeria, Ghana, the United Kingdom, and other markets. Your data may be processed in countries outside your home country. Where we transfer data across borders, we ensure appropriate safeguards are in place — including standard contractual clauses, adequacy decisions, or other mechanisms approved under applicable data protection law.',
+      'Altisly operates across Nigeria, Ghana, the United Kingdom, and other markets. Your data may be processed in countries outside your home country. Where we transfer data across borders, we ensure appropriate safeguards are in place, including standard contractual clauses, adequacy decisions, or other mechanisms approved under applicable data protection law.',
     ],
   },
   {
@@ -183,7 +183,7 @@ const sections = [
     id: 'contact',
     title: '12. Contact & Data Protection Officer',
     body: [
-      'For privacy-related enquiries, data subject requests, or to contact our Data Protection Officer, please write to: privacy@altisly.com — or by post to Altis Platforms Limited, Lagos, Nigeria.',
+      'For privacy-related enquiries, data subject requests, or to contact our Data Protection Officer, please write to privacy@altisly.com, or by post to Altis Platforms Limited, Lagos, Nigeria.',
       'For UK-related data protection matters, please contact: uk-privacy@altisly.com. We aim to respond to all privacy requests within 30 days.',
     ],
   },

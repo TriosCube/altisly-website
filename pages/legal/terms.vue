@@ -52,7 +52,7 @@ const sections = [
     id: 'acceptance',
     title: '1. Acceptance of Terms',
     body: [
-      'By creating an account, accessing, or using any product or service offered by Altis Platforms Limited (including Atreasury, Altis AI, Altis Health, Altis Learn, and any related APIs or platforms), you confirm that you have read, understood, and agree to be bound by these Terms of Service and our Privacy Policy.',
+      'By creating an account, accessing, or using any product or service offered by Altis Platforms Limited, including any related APIs or platforms, you confirm that you have read, understood, and agree to be bound by these Terms of Service and our Privacy Policy.',
       'If you are accepting these Terms on behalf of a company or other legal entity, you represent that you have the authority to bind that entity to these Terms. In that case, "you" refers to that entity.',
     ],
   },
@@ -60,7 +60,7 @@ const sections = [
     id: 'services',
     title: '2. Description of Services',
     body: [
-      'Altisly provides a suite of technology products and consulting services, including treasury management systems (Atreasury), artificial intelligence tools (Altis AI), health information management and lending infrastructure (Altis Health), and educational technology platforms (Altis Learn).',
+      'Altis Platforms Limited provides technology products and consulting services, together with the platforms, APIs and support that accompany them. The services provided to a particular customer are those set out in that customer\'s service agreement or order form.',
       'We reserve the right to modify, suspend, or discontinue any part of the services at any time, with reasonable notice where practicable. We will not be liable to you or any third party for any modification, suspension, or discontinuation of services.',
     ],
   },

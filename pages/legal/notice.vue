@@ -81,7 +81,7 @@ const sections = [
     id: 'website',
     title: '1. Website & Platform Notice',
     body: [
-      'This Legal Notice applies to all websites, web applications, mobile applications, APIs, and platforms operated by Altis Platforms Limited, including altisly.com and all subdomains, as well as the Atreasury, Altis AI, Altis Health, and Altis Learn platforms.',
+      'This Legal Notice applies to all websites, web applications, mobile applications, APIs, and platforms operated by Altis Platforms Limited, including altisly.com and all subdomains, together with the platforms, applications and APIs we make available to customers.',
       'The content on our websites and platforms is provided for informational and commercial purposes. While we take care to ensure accuracy, we make no warranties about the completeness, accuracy, or fitness for a particular purpose of any information published.',
     ],
   },
@@ -111,7 +111,7 @@ const sections = [
     id: 'trademarks',
     title: '4. Trademarks & Branding',
     body: [
-      '"Altisly", "Atreasury", "Altis AI", "Altis Health", "Altis Learn", and associated logos and product names are trademarks or registered trademarks of Altis Platforms Limited Unauthorised use of any Altisly trademark, logo, or brand element is prohibited.',
+      '"Altisly", our product names, and the associated logos and brand elements are trademarks of Altis Platforms Limited. Unauthorised use of any of them is prohibited.',
       'Third-party trademarks, product names, and company names mentioned on this website are the property of their respective owners. Their appearance on Altisly platforms does not imply any endorsement, sponsorship, or affiliation between those parties and Altis Platforms Limited, unless expressly stated.',
     ],
   },
