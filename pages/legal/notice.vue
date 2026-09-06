@@ -54,7 +54,7 @@ useSeoMeta({
 const toc = [
   { id: 'company', label: 'Company Information' },
   { id: 'website', label: '1. Website & Platform' },
-  { id: 'regulated', label: '2. Regulated Activities' },
+  { id: 'regulated', label: '2. Regulatory Position' },
   { id: 'disclaimers', label: '3. Disclaimers' },
   { id: 'trademarks', label: '4. Trademarks & Branding' },
   { id: 'third-party', label: '5. Third-Party Links' },
@@ -87,15 +87,15 @@ const sections = [
   },
   {
     id: 'regulated',
-    title: '2. Regulated Activities Disclosure',
+    title: '2. Regulatory Position',
     body: [
-      'Certain Altisly products involve activities that may be regulated under financial services, data protection, or healthcare laws in the jurisdictions in which we operate. The following disclosures apply:',
+      'Altis Platforms Limited is a technology provider. We build and operate software. We do not carry on regulated financial activity in our own name, and we do not hold client money or client assets.',
     ],
     list: [
-      'Atreasury and related financial infrastructure products are technology platforms. Altisly does not hold a banking licence or financial institution licence unless specifically stated for a product or geography. Customers remain responsible for obtaining any required regulatory approvals for their own use of the platform.',
-      'Altis Health: Health information management and lending activities are subject to applicable Nigerian health authority and financial regulations. Health facility lending activities are conducted through appropriately licensed lending partners.',
-      'Compliance Suite and related products provide technology tools to assist compliance functions. They do not constitute legal advice, and users remain responsible for their own compliance obligations.',
-      'If you have questions about the regulatory status of any specific product or service in your jurisdiction, please contact legal@altisly.com.',
+      'Our platforms are used by customers under their own licences and regulatory permissions. Where a product supports a regulated activity, that activity is the customer\'s and is carried on under the customer\'s authorisation. We do not hold, and do not require, a banking, payment services or financial institution licence to provide the software.',
+      'Nothing we publish or provide is legal, tax, accounting or investment advice. Where a product supports a compliance function, it is a tool for that function rather than a replacement for it, and responsibility for meeting an obligation remains with the customer.',
+      'Data protection is the area where the obligation is ours as well as the customer\'s. We handle personal data in line with the Nigeria Data Protection Act, and with the UK GDPR where it applies. The Privacy Policy sets out what we collect, why, and on what basis.',
+      'If you have a question about the regulatory position of a product in your jurisdiction, write to legal@altisly.com.',
     ],
   },
   {
