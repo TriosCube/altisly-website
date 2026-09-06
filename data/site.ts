@@ -24,8 +24,6 @@ export const metaDescriptions = {
     'A focused diagnostic entry point for businesses that need product-minded systems, AI-assisted workflows and operational software shaped around real pressure.',
   isura:
     'A multi tenant SaaS platform with schema per tenant isolation, built on a purpose written Rust web framework.',
-  atreasury:
-    'A treasury and risk operations platform with a dedicated risk service, operator CLI and telemetry from the first commit.',
   'treasury-ai-assistant':
     'AI automation for daily blotter reconciliation and liquidity forecasting. The value was in encoding the judgement, not the model.',
   altishms:
