@@ -550,17 +550,10 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-/* NuxtLink sets router-link-active itself; the dropdown triggers get is-active
-   from the route check. Both read as position, not as a stuck hover. */
-.nav-link.router-link-active,
-.nav-link.is-active {
-  opacity: 1;
-  font-weight: 600;
-  position: relative;
-}
-
-.nav-link.router-link-active::after,
-.nav-link.is-active::after {
+/* One underline does both jobs. It is always in the layout and only its
+   opacity changes, so hovering cannot shift the row, and hover and active are
+   the same mark at two strengths rather than two different treatments. */
+.nav-link::after {
   content: '';
   position: absolute;
   left: 0.75rem;
@@ -569,6 +562,26 @@ onBeforeUnmount(() => {
   height: 2px;
   border-radius: 2px;
   background: var(--brand);
+  opacity: 0;
+  transition: opacity 160ms ease;
+}
+
+.nav-link:hover::after,
+.nav-link.is-open::after {
+  opacity: 0.5;
+}
+
+/* NuxtLink sets router-link-active itself; the dropdown triggers get is-active
+   from the route check. Both read as position, not as a stuck hover. */
+.nav-link.router-link-active,
+.nav-link.is-active {
+  opacity: 1;
+  font-weight: 600;
+}
+
+.nav-link.router-link-active::after,
+.nav-link.is-active::after {
+  opacity: 1;
 }
 
 .mobile-item.router-link-active {
@@ -616,7 +629,7 @@ onBeforeUnmount(() => {
 }
 
 .nav-link {
-  color: inherit;
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -633,7 +646,6 @@ onBeforeUnmount(() => {
 .nav-link:hover,
 .nav-link.is-open {
   opacity: 1;
-  background: var(--surface-2);
 }
 
 .caret {
