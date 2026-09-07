@@ -144,14 +144,35 @@
     color: inherit;
   }
 
+  /* Visible, so a long page reads as one. Hidden scrollbars leave no sign that
+     there is anything below the fold, and several sections here are a screen
+     tall with nothing at the edge to say the page continues.
+
+     Matched to Isura: a 10px track, a 5px thumb, and a 2px ring of page colour
+     around it so the thumb reads as floating rather than filling the gutter.
+     The colours come from the --scroll-thumb token this file already defined
+     and never used, which carries the same two values Isura hardcodes and
+     flips with the theme on its own. */
   *::-webkit-scrollbar {
-    width: 0;
-    height: 0;
+    width: 10px;
+    height: 10px;
   }
 
+  *::-webkit-scrollbar-thumb {
+    background: var(--scroll-thumb);
+    border: 2px solid var(--bg);
+    border-radius: 5px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* Firefox has no pseudo-elements for this, only these two. Isura leaves them
+     out and so shows no bar there at all; this one does. */
   * {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scroll-thumb) transparent;
   }
 }
 
