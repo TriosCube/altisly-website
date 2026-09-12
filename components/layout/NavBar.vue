@@ -42,7 +42,7 @@
 
           <NuxtLink to="/blog" class="nav-link" @mouseenter="closeMenus">Insights</NuxtLink>
           <NuxtLink to="/contact" class="nav-link" @mouseenter="closeMenus">Contact</NuxtLink>
-          <a href="https://isura.altisly.com" class="nav-link" @mouseenter="closeMenus"> Treasury </a>
+          <a href="https://isura.altisly.com" class="nav-link" @mouseenter="closeMenus"> Isura </a>
           <span class="nav-link opacity-40 cursor-not-allowed select-none" aria-disabled="true" title="Coming soon">
             Healthly
           </span>
