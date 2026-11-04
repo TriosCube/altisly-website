@@ -26,7 +26,6 @@
 
         <div class="mt-8 font-code text-[12.5px] text-muted flex flex-col gap-1.5">
           <span>{{ site.email }}</span>
-          <span>{{ site.phone }}</span>
           <span>{{ site.location }}</span>
         </div>
       </div>
