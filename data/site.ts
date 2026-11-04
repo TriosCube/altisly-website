@@ -9,7 +9,6 @@ export const site = {
 
 export const presence = [
   { flag: '🇳🇬', name: 'Nigeria', note: 'Lagos' },
-  { flag: '🇬🇭', name: 'Ghana', note: '' },
   { flag: '🇬🇧', name: 'United Kingdom', note: '' },
 ] as const
 

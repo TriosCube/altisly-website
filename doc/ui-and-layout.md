@@ -193,7 +193,7 @@ of the whole nav block, on Escape, and on route change. `aria-expanded` on the t
 rotates when open.
 
 **Global dropdown.** Lists where Altisly operates, taken from the legal pages: Nigeria (Lagos),
-Ghana, United Kingdom. It is a presence indicator, not a locale switcher. There are no country
+United Kingdom. It is a presence indicator, not a locale switcher. There are no country
 sites, so it must never behave like one.
 
 **Mobile.** Below `lg` the burger opens a scrollable sheet under the pill listing every destination

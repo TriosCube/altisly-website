@@ -49,7 +49,7 @@ const sections = [
     id: 'who-we-are',
     title: '1. Who We Are',
     body: [
-      'Altis Platforms Limited is a technology company incorporated in Nigeria (RC 9597173), with operations in Nigeria, Ghana, and the United Kingdom. We operate treasury management, AI, health informatics, and educational technology platforms.',
+      'Altis Platforms Limited is a technology company incorporated in Nigeria (RC 9597173), with operations in Nigeria and the United Kingdom, and its office in Lagos, Nigeria. We operate treasury management, AI, health informatics, and educational technology platforms.',
       'For the purposes of data protection law, Altis Platforms Limited is the data controller for personal information collected through our websites and platforms. For enterprise customers, Altisly acts as a data processor for the personal data of your users, as governed by the applicable Data Processing Agreement.',
     ],
   },
@@ -169,7 +169,7 @@ const sections = [
     id: 'international',
     title: '10. International Data Transfers',
     body: [
-      'Altisly operates across Nigeria, Ghana, the United Kingdom, and other markets. Your data may be processed in countries outside your home country. Where we transfer data across borders, we ensure appropriate safeguards are in place, including standard contractual clauses, adequacy decisions, or other mechanisms approved under applicable data protection law.',
+      'Altisly operates in Nigeria and the United Kingdom and serves clients in other markets. Your data may be processed in countries outside your home country. Where we transfer data across borders, we ensure appropriate safeguards are in place, including standard contractual clauses, adequacy decisions, or other mechanisms approved under applicable data protection law.',
     ],
   },
   {
