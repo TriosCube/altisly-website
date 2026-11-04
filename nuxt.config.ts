@@ -22,6 +22,16 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
+    '/**': {
+      headers: {
+        'Strict-Transport-Security': 'max-age=63072000; includeSubDomains; preload',
+        'X-Content-Type-Options': 'nosniff',
+        'X-Frame-Options': 'SAMEORIGIN',
+        'Referrer-Policy': 'strict-origin-when-cross-origin',
+        'Cross-Origin-Opener-Policy': 'same-origin-allow-popups',
+        'Content-Security-Policy-Report-Only': "require-trusted-types-for 'script'",
+      },
+    },
     // The page is gone; anything still pointing here lands on the product site.
     '/isura': { redirect: { to: 'https://isura.altisly.com', statusCode: 301 } },
     '/expertise/**': { redirect: '/about' },
@@ -60,8 +70,15 @@ export default defineNuxtConfig({
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         {
+          rel: 'preload',
+          as: 'style',
+          href: 'https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap',
+        },
+        {
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap',
+          media: 'print',
+          onload: "this.onload=null;this.media='all'",
         },
       ],
       script: [

@@ -4,6 +4,7 @@
     class="stage"
     :class="{ 'is-in': entered }"
     aria-hidden="true"
+    inert
     :style="{
       '--px': `${parallax.x}px`,
       '--py': `${parallax.y}px`,
