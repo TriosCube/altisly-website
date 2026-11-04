@@ -53,6 +53,8 @@ export default defineNuxtConfig({
         { charset: 'UTF-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
         { name: 'theme-color', content: '#11231C' },
+        // Keeps AdSense site verification without loading the ad script on every page.
+        { name: 'google-adsense-account', content: 'ca-pub-4228173539269709' },
         {
           name: 'description',
           content:
@@ -66,7 +68,6 @@ export default defineNuxtConfig({
         { rel: 'icon', type: 'image/png', href: '/favicon-16x16.png', sizes: '16x16' },
         { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
         { rel: 'manifest', href: '/site.webmanifest' },
-        { rel: 'preconnect', href: 'https://pagead2.googlesyndication.com' },
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         {
@@ -83,12 +84,6 @@ export default defineNuxtConfig({
       ],
       script: [
         { innerHTML: themeInit, tagPosition: 'head' },
-        {
-          src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4228173539269709',
-          async: true,
-          crossorigin: 'anonymous',
-          tagPosition: 'head',
-        },
       ],
     },
   },

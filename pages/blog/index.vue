@@ -154,6 +154,8 @@ import PageIntro from '@/components/ui/PageIntro.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import CtaSection from '@/components/landing/CtaSection.vue'
 
+useAdsense()
+
 useSeoMeta({
   title: 'Insights | Altisly',
   description:

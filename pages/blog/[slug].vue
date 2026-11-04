@@ -195,6 +195,9 @@ import PageIntro from '@/components/ui/PageIntro.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import CtaSection from '@/components/landing/CtaSection.vue'
 import AdSlot from '@/components/ui/AdSlot.vue'
+import { site } from '@/data/site'
+
+useAdsense()
 
 const config = useRuntimeConfig()
 const route = useRoute()
@@ -280,6 +283,41 @@ onMounted(() => {
 useSeoMeta({
   title: computed(() => (post.value ? `${post.value.title} | Altisly` : 'Insights | Altisly')),
   description: computed(() => post.value?.excerpt ?? ''),
+})
+
+useHead({
+  script: computed(() => {
+    const p = post.value
+    if (!p) return []
+    const url = `${site.url}/blog/${p.slug}`
+    const image = p.coverImage
+      ? new URL(p.coverImage, site.url).href
+      : `${site.url}/og.png`
+    const data = {
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+      url,
+      headline: p.title,
+      description: p.excerpt,
+      image,
+      datePublished: p.createdAt,
+      dateModified: p.updatedAt || p.createdAt,
+      author: { '@type': /altisly/i.test(p.author) ? 'Organization' : 'Person', name: p.author },
+      publisher: {
+        '@type': 'Organization',
+        name: site.name,
+        url: site.url,
+        logo: { '@type': 'ImageObject', url: `${site.url}/android-chrome-512x512.png` },
+      },
+      articleSection: p.category || undefined,
+      keywords: p.tags?.length ? p.tags.join(', ') : undefined,
+      wordCount: p.content.split(/\s+/).filter(Boolean).length,
+      inLanguage: 'en',
+    }
+    // Escape < so post text can never close the script tag early.
+    return [{ type: 'application/ld+json', innerHTML: JSON.stringify(data).replace(/</g, '\\u003c') }]
+  }),
 })
 
 function formatDate(iso: string) {
