@@ -38,7 +38,7 @@
 
           <div class="p-6 flex flex-col flex-1">
             <p class="font-code text-[11px] text-muted mb-2.5">
-              {{ formatDate(post.createdAt) }} · {{ readTime(post.content) }}
+              {{ formatDate(post.createdAt) }} · {{ readTime(post.words) }}
             </p>
             <h3 class="text-[17px] font-bold tracking-[-0.02em] leading-snug mb-2.5">
               {{ post.title }}
@@ -61,7 +61,7 @@ type Post = {
   excerpt: string
   coverImage: string
   category: string
-  content: string
+  words: number
   createdAt: string
 }
 
@@ -84,8 +84,7 @@ function formatDate(iso: string) {
   })
 }
 
-function readTime(content: string) {
-  const words = (content ?? '').trim().split(/\s+/).length
+function readTime(words: number) {
   return `${Math.max(1, Math.round(words / 220))} min read`
 }
 </script>

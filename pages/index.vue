@@ -47,7 +47,17 @@ type Post = {
   createdAt: string
 }
 
-const { data: posts } = await useFetch<Post[]>('/api/blog', { default: () => [] })
+type PostCard = Omit<Post, 'content'> & { words: number }
+
+// Only the three newest cards are shown; keep article bodies out of the page payload.
+const { data: posts } = await useFetch<Post[], unknown, string, 'get', PostCard[]>('/api/blog', {
+  default: () => [],
+  transform: (list) =>
+    [...list]
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+      .slice(0, 3)
+      .map(({ content, ...rest }) => ({ ...rest, words: (content ?? '').trim().split(/\s+/).length })),
+})
 </script>
 
 <style scoped>
