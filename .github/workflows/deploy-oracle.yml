@@ -103,25 +103,35 @@ jobs:
              tar -xzf /tmp/output-${GITHUB_RUN_ID}.tar.gz -C $APP_DIR/build-output/output && rm -f /tmp/output-${GITHUB_RUN_ID}.tar.gz && \
              chmod +x $APP_DIR/scripts/*.sh"
 
-          # data/ holds runtime state, so a deploy must not overwrite it. But a
-          # fresh host starts with an empty posts.json and the blog reads empty,
-          # so seed it once when nothing has been written there yet. The check
-          # runs in a heredoc: quoting a grep through an inline ssh argument
-          # mangles it, which silently reported the empty file as populated.
+          # data/ holds runtime state (posts written in /write), so a deploy must
+          # not overwrite it. Instead, merge in repo posts the server doesn't have
+          # yet, matched by id and slug; existing posts are never touched.
           scp -P "$PROD_PORT" -i ~/.ssh/id_deploy data/posts.json \
             "$PROD_USER@$PROD_HOST:/tmp/posts-${GITHUB_RUN_ID}.seed.json"
           ssh -p "$PROD_PORT" -i ~/.ssh/id_deploy "$PROD_USER@$PROD_HOST" \
             "APP_DIR='$APP_DIR' SEED='/tmp/posts-${GITHUB_RUN_ID}.seed.json' bash -s" <<'REMOTE'
           set -eu
           TARGET="$APP_DIR/data/posts.json"
-          # grep -c exits 1 on no match, so a `|| echo 0` fallback appends a
-          # second zero and the comparison breaks. Test for the key instead.
-          if grep -q '"id"' "$TARGET" 2>/dev/null; then
-            echo "posts.json already holds posts, left alone"
-          else
-            cp "$SEED" "$TARGET"
-            echo "seeded posts.json"
-          fi
+          TARGET="$TARGET" SEED="$SEED" /opt/node/bin/node <<'JS'
+          const fs = require('fs')
+          const { TARGET, SEED } = process.env
+          let live = []
+          if (fs.existsSync(TARGET)) {
+            const raw = fs.readFileSync(TARGET, 'utf8').trim()
+            live = raw ? JSON.parse(raw) : []
+          }
+          if (!Array.isArray(live)) throw new Error('server posts.json is not an array; refusing to touch it')
+          const seed = JSON.parse(fs.readFileSync(SEED, 'utf8'))
+          const ids = new Set(live.map((p) => p.id))
+          const slugs = new Set(live.map((p) => p.slug))
+          const added = seed.filter((p) => !ids.has(p.id) && !slugs.has(p.slug))
+          if (added.length) {
+            const tmp = `${TARGET}.tmp`
+            fs.writeFileSync(tmp, JSON.stringify([...live, ...added], null, 2) + '\n')
+            fs.renameSync(tmp, TARGET)
+          }
+          console.log(`posts.json: ${live.length} on server, ${added.length} added from repo`)
+          JS
           rm -f "$SEED"
           REMOTE
 
