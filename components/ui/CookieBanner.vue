@@ -30,7 +30,12 @@ const consent = useCookie<'accepted' | 'declined' | null>('ic_cookie_consent', {
   default: () => null,
 })
 
-const visible = computed(() => consent.value === null)
+// The blog runs AdSense, whose Google consent message covers cookies there, so
+// a second banner would only stack on top of it.
+const route = useRoute()
+const onBlog = computed(() => route.path === '/blog' || route.path.startsWith('/blog/'))
+
+const visible = computed(() => consent.value === null && !onBlog.value)
 
 function accept() { consent.value = 'accepted' }
 function decline() { consent.value = 'declined' }
