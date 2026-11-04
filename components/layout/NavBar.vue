@@ -575,7 +575,7 @@ onBeforeUnmount(() => {
    from the route check. Both read as position, not as a stuck hover. */
 .nav-link.router-link-active,
 .nav-link.is-active {
-  opacity: 1;
+  color: inherit;
   font-weight: 600;
 }
 
@@ -638,16 +638,18 @@ onBeforeUnmount(() => {
   padding: 0.38rem 0.72rem;
   border-radius: 9999px;
   font-size: 13.5px;
-  color: var(--text);
-  opacity: 0.78;
+  /* The bar's own ink, a step lighter at rest, not the theme text: the glass is
+     light in both themes, so dark-theme text would vanish on it. A solid colour
+     rather than opacity keeps AA even where the glass sits over the dark hero. */
+  color: #1e2f27;
   transition:
-    opacity 160ms ease,
+    color 160ms ease,
     background 160ms ease;
 }
 
 .nav-link:hover,
 .nav-link.is-open {
-  opacity: 1;
+  color: inherit;
 }
 
 .caret {

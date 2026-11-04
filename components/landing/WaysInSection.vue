@@ -221,7 +221,9 @@ onBeforeUnmount(() => {
   line-height: 1.6;
   max-width: 52ch;
   margin-top: 2.5rem;
-  opacity: calc(0.06 + var(--shown, 0) * 0.94);
+  /* Fully hidden until revealed: a faint ghost of body text reads as a
+     contrast failure rather than as decoration. */
+  opacity: var(--shown, 0);
   transition: opacity 120ms linear;
 }
 

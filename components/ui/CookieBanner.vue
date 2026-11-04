@@ -65,7 +65,7 @@ function decline() { consent.value = 'declined' }
 .cookie-desc {
   font-size: 12.5px; line-height: 1.6; color: var(--muted); margin: 0;
 }
-.cookie-link { color: var(--brand-deep); text-underline-offset: 2px; }
+.cookie-link { color: var(--brand-deep); text-decoration: underline; text-underline-offset: 2px; }
 .cookie-actions { display: flex; gap: 8px; flex: none; flex-wrap: wrap; }
 .cookie-btn {
   padding: 8px 16px; border-radius: var(--radius-sm); font-size: 13px;
