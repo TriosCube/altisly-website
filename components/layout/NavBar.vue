@@ -597,8 +597,10 @@ onBeforeUnmount(() => {
   min-height: 60px;
   /* One fixed glass, matching the Isura bar exactly. Not a themed surface:
      the same pill in light and dark, over light and dark sections alike. */
-  background: #ffffff6c;
+  background: #ffffff99;
   color: #10221a;
+  /* Lime brand ink fails contrast on this light glass in dark theme. */
+  --ic-logo-ink: var(--color-deep, #11231c);
   box-shadow: var(--shadow-1);
   transition: color 260ms ease;
 }

@@ -20,9 +20,9 @@
         </div>
 
         <div v-for="col in footerLinks" :key="col.heading">
-          <h4 class="text-[11px] tracking-widest uppercase text-muted font-semibold mb-3.5">
+          <h2 class="text-[11px] tracking-widest uppercase text-muted font-semibold mb-3.5">
             {{ col.heading }}
-          </h4>
+          </h2>
           <NuxtLink
             v-for="link in col.links"
             :key="link.label"
