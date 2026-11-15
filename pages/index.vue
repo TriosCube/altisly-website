@@ -6,6 +6,16 @@
     </div>
     <ProblemsSection />
     <StackSection />
+    <section id="verba" class="container-isura py-16" v-reveal>
+      <article class="bento-card max-w-2xl">
+        <h2 class="text-3xl font-bold tracking-tight">Verba</h2>
+        <p class="mt-3 text-muted leading-relaxed">
+          We’re building Verba to turn conversations into structured, editable records.
+          Its first focus is clinical consultations, where clinicians can review and edit draft
+          notes before approving them.
+        </p>
+      </article>
+    </section>
     <WaysInSection />
     <StatementSection />
     <CodeSection />
