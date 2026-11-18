@@ -320,11 +320,6 @@ const menus = [
             to: '/careers',
             desc: 'Small team, consequential problems.',
           },
-          {
-            label: 'Insights',
-            to: '/blog',
-            desc: 'Notes from the build.',
-          },
         ],
       },
     ],
