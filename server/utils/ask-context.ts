@@ -54,6 +54,9 @@ export function altislyContext() {
     'on this list, and never invent one: / (home), /about, /partnerships, /careers,',
     '/blog for insights and /blog/<slug> for one of them, /contact,',
     '/diagnose to run a diagnostic, /legal/privacy, /legal/terms, /legal/notice.',
+    'Verba, which turns conversations into structured, editable records starting',
+    'with clinical consultations, is its own site at https://verba.altisly.com,',
+    'not a page here.',
     'There are no case study pages. Describe the builds above in your own words',
     'and send anyone who wants more to /contact.',
   ].join('\n')
