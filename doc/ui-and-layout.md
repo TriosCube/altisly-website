@@ -183,7 +183,8 @@ A large block of utilities (`kpi-*`, `view-tab*`, `dash-btn-*`, `side-buy`, `uti
 Sticky pill, `top: 14px`, max-width `72rem`, translucent surface at 88% with 14px backdrop blur,
 `rounded-pill`, a hairline border and no shadow. Roughly 18 percent shorter than the first version:
 `py-1.5` on the bar, `0.38rem` on the links, 13.5px labels, `2rem` icon buttons. Left: logo. Centre: two mega-menu triggers (Work, Company) plus plain
-links (Insights, Contact). Right: a Global dropdown, theme toggle, ghost "Diagnose", lime "Talk to
+links (Insights, Contact), then the product links: Verba (external, https://verba.altisly.com, its
+own site on Vercel), Isura (external) and Healthly (coming soon). Right: a Global dropdown, theme toggle, ghost "Diagnose", lime "Talk to
 us", and a burger below `lg`.
 
 **Mega menus.** A panel drops beneath the pill, full width of the container, `--r-xl`, `shadow-pop`,
@@ -197,12 +198,12 @@ United Kingdom. It is a presence indicator, not a locale switcher. There are no 
 sites, so it must never behave like one.
 
 **Mobile.** Below `lg` the burger opens a scrollable sheet under the pill listing every destination
-grouped by menu, the presence list and a theme control. Before this, the nav simply hid its links
+grouped by menu (Verba, Isura and Healthly sit in the "More" group as external links), the presence list and a theme control. Before this, the nav simply hid its links
 below `md`, so a phone had no navigation at all.
 
 **Footer** (`components/layout/AppFooter.vue`)
-Four columns: brand blurb, The work (first four projects), Company, Legal. Bottom rule with
-copyright and contact.
+Four columns: brand blurb, Company, Explore (Verba and Isura as external links to their own sites, Healthly, the diagnostic, Contact),
+Legal. Bottom rule with copyright and contact.
 
 **Layout** `layouts/default.vue` is NavBar, slot, footer, on `bg-page`. Two pages opt out with
 `definePageMeta({ layout: false })`: `/diagnose` (owns the viewport) and `/write` (private admin).

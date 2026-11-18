@@ -14,6 +14,9 @@
           Its first focus is clinical consultations, where clinicians can review and edit draft
           notes before approving them.
         </p>
+        <div class="mt-5">
+          <AppButton variant="ghost" href="https://verba.altisly.com">See Verba →</AppButton>
+        </div>
       </article>
     </section>
     <WaysInSection />
@@ -40,6 +43,7 @@ import WhoWeAre from '@/components/landing/WhoWeAre.vue'
 import InsightsSection from '@/components/landing/InsightsSection.vue'
 import BeliefSection from '@/components/landing/BeliefSection.vue'
 import CtaSection from '@/components/landing/CtaSection.vue'
+import AppButton from '@/components/ui/AppButton.vue'
 import { metaDescriptions } from '@/data/site'
 
 useSeoMeta({

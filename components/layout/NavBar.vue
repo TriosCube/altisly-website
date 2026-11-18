@@ -42,6 +42,7 @@
 
           <NuxtLink to="/blog" class="nav-link" @mouseenter="closeMenus">Insights</NuxtLink>
           <NuxtLink to="/contact" class="nav-link" @mouseenter="closeMenus">Contact</NuxtLink>
+          <a href="https://verba.altisly.com" class="nav-link" @mouseenter="closeMenus"> Verba </a>
           <a href="https://isura.altisly.com" class="nav-link" @mouseenter="closeMenus"> Isura </a>
           <span class="nav-link opacity-40 cursor-not-allowed select-none" aria-disabled="true" title="Coming soon">
             Healthly
@@ -251,6 +252,7 @@
             <NuxtLink to="/contact" class="mobile-item" @click="mobileOpen = false">
               Contact
             </NuxtLink>
+            <a href="https://verba.altisly.com" class="mobile-item" @click="mobileOpen = false"> Verba </a>
             <a href="https://isura.altisly.com" class="mobile-item" @click="mobileOpen = false"> Treasury </a>
             <span class="mobile-item opacity-40 cursor-not-allowed select-none" aria-disabled="true" title="Coming soon">
               Healthly
