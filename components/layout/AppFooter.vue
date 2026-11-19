@@ -64,7 +64,7 @@ const footerLinks = [
     links: [
       { label: 'Verba', to: 'https://verba.altisly.com' },
       { label: 'Isura', to: 'https://isura.altisly.com' },
-      { label: 'Healthy', to: '#' },
+      { label: 'Peel', to: 'https://peel.altisly.com' },
       { label: 'Run a diagnostic', to: '/diagnose' },
       { label: 'Contact', to: '/contact' },
     ],

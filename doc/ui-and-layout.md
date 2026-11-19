@@ -182,10 +182,15 @@ A large block of utilities (`kpi-*`, `view-tab*`, `dash-btn-*`, `side-buy`, `uti
 **NavBar** (`components/layout/NavBar.vue`)
 Sticky pill, `top: 14px`, max-width `72rem`, translucent surface at 88% with 14px backdrop blur,
 `rounded-pill`, a hairline border and no shadow. Roughly 18 percent shorter than the first version:
-`py-1.5` on the bar, `0.38rem` on the links, 13.5px labels, `2rem` icon buttons. Left: logo. Centre: two mega-menu triggers (Work, Company) plus plain
-links (Insights, Contact), then the product links: Verba (external, https://verba.altisly.com, its
-own site on Vercel), Isura (external) and Healthly (coming soon). Right: a Global dropdown, theme toggle, ghost "Diagnose", lime "Talk to
-us", and a burger below `lg`.
+`py-1.5` on the bar, `0.38rem` on the links, 13.5px labels, `2rem` icon buttons. Left: logo. Centre: two mega-menu triggers (Company, Products) plus plain
+links (Insights, Contact). Right: a Global dropdown, theme toggle, lime "Talk to us", and a burger below `lg`.
+
+**Products menu.** Same panel as Company. Left: the live products (Verba, Isura, Peel), each an external
+link to its own site with a one-line summary; beside them, the products not live yet (whoMe, SeeThrough,
+CoLLate, Idowu) listed by name only, dimmed and not clickable. Right: the dark card previews the live
+product being hovered or focused and links to it. It starts on the first product (Verba) every time
+the menu opens. The list lives in `products` in `NavBar.vue`; a product goes live by giving it an
+`href` and its preview copy.
 
 **Mega menus.** A panel drops beneath the pill, full width of the container, `--r-xl`, `shadow-pop`,
 laid out `1fr 20rem`: two link columns on the left, a dark feature card on the right. Each link is an
@@ -198,11 +203,11 @@ United Kingdom. It is a presence indicator, not a locale switcher. There are no 
 sites, so it must never behave like one.
 
 **Mobile.** Below `lg` the burger opens a scrollable sheet under the pill listing every destination
-grouped by menu (Verba, Isura and Healthly sit in the "More" group as external links), the presence list and a theme control. Before this, the nav simply hid its links
+grouped by menu (a "Products" group lists the live products as external links and the rest dimmed), the presence list and a theme control. Before this, the nav simply hid its links
 below `md`, so a phone had no navigation at all.
 
 **Footer** (`components/layout/AppFooter.vue`)
-Four columns: brand blurb, Company, Explore (Verba and Isura as external links to their own sites, Healthly, the diagnostic, Contact),
+Four columns: brand blurb, Company, Explore (Verba, Isura and Peel as external links to their own sites, the diagnostic, Contact),
 Legal. Bottom rule with copyright and contact.
 
 **Layout** `layouts/default.vue` is NavBar, slot, footer, on `bg-page`. Two pages opt out with
