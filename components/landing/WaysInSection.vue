@@ -60,7 +60,7 @@ const ways = [
     name: 'Build',
     horizon: 'One team, end to end',
     body: 'We take the operation, design the system around how it actually works, build it, and put it into service with your people able to run it.',
-    fit: 'What most people come to us for.',
+    fit: 'Where we do our best work.',
   },
 ]
 

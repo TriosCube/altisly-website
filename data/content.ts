@@ -1,8 +1,8 @@
 export const stats = [
   { value: '6', label: 'Platforms shipped' },
-  { value: '2', label: 'Rust services in production' },
+  { value: '2', label: 'Rust services, built in house' },
   { value: '5', label: 'Operational domains' },
-  { value: '700+', label: 'Commits across two flagships' },
+  { value: '3,800+', label: 'Commits on Isura alone' },
 ]
 
 export const capabilities = [
@@ -140,7 +140,7 @@ export const partnerPrograms = [
 export const perks = [
   {
     title: 'Consequential problems',
-    description: 'The systems you build move money and carry patient records. Nothing here is a toy.',
+    description: 'The systems you build are made to move money and hold patient records. Nothing here is a toy.',
   },
   {
     title: 'Strategic autonomy',

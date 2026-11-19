@@ -4,14 +4,14 @@ export const projects: Project[] = [
   {
     slug: 'isura',
     name: 'Isura',
-    tagline: 'Multi tenant SaaS platform, on a web framework written in house',
+    tagline: 'Corporate treasury platform, on a web framework written in house',
     role: 'Studio venture',
     period: 'Dec 2025 to Present',
     status: 'Active',
-    scale: '245+ commits',
+    scale: '3,800+ commits',
     featured: true,
     summary:
-      'A multi tenant SaaS platform with five frontend applications, two Rust services and a purpose built framework beneath the stack. The central decision was structural isolation: make tenant leakage impossible by design.',
+      'A corporate treasury platform with five frontend applications, two Rust services and a purpose built framework beneath the stack. The central decision was structural isolation: make tenant leakage impossible by design.',
     problem: [
       'Multi tenant platforms leak. Not usually through some dramatic breach, but through a developer, late on a Thursday, forgetting a single filter on a single query. Every data access point is another opportunity to make that mistake, and the mistake is catastrophic when it lands.',
       'The second problem is quieter and just as expensive. Onboarding a new customer traditionally means an operator doing manual work: reviewing an application, approving it, provisioning an environment, sending invitations. It does not scale, and every handoff is somewhere the process can stall.',

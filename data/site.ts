@@ -14,7 +14,7 @@ export const presence = [
 
 export const metaDescriptions = {
   home: 'Altisly designs and builds the software behind day to day operations: the ledgers, approvals, records and workflows a business cannot afford to get wrong.',
-  work: 'The platforms Altisly has designed, built and operates: multi tenant SaaS, treasury operations, AI workflow automation, hospital management and identity infrastructure.',
+  work: 'The platforms Altisly has designed and built: corporate treasury, treasury operations, AI workflow automation, hospital management and identity infrastructure.',
   about:
     'Altisly is a tech-enabled consulting and venture building studio in Lagos. We turn messy business logic into software teams can trust.',
   contact:
@@ -22,7 +22,7 @@ export const metaDescriptions = {
   diagnose:
     'A focused diagnostic entry point for businesses that need product-minded systems, AI-assisted workflows and operational software shaped around real pressure.',
   isura:
-    'A multi tenant SaaS platform with schema per tenant isolation, built on a purpose written Rust web framework.',
+    'Corporate treasury software with schema per tenant isolation, built on a purpose written Rust web framework.',
   'treasury-ai-assistant':
     'AI automation for daily blotter reconciliation and liquidity forecasting. The value was in encoding the judgement, not the model.',
   altishms:
