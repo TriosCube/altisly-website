@@ -32,7 +32,6 @@ export default defineNuxtPlugin(() => {
           name: site.name,
           url: site.url,
           email: site.email,
-          telephone: site.phone,
           description: site.role,
           address: { '@type': 'PostalAddress', addressLocality: 'Lagos', addressCountry: 'NG' },
           areaServed: ['NG', 'GB'],

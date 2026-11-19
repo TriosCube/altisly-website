@@ -26,7 +26,7 @@ export function altislyContext() {
 
   cached = [
     `Altisly is ${site.role.toLowerCase()}, based in ${site.location}.`,
-    `Contact: ${site.email}. Phone: ${site.phone}. Site: ${site.url}.`,
+    `Contact: ${site.email}. Site: ${site.url}.`,
     `Operating in: ${presence.map((place) => place.name).join(', ')}.`,
     '',
     'How we describe ourselves:',
