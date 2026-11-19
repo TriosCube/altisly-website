@@ -42,11 +42,6 @@
 
           <NuxtLink to="/blog" class="nav-link" @mouseenter="closeMenus">Insights</NuxtLink>
           <NuxtLink to="/contact" class="nav-link" @mouseenter="closeMenus">Contact</NuxtLink>
-          <a href="https://verba.altisly.com" class="nav-link" @mouseenter="closeMenus"> Verba </a>
-          <a href="https://isura.altisly.com" class="nav-link" @mouseenter="closeMenus"> Isura </a>
-          <span class="nav-link opacity-40 cursor-not-allowed select-none" aria-disabled="true" title="Coming soon">
-            Healthly
-          </span>
         </div>
 
         <div class="flex items-center gap-2">
@@ -186,7 +181,64 @@
 
       <Transition name="drop">
         <div v-show="activeMenu" class="mega hidden lg:block">
-          <div v-if="activeMenu" class="mega-inner">
+          <!-- Products: the list on the left drives the preview card on the right. -->
+          <div v-if="activeMenu && activeMenu.key === 'products'" class="mega-inner">
+            <div class="mega-columns">
+              <div class="mega-column">
+                <a
+                  v-for="product in liveProducts"
+                  :key="product.name"
+                  :href="product.href"
+                  class="mega-item"
+                  :class="{ 'is-previewed': previewed.name === product.name }"
+                  @mouseenter="previewed = product"
+                  @focus="previewed = product"
+                  @click="closeMenus"
+                >
+                  <strong>{{ product.name }}</strong>
+                  <em>{{ product.summary }}</em>
+                </a>
+              </div>
+              <!-- Not live yet: listed by name in the disabled state, nothing more. -->
+              <div class="mega-column">
+                <span
+                  v-for="product in upcomingProducts"
+                  :key="product.name"
+                  class="mega-item is-soon"
+                  aria-disabled="true"
+                >
+                  <strong>{{ product.name }}</strong>
+                </span>
+              </div>
+            </div>
+
+            <!-- Keyed, so a new card replaces the old one at once; CSS fades it in. -->
+            <a
+              :key="previewed.name"
+              :href="previewed.href"
+              class="mega-feature preview-in"
+              @click="closeMenus"
+            >
+              <span class="feature-eyebrow">{{ previewed.eyebrow }}</span>
+              <strong>{{ previewed.title }}</strong>
+              <p>{{ previewed.body }}</p>
+              <span class="feature-cta">
+                {{ previewed.cta }}
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                >
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </span>
+            </a>
+          </div>
+
+          <div v-else-if="activeMenu" class="mega-inner">
             <div class="mega-columns">
               <div v-for="column in activeMenu.columns" :key="column.heading" class="mega-column">
                 <p class="panel-heading">{{ column.heading }}</p>
@@ -203,7 +255,12 @@
               </div>
             </div>
 
-            <NuxtLink :to="activeMenu.feature.to" class="mega-feature" @click="closeMenus">
+            <NuxtLink
+              v-if="activeMenu.feature"
+              :to="activeMenu.feature.to"
+              class="mega-feature"
+              @click="closeMenus"
+            >
               <span class="feature-eyebrow">{{ activeMenu.feature.eyebrow }}</span>
               <strong>{{ activeMenu.feature.title }}</strong>
               <p>{{ activeMenu.feature.body }}</p>
@@ -228,7 +285,7 @@
 
       <Transition name="drop">
         <div v-show="mobileOpen" class="mobile lg:hidden">
-          <div v-for="menu in menus" :key="menu.key" class="mobile-group">
+          <div v-for="menu in menus.filter((m) => m.columns)" :key="menu.key" class="mobile-group">
             <p class="panel-heading">{{ menu.label }}</p>
             <template v-for="column in menu.columns" :key="column.heading">
               <NuxtLink
@@ -244,6 +301,22 @@
           </div>
 
           <div class="mobile-group">
+            <p class="panel-heading">Products</p>
+            <template v-for="product in products" :key="product.name">
+              <a v-if="product.href" :href="product.href" class="mobile-item" @click="mobileOpen = false">
+                {{ product.name }}
+              </a>
+              <span
+                v-else
+                class="mobile-item opacity-40 cursor-not-allowed select-none"
+                aria-disabled="true"
+              >
+                {{ product.name }}
+              </span>
+            </template>
+          </div>
+
+          <div class="mobile-group">
             <p class="panel-heading">More</p>
             <NuxtLink to="/blog" class="mobile-item" @click="mobileOpen = false">Insights</NuxtLink>
             <NuxtLink to="/diagnose" class="mobile-item" @click="mobileOpen = false">
@@ -252,11 +325,6 @@
             <NuxtLink to="/contact" class="mobile-item" @click="mobileOpen = false">
               Contact
             </NuxtLink>
-            <a href="https://verba.altisly.com" class="mobile-item" @click="mobileOpen = false"> Verba </a>
-            <a href="https://isura.altisly.com" class="mobile-item" @click="mobileOpen = false"> Treasury </a>
-            <span class="mobile-item opacity-40 cursor-not-allowed select-none" aria-disabled="true" title="Coming soon">
-              Healthly
-            </span>
           </div>
 
           <div class="mobile-group">
@@ -333,7 +401,61 @@ const menus = [
       to: '/diagnose',
     },
   },
+  // Rendered by its own panel: a product list that drives a preview card.
+  { key: 'products', label: 'Products' },
 ]
+
+type Product = {
+  name: string
+  href?: string
+  summary?: string
+  eyebrow?: string
+  title?: string
+  body?: string
+  cta?: string
+}
+
+// Live products link out and drive the preview; the rest are listed by name,
+// disabled, and can't be clicked.
+// The first one is what the preview shows when the menu opens.
+const products: Product[] = [
+  {
+    name: 'Verba',
+    href: 'https://verba.altisly.com',
+    summary: 'The hospital system that listens.',
+    eyebrow: 'Verba · Early access',
+    title: 'The hospital system that listens',
+    body: 'Notes written from the conversation. Works without internet, on any phone.',
+    cta: 'Visit Verba',
+  },
+  {
+    name: 'Isura',
+    href: 'https://isura.altisly.com',
+    summary: 'Corporate treasury and FX.',
+    eyebrow: 'Isura · Treasury',
+    title: 'The operating layer for corporate treasury',
+    body: 'Lock FX across a bank panel, settle, reconcile to the GL, and manage debt in one place.',
+    cta: 'Visit Isura',
+  },
+  {
+    name: 'Peel',
+    href: 'https://peel.altisly.com',
+    summary: 'AI-powered background removal tool.',
+    eyebrow: 'Peel',
+    title: 'AI-powered background removal',
+    body: 'Clean cutouts in seconds. No sign-up, no watermark, no limits.',
+    cta: 'Try Peel',
+  },
+  { name: 'whoMe' },
+  { name: 'SeeThrough' },
+  { name: 'CoLLate' },
+  { name: 'Idowu' },
+]
+
+const liveProducts = products.filter((p) => p.href)
+const upcomingProducts = products.filter((p) => !p.href)
+
+const previewed = ref<Product>(products[0])
 
 const route = useRoute()
 const openMenu = ref('')
@@ -367,6 +489,11 @@ let revealTimer: ReturnType<typeof setTimeout> | null = null
 let darkZones: HTMLElement[] = []
 
 const activeMenu = computed(() => menus.find((menu) => menu.key === openMenu.value))
+
+// Every time Products opens, the preview starts from the first product.
+watch(openMenu, (key) => {
+  if (key === 'products') previewed.value = products[0]
+})
 
 function cancelClose() {
   if (closeTimer === null) return
@@ -739,8 +866,41 @@ onBeforeUnmount(() => {
   color: var(--muted);
 }
 
-.mega-item:hover {
+.mega-item:hover,
+.mega-item.is-previewed {
   background: var(--surface-2);
+}
+
+/* Products not live yet: same row, dimmed like the old Healthly link, not clickable. */
+.mega-item.is-soon {
+  cursor: not-allowed;
+  user-select: none;
+}
+
+.mega-item.is-soon:hover {
+  background: none;
+}
+
+.mega-item.is-soon strong {
+  opacity: 0.45;
+}
+
+/* The preview card swaps at once as a different product is hovered and the new
+   card fades in, so moving down the list never lags. */
+.preview-in {
+  animation: preview-in 160ms ease both;
+}
+
+@keyframes preview-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preview-in {
+    animation: none;
+  }
 }
 
 
