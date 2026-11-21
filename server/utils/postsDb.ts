@@ -1,6 +1,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs'
 import { join } from 'path'
 import seedPosts from '~/data/posts.json'
+import { RETIRED_POSTS } from '~/data/retired-posts'
 
 export type BlogPost = {
   id: string
@@ -38,9 +39,11 @@ export const getAllPosts = (): BlogPost[] => {
   }
 }
 
+const isLive = (p: BlogPost) => p.status === 'published' && !(p.slug in RETIRED_POSTS)
+
 export const getPublishedPosts = (): BlogPost[] =>
   getAllPosts()
-    .filter((p) => p.status === 'published')
+    .filter(isLive)
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
 
 const normalizeSlug = (value: string) =>
@@ -51,7 +54,7 @@ const normalizeSlug = (value: string) =>
 
 export const getPostBySlug = (slug: string): BlogPost | null => {
   const target = normalizeSlug(slug)
-  return getAllPosts().find((p) => p.status === 'published' && normalizeSlug(p.slug) === target) ?? null
+  return getAllPosts().find((p) => isLive(p) && normalizeSlug(p.slug) === target) ?? null
 }
 
 export const upsertPost = (post: BlogPost): BlogPost => {

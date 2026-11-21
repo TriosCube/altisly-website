@@ -1,4 +1,5 @@
 import tailwindcss from '@tailwindcss/vite'
+import { RETIRED_POSTS } from './data/retired-posts'
 
 const themeInit = `(function(){try{var t=localStorage.getItem('altisly-theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;var r=(t==='light'||t==='dark')?t:(d?'dark':'light');document.documentElement.setAttribute('data-theme',r);}catch(e){}})();`
 
@@ -43,6 +44,9 @@ export default defineNuxtConfig({
     '/industries/**': { redirect: '/about' },
     '/diagnose/run': { redirect: '/diagnose' },
     '/solutions/**': { redirect: '/about' },
+    ...Object.fromEntries(
+      Object.entries(RETIRED_POSTS).map(([slug, to]) => [`/blog/${slug}`, { redirect: { to, statusCode: 301 } }]),
+    ),
   },
 
   app: {
